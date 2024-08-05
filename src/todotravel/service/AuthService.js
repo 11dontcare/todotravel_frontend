@@ -1,29 +1,60 @@
-import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
-import { request } from "./APIService";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constant/backendAPI";
+import APIService from "./APIService";
 
-export function login(loginRequest) {
-  return request({
-    url: API_BASE_URL + "/api/auth/login",
-    method: "POST",
-    body: JSON.stringify(loginRequest),
-  });
-} //로그인 요청
-
-export function signUp(signUpRequest) {
-  return request({
-    url: API_BASE_URL + "/api/auth/signup",
-    method: "POST",
-    body: JSON.stringify(signUpRequest),
-  });
-} //회원가입 요청
-
-export function checkIfLoggedIn() {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    window.alert("로그인이 필요한 서비스입니다.");
-    return false;
+export const login = async (loginRequest) => {
+  try {
+    const response = await APIService.login(loginRequest);
+    if (response.data.success) {
+      setSession(response.data.data);
+    }
+    return response.data;
+  } catch (error) {
+    throw error;
   }
-  return true;
-} //로그인 여부 확인 - 토큰
+};
 
-class AuthService {}
-export default new AuthService();
+export const signup = async (signupRequest) => {
+  try {
+    const response = await APIService.signup(signupRequest);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    await APIService.logout();
+    clearSession();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const setSession = (authData) => {
+  localStorage.setItem(ACCESS_TOKEN, authData.accessToken);
+  localStorage.setItem(REFRESH_TOKEN, authData.refreshToken);
+  localStorage.setItem('tokenExpirationTime', authData.accessTokenExpirationTime);
+};
+
+export const clearSession = () => {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(REFRESH_TOKEN);
+  localStorage.removeItem('tokenExpirationTime');
+};
+
+export const isLoggedIn = () => {
+  return !!localStorage.getItem(ACCESS_TOKEN);
+};
+
+// 모든 함수를 객체로 묶어서 export
+const AuthService = {
+  login,
+  signup,
+  logout,
+  setSession,
+  clearSession,
+  isLoggedIn
+};
+
+export default AuthService;
