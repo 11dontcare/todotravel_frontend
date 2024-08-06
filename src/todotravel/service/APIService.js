@@ -17,7 +17,7 @@ export const request = (options) => {
 
   return fetch(options.url, options).then((response) =>
     response.json().then((json) => {
-      if (!response.ok) {
+      if (!response.sucess) {
         return Promise.reject(json);
       }
       return json;
@@ -42,7 +42,7 @@ export const formRequest = (options) => {
 
   return fetch(options.url, options).then((response) =>
     response.json().then((json) => {
-      if (!response.ok) {
+      if (!response.sucess) {
         return Promise.reject(json);
       }
       return json;
