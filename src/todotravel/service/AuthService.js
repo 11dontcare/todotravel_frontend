@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, API_BASE_URL, REFRESH_TOKEN } from "../constant/backendAPI";
+import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
 import { request } from "./APIService";
 
 // 회원가입 요청
@@ -12,21 +12,28 @@ export function signUp(signUpRequest) {
 
 export function checkUsername(username) {
   return request({
-    url: API_BASE_URL + "/api/auth/check-username?username=" + encodeURIComponent(username),
+    url:
+      API_BASE_URL +
+      "/api/auth/check-username?username=" +
+      encodeURIComponent(username),
     method: "POST",
   });
 }
 
 export function checkEmail(email) {
   return request({
-    url: API_BASE_URL + "/api/auth/check-email?email=" + encodeURIComponent(email),
+    url:
+      API_BASE_URL + "/api/auth/check-email?email=" + encodeURIComponent(email),
     method: "POST",
   });
 }
 
 export function checkNickname(nickname) {
   return request({
-    url: API_BASE_URL + "/api/auth/check-nickname?nickname=" + encodeURIComponent(nickname),
+    url:
+      API_BASE_URL +
+      "/api/auth/check-nickname?nickname=" +
+      encodeURIComponent(nickname),
     method: "POST",
   });
 }
@@ -37,6 +44,7 @@ export function login(loginRequest) {
     url: API_BASE_URL + "/api/auth/login",
     method: "POST",
     body: JSON.stringify(loginRequest),
+    credentials: "include", // 쿠키를 포함하기 위해 추가
   });
 }
 
@@ -54,10 +62,10 @@ export function logout() {
   return request({
     url: API_BASE_URL + "/api/auth/logout",
     method: "POST",
+    credentials: "include", // 쿠키를 포함하기 위해 추가
   }).then(() => {
-    // 로컬 스토리지에서 토큰 제거
+    // 로컬 스토리지에서 ACCESS_TOKEN 제거
     localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
     localStorage.removeItem("nickname");
     localStorage.removeItem("role");
   });
