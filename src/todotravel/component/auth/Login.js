@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../service/AuthService";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constant/backendAPI";
+import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
 function Login() {
   const navigate = useNavigate();
@@ -23,7 +23,6 @@ function Login() {
     login(loginForm)
       .then((response) => {
         localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
-        localStorage.setItem(REFRESH_TOKEN, response.data.refreshToken);
         localStorage.setItem("nickname", response.data.nickname);
         localStorage.setItem("role", response.data.role);
 
@@ -40,9 +39,7 @@ function Login() {
     <div>
       <form onSubmit={handleLoginFormSubmit}>
         <h1>LOGIN</h1>
-        <label htmlFor="username">
-          ID
-        </label>
+        <label htmlFor="username">ID</label>
         <input
           type="username"
           id="username"
@@ -52,9 +49,7 @@ function Login() {
           value={loginForm.username}
           onChange={handleLoginFormChange}
         />
-        <label htmlFor="password">
-          PW
-        </label>
+        <label htmlFor="password">PW</label>
         <input
           type="password"
           id="password"
@@ -64,9 +59,7 @@ function Login() {
           value={loginForm.password}
           onChange={handleLoginFormChange}
         />
-        <button type="submit">
-          로그인
-        </button>
+        <button type="submit">로그인</button>
       </form>
     </div>
   );
