@@ -1,13 +1,10 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constant/backendAPI";
+import { ACCESS_TOKEN } from "../constant/backendAPI";
 
 const refreshAccessToken = async () => {
-  const refreshToken = localStorage.getItem(REFRESH_TOKEN);
   try {
     const response = await fetch("/api/token/refresh", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
+      credentials: "include", // 쿠키를 포함하기 위해 추가
     });
     const data = await response.json();
     if (data.success) {
@@ -20,7 +17,6 @@ const refreshAccessToken = async () => {
     console.error("Failed to refresh token: ", error);
     // 로그아웃 처리
     localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
     window.location.href = "/login";
     throw error;
   }
@@ -38,7 +34,10 @@ export const request = async (options) => {
     );
   }
 
-  const defaults = { headers: headers };
+  const defaults = {
+    headers: headers,
+    credentials: "include", // 모든 요청에 쿠키 포함
+  };
   options = Object.assign({}, defaults, options);
 
   try {
