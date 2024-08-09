@@ -57,6 +57,7 @@ const PlanCreate = () => {
   return (
     <div>
       <div>
+        하이하이
         <form onSubmit={planCreateSubmit}>
           <div>
             <input
