@@ -23,6 +23,7 @@ const PlanCreate = () => {
     totalBudget: "",
     isPublic: false,
     status: false,
+    participants_count: 4,
   });
 
   const handlePlanFormChange = (e) => {
@@ -40,34 +41,35 @@ const PlanCreate = () => {
     console.log("planCreateSubmit");
     console.log(planForm);
     createPlan(planForm)
-    .then((response) => {
-      alert("플랜 생성 완료");
-      // const planId = response.planId
-      // navigate("/plan/1");
-      console.log(response);
-      console.log(planForm);
-    })
-    .catch((e) => {
-      console.log(e);
-      alert("플랜 생성 실패")
-    });
+      .then((response) => {
+        alert("플랜 생성 완료");
+        // const planId = response.planId
+        // navigate("/plan/1");
+        console.log(response);
+        console.log(planForm);
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("플랜 생성 실패");
+      });
   };
 
   return (
     <div>
       <div>
+        하이하이
         <form onSubmit={planCreateSubmit}>
           <div>
-          <input
-            type='text'
-            id='title'
-            name='title'
-            placeholder='제목을 입력해주세요.'
-            required
-            value={planForm.title}
-            onChange={handlePlanFormChange}
-          />
-          {/* <input
+            <input
+              type='text'
+              id='title'
+              name='title'
+              placeholder='제목을 입력해주세요.'
+              required
+              value={planForm.title}
+              onChange={handlePlanFormChange}
+            />
+            {/* <input
             type='date'
             id='startDate'
             name='startDate'
@@ -84,33 +86,33 @@ const PlanCreate = () => {
             required
             value={planForm.endDate}
             onChange={handlePlanFormChange}/> */}
-          <input
-            type='text'
-            id='front_location'
-            name='front_location'
-            placeholder='행정 구역'
-            required
-            // value={planForm.front_location}
-            // onChange={handlePlanFormChange}
-          />
-          <input
-            type='text'
-            id='location'
-            name='location'
-            placeholder='지역 선택'
-            required
-            value={planForm.location}
-            onChange={handlePlanFormChange}
-          />
-          <input
-            type='text'
-            id='totalBudget'
-            name='totalBudget'
-            placeholder='총 예산안 입력'
-            required
-            value={planForm.totalBudget}
-            onChange={handlePlanFormChange}
-          />
+            <input
+              type='text'
+              id='front_location'
+              name='front_location'
+              placeholder='행정 구역'
+              required
+              // value={planForm.front_location}
+              // onChange={handlePlanFormChange}
+            />
+            <input
+              type='text'
+              id='location'
+              name='location'
+              placeholder='지역 선택'
+              required
+              value={planForm.location}
+              onChange={handlePlanFormChange}
+            />
+            <input
+              type='text'
+              id='totalBudget'
+              name='totalBudget'
+              placeholder='총 예산안 입력'
+              required
+              value={planForm.totalBudget}
+              onChange={handlePlanFormChange}
+            />
           </div>
           <div>
             <label>여행 일정 공유</label>

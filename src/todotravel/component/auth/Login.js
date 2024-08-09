@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
+import styles from "./Auth.module.css";
+
 function Login() {
   const navigate = useNavigate();
   const [loginForm, setLoginForm] = useState({
@@ -26,41 +28,54 @@ function Login() {
         localStorage.setItem("nickname", response.data.nickname);
         localStorage.setItem("role", response.data.role);
 
-        window.alert("로그인 되었습니다.");
+        window.alert(response.data.message);
         navigate("/");
       })
       .catch((e) => {
         console.log(e);
-        window.alert("로그인에 실패하였습니다. 다시 시도해주시길 바랍니다.");
+        window.alert(e.data.message);
       });
   };
 
+  const handleGoSignUp = () => {
+    navigate("/signup");
+  };
+
   return (
-    <div>
-      <form onSubmit={handleLoginFormSubmit}>
-        <h1>LOGIN</h1>
-        <label htmlFor="username">ID</label>
-        <input
-          type="username"
-          id="username"
-          name="username"
-          placeholder="아이디를 입력하세요."
-          required
-          value={loginForm.username}
-          onChange={handleLoginFormChange}
-        />
-        <label htmlFor="password">PW</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="비밀번호를 입력하세요."
-          required
-          value={loginForm.password}
-          onChange={handleLoginFormChange}
-        />
-        <button type="submit">로그인</button>
-      </form>
+    <div className={styles.page}>
+      <div className={styles.container}>
+        <h1>To Do Travel</h1>
+        <h2>로그인</h2>
+        <form className={styles.form} onSubmit={handleLoginFormSubmit}>
+          <input
+            placeholder='아이디'
+            type='text'
+            name='username'
+            required
+            value={loginForm.username}
+            onChange={handleLoginFormChange}
+          ></input>
+          <input
+            placeholder='비밀번호'
+            type='password'
+            name='password'
+            required
+            value={loginForm.password}
+            onChange={handleLoginFormChange}
+          ></input>
+          <button className={styles.button}>로그인</button>
+        </form>
+        <p className={styles.forgetAuth}>아이디/비밀번호 찾기</p>
+        <hr></hr>
+        <div className={styles.social}>
+          <img alt='google'></img>
+          <img alt='kakao'></img>
+          <img alt='naver'></img>
+        </div>
+        <p className={styles.goSignUp}>
+          계정이 없으신가요? <strong onClick={handleGoSignUp}>회원가입</strong>
+        </p>
+      </div>
     </div>
   );
 }

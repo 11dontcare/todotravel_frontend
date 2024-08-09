@@ -51,7 +51,7 @@ export function login(loginRequest) {
 // 로그인 여부 확인 - 토큰
 export function checkIfLoggedIn() {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
-    window.alert("로그인이 필요한 서비스입니다.");
+    // window.alert("로그인이 필요한 서비스입니다.");
     return false;
   }
   return true;
