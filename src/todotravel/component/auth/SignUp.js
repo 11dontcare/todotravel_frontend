@@ -7,9 +7,8 @@ import {
   checkNickname,
 } from "../../service/AuthService";
 
-/**
- * 회원가입 컴포넌트
- */
+import styles from "./Auth.module.css";
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [signUpForm, setSignUpForm] = useState({
@@ -106,115 +105,140 @@ const SignUp = () => {
     try {
       const response = await signUp(signUpForm);
       if (response.success) {
-        window.alert("회원가입이 완료되었습니다. 환영합니다!");
+        window.alert(response.data.message);
         navigate("/login");
       } else {
-        window.alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
+        window.alert(response.data.message);
       }
     } catch (error) {
       console.error("회원가입 에러:", error);
-      window.alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+      window.alert(error.data.message);
     }
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <h1>회원가입</h1>
-      <input
-        type="text"
-        name="username"
-        placeholder="username 입력"
-        value={signUpForm.username}
-        onChange={handleLoginFormChange}
-        required
-      />
-      {errors.username && <p>{errors.username}</p>}
-      <input
-        type="email"
-        name="email"
-        placeholder="email 입력"
-        value={signUpForm.email}
-        onChange={handleLoginFormChange}
-        required
-      />
-      {errors.email && <p>{errors.email}</p>}
-      <input
-        type="text"
-        id="name"
-        name="name"
-        placeholder="이름을 입력하세요."
-        value={signUpForm.name}
-        onChange={handleLoginFormChange}
-        required
-      />
-      <input
-        type="text"
-        id="nickname"
-        name="nickname"
-        placeholder="닉네임을 입력하세요."
-        value={signUpForm.nickname}
-        onChange={handleLoginFormChange}
-        required
-      />
-      {errors.nickname && <p>{errors.nickname}</p>}
-      <div>
-        <label>성별</label>
-        <div>
+    <div className={styles.page}>
+      <div className={styles.container}>
+        <h1>To Do Travel</h1>
+        <h2>회원가입</h2>
+        <form className={styles.signUpForm} onSubmit={onSubmit}>
+          <label htmlFor='username'>아이디</label>
           <input
-            type="radio"
-            id="gender_male"
-            name="gender"
-            value="MAN"
-            checked={signUpForm.gender === "MAN"}
+            type='text'
+            name='username'
+            placeholder='아이디를 입력하세요.'
+            value={signUpForm.username}
             onChange={handleLoginFormChange}
+            required
           />
-          <label htmlFor="gender_male">남성</label>
-        </div>
-        <div>
+          {errors.username && (
+            <p className={styles.message}>{errors.username}</p>
+          )}
+          <label htmlFor='email'>이메일 인증</label>
           <input
-            type="radio"
-            id="gender_female"
-            name="gender"
-            value="WOMAN"
-            checked={signUpForm.gender === "WOMAN"}
+            type='email'
+            name='email'
+            placeholder='이메일을 입력하세요.'
+            value={signUpForm.email}
             onChange={handleLoginFormChange}
+            required
           />
-          <label htmlFor="gender_female">여성</label>
-        </div>
+          {errors.email && <p className={styles.message}>{errors.email}</p>}
+          <label htmlFor='name'>이름</label>
+          <input
+            type='text'
+            id='name'
+            name='name'
+            placeholder='이름을 입력하세요.'
+            value={signUpForm.name}
+            onChange={handleLoginFormChange}
+            required
+          />
+          <label htmlFor='nickname'>닉네임</label>
+          <input
+            type='text'
+            id='nickname'
+            name='nickname'
+            placeholder='닉네임을 입력하세요.'
+            value={signUpForm.nickname}
+            onChange={handleLoginFormChange}
+            required
+          />
+          {errors.nickname && (
+            <p className={styles.message}>{errors.nickname}</p>
+          )}
+          <>
+            <label htmlFor='gender'>성별</label>
+            <div className={styles.genderContainer}>
+              <div className={styles.genderOption}>
+                <input
+                  type='radio'
+                  id='gender_male'
+                  name='gender'
+                  value='MAN'
+                  checked={signUpForm.gender === "MAN"}
+                  onChange={handleLoginFormChange}
+                  className={styles.genderInput}
+                />
+                <label htmlFor='gender_male' className={styles.genderLabel}>
+                  남성
+                </label>
+              </div>
+              <div className={styles.genderOption}>
+                <input
+                  type='radio'
+                  id='gender_female'
+                  name='gender'
+                  value='WOMAN'
+                  checked={signUpForm.gender === "WOMAN"}
+                  onChange={handleLoginFormChange}
+                  className={styles.genderInput}
+                />
+                <label htmlFor='gender_female' className={styles.genderLabel}>
+                  여성
+                </label>
+              </div>
+            </div>
+          </>
+          <label htmlFor='birthdate'>생일</label>
+          <input
+            type='date'
+            id='birthdate'
+            name='birthDate'
+            value={signUpForm.birthDate}
+            onChange={handleLoginFormChange}
+            required
+          />
+          <label htmlFor='password'>비밀번호</label>
+          <input
+            type='password'
+            id='password'
+            name='password'
+            placeholder='비밀번호를 입력하세요.'
+            value={signUpForm.password}
+            onChange={handleLoginFormChange}
+            required
+          />
+          <input
+            type='password'
+            id='password_confirm'
+            name='password_confirm'
+            placeholder='비밀번호를 다시 입력하세요.'
+            value={passwordConfirm}
+            onChange={onPasswordConfirmChange}
+            required
+          />
+          <p className={styles.message}>{passwordConfirmMessage}</p>
+          <button
+            className={styles.button}
+            type='submit'
+            disabled={!isFormValid}
+          >
+            가입하기
+          </button>
+        </form>
       </div>
-      <input
-        type="date"
-        id="birthdate"
-        name="birthDate"
-        placeholder="생일을 입력하세요."
-        value={signUpForm.birthDate}
-        onChange={handleLoginFormChange}
-        required
-      />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="비밀번호를 입력하세요."
-        value={signUpForm.password}
-        onChange={handleLoginFormChange}
-        required
-      />
-      <input
-        type="password"
-        id="password_confirm"
-        name="password_confirm"
-        placeholder="비밀번호를 다시 입력하세요."
-        value={passwordConfirm}
-        onChange={onPasswordConfirmChange}
-        required
-      />
-      <div>{passwordConfirmMessage}</div>
-
-      <button type="submit" disabled={!isFormValid}>
-        가입하기
-      </button>
-    </form>
+    </div>
   );
 };
 

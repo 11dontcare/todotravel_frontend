@@ -1,0 +1,195 @@
+body {
+  background-color: #f9f9f9;
+}
+.page {
+  width: 1080px;
+  background-color: white;
+  border: 1px solid #d5d5d5;
+  border-radius: 20px;
+  margin: 40px auto;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  margin: 20px 0 10px;
+  gap: 18px;
+}
+.form > input {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 18px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.form > input::placeholder {
+  color: #bcbcbc;
+}
+.button {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 18px;
+  color: white;
+  background-color: #009688;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.button:disabled {
+  background-color: #548a84;
+}
+.forgetAuth {
+  color: #6b6b6b;
+  cursor: pointer;
+}
+hr {
+  width: 350px;
+  border: none;
+  border-top: 0.25px solid #b9b9b9;
+  margin: 10px 0;
+}
+.social {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  margin: 20px;
+}
+.social > img {
+  cursor: pointer;
+}
+.goSignUp {
+  font-size: 17px;
+  color: #6b6b6b;
+}
+.goSignUp > strong {
+  cursor: pointer;
+}
+/* SignUp */
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  margin: 20px 0 10px;
+  gap: 12px;
+}
+.signUpForm > input {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 18px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.signUpForm > input::placeholder {
+  color: #bcbcbc;
+}
+.signUpForm > label {
+  font-weight: bold;
+  margin: 0 auto -8px 0;
+}
+.duplicate {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  margin: 0;
+}
+.duplicate > input {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 18px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.duplicate > input::placeholder {
+  color: #bcbcbc;
+}
+.duplicate > .button {
+  width: 120px;
+  padding: 10px 4px;
+}
+.signUpForm > label[for="vertifycode"] {
+  margin-top: 6px;
+}
+.signUpForm > label[for="username"] {
+  margin-top: 6px;
+}
+.phoneBox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 8px;
+}
+.phoneBox > select {
+  width: 100px;
+  padding: 10px 16px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.phoneBox > input {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 18px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.phoneBox > input::placeholder {
+  color: #bcbcbc;
+}
+.vertify {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 2px;
+}
+.vertify > p:nth-child(1) {
+  font-weight: 600;
+  color: #6b6b6b;
+  margin: 0;
+}
+.vertify > p:nth-child(2) {
+  font-weight: bold;
+  margin: 0;
+  cursor: pointer;
+}
+.message {
+  color: #fe6d73;
+  margin: 0;
+}
+.genderContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+}
+
+.genderOption {
+  display: flex;
+  align-items: center;
+}
+
+.genderInput {
+  margin-right: 8px;
+}
+
+.genderLabel {
+  font-weight: 600;
+  color: #6b6b6b;
+}
