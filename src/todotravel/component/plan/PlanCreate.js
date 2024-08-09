@@ -8,16 +8,20 @@ const PlanCreate = () => {
 
   const handleSwitchChange = () => {
     setIsPublic(!isPublic); // 스위치 상태를 반전시킵니다.
+    setPlanForm({
+      ...planForm,
+      isPublic: !isPublic,
+    });
   };
 
   const [planForm, setPlanForm] = useState({
     title: "",
-    startDate: "",
-    endDate: "",
+    startDate: "2021-11-08T11:44:30",
+    endDate: "2021-11-08T11:44:30",
     // front_location: "",
     location: "",
     totalBudget: "",
-    isPublic: "",
+    isPublic: false,
     status: false,
   });
 
@@ -34,7 +38,6 @@ const PlanCreate = () => {
   const planCreateSubmit = (e) => {
     e.preventDefault();
     console.log("planCreateSubmit");
-    planForm.isPublic = isPublic;
     console.log(planForm);
     createPlan(planForm)
     .then((response) => {
@@ -64,7 +67,7 @@ const PlanCreate = () => {
             value={planForm.title}
             onChange={handlePlanFormChange}
           />
-          <input
+          {/* <input
             type='date'
             id='startDate'
             name='startDate'
@@ -80,7 +83,7 @@ const PlanCreate = () => {
             placeholder='여행 종료 일자'
             required
             value={planForm.endDate}
-            onChange={handlePlanFormChange}/>
+            onChange={handlePlanFormChange}/> */}
           <input
             type='text'
             id='front_location'
