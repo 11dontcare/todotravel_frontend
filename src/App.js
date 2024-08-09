@@ -1,25 +1,59 @@
-import logo from "./logo.svg";
-import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+
+import styles from "./App.module.css";
+
+import Login from "../src/todotravel/component/auth/Login";
+import SignUp from "../src/todotravel/component/auth/SignUp";
+import PlanCreate from "./todotravel/component/plan/PlanCreate";
+import PlanPage from "./todotravel/component/plan/PlanPage";
+import PlanModify from "./todotravel/component/plan/PlanModify";
+import Header from "./todotravel/component/side/Header";
+import PlanList from "./todotravel/component/plan/PlanList";
 
 function App() {
+  const location = useLocation();
+
+  // 로그인과 회원가입 페이지에서는 헤더를 렌더링하지 않음
+  const hideHeaderPaths = ["/login", "/sign-up"];
+  const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
+
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {!shouldHideHeader ? (
+        <div className={styles.page}>
+          <Header />
+          <div className={styles.content}>
+            <Routes>
+              <Route path='/' element={<PlanList />} />
+              <Route path='/plan' element={<PlanCreate />} />
+              <Route path='/plan/:planId' element={<PlanPage />} />
+              <Route path='/plan/:planId/modify' element={<PlanModify />} />
+            </Routes>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.authPage}>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/sign-up' element={<SignUp />} />
+          </Routes>
+        </div>
+      )}
+    </>
   );
 }
 
-export default App;
+function AppWrapper() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
+
+export default AppWrapper;
