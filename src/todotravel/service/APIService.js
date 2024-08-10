@@ -1,6 +1,28 @@
 import { ACCESS_TOKEN } from "../constant/backendAPI";
 
-export const request = (options) => {
+const refreshAccessToken = async () => {
+  try {
+    const response = await fetch("/api/token/refresh", {
+      method: "POST",
+      credentials: "include", // 쿠키를 포함하기 위해 추가
+    });
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem(ACCESS_TOKEN, data.data.accessToken);
+      return data.data.accessToken;
+    } else {
+      throw new Error("Failed to refresh token");
+    }
+  } catch (error) {
+    console.error("Failed to refresh token: ", error);
+    // 로그아웃 처리
+    localStorage.removeItem(ACCESS_TOKEN);
+    window.location.href = "/login";
+    throw error;
+  }
+};
+
+export const request = async (options) => {
   const headers = new Headers({
     "Content-Type": "application/json",
   });
@@ -12,17 +34,41 @@ export const request = (options) => {
     );
   }
 
-  const defaults = { headers: headers };
+  const defaults = {
+    headers: headers,
+    credentials: "include", // 모든 요청에 쿠키 포함
+  };
   options = Object.assign({}, defaults, options);
 
-  return fetch(options.url, options).then((response) =>
-    response.json().then((json) => {
-      if (!response.ok) {
-        return Promise.reject(json);
-      }
+  try {
+    const response = await fetch(options.url, options);
+    const json = await response.json();
+
+    if (response.ok) {
       return json;
-    })
-  );
+    }
+
+    if (response.status === 401) {
+      // accessToken이 만료된 경우
+      const newAccessToken = await refreshAccessToken();
+      headers.set("Authorization", "Bearer " + newAccessToken);
+      options.headers = headers;
+
+      // 새로운 accessToken으로 요청 재시도
+      const retryResponse = await fetch(options.url, options);
+      const retryJson = await retryResponse.json();
+
+      if (!retryResponse.ok) {
+        return Promise.reject(retryJson);
+      }
+      return retryJson;
+    }
+
+    return Promise.reject(json);
+  } catch (error) {
+    console.error("Request failed: ", error);
+    return Promise.reject(error);
+  }
 };
 
 export const formRequest = (options) => {
