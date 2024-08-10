@@ -58,7 +58,7 @@ const Header = () => {
       <p onClick={() => handleNavigation("/plan")}>장소 검색하기</p>
       <input placeholder='계획 검색하기' />
 
-      {!isLoggedIn ? (
+      {isLoggedIn ? (
         <div className={styles.option}>
           <FiBell className={styles.bell} />
           <FiMessageSquare className={styles.message} />

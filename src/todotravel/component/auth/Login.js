@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
-import styles from "./Auth.module.css";
+import styles from "./Login.module.css";
+
+import kakaoLogo from "../../../image/kakao.png";
+import naverLogo from "../../../image/naver.png";
+import googleLogo from "../../../image/google.png";
 
 function Login() {
   const navigate = useNavigate();
@@ -28,12 +32,12 @@ function Login() {
         localStorage.setItem("nickname", response.data.nickname);
         localStorage.setItem("role", response.data.role);
 
-        window.alert(response.data.message);
+        window.alert(response.message);
         navigate("/");
       })
       .catch((e) => {
         console.log(e);
-        window.alert(e.data.message);
+        window.alert(e.message);
       });
   };
 
@@ -41,9 +45,19 @@ function Login() {
     navigate("/signup");
   };
 
+  const handleClose = () => {
+    window.history.back();
+  }
+
+  const handleSocialLogin = (provider) => {
+    // 소셜 로그인 처리 로직
+    alert(`${provider} 로그인 시도`);
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
+        <button className={styles.closeButton} onClick={handleClose}>X</button>
         <h1>To Do Travel</h1>
         <h2>로그인</h2>
         <form className={styles.form} onSubmit={handleLoginFormSubmit}>
@@ -68,9 +82,9 @@ function Login() {
         <p className={styles.forgetAuth}>아이디/비밀번호 찾기</p>
         <hr></hr>
         <div className={styles.social}>
-          <img alt='google'></img>
-          <img alt='kakao'></img>
-          <img alt='naver'></img>
+          <img src={kakaoLogo} alt='Kakao' onClick={() => handleSocialLogin('Kakao')}></img>
+          <img src={naverLogo} alt='Naver' onClick={() => handleSocialLogin('Naver')}></img>
+          <img src={googleLogo} alt='Google' onClick={() => handleSocialLogin('Google')}></img>
         </div>
         <p className={styles.goSignUp}>
           계정이 없으신가요? <strong onClick={handleGoSignUp}>회원가입</strong>

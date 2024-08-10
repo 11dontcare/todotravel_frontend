@@ -1,0 +1,103 @@
+.page {
+  width: 1080px;
+  background-color: white;
+  border: 1px solid #d5d5d5;
+  border-radius: 20px;
+  margin: 40px auto;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.closeButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #6b6b6b;
+}
+
+.closeButton:hover {
+  color: #009688;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  margin: 20px 0 10px;
+  gap: 18px;
+}
+
+.form > input {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 18px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.form > input::placeholder {
+  color: #bcbcbc;
+}
+
+.button {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 18px;
+  color: white;
+  background-color: #009688;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: #548a84;
+}
+
+.forgetAuth {
+  color: #6b6b6b;
+  cursor: pointer;
+}
+
+hr {
+  width: 350px;
+  border: none;
+  border-top: 0.25px solid #b9b9b9;
+  margin: 10px 0;
+}
+
+.social {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  margin: 20px;
+}
+
+.social > img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.goSignUp {
+  font-size: 17px;
+  color: #6b6b6b;
+}
+
+.goSignUp > strong {
+  cursor: pointer;
+}
