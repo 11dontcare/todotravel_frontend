@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../service/AuthService";
+import { login, socialLogin } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
 import styles from "./Login.module.css";
@@ -28,9 +28,10 @@ function Login() {
     e.preventDefault();
     login(loginForm)
       .then((response) => {
-        localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
+        localStorage.setItem("userId", response.data.userId);
         localStorage.setItem("nickname", response.data.nickname);
         localStorage.setItem("role", response.data.role);
+        localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
 
         window.alert(response.message);
         navigate("/");
@@ -50,8 +51,7 @@ function Login() {
   }
 
   const handleSocialLogin = (provider) => {
-    // 소셜 로그인 처리 로직
-    alert(`${provider} 로그인 시도`);
+    socialLogin(provider);
   }
 
   return (
@@ -82,9 +82,9 @@ function Login() {
         <p className={styles.forgetAuth}>아이디/비밀번호 찾기</p>
         <hr></hr>
         <div className={styles.social}>
-          <img src={kakaoLogo} alt='Kakao' onClick={() => handleSocialLogin('Kakao')}></img>
-          <img src={naverLogo} alt='Naver' onClick={() => handleSocialLogin('Naver')}></img>
-          <img src={googleLogo} alt='Google' onClick={() => handleSocialLogin('Google')}></img>
+          <img src={kakaoLogo} alt='kakao' onClick={() => handleSocialLogin('kakao')}></img>
+          <img src={naverLogo} alt='naver' onClick={() => handleSocialLogin('naver')}></img>
+          <img src={googleLogo} alt='google' onClick={() => handleSocialLogin('google')}></img>
         </div>
         <p className={styles.goSignUp}>
           계정이 없으신가요? <strong onClick={handleGoSignUp}>회원가입</strong>
