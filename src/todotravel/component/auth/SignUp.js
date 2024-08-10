@@ -5,6 +5,7 @@ import {
   checkUsername,
   checkEmail,
   checkNickname,
+  sendEmailVerification,
 } from "../../service/AuthService";
 
 // import styles from "./Auth.module.css";
@@ -28,14 +29,24 @@ const SignUp = () => {
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
+  // 이메일 인증 관련 상태 변수
+  const [emailVerificationCode, setEmailVerificationCode] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [verificationCodeInput, setVerificationCodeInput] = useState("");
+  const [verificationButtonText, setVerificationButtonText] =
+    useState("인증 요청");
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
   // 폼 유효성 검사 - 모든 필드가 채워져 있고 에러가 없는지 확인
   useEffect(() => {
     const isValid =
       Object.values(errors).every((x) => x === "") &&
       Object.values(signUpForm).every((x) => x !== "") &&
-      isPasswordConfirm;
+      isPasswordConfirm &&
+      isEmailVerified;
     setIsFormValid(isValid);
-  }, [signUpForm, errors, isPasswordConfirm]);
+  }, [signUpForm, errors, isPasswordConfirm, isEmailVerified]);
 
   // 필드 유효성 검사 - 각 필드의 유효성 검사 및 중복 체크를 실시간으로 수행
   const validateField = async (name, value) => {
@@ -74,6 +85,62 @@ const SignUp = () => {
       }
     }
     setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
+  // 타이머 useEffect
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setTimeout(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+      return () => clearTimeout(timerId);
+    } else if (timeLeft === 0 && emailVerificationCode) {
+      setEmailVerificationCode("");
+      setVerificationButtonText("인증 재요청");
+      window.alert("인증 시간이 만료되었습니다. 다시 요청해주세요.");
+    }
+  }, [timeLeft, emailVerificationCode]);
+
+  // 이메일 인증 코드 요청 함수
+  const requestEmailVerification = async () => {
+    setIsLoading(true); // 로딩 시작
+    try {
+      const response = await sendEmailVerification(signUpForm.email);
+      if (response.success) {
+        setEmailVerificationCode(response.data.code);
+        setVerificationButtonText("인증 재요청");
+        setTimeLeft(600); // 10분 = 600초
+        window.alert(response.message);
+      } else {
+        window.alert("이메일 전송에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("이메일 인증 요청 에러: ", error);
+      window.alert("이메일 인증 요청 중 오류가 발생했습니다.");
+    } finally {
+      setIsLoading(false); // 로딩 종료
+    }
+  };
+
+  // 이메일 인증 코드 확인 함수
+  const verifyEmailCode = () => {
+    if (verificationCodeInput === emailVerificationCode) {
+      setIsEmailVerified(true);
+      window.alert("이메일이 성공적으로 인증되었습니다.");
+    } else if (timeLeft === 0) {
+      window.alert("인증 시간이 만료되었습니다. 다시 요청해주세요.");
+    } else {
+      window.alert("인증 코드가 일치하지 않습니다.");
+    }
+  };
+
+  // 남은 시간 포맷팅 함수
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   // 비밀번호 확인 입력 핸들러
@@ -121,7 +188,9 @@ const SignUp = () => {
     <div className={styles.signupContainer}>
       <h1 className={styles.title}>To Do Travel</h1>
       <p className={styles.subtitle}>회원가입에 대한 내용을 입력해주세요</p>
-      <p className={styles.subtitle_description}>(모든 항목은 필수 입력 항목입니다.)</p>
+      <p className={styles.subtitle_description}>
+        (모든 항목은 필수 입력 항목입니다.)
+      </p>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.inputField}>
           <label className={styles.label} htmlFor="username">
@@ -142,16 +211,51 @@ const SignUp = () => {
           <label className={styles.label} htmlFor="email">
             이메일 인증
           </label>
-          <input
-            className={styles.input}
-            type="email"
-            name="email"
-            placeholder="이메일을 입력하세요."
-            value={signUpForm.email}
-            onChange={handleLoginFormChange}
-            required
-          />
+          <div className={styles.emailVerificationContainer}>
+            <input
+              className={styles.input}
+              type="email"
+              name="email"
+              placeholder="이메일을 입력하세요."
+              value={signUpForm.email}
+              onChange={handleLoginFormChange}
+              required
+            />
+            <button
+              type="button"
+              onClick={requestEmailVerification}
+              disabled={!signUpForm.email || errors.email || isEmailVerified || isLoading}
+              className={`${styles.verificationButton} ${isLoading ? styles.loading : ''}`}
+            >
+              {isLoading ? "요청 중..." : verificationButtonText}
+            </button>
+          </div>
           {errors.email && <p className={styles.error}>{errors.email}</p>}
+          {emailVerificationCode && !isEmailVerified && (
+            <div className={styles.emailVerificationContainer}>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder="인증 코드를 입력하세요."
+                value={verificationCodeInput}
+                onChange={(e) => setVerificationCodeInput(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={verifyEmailCode}
+                className={styles.verificationButton}
+                disabled={isEmailVerified || timeLeft === 0}
+              >
+                인증 확인
+              </button>
+              {timeLeft > 0 && (
+                <span className={styles.timer}>{formatTime(timeLeft)}</span>
+              )}
+            </div>
+          )}
+          {isEmailVerified && (
+            <p className={styles.success}>이메일이 인증되었습니다.</p>
+          )}
         </div>
         <div className={styles.inputField}>
           <label className={styles.label} htmlFor="name">

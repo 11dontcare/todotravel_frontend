@@ -92,6 +92,65 @@
   bottom: -20px;
 }
 
+.emailVerificationContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.verificationButton {
+  padding: 10px 12px 10px 12px;
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.verificationButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.timer {
+  margin-left: 10px;
+  color: #009688;
+  font-weight: bold;
+}
+
+.verificationButton.loading {
+  background-color: #cccccc;
+  cursor: wait;
+}
+
+/* 선택적: 로딩 스피너 애니메이션 */
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.verificationButton.loading:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #009688;
+  animation: spinner .8s linear infinite;
+}
+
+.success {
+  color: green;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 .genderContainer {
   display: flex;
   flex-direction: column;
@@ -130,4 +189,9 @@
   cursor: pointer;
   width: 100%;
   margin-top: 20px;
+}
+
+.submitButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

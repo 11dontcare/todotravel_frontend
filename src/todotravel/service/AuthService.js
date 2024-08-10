@@ -38,6 +38,15 @@ export function checkNickname(nickname) {
   });
 }
 
+// 이메일 인증 요청
+export function sendEmailVerification(email) {
+  return request({
+    url: API_BASE_URL + "/api/send-mail/email",
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+
 // 로그인 요청
 export function login(loginRequest) {
   return request({
