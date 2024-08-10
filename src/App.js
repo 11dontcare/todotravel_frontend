@@ -19,7 +19,7 @@ function App() {
   const location = useLocation();
 
   // 로그인과 회원가입 페이지에서는 헤더를 렌더링하지 않음
-  const hideHeaderPaths = ["/login", "/sign-up"];
+  const hideHeaderPaths = ["/login", "/signup"];
   const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
 
   return (
@@ -40,7 +40,7 @@ function App() {
         <div className={styles.authPage}>
           <Routes>
             <Route path='/login' element={<Login />} />
-            <Route path='/sign-up' element={<SignUp />} />
+            <Route path='/signup' element={<SignUp />} />
           </Routes>
         </div>
       )}
