@@ -156,9 +156,10 @@ export function logout() {
     credentials: "include", // 쿠키를 포함하기 위해 추가
   }).then(() => {
     // 로컬 스토리지에서 ACCESS_TOKEN 제거
-    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem("userId");
     localStorage.removeItem("nickname");
     localStorage.removeItem("role");
+    localStorage.removeItem(ACCESS_TOKEN);
   });
 }
 
