@@ -23,7 +23,6 @@ const PlanCreate = () => {
     totalBudget: "",
     isPublic: false,
     status: false,
-    participants_count: 4,
   });
 
   const handlePlanFormChange = (e) => {
@@ -40,6 +39,8 @@ const PlanCreate = () => {
     e.preventDefault();
     console.log("planCreateSubmit");
     console.log(planForm);
+    console.log(localStorage.getItem("nickname"));
+    // console.log(localStorage.getItem("userId"));
     createPlan(planForm)
       .then((response) => {
         alert("플랜 생성 완료");
