@@ -97,26 +97,21 @@ export const socialLogin = (provider) => {
 // OAuth2 첫 가입 핸들러
 export const completeOAuth2Signup = async (additionalInfo) => {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/auth/oauth2/additional-info`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: additionalInfo.token,
-          gender: additionalInfo.gender,
-          birthDate: additionalInfo.birthDate,
-        }),
-      }
-    );
-    const data = await response.json();
-    if (data.success) {
+    const response = await request({
+      url: `${API_BASE_URL}/api/auth/oauth2/additional-info`,
+      method: "POST",
+      body: JSON.stringify({
+        token: additionalInfo.token,
+        gender: additionalInfo.gender,
+        birthDate: additionalInfo.birthDate,
+      }),
+    });
+    
+    if (response.success) {
       localStorage.removeItem(ACCESS_TOKEN);
-      return data.data;
+      return response.data;
     }
-    throw new Error(data.message || "소셜 로그인 추가 정보 입력 실패");
+    throw new Error(response.message || "소셜 로그인 추가 정보 입력 실패");
   } catch (error) {
     console.error("OAuth2 signup completion error: ", error);
     throw error;
@@ -126,26 +121,27 @@ export const completeOAuth2Signup = async (additionalInfo) => {
 // OAuth2 로그인 핸들러
 export const handleOAuth2Login = async (token) => {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/auth/oauth2/login?token=${token}`
-    );
-    const data = await response.json();
-    if (data.success) {
-      if (data.data.isNewUser) {
-        return { isNewUser: true, userId: data.data.userId };
+    const response = await request({
+      url: `${API_BASE_URL}/api/auth/oauth2/login?token=${token}`,
+      method: "GET",
+    });
+    
+    if (response.success) {
+      if (response.data.isNewUser) {
+        return { isNewUser: true, userId: response.data.userId };
       } else {
         return {
           isNewUser: false,
           loginData: {
-            userId: data.data.userId,
-            nickname: data.data.nickname,
-            role: data.data.role,
-            accessToken: data.data.accessToken,
+            userId: response.data.userId,
+            nickname: response.data.nickname,
+            role: response.data.role,
+            accessToken: response.data.accessToken,
           },
         };
       }
     }
-    throw new Error(data.message || "소셜 로그인 실패");
+    throw new Error(response.message || "소셜 로그인 실패");
   } catch (error) {
     console.error("OAuth2 login error: ", error);
     throw error;
