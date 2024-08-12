@@ -11,6 +11,14 @@ function OAuth2RedirectHandler() {
     const params = new URLSearchParams(location.search);
     const token = params.get("token");
     const role = params.get("role");
+    const error = params.get("error");
+
+    if (error) {
+      console.error("OAuth2 로그인 에러: ", decodeURIComponent(error));
+      alert(decodeURIComponent(error));
+      navigate("/login");
+      return;
+    }
 
     if (token && role) {
       if (role === "ROLE_GUEST") {
@@ -32,11 +40,13 @@ function OAuth2RedirectHandler() {
           })
           .catch((error) => {
             console.error("OAuth2 로그인 에러: ", error);
+            alert(error.message);
             navigate("/login");
           });
       }
     } else {
       console.error("토큰 또는 역할 정보가 없습니다.");
+      alert("로그인 정보가 올바르지 않습니다. 다시 시도해 주세요.");
       navigate("/login");
     }
   }, [location, navigate]);
