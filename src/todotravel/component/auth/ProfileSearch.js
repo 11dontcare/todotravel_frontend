@@ -5,7 +5,6 @@ import {
   sendEmailToFindUsername,
   sendEmailToFindPassword,
   findUsername,
-  renewPassword,
 } from "../../service/AuthService";
 
 const ProfileSearch = () => {
@@ -20,7 +19,8 @@ const ProfileSearch = () => {
   const [savedCode, setSavedCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [verificationButtonText, setVerificationButtonText] = useState("인증번호 발송");
+  const [verificationButtonText, setVerificationButtonText] =
+    useState("인증번호 발송");
 
   useEffect(() => {
     if (location.state && location.state.activeTab) {
@@ -52,7 +52,9 @@ const ProfileSearch = () => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const handleSendVerification = () => {
@@ -69,7 +71,9 @@ const ProfileSearch = () => {
         })
         .catch((error) => {
           console.error("인증번호 발송 실패:", error);
-          alert(error.message || "인증번호 발송에 실패했습니다. 다시 시도해주세요.");
+          alert(
+            error.message || "인증번호 발송에 실패했습니다. 다시 시도해주세요."
+          );
         })
         .finally(() => setIsLoading(false));
     } else {
@@ -79,7 +83,11 @@ const ProfileSearch = () => {
         setIsLoading(false);
         return;
       }
-      const passwordSearchRequest = { name, birthDate: formattedBirthDate, email };
+      const passwordSearchRequest = {
+        name,
+        birthDate: formattedBirthDate,
+        email,
+      };
       sendEmailToFindPassword(passwordSearchRequest)
         .then((response) => {
           console.log("인증번호 발송 성공:", response);
@@ -91,7 +99,9 @@ const ProfileSearch = () => {
         })
         .catch((error) => {
           console.error("인증번호 발송 실패:", error);
-          alert(error.message || "인증번호 발송에 실패했습니다. 다시 시도해주세요.");
+          alert(
+            error.message || "인증번호 발송에 실패했습니다. 다시 시도해주세요."
+          );
         })
         .finally(() => setIsLoading(false));
     }
@@ -120,12 +130,32 @@ const ProfileSearch = () => {
         }
       } catch (error) {
         console.error("아이디 찾기 실패:", error);
-        alert(error.message || "아이디 찾기에 실패했습니다. 다시 시도해주세요.");
+        alert(
+          error.message || "아이디 찾기에 실패했습니다. 다시 시도해주세요."
+        );
       }
     } else {
       navigate("/reset-password", { state: { userId: userId } });
     }
   };
+
+  const renderVerificationButton = () => (
+    <div className={styles.verificationButtonContainer}>
+      <button
+        type="button"
+        onClick={handleSendVerification}
+        className={styles.verificationButton}
+        disabled={
+          isLoading ||
+          !email ||
+          (activeTab === "password" && (!name || !birthdate))
+        }
+      >
+        {isLoading ? "요청 중..." : verificationButtonText}
+      </button>
+      {isLoading && <span className={styles.spinner}></span>}
+    </div>
+  );
 
   const renderIdSearch = () => (
     <>
@@ -149,14 +179,7 @@ const ProfileSearch = () => {
             className={styles.input}
             placeholder="이메일을 입력하세요"
           />
-          <button
-            type="button"
-            onClick={handleSendVerification}
-            className={`${styles.verificationButton} ${isLoading ? styles.loading : ''}`}
-            disabled={isLoading || !email}
-          >
-            {isLoading ? "요청 중..." : verificationButtonText}
-          </button>
+          {renderVerificationButton()}
         </div>
       </div>
       {savedCode && (
@@ -170,7 +193,9 @@ const ProfileSearch = () => {
               className={styles.input}
               placeholder="인증번호를 입력하세요"
             />
-            {timeLeft > 0 && <span className={styles.timer}>{formatTime(timeLeft)}</span>}
+            {timeLeft > 0 && (
+              <span className={styles.timer}>{formatTime(timeLeft)}</span>
+            )}
           </div>
         </div>
       )}
@@ -209,14 +234,7 @@ const ProfileSearch = () => {
             className={styles.input}
             placeholder="이메일을 입력하세요"
           />
-          <button
-            type="button"
-            onClick={handleSendVerification}
-            className={`${styles.verificationButton} ${isLoading ? styles.loading : ''}`}
-            disabled={isLoading || !email || !name || !birthdate}
-          >
-            {isLoading ? "요청 중..." : verificationButtonText}
-          </button>
+          {renderVerificationButton()}
         </div>
       </div>
       {savedCode && (
@@ -230,7 +248,9 @@ const ProfileSearch = () => {
               className={styles.input}
               placeholder="인증번호를 입력하세요"
             />
-            {timeLeft > 0 && <span className={styles.timer}>{formatTime(timeLeft)}</span>}
+            {timeLeft > 0 && (
+              <span className={styles.timer}>{formatTime(timeLeft)}</span>
+            )}
           </div>
         </div>
       )}
@@ -243,13 +263,17 @@ const ProfileSearch = () => {
         <h1 className={styles.title}>To Do Travel</h1>
         <div className={styles.tabContainer}>
           <div
-            className={`${styles.tab} ${activeTab === "id" ? styles.activeTab : ""}`}
+            className={`${styles.tab} ${
+              activeTab === "id" ? styles.activeTab : ""
+            }`}
             onClick={() => setActiveTab("id")}
           >
             아이디 찾기
           </div>
           <div
-            className={`${styles.tab} ${activeTab === "password" ? styles.activeTab : ""}`}
+            className={`${styles.tab} ${
+              activeTab === "password" ? styles.activeTab : ""
+            }`}
             onClick={() => setActiveTab("password")}
           >
             비밀번호 찾기
@@ -262,7 +286,11 @@ const ProfileSearch = () => {
         </p>
         <form onSubmit={handleSubmit} className={styles.form}>
           {activeTab === "id" ? renderIdSearch() : renderPasswordSearch()}
-          <button type="submit" className={styles.submitButton} disabled={!savedCode || !verificationCode}>
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={!savedCode || !verificationCode}
+          >
             인증 확인
           </button>
         </form>
