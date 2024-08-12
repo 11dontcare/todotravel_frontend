@@ -1,0 +1,92 @@
+/* Chat.module.css */
+
+/* 채팅창 컨테이너 */
+.chat-container {
+    position: relative;
+    width: 734px;
+    height: 1285px;
+    background: #ffffff;
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+/* 채팅 메시지 영역 */
+.chat-messages {
+    width: 636px;
+    height: 1186px;
+    margin: 50px auto; /* 위쪽 여백과 가운데 정렬 */
+    background: #e5e5e5;
+    border-radius: 50px;
+    padding: 20px; /* 내부 패딩 추가 */
+    overflow-y: scroll; /* 스크롤 가능하도록 */
+}
+
+/* 채팅방 이름 */
+.chat-room-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 사용자 목록 */
+.chat-users {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 채팅 입력창 */
+.chat-input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #000000;
+}
+
+.chat-send-button {
+    width: 50px;
+    height: 50px;
+    background: #009add;
+    border-radius: 10px;
+    border: 1px solid #0d2ac2;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-send-button:active {
+    background: #007bb5;
+}
+
+/* 메시지 버블 */
+.chat-message-bubble {
+    max-width: 310px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background: rgba(0, 150, 136, 0.5);
+    color: #000000;
+}
+
+.chat-message-bubble.right {
+    background: rgba(0, 154, 221, 0.5);
+    margin-left: auto;
+}
+
+.chat-message-bubble.left {
+    margin-right: auto;
+}
