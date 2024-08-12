@@ -47,12 +47,48 @@ export function checkNickname(nickname) {
   });
 }
 
-// 이메일 인증 요청
+// 이메일 인증 요청 - 회원가입 시
 export function sendEmailVerification(email) {
   return request({
     url: API_BASE_URL + "/api/send-mail/email",
     method: "POST",
     body: JSON.stringify({ email }),
+  });
+}
+
+// 이메일 인증 요청 - 아이디 찾기 시
+export function sendEmailToFindUsername(usernameRequest) {
+  return request({
+    url: API_BASE_URL + "/api/send-mail/find-username",
+    method: "POST",
+    body: JSON.stringify(usernameRequest),
+  });
+}
+
+// 이메일 인증 요청 - 비밀번호 찾기 시
+export function sendEmailToFindPassword(passwordSearchRequest) {
+  return request({
+    url: API_BASE_URL + "/api/send-mail/find-password",
+    method: "POST",
+    body: JSON.stringify(passwordSearchRequest),
+  });
+}
+
+// 아이디 찾기
+export function findUsername(usernameRequest) {
+  return request({
+    url: API_BASE_URL + "/api/auth/find-username",
+    method: "POST",
+    body: JSON.stringify(usernameRequest),
+  });
+}
+
+// 비밀번호 재설정
+export function renewPassword(passwordRequest) {
+  return request({
+    url: API_BASE_URL + "/api/auth/password-reset",
+    method: "POST",
+    body: JSON.stringify(passwordRequest),
   });
 }
 
@@ -106,7 +142,7 @@ export const completeOAuth2Signup = async (additionalInfo) => {
         birthDate: additionalInfo.birthDate,
       }),
     });
-    
+
     if (response.success) {
       localStorage.removeItem(ACCESS_TOKEN);
       return response.data;
@@ -125,7 +161,7 @@ export const handleOAuth2Login = async (token) => {
       url: `${API_BASE_URL}/api/auth/oauth2/login?token=${token}`,
       method: "GET",
     });
-    
+
     if (response.success) {
       if (response.data.isNewUser) {
         return { isNewUser: true, userId: response.data.userId };

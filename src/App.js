@@ -9,6 +9,9 @@ import styles from "./App.module.css";
 
 import SignUp from "./todotravel/component/auth/SignUp";
 import Login from "./todotravel/component/auth/Login";
+import ProfileSearch from "./todotravel/component/auth/ProfileSearch";
+import UsernameResult from "./todotravel/component/auth/UsernameResult";
+import ResetPassword from "./todotravel/component/auth/ResetPassword";
 import OAuth2RedirectHandler from "./todotravel/component/auth/OAuth2RedirectHandler";
 import AdditionalInfo from "./todotravel/component/auth/AdditionalInfo";
 import PlanCreate from "./todotravel/component/plan/PlanCreate";
@@ -21,7 +24,15 @@ function App() {
   const location = useLocation();
 
   // 로그인, 회원가입, OAuth2 관련 페이지에서는 헤더를 렌더링하지 않음
-  const hideHeaderPaths = ["/login", "/signup", "/oauth2/redirect", "/additional-info"];
+  const hideHeaderPaths = [
+    "/login",
+    "/signup",
+    "/oauth2/redirect",
+    "/additional-info",
+    "/profile-search",
+    "/person-find-id",
+    "/reset-password",
+  ];
   const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
 
   return (
@@ -43,6 +54,9 @@ function App() {
           <Routes>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/profile-search" element={<ProfileSearch />} />
+            <Route path="/person-find-id" element={<UsernameResult />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route
               path="/oauth2/redirect"
               element={<OAuth2RedirectHandler />}

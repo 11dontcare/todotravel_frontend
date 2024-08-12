@@ -52,7 +52,7 @@ const Header = () => {
 
   return (
     <div className={styles.header}>
-      <h1>To Do Travel</h1>
+      <h1 onClick={() => handleNavigation("/")}>To Do Travel</h1>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 만들기</p>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 함께하기</p>
       <p onClick={() => handleNavigation("/plan")}>장소 검색하기</p>

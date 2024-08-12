@@ -36,11 +36,15 @@ function Login() {
         window.alert(response.message);
         navigate("/");
       })
-      .catch((e) => {
-        console.log(e);
-        window.alert(e.message);
+      .catch((error) => {
+        console.log("Login error: ", error);
+        window.alert("아이디 혹은 비밀번호가 일치하지 않습니다.");
       });
   };
+
+  const handleGoProfileSearch = () => {
+    navigate("/profile-search");
+  }
 
   const handleGoSignUp = () => {
     navigate("/signup");
@@ -54,11 +58,15 @@ function Login() {
     socialLogin(provider);
   }
 
+  const handleTitleClick = () => {
+    navigate('/');
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
         <button className={styles.closeButton} onClick={handleClose}>X</button>
-        <h1>To Do Travel</h1>
+        <h1 onClick={handleClose}>To Do Travel</h1>
         <h2>로그인</h2>
         <form className={styles.form} onSubmit={handleLoginFormSubmit}>
           <input
@@ -79,7 +87,7 @@ function Login() {
           ></input>
           <button className={styles.button}>로그인</button>
         </form>
-        <p className={styles.forgetAuth}>아이디/비밀번호 찾기</p>
+        <p className={styles.forgetAuth} onClick={handleGoProfileSearch}>아이디/비밀번호 찾기</p>
         <hr></hr>
         <div className={styles.social}>
           <img src={kakaoLogo} alt='kakao' onClick={() => handleSocialLogin('kakao')}></img>
