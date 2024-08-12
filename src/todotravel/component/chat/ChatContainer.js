@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import ChatPage from '../pages/ChatPage';
-import { getChatRooms } from '../../service/ChatService'; // 함수 임포트
+import ChatPage from './ChatPage'; // 경로 수정
+import { getChatRooms } from '../../service/ChatService';
 
 const ChatContainer = () => {
     const [chatRooms, setChatRooms] = useState([]);
