@@ -45,10 +45,14 @@ const ResetPassword = () => {
     }
   };
 
+  const handleTitleClick = () => {
+    navigate('/');
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.container}>
-        <h1 className={styles.title}>To Do Travel</h1>
+        <h1 className={styles.title} onClick={handleTitleClick}>To Do Travel</h1>
         <p className={styles.description}>회원님의 비밀번호를 재설정해주세요.</p>
         {error && <p className={styles.errorMessage}>{error}</p>}
         <form onSubmit={handleSubmit} className={styles.form}>

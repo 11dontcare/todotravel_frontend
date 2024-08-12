@@ -15,10 +15,14 @@ const UsernameResult = () => {
     navigate('/profile-search', { state: { activeTab: 'password' } });
   };
 
+  const handleTitleClick = () => {
+    navigate('/');
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.container}>
-        <h1 className={styles.title}>To Do Travel</h1>
+        <h1 className={styles.title} onClick={handleTitleClick}>To Do Travel</h1>
         <p className={styles.description}>{name}님의 아이디가 검색되었습니다.</p>
         <div className={styles.resultTable}>
           <div className={styles.row}>

@@ -58,11 +58,15 @@ function Login() {
     socialLogin(provider);
   }
 
+  const handleTitleClick = () => {
+    navigate('/');
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
         <button className={styles.closeButton} onClick={handleClose}>X</button>
-        <h1>To Do Travel</h1>
+        <h1 onClick={handleClose}>To Do Travel</h1>
         <h2>로그인</h2>
         <form className={styles.form} onSubmit={handleLoginFormSubmit}>
           <input

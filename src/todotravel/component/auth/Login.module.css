@@ -14,6 +14,10 @@
   padding: 20px 0;
 }
 
+h1 {
+  cursor: pointer;
+}
+
 .closeButton {
   position: absolute;
   top: 15px;

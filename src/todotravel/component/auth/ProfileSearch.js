@@ -139,6 +139,10 @@ const ProfileSearch = () => {
     }
   };
 
+  const handleTitleClick = () => {
+    navigate('/');
+  };
+
   const renderVerificationButton = () => (
     <div className={styles.verificationButtonContainer}>
       <button
@@ -260,7 +264,7 @@ const ProfileSearch = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.container}>
-        <h1 className={styles.title}>To Do Travel</h1>
+        <h1 className={styles.title} onClick={handleTitleClick}>To Do Travel</h1>
         <div className={styles.tabContainer}>
           <div
             className={`${styles.tab} ${
