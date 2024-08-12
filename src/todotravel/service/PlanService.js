@@ -9,6 +9,13 @@ export function createPlan(planRequest) {
   });
 } //여행 플랜 생성 요청
 
+export function getPlan(planId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId,
+    method: "GET",
+  });
+}//여행 플랜 요청
+
 export function modifyPlan(planRequest, planId){
   return request({
     url: API_BASE_URL + "/api/plan/" + planId,
@@ -45,12 +52,100 @@ export function searchPlan(keyword){
   });
 }//플랜 검색 요청
 
-export function method(planId){
+export function loadPlan(planId){
   return request({
     url: API_BASE_URL + "/api/plan/" + planId + "/load",
     method: "POST"
   });
 }//플랜 불러오기 요청
+
+//플랜 참여자 관리
+
+export function showUsers(planId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/invite",
+    method: "GET",
+  });
+}//여행 플랜 초대 목록 요청
+
+export function inviteUser(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/invite/" + userId,
+    method: "POST",
+  });
+}//여행 플랜 초대 요청
+
+export function acceptInvite(planParticipantId){
+  return request({
+    url: API_BASE_URL + "/api/invite/" + planParticipantId + "/accept",
+    method: "PUT",
+  });
+}//여행 플랜 초대 수락 요청
+
+export function rejectInvite(planParticipantId){
+  return request({
+    url: API_BASE_URL + "/api/invite/" + planParticipantId + "/reject",
+    method: "PUT",
+  });
+}//여행 플랜 초대 거절 요청
+
+export function showPlanUsers(planId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/participant",
+    method: "GET",
+  });
+}//여행 플랜 참여자 목록 요청
+
+export function exitPlan(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/participant/" + userId,
+    method: "DELETE",
+  });
+}//여행 플랜 나가기 요청
+
+//북마크, 좋아요
+
+export function checkIsBookmarked(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/isBookmarked/" + userId,
+    method: "GET",
+  });
+}//플랜 북마크 여부 조회 요청
+
+export function bookmarkPlan(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/bookmark/" + userId,
+    method: "POST",
+  });
+}//플랜 북마크 요청
+
+export function cancelBookmark(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/bookmark/" + userId,
+    method: "DELETE",
+  });
+}//플랜 북마크 취소 요청
+
+export function CheckIsLiked(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/isLiked/" + userId,
+    method: "GET",
+  });
+}//플랜 좋아요 여부 조회 요청
+
+export function likePlan(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/like/" + userId,
+    method: "POST",
+  });
+}//플랜 좋아요 요청
+
+export function cancelLike(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/like/" + userId,
+    method: "DELETE",
+  });
+}//플랜 좋아요 취소 요청
 
 class PlanService {}
 export default new PlanService();

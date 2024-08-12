@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createPlan } from "../../service/PlanService";
 
 const PlanCreate = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isPublic, setIsPublic] = useState(false); // 상태를 추가하여 스위치의 상태를 관리합니다.
 
   const handleSwitchChange = () => {
@@ -16,8 +16,9 @@ const PlanCreate = () => {
 
   const [planForm, setPlanForm] = useState({
     title: "",
-    startDate: "2021-11-08T11:44:30",
-    endDate: "2021-11-08T11:44:30",
+    startDate: "", 
+    // "2021-11-08T11:44:30",
+    endDate: "",
     // front_location: "",
     location: "",
     totalBudget: "",
@@ -40,12 +41,12 @@ const PlanCreate = () => {
     console.log("planCreateSubmit");
     console.log(planForm);
     console.log(localStorage.getItem("nickname"));
-    // console.log(localStorage.getItem("userId"));
+
     createPlan(planForm)
       .then((response) => {
         alert("플랜 생성 완료");
-        // const planId = response.planId
-        // navigate("/plan/1");
+        const planId = response.data.planId;
+        // navigate("/plan/" + planId);
         console.log(response);
         console.log(planForm);
       })
@@ -70,7 +71,7 @@ const PlanCreate = () => {
               value={planForm.title}
               onChange={handlePlanFormChange}
             />
-            {/* <input
+            <input
             type='date'
             id='startDate'
             name='startDate'
@@ -86,7 +87,7 @@ const PlanCreate = () => {
             placeholder='여행 종료 일자'
             required
             value={planForm.endDate}
-            onChange={handlePlanFormChange}/> */}
+            onChange={handlePlanFormChange}/>
             <input
               type='text'
               id='front_location'
