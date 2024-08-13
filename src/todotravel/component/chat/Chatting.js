@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Stomp } from "@stomp/stompjs";
 import { useParams } from "react-router-dom";
+import styles from "./Chat.module.css"; //CSS import
 
 const Chatting = ({ roomId }) => {
   const stompClient = useRef(null);
@@ -60,22 +61,25 @@ const Chatting = ({ roomId }) => {
   };
 
   return (
-    <div className="chatting-container">
-      <div className="messages">
-        {messages.map((msg, index) => (
-          <div key={index}>
-            <strong>{msg.nickname}: </strong> {msg.content}
-          </div>
-        ))}
+      <div className={styles.chattingContainer}> {/* 스타일 적용 */}
+        <div className={styles.messages}>
+          {messages.map((msg, index) => (
+              <div
+                  key={index}
+                  className={`${styles.message} ${msg.nickname === localStorage.getItem("nickname") ? styles.sent : styles.received}`}
+              >
+                <strong>{msg.nickname}: </strong> {msg.content}
+              </div>
+          ))}
+        </div>
+        <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="Type your message..."
+        />
+        <button onClick={sendMessage}>Send</button>
       </div>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Type your message..."
-      />
-      <button onClick={sendMessage}>Send</button>
-    </div>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getChatList } from "../../service/ChatService";
+import styles from "./Chat.module.css"; //CSS import
 
 const ChatList = ({ roomId }) => {
   const [chatHistory, setChatHistory] = useState([]); // 채팅 기록을 저장하기위한 빈 배열
@@ -41,17 +42,17 @@ const ChatList = ({ roomId }) => {
   };
 
   return (
-    <div className="chat-list">
-      <h3>Chat History</h3>
-      <ul>
-        {chatHistory.map((chat, index) => (
-          <li key={index}>
-            <strong>{chat.nickname}:</strong> {chat.content} <br />
-            <small>{formatDate(chat.created_at)}</small>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div className={styles.chatList}> {/* 스타일 적용 */}
+        <h3>Chat History</h3>
+        <ul>
+          {chatHistory.map((chat, index) => (
+              <li key={index}>
+                <strong>{chat.nickname}:</strong> {chat.content} <br/>
+                <small>{formatDate(chat.created_at)}</small>
+              </li>
+          ))}
+        </ul>
+      </div>
   );
 };
 

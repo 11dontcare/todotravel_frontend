@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getChatRooms } from "../../service/ChatService"; // 채팅방 리스트
 import ChatRoomList from "./ChatRoomList"; // 채팅방 리스트
 import ChatRoomDetail from "./ChatRoomDetail"; // 채팅방 상세
+import styles from "./Chat.module.css"; //CSS import
 
 const ChatContainer = () => {
   const [chatRooms, setChatRooms] = useState([]); // 채팅방 목록
@@ -28,12 +29,12 @@ const ChatContainer = () => {
   }, []);
 
   return (
-    <div>
-      <ChatRoomList chatRooms={chatRooms} onSelectRoom={setSelectedRoomId} />
-      {selectedRoomId && (
-        <ChatRoomDetail key={selectedRoomId} roomId={selectedRoomId} />
-      )}
-    </div>
+      <div className={styles.chatContainer}> {/* 스타일 적용 */}
+        <ChatRoomList chatRooms={chatRooms} onSelectRoom={setSelectedRoomId}/>
+        {selectedRoomId && (
+            <ChatRoomDetail key={selectedRoomId} roomId={selectedRoomId}/>
+        )}
+      </div>
   );
 };
 
