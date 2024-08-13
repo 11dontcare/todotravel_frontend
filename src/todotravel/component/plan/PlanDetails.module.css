@@ -1,0 +1,120 @@
+.planContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* planHeader와 planDetails 사이의 간격 */
+    align-items: center;
+  }
+  
+  .planHeader {
+    display: flex;
+    justify-content: space-between; /* planDetail과 planActions 사이의 공간 분배 */
+    align-items: flex-start; /* 상단 정렬 */
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0;
+    padding-top: 20px;
+    height: 200px;
+    width: 950px;
+  }
+  
+  .planDetail {
+    flex: 1; /* planDetail이 가능한 공간을 차지하도록 설정 */
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    gap: 0px; /* 세로 간격 조절 */
+    height: 200px;
+  }
+  
+  .planTitle {
+    font-size: 28px;
+    color: #333;
+  }
+  
+  .planInfo {
+    display: flex;
+    gap: 10px; /* 두 항목 간의 간격 조절 */
+  }
+  
+  .planDates {
+    font-size: 15px;
+    color: #555;
+  }
+  
+  .planStatus {
+    font-size: 15px;
+    font-weight: bold;
+  }
+  
+  .activeStatus {
+    color: rgb(2, 158, 90);
+  }
+  
+  .inactiveStatus {
+    color: rgb(2, 95, 55);
+  }
+  
+  .planCreator {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  .planActions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 하단 정렬 */
+    align-items: flex-end; /* 오른쪽 정렬 */
+    width: 250px; /* 적절한 너비 설정 */
+    height: 200px;
+  }
+  
+  .bookmarkLikeContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* 북마크와 좋아요 사이의 간격 조절 */
+    width: 250px;
+    padding-bottom: 40px;
+  }
+  
+  .bookmarkSection,
+  .likeSection {
+    display: flex;
+    align-items: center;
+    /* 수직 중앙 정렬 */
+  }
+  
+  .bookmarkCount,
+  .likeCount {
+    font-size: 16px;
+    color: #777;
+    margin-left: 10px; /* 카운트와 버튼 간의 간격 조절 */
+  }
+  
+  .bookmarkButton,
+  .likeButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .bookmarkButton:hover,
+  .likeButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .planDetails {
+    display: flex;
+    flex-direction: column;
+    width: 950px;
+  }
+  
+  .planDescription,
+  .planLocation,
+  .planBudget {
+    font-size: 16px;
+    color: #555;
+    padding-left: 50px;
+  }
