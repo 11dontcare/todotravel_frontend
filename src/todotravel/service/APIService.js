@@ -1,12 +1,13 @@
-import { ACCESS_TOKEN } from "../constant/backendAPI";
+import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
 
 const refreshAccessToken = async () => {
   try {
-    const response = await fetch("/api/token/refresh", {
+    const response = await fetch(`${API_BASE_URL}/api/token/refresh`, {
       method: "POST",
       credentials: "include", // 쿠키를 포함하기 위해 추가
     });
     const data = await response.json();
+    console.log(data);
     if (data.success) {
       localStorage.setItem(ACCESS_TOKEN, data.data.accessToken);
       return data.data.accessToken;
@@ -15,11 +16,27 @@ const refreshAccessToken = async () => {
     }
   } catch (error) {
     console.error("Failed to refresh token: ", error);
-    // 로그아웃 처리
-    localStorage.removeItem(ACCESS_TOKEN);
+    // 갱신 실패 시 강제 로그아웃 처리
+    alert("요청을 승인할 수 없습니다. 다시 로그인 후 시도해주세요.");
+    clearLocalStorage();
     window.location.href = "/login";
     throw error;
   }
+};
+
+async function handleJsonResponse(response) {
+  const json = await response.json();
+  if (!response.ok) {
+    return Promise.reject(json);
+  }
+  return json;
+}
+
+const clearLocalStorage = () => {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem("userId");
+  localStorage.removeItem("nickname");
+  localStorage.removeItem("role");
 };
 
 export const request = async (options) => {
@@ -42,29 +59,26 @@ export const request = async (options) => {
 
   try {
     const response = await fetch(options.url, options);
-    const json = await response.json();
+    console.log(response);
 
-    if (response.ok) {
-      return json;
-    }
-
+    // AccessToken 만료된 경우 갱신 시도
     if (response.status === 401) {
-      // accessToken이 만료된 경우
-      const newAccessToken = await refreshAccessToken();
-      headers.set("Authorization", "Bearer " + newAccessToken);
-      options.headers = headers;
+      try {
+        const newAccessToken = await refreshAccessToken();
+        headers.set("Authorization", "Bearer " + newAccessToken);
+        options.headers = headers;
 
-      // 새로운 accessToken으로 요청 재시도
-      const retryResponse = await fetch(options.url, options);
-      const retryJson = await retryResponse.json();
-
-      if (!retryResponse.ok) {
-        return Promise.reject(retryJson);
+        const retryResponse = await fetch(options.url, options);
+        return await handleJsonResponse(retryResponse);
+      } catch (refreshError) {
+        clearLocalStorage();
+        window.location.href = "/login";
+        throw new Error("회원 인증에 실패했습니다. 로그인을 다시 해주세요.");
       }
-      return retryJson;
     }
 
-    return Promise.reject(json);
+    // 만료된게 아니라면 응답을 그대로 전달
+    return await handleJsonResponse(response);
   } catch (error) {
     console.error("Request failed: ", error);
     return Promise.reject(error);

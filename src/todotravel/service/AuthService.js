@@ -23,7 +23,7 @@ export function checkUsername(username) {
       API_BASE_URL +
       "/api/auth/check-username?username=" +
       encodeURIComponent(username),
-    method: "POST",
+    method: "GET",
   });
 }
 
@@ -32,7 +32,7 @@ export function checkEmail(email) {
   return request({
     url:
       API_BASE_URL + "/api/auth/check-email?email=" + encodeURIComponent(email),
-    method: "POST",
+    method: "GET",
   });
 }
 
@@ -43,7 +43,7 @@ export function checkNickname(nickname) {
       API_BASE_URL +
       "/api/auth/check-nickname?nickname=" +
       encodeURIComponent(nickname),
-    method: "POST",
+    method: "GET",
   });
 }
 
@@ -87,7 +87,7 @@ export function findUsername(usernameRequest) {
 export function renewPassword(passwordRequest) {
   return request({
     url: API_BASE_URL + "/api/auth/password-reset",
-    method: "POST",
+    method: "PUT",
     body: JSON.stringify(passwordRequest),
   });
 }
@@ -135,7 +135,7 @@ export const completeOAuth2Signup = async (additionalInfo) => {
   try {
     const response = await request({
       url: `${API_BASE_URL}/api/auth/oauth2/additional-info`,
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify({
         token: additionalInfo.token,
         gender: additionalInfo.gender,
