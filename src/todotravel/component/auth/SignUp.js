@@ -184,12 +184,16 @@ const SignUp = () => {
     }
   };
 
+  const handleTitleClick = () => {
+    navigate("/");
+  }
+
   return (
     <div className={styles.signupContainer}>
-      <h1 className={styles.title}>To Do Travel</h1>
+      <h1 className={styles.title} onClick={handleTitleClick}>To Do Travel</h1>
       <p className={styles.subtitle}>회원가입에 대한 내용을 입력해주세요</p>
       <p className={styles.subtitle_description}>
-        (모든 항목은 필수 입력 항목입니다.)
+        (모든 부분은 필수 입력 항목입니다.)
       </p>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.inputField}>
