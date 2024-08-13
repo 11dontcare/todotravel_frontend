@@ -7,14 +7,23 @@ export function createChatRoom(chatRoomRequest) {
     method: "POST",
     body: JSON.stringify(chatRoomRequest),
   });
-} //채팅방 생성 요청
+}
 
 export function getChatRooms() {
   return request({
-    url: API_BASE_URL + "/api/chat/rooms", // 백엔드에서 채팅방 목록을 가져오는 엔드포인트
+    url: `${API_BASE_URL}/api/chat/rooms/list/${localStorage.getItem(
+      "userId"
+    )}`,
     method: "GET",
   });
-} //채팅방 목록 가져오기
+}
+
+export function getChatList(roomId) {
+  return request({
+    url: API_BASE_URL + "/api/chat/rooms/find/comment-list/" + roomId,
+    method: "GET",
+  });
+}
 
 class ChatService {}
 export default new ChatService();

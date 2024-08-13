@@ -1,0 +1,133 @@
+.homeImg {
+    width: 1000px;
+    padding: 20px;
+    justify-content: center;
+}
+.planListContainer {
+    gap: 20px; /* 각 플랜 아이템 사이의 간격을 조절 */
+    display: flex;
+    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 세 개의 항목을 표시 */
+    align-items: center;
+    padding: 0 30px 10px;
+    border-bottom: 1px solid #e7e7e7;
+    
+    justify-content: center;
+}
+.text {
+    /* 일정 공유해요 */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 100%;
+    /* or 32px */
+    padding: 20px;
+    padding-left: 55px;
+    padding-bottom: 30px;
+
+    color: #000000;
+}
+.planItem {
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    text-align: right;
+    width: 315px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    background: #FFFFFF;
+    border: 1px solid #E7E7E7;
+    border-radius: 20px;
+}
+
+.travelImg {
+    /* image 11 */
+    border-radius: 20px;
+    width: 285px;
+
+}
+  
+.location {
+    /* 부산광역시 */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #82EB71;
+
+
+}
+
+.planTitle {
+    color: #333;
+    cursor: pointer;
+    margin-bottom: 8px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 100%;
+    /* or 15px */
+}
+  
+.description {
+    margin-bottom: 8px;
+    /* 여행 이렇게 나쁘지 않을지도..? 여행 이렇게 나쁘지 않을지도..? */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #ADADAD;
+
+
+}
+  
+.dates {
+    color: #777;
+    margin-bottom: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #ADADAD;
+}
+  
+.bookmarks,
+.likes {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 4px;
+}
+  
+.planUserNickname {
+    margin-bottom: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #82EB71;
+}
+  
+.noPlans {
+    font-size: 1.2rem;
+    color: #999;
+    text-align: center;
+}

@@ -14,7 +14,7 @@ export function getPlan(planId){
     url: API_BASE_URL + "/api/plan/" + planId,
     method: "GET",
   });
-}//여행 플랜 요청
+}//여행 플랜 조회 요청(모든 정보)
 
 export function modifyPlan(planRequest, planId){
   return request({
@@ -33,17 +33,17 @@ export function deletePlan(planId){
 
 export function viewPlanList(){
   return request({
-    url: API_BASE_URL + "/api/plan/get",
+    url: API_BASE_URL + "/api/plan/public",
     method: "GET",
   });
 }//플랜 목록 요청
 
-export function viewPlanDetails(planId){
-  return request({
-    url: API_BASE_URL + "/api/plan/specific/" + planId,
-    method: "GET",
-  });
-}//플랜 상세 요청
+// export function viewPlanDetails(planId){
+//   return request({
+//     url: API_BASE_URL + "/api/plan/public/" + planId,
+//     method: "GET",
+//   });
+// }//플랜 생성 정보, 북마크, 좋아요 조회 요청(getPlan을 사용해야 전체 정보를 받아올 수 있습니다.)
 
 export function searchPlan(keyword){
   return request({
@@ -59,7 +59,11 @@ export function loadPlan(planId){
   });
 }//플랜 불러오기 요청
 
+
+
 //플랜 참여자 관리
+
+
 
 export function showUsers(planId){
   return request({
@@ -103,7 +107,11 @@ export function exitPlan(planId, userId){
   });
 }//여행 플랜 나가기 요청
 
+
+
 //북마크, 좋아요
+
+
 
 export function checkIsBookmarked(planId, userId){
   return request({
@@ -126,7 +134,7 @@ export function cancelBookmark(planId, userId){
   });
 }//플랜 북마크 취소 요청
 
-export function CheckIsLiked(planId, userId){
+export function checkIsLiked(planId, userId){
   return request({
     url: API_BASE_URL + "/api/plan/" + planId + "/isLiked/" + userId,
     method: "GET",
