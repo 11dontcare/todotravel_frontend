@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getPlan, modifyPlan } from "../../service/PlanService";
 
+import styles from './Form.module.css';
+
 const PlanModify = () => {
   const { planId } = useParams();
   console.log(planId);
@@ -85,11 +87,13 @@ const PlanModify = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <div>
-        플랜 수정
-        <form onSubmit={planModifySubmit}>
-          <div>
+        {/* 플랜 수정 */}
+        <form onSubmit={planModifySubmit} className={styles.form}>
+        <div className={styles.inputContainer}>
+          <div className={styles.inputGroup}>
+            <div className={styles.inputFirstLine}>
             <input
               type='text'
               id='title'
@@ -97,7 +101,10 @@ const PlanModify = () => {
               required
               value={planForm.title}
               onChange={handlePlanFormChange}
+              className={styles.inputTitle}
             />
+            </div>
+            <div className={styles.inputSecondLine}>
             <input
             type='date'
             id='startDate'
@@ -105,14 +112,19 @@ const PlanModify = () => {
             required
             value={planForm.startDate}
             onChange={handlePlanFormChange}
-          />
-          <input
+            className={styles.inputDate}
+            />
+            ~
+            <input
             type='date'
             id='endDate'
             name='endDate'
             required
             value={planForm.endDate}
-            onChange={handlePlanFormChange}/>
+            onChange={handlePlanFormChange}
+            className={styles.inputDate}
+            />
+            <span></span>
             <input
               type='text'
               id='front_location'
@@ -121,6 +133,7 @@ const PlanModify = () => {
               required
               // value={planForm.front_location}
               // onChange={handlePlanFormChange}
+              className={styles.inputFLocation}
             />
             <input
               type='text'
@@ -129,7 +142,10 @@ const PlanModify = () => {
               required
               value={planForm.location}
               onChange={handlePlanFormChange}
+              className={styles.inputLocation}
             />
+            </div>
+            <div className={styles.inputThirdLine}>
             <input
               type='text'
               id='totalBudget'
@@ -137,9 +153,9 @@ const PlanModify = () => {
               required
               value={planForm.totalBudget}
               onChange={handlePlanFormChange}
+              className={styles.inputBudget}
             />
-          </div>
-          <div>
+            <span className={styles.inputPublish}>
             <label>여행 일정 공유</label>
             <input
               type='checkbox'
@@ -148,8 +164,11 @@ const PlanModify = () => {
               checked={isPublic}
               onChange={handleSwitchChange}
             />
+            </span>
+            <span style={{paddingLeft: "470px",}}><button type='submit' className={styles.submitModify}>계획 수정하기</button></span>
           </div>
-          <button type='submit'>계획 수정하기</button>
+          </div>
+          </div>
         </form>
       </div>
     </div>

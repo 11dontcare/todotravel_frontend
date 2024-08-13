@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { viewPlanList } from "../../service/PlanService";
 
+import { FaRegBookmark } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+
+import styles from './PlanList.module.css';
+
 import main from "../../../image/main.png";
+import travel from "../../../image/travel.png";
 
 const PlanList = () => {
   const navigate = useNavigate();
@@ -32,48 +38,27 @@ const PlanList = () => {
 
   return (
     <div>
-      <img src={main} alt='홈화면' />
-      <div>일정 공유하기</div>
-      {/* <table>
-        <thead>
-          <tr>
-            <th>title</th>
-            <th>location</th>
-            <th>description</th>
-            <th>bookmarkNumber</th>
-            <th>likeNumber</th>
-          </tr>
-        </thead>
-        <tbody>
-          {planList.map((plan) => (
-            <tr key={plan.planId} id={plan.planId}>
-              <td id={plan.planId}>{plan.location}</td>
-              <td id={plan.planId}>{plan.title}</td>
-              <td id={plan.planId}>{plan.description}</td>
-              <td id={plan.planId}>{plan.bookmarkNumber}</td>
-              <td id={plan.planId}>{plan.likeNuber}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
-      <div>
+      <img src={main} alt='홈화면' className={styles.homeImg}/>
+      <div className={styles.text}>일정 공유해요</div>
+      <div className={styles.planListContainer}>
         {planList.length > 0 ? (
           planList.map((plan) => (
-            <div key={plan.planId}>
-            {/* style={{ border: "1px solid black", padding: "10px", marginBottom: "10px" }} */}
-              <p>{plan.location}</p>
-              <h2 id={plan.planId} onClick={handlePlanClick}>{plan.title}</h2>
-              <p>{plan.description}</p>
-              <p>
+            <div key={plan.planId} className={styles.planItem}>
+              <img src={travel} alt='travel' className={styles.travelImg}/>
+              <p className={styles.location}>{plan.location}</p>
+              <h2 id={plan.planId} onClick={handlePlanClick} className={styles.planTitle}>{plan.title}</h2>
+              <p className={styles.description}>{plan.description}</p>
+              <p className={styles.dates}>
                 {plan.startDate} ~ {plan.endDate}
               </p>
-              <p>Bookmarks: {plan.bookmarkNumber}</p>
-              <p>Likes: {plan.likeNumber}</p>
-              <p>{plan.planUserNickname}</p>
+              <div>
+                <span><FaRegBookmark className={styles.bookmarks} /> {plan.bookmarkNumber} <FaRegHeart className={styles.likes} /> {plan.likeNumber}</span>
+              <p className={styles.planUserNickname}>{plan.planUserNickname}님의 여행 일정</p>
+              </div>
             </div>
           ))
         ) : (
-          <p>No plans available.</p>
+          <p className={styles.noPlans}>No plans available.</p>
         )}
       </div>
     </div>

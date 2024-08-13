@@ -60,10 +60,10 @@ const PlanPage = () => {
         <p>총 예산안</p>
         <p>여행 일정 공유</p>
       </div> */}
+      <PlanModify />
       <div>
         <button onClick={handleDelete}>플랜 삭제하기</button>
       </div>
-      <PlanModify />
       <div>
         <button>투표 리스트</button>
         <div>

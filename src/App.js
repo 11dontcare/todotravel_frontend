@@ -19,6 +19,7 @@ import PlanPage from "./todotravel/component/plan/PlanPage";
 import PlanModify from "./todotravel/component/plan/PlanModify";
 
 import PlanList from "./todotravel/component/plan/PlanList";
+import PlanDetails from "./todotravel/component/plan/PlanDetails";
 
 //!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
 
@@ -89,6 +90,14 @@ function App() {
             element={
               <MainLayout>
                 <PlanList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/plan/:planId/details"
+            element={
+              <MainLayout>
+                <PlanDetails/>
               </MainLayout>
             }
           />
