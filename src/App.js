@@ -1,11 +1,11 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./todotravel/context/AuthContext";
 import styles from "./App.module.css";
+//ProtectedRoute.js
+import ProtectedRoute from "./todotravel/ProtectedRoute";
+//Layout
+import AuthLayout from "./todotravel/component/Layout/AuthLayout";
+import MainLayout from "./todotravel/component/Layout/MainLayout";
 
 import SignUp from "./todotravel/component/auth/SignUp";
 import Login from "./todotravel/component/auth/Login";
@@ -17,64 +17,110 @@ import AdditionalInfo from "./todotravel/component/auth/AdditionalInfo";
 import PlanCreate from "./todotravel/component/plan/PlanCreate";
 import PlanPage from "./todotravel/component/plan/PlanPage";
 import PlanModify from "./todotravel/component/plan/PlanModify";
-import Header from "./todotravel/component/side/Header";
+
 import PlanList from "./todotravel/component/plan/PlanList";
 
+//!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
+
 function App() {
-  const location = useLocation();
-
-  // 로그인, 회원가입, OAuth2 관련 페이지에서는 헤더를 렌더링하지 않음
-  const hideHeaderPaths = [
-    "/login",
-    "/signup",
-    "/oauth2/redirect",
-    "/additional-info",
-    "/profile-search",
-    "/person-find-id",
-    "/reset-password",
-  ];
-  const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
-
   return (
-    <>
-      {!shouldHideHeader ? (
-        <div className={styles.page}>
-          <Header />
-          <div className={styles.content}>
-            <Routes>
-              <Route path="/" element={<PlanList />} />
-              <Route path="/plan" element={<PlanCreate />} />
-              <Route path="/plan/:planId" element={<PlanPage />} />
-              <Route path="/plan/:planId/modify" element={<PlanModify />} />
-            </Routes>
-          </div>
-        </div>
-      ) : (
-        <div className={styles.authPage}>
-          <Routes>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/profile-search" element={<ProfileSearch />} />
-            <Route path="/person-find-id" element={<UsernameResult />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route
-              path="/oauth2/redirect"
-              element={<OAuth2RedirectHandler />}
-            />
-            <Route path="/additional-info" element={<AdditionalInfo />} />
-          </Routes>
-        </div>
-      )}
-    </>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* 로그인 여부 판별 X - Auth 및 메인 페이지 */}
+          <Route
+            path='/login'
+            element={
+              <AuthLayout>
+                <Login />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/signup'
+            element={
+              <AuthLayout>
+                <SignUp />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/find-account'
+            element={
+              <AuthLayout>
+                <ProfileSearch />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/find-id'
+            element={
+              <AuthLayout>
+                <UsernameResult />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/reset-password'
+            element={
+              <AuthLayout>
+                <ResetPassword />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/oauth2/redirect'
+            element={
+              <AuthLayout>
+                <OAuth2RedirectHandler />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/additional-info'
+            element={
+              <AuthLayout>
+                <AdditionalInfo />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/'
+            element={
+              <MainLayout>
+                <PlanList />
+              </MainLayout>
+            }
+          />
+          {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
+          <Route
+            path='/plan'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<PlanCreate />} />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan/:planId'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<PlanPage />} />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan/:planId/modify'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<PlanModify />} />
+              </MainLayout>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
-function AppWrapper() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
-
-export default AppWrapper;
+export default App;

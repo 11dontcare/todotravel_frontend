@@ -13,12 +13,11 @@
   align-items: center;
   padding: 20px 0;
 }
-
-h1 {
+.container > h1 {
   cursor: pointer;
 }
 
-.closeButton {
+/* .closeButton {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -31,7 +30,7 @@ h1 {
 
 .closeButton:hover {
   color: #009688;
-}
+} */
 
 .form {
   display: flex;
@@ -95,6 +94,10 @@ hr {
   width: 50px;
   height: 50px;
   cursor: pointer;
+}
+
+.social > img:nth-child(1) {
+  border-radius: 6px;
 }
 
 .goSignUp {
