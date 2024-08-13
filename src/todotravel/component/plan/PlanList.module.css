@@ -5,9 +5,10 @@
 }
 .planListContainer {
     gap: 20px; /* 각 플랜 아이템 사이의 간격을 조절 */
-    /* padding: 20px; */
     display: flex;
     flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 세 개의 항목을 표시 */
     align-items: center;
     padding: 0 30px 10px;
     border-bottom: 1px solid #e7e7e7;
@@ -16,11 +17,6 @@
 }
 .text {
     /* 일정 공유해요 */
-    /* position: absolute; */
-    /* width: 358px;
-    height: 41px;
-    left: 434px;
-    top: 545px; */
 
     font-family: 'Inter';
     font-style: normal;
@@ -40,12 +36,7 @@
     box-sizing: border-box;
     text-align: right;
     width: 315px;
-
-/* position: absolute;
-width: 365px;
-height: 388px;
-left: calc(50% - 365px/2 - 373.5px);
-top: 610px; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     background: #FFFFFF;
     border: 1px solid #E7E7E7;
@@ -54,12 +45,6 @@ top: 610px; */
 
 .travelImg {
     /* image 11 */
-
-    /* position: absolute;
-    width: 320px;
-    height: 188px;
-    left: 427px;
-    top: 635px; */
     border-radius: 20px;
     width: 285px;
 
@@ -67,12 +52,6 @@ top: 610px; */
   
 .location {
     /* 부산광역시 */
-
-    /* position: absolute; */
-    /* width: 118px;
-    height: 23px;
-    left: 674px;
-    top: 838px; */
 
     font-family: 'Inter';
     font-style: normal;
@@ -90,11 +69,6 @@ top: 610px; */
     color: #333;
     cursor: pointer;
     margin-bottom: 8px;
-    /* position: absolute; */
-    /* width: 118px;
-    height: 23px;
-    left: 674px;
-    top: 838px; */
 
     font-family: 'Inter';
     font-style: normal;
@@ -107,12 +81,6 @@ top: 610px; */
 .description {
     margin-bottom: 8px;
     /* 여행 이렇게 나쁘지 않을지도..? 여행 이렇게 나쁘지 않을지도..? */
-
-    /* position: absolute;
-    width: 215px;
-    height: 27px;
-    left: 543px;
-    top: 895px; */
 
     font-family: 'Inter';
     font-style: normal;

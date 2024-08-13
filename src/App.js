@@ -93,6 +93,14 @@ function App() {
               </MainLayout>
             }
           />
+          <Route
+            path="/plan/:planId/details"
+            element={
+              <MainLayout>
+                <PlanDetails/>
+              </MainLayout>
+            }
+          />
           {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
           <Route
             path='/plan'
@@ -118,7 +126,6 @@ function App() {
               </MainLayout>
             }
           />
-          {/* <Route path="/plan/:planId/details" element={<PlanDetails/>} /> */}
         </Routes>
       </Router>
     </AuthProvider>

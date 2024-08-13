@@ -18,8 +18,7 @@ const PlanCreate = () => {
 
   const [planForm, setPlanForm] = useState({
     title: "",
-    startDate: "", 
-    // "2021-11-08T11:44:30",
+    startDate: "",
     endDate: "",
     // front_location: "",
     location: "",
@@ -46,15 +45,16 @@ const PlanCreate = () => {
 
     createPlan(planForm)
       .then((response) => {
-        alert("플랜 생성 완료");
+        alert("플랜 생성이 완료되었습니다.");
         const planId = response.data.planId;
-        // navigate("/plan/" + planId);
         console.log(response);
         console.log(planForm);
+
+        navigate("/");
       })
       .catch((e) => {
         console.log(e);
-        alert("플랜 생성 실패");
+        alert("플랜 생성에 실패했습니다.");
       });
   };
 

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, CheckIsLiked, likePlan, viewPlanDetails } from "../../service/PlanService";
+import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, CheckIsLiked, likePlan, getPlan } from "../../service/PlanService";
+
+import { FaBookmark } from "react-icons/fa";
+import { FcLike } from "react-icons/fc";
+import { FaRegBookmark } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 
 const PlanDetails = () => {
   const navigate = useNavigate();
@@ -22,7 +27,7 @@ const PlanDetails = () => {
   }, []);
 
   const fetchPlan = () => {
-    viewPlanDetails(planId)
+    getPlan(planId)
       .then((response) => {
         console.log(response);
         setPlan(response.data);
@@ -44,7 +49,7 @@ const PlanDetails = () => {
       .catch((e) => {
         console.log(e);
         setLoading(false);
-        alert("실패");
+        alert("플랜 정보 조회에 실패했습니다");
       });
   };
 
@@ -126,7 +131,7 @@ const PlanDetails = () => {
       <button onClick={handleLikeClick}>
         {isLiked ? "좋아요 취소" : "좋아요"}
       </button>
-
+      {/* {isLiked ? (<FaRegBookmark onClick={handleLikeClick}/>) : (<FaBookmark onClick={handleLikeClick}/>)} */}
       <h2>Schedule</h2>
       {plan.scheduleList && plan.scheduleList.length > 0 ? (
         <ul>

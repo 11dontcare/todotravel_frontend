@@ -40,28 +40,6 @@ const PlanList = () => {
     <div>
       <img src={main} alt='홈화면' className={styles.homeImg}/>
       <div className={styles.text}>일정 공유해요</div>
-      {/* <table>
-        <thead>
-          <tr>
-            <th>title</th>
-            <th>location</th>
-            <th>description</th>
-            <th>bookmarkNumber</th>
-            <th>likeNumber</th>
-          </tr>
-        </thead>
-        <tbody>
-          {planList.map((plan) => (
-            <tr key={plan.planId} id={plan.planId}>
-              <td id={plan.planId}>{plan.location}</td>
-              <td id={plan.planId}>{plan.title}</td>
-              <td id={plan.planId}>{plan.description}</td>
-              <td id={plan.planId}>{plan.bookmarkNumber}</td>
-              <td id={plan.planId}>{plan.likeNuber}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
       <div className={styles.planListContainer}>
         {planList.length > 0 ? (
           planList.map((plan) => (
@@ -74,7 +52,7 @@ const PlanList = () => {
                 {plan.startDate} ~ {plan.endDate}
               </p>
               <div>
-                <FaRegBookmark className={styles.bookmarks} /> {plan.bookmarkNumber} <FaRegHeart className={styles.likes} /> {plan.likeNumber}
+                <span><FaRegBookmark className={styles.bookmarks} /> {plan.bookmarkNumber} <FaRegHeart className={styles.likes} /> {plan.likeNumber}</span>
               <p className={styles.planUserNickname}>{plan.planUserNickname}님의 여행 일정</p>
               </div>
             </div>

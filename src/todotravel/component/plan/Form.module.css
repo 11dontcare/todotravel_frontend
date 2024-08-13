@@ -145,6 +145,17 @@
     border: none;
 }
   
-.submitButton:hover {
+.submitButton,.submitModify:hover {
     background-color: #02776c;
+}
+
+.submitModify {
+    cursor: pointer;
+    /* transition: background-color 0.3s; */
+    width: 100px;
+    height: 25px;
+    color: white;
+    background: #009688;
+    border-radius: 8px;
+    border: none;
 }
