@@ -30,7 +30,9 @@ const ChatContainer = () => {
   return (
     <div>
       <ChatRoomList chatRooms={chatRooms} onSelectRoom={setSelectedRoomId} />
-      {selectedRoomId && <ChatRoomDetail roomId={selectedRoomId} />}
+      {selectedRoomId && (
+        <ChatRoomDetail key={selectedRoomId} roomId={selectedRoomId} />
+      )}
     </div>
   );
 };
