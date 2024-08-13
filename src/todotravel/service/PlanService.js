@@ -134,7 +134,7 @@ export function cancelBookmark(planId, userId){
   });
 }//플랜 북마크 취소 요청
 
-export function CheckIsLiked(planId, userId){
+export function checkIsLiked(planId, userId){
   return request({
     url: API_BASE_URL + "/api/plan/" + planId + "/isLiked/" + userId,
     method: "GET",
