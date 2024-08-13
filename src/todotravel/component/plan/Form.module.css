@@ -1,0 +1,150 @@
+.container {
+    background: white;
+}
+
+.inputContainer{
+    background: #F8F8F8;
+    border-radius: 20px;
+    width: 1000px;
+    height: 200px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+  
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.inputFirstLine {
+    padding-left: 60px;
+}
+.inputThirdLine {
+    padding-left: 60px;
+}
+  
+.inputTitle {
+    width: 300px;
+    height: 20px;
+
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 34px;
+    /* identical to box height */
+
+    padding-top: 40px;
+
+    color: #949494;
+    background-color: #F8F8F8;
+    border: none;
+    border-bottom: 1.5px solid #b9b9b9; /* 밑줄 추가 */
+}
+.inputSecondLine {
+    display: flex;
+    flex-direction: row; /* 요소들을 한 줄로 배치 */
+    align-items: center;/* 요소들을 세로로 가운데 정렬 */
+    gap: 20px; /* 요소들 사이에 일정한 간격 */
+    padding: 30px;
+    justify-content: center; /* 요소들을 수평 방향으로 가운데 정렬 */
+
+}
+
+.inputDate {
+    width: 180px;
+    height: 20px;
+    
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 34px;
+
+    color: #949494;
+    background-color: #F8F8F8;
+    border: none;
+    border-bottom: 1.5px solid #b9b9b9; /* 밑줄 추가 */
+}
+
+.inputBudget {
+    width: 170px;
+    height: 20px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 34px;
+    /* identical to box height */
+
+    color: #949494;
+    background-color: #F8F8F8;
+    border: none;
+    border-bottom: 1.5px solid #b9b9b9; /* 밑줄 추가 */
+}
+
+.inputFLocation {
+    /* 행정 구역 */
+    width: 200px;
+    height: 20px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 34px;
+    /* identical to box height */
+
+    color: #949494;
+    background-color: #F8F8F8;
+    border: none;
+    border-bottom: 1.5px solid #b9b9b9; /* 밑줄 추가 */
+}
+
+.inputLocation {
+    /* 지역 선택 */
+    width: 200px;
+    height: 20px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 34px;
+    /* identical to box height */
+
+    color: #949494;
+    background-color: #F8F8F8;
+    border: none;
+    border-bottom: 1.5px solid #b9b9b9; /* 밑줄 추가 */
+}
+  
+.inputPublish {
+    color: #949494;
+}
+  
+.submitButton {
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    /* transition: background-color 0.3s; */
+    width: 250px;
+    height: 50px;
+    color: white;
+    background: #009688;
+    border-radius: 8px;
+
+    border: none;
+}
+  
+.submitButton:hover {
+    background-color: #02776c;
+}

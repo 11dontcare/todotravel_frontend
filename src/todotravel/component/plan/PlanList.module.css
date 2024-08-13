@@ -1,0 +1,165 @@
+.homeImg {
+    width: 1000px;
+    padding: 20px;
+    justify-content: center;
+}
+.planListContainer {
+    gap: 20px; /* 각 플랜 아이템 사이의 간격을 조절 */
+    /* padding: 20px; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 30px 10px;
+    border-bottom: 1px solid #e7e7e7;
+    
+    justify-content: center;
+}
+.text {
+    /* 일정 공유해요 */
+    /* position: absolute; */
+    /* width: 358px;
+    height: 41px;
+    left: 434px;
+    top: 545px; */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 100%;
+    /* or 32px */
+    padding: 20px;
+    padding-left: 55px;
+    padding-bottom: 30px;
+
+    color: #000000;
+}
+.planItem {
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    text-align: right;
+    width: 315px;
+
+/* position: absolute;
+width: 365px;
+height: 388px;
+left: calc(50% - 365px/2 - 373.5px);
+top: 610px; */
+
+    background: #FFFFFF;
+    border: 1px solid #E7E7E7;
+    border-radius: 20px;
+}
+
+.travelImg {
+    /* image 11 */
+
+    /* position: absolute;
+    width: 320px;
+    height: 188px;
+    left: 427px;
+    top: 635px; */
+    border-radius: 20px;
+    width: 285px;
+
+}
+  
+.location {
+    /* 부산광역시 */
+
+    /* position: absolute; */
+    /* width: 118px;
+    height: 23px;
+    left: 674px;
+    top: 838px; */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #82EB71;
+
+
+}
+
+.planTitle {
+    color: #333;
+    cursor: pointer;
+    margin-bottom: 8px;
+    /* position: absolute; */
+    /* width: 118px;
+    height: 23px;
+    left: 674px;
+    top: 838px; */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 100%;
+    /* or 15px */
+}
+  
+.description {
+    margin-bottom: 8px;
+    /* 여행 이렇게 나쁘지 않을지도..? 여행 이렇게 나쁘지 않을지도..? */
+
+    /* position: absolute;
+    width: 215px;
+    height: 27px;
+    left: 543px;
+    top: 895px; */
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #ADADAD;
+
+
+}
+  
+.dates {
+    color: #777;
+    margin-bottom: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #ADADAD;
+}
+  
+.bookmarks,
+.likes {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 4px;
+}
+  
+.planUserNickname {
+    margin-bottom: 8px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 100%;
+    /* or 15px */
+
+    color: #82EB71;
+}
+  
+.noPlans {
+    font-size: 1.2rem;
+    color: #999;
+    text-align: center;
+}

@@ -16,6 +16,7 @@ import PlanPage from "./todotravel/component/plan/PlanPage";
 import PlanModify from "./todotravel/component/plan/PlanModify";
 import Header from "./todotravel/component/side/Header";
 import PlanList from "./todotravel/component/plan/PlanList";
+import PlanDetails from "./todotravel/component/plan/PlanDetails";
 
 function App() {
   const location = useLocation();
@@ -35,6 +36,7 @@ function App() {
               <Route path="/plan" element={<PlanCreate />} />
               <Route path="/plan/:planId" element={<PlanPage />} />
               <Route path="/plan/:planId/modify" element={<PlanModify />} />
+              <Route path="/plan/:planId/details" element={<PlanDetails/>} />
             </Routes>
           </div>
         </div>

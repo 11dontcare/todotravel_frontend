@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPlan } from "../../service/PlanService";
 
+import styles from './Form.module.css';
+
 const PlanCreate = () => {
   const navigate = useNavigate();
   const [isPublic, setIsPublic] = useState(false); // 상태를 추가하여 스위치의 상태를 관리합니다.
@@ -57,11 +59,13 @@ const PlanCreate = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <div>
-        하이하이
-        <form onSubmit={planCreateSubmit}>
-          <div>
+        {/* 플랜 생성 */}
+        <form onSubmit={planCreateSubmit} className={styles.form}>
+          <div className={styles.inputContainer}>
+          <div className={styles.inputGroup}>
+            <div className={styles.inputFirstLine}>
             <input
               type='text'
               id='title'
@@ -70,7 +74,10 @@ const PlanCreate = () => {
               required
               value={planForm.title}
               onChange={handlePlanFormChange}
+              className={styles.inputTitle}
             />
+            </div>
+            <div className={styles.inputSecondLine}>
             <input
             type='date'
             id='startDate'
@@ -79,15 +86,20 @@ const PlanCreate = () => {
             required
             value={planForm.startDate}
             onChange={handlePlanFormChange}
-          />
-          <input
+            className={styles.inputDate}
+            />
+            ~
+            <input
             type='date'
             id='endDate'
             name='endDate'
             placeholder='여행 종료 일자'
             required
             value={planForm.endDate}
-            onChange={handlePlanFormChange}/>
+            onChange={handlePlanFormChange}
+            className={styles.inputDate}
+            />
+            <span></span>
             <input
               type='text'
               id='front_location'
@@ -96,6 +108,7 @@ const PlanCreate = () => {
               required
               // value={planForm.front_location}
               // onChange={handlePlanFormChange}
+              className={styles.inputFLocation}
             />
             <input
               type='text'
@@ -105,7 +118,10 @@ const PlanCreate = () => {
               required
               value={planForm.location}
               onChange={handlePlanFormChange}
+              className={styles.inputLocation}
             />
+            </div>
+            <div className={styles.inputThirdLine}>
             <input
               type='text'
               id='totalBudget'
@@ -114,9 +130,9 @@ const PlanCreate = () => {
               required
               value={planForm.totalBudget}
               onChange={handlePlanFormChange}
+              className={styles.inputBudget}
             />
-          </div>
-          <div>
+            <span className={styles.inputPublish}>
             <label>여행 일정 공유</label>
             <input
               type='checkbox'
@@ -125,8 +141,11 @@ const PlanCreate = () => {
               checked={isPublic}
               onChange={handleSwitchChange}
             />
+            </span>
+            </div>
+            </div>
           </div>
-          <button type='submit'>계획 시작하기</button>
+          <button type='submit' className={styles.submitButton}>계획 시작하기</button>
         </form>
       </div>
     </div>
