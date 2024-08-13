@@ -96,6 +96,10 @@ hr {
   cursor: pointer;
 }
 
+.social > img:nth-child(1) {
+  border-radius: 6px;
+}
+
 .goSignUp {
   font-size: 17px;
   color: #6b6b6b;
