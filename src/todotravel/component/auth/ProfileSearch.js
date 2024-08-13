@@ -118,7 +118,7 @@ const ProfileSearch = () => {
       try {
         const response = await findUsername({ name, email });
         if (response.success) {
-          navigate("/person-find-id", {
+          navigate("/find-id", {
             state: {
               username: response.data.username,
               name: response.data.name,
@@ -140,13 +140,13 @@ const ProfileSearch = () => {
   };
 
   const handleTitleClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const renderVerificationButton = () => (
     <div className={styles.verificationButtonContainer}>
       <button
-        type="button"
+        type='button'
         onClick={handleSendVerification}
         className={styles.verificationButton}
         disabled={
@@ -166,22 +166,22 @@ const ProfileSearch = () => {
       <div className={styles.inputField}>
         <label className={styles.label}>이름</label>
         <input
-          type="text"
+          type='text'
           value={name}
           onChange={(e) => setName(e.target.value)}
           className={styles.input}
-          placeholder="이름을 입력하세요"
+          placeholder='이름을 입력하세요'
         />
       </div>
       <div className={styles.inputField}>
         <label className={styles.label}>이메일</label>
         <div className={styles.emailVerificationContainer}>
           <input
-            type="email"
+            type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className={styles.input}
-            placeholder="이메일을 입력하세요"
+            placeholder='이메일을 입력하세요'
           />
           {renderVerificationButton()}
         </div>
@@ -191,11 +191,11 @@ const ProfileSearch = () => {
           <label className={styles.label}>인증번호</label>
           <div className={styles.emailVerificationContainer}>
             <input
-              type="text"
+              type='text'
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
               className={styles.input}
-              placeholder="인증번호를 입력하세요"
+              placeholder='인증번호를 입력하세요'
             />
             {timeLeft > 0 && (
               <span className={styles.timer}>{formatTime(timeLeft)}</span>
@@ -211,32 +211,32 @@ const ProfileSearch = () => {
       <div className={styles.inputField}>
         <label className={styles.label}>이름</label>
         <input
-          type="text"
+          type='text'
           value={name}
           onChange={(e) => setName(e.target.value)}
           className={styles.input}
-          placeholder="이름을 입력하세요"
+          placeholder='이름을 입력하세요'
         />
       </div>
       <div className={styles.inputField}>
         <label className={styles.label}>생년월일</label>
         <input
-          type="text"
+          type='text'
           value={birthdate}
           onChange={(e) => setBirthdate(e.target.value)}
           className={styles.input}
-          placeholder="YYYYMMDD"
+          placeholder='YYYYMMDD'
         />
       </div>
       <div className={styles.inputField}>
         <label className={styles.label}>이메일</label>
         <div className={styles.emailVerificationContainer}>
           <input
-            type="email"
+            type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className={styles.input}
-            placeholder="이메일을 입력하세요"
+            placeholder='이메일을 입력하세요'
           />
           {renderVerificationButton()}
         </div>
@@ -246,11 +246,11 @@ const ProfileSearch = () => {
           <label className={styles.label}>인증번호</label>
           <div className={styles.emailVerificationContainer}>
             <input
-              type="text"
+              type='text'
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
               className={styles.input}
-              placeholder="인증번호를 입력하세요"
+              placeholder='인증번호를 입력하세요'
             />
             {timeLeft > 0 && (
               <span className={styles.timer}>{formatTime(timeLeft)}</span>
@@ -264,7 +264,9 @@ const ProfileSearch = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.container}>
-        <h1 className={styles.title} onClick={handleTitleClick}>To Do Travel</h1>
+        <h1 className={styles.title} onClick={handleTitleClick}>
+          To Do Travel
+        </h1>
         <div className={styles.tabContainer}>
           <div
             className={`${styles.tab} ${
@@ -291,7 +293,7 @@ const ProfileSearch = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           {activeTab === "id" ? renderIdSearch() : renderPasswordSearch()}
           <button
-            type="submit"
+            type='submit'
             className={styles.submitButton}
             disabled={!savedCode || !verificationCode}
           >

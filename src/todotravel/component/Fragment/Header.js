@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn, logout } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
-import styles from "./Side.module.css";
+import styles from "./Fragment.module.css";
 import { FiBell, FiMessageSquare } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
