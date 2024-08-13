@@ -38,7 +38,6 @@ const Header = () => {
         navigate("/login"); // 로그인 페이지로 리다이렉트
       } catch (error) {
         console.error("로그아웃 오류:", error);
-        window.alert("로그아웃에 실패했습니다.");
       }
     } else {
       navigate("/login"); // 로그인 페이지로 이동
