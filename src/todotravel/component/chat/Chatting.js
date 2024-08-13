@@ -2,14 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { Stomp } from "@stomp/stompjs";
 import { useParams } from "react-router-dom";
 
-const Chatting = () => {
-  const { roomId } = useParams();
-
+const Chatting = ({ roomId }) => {
   const stompClient = useRef(null);
   // 채팅 내용들을 저장할 변수
   const [messages, setMessages] = useState([]);
   // 사용자 입력을 저장할 변수
   const [inputValue, setInputValue] = useState("");
+
   // 입력 필드에 변화가 있을 때마다 inputValue를 업데이트
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -20,7 +19,7 @@ const Chatting = () => {
     const socket = new WebSocket("ws://localhost:8080/ws");
     stompClient.current = Stomp.over(socket);
     stompClient.current.connect({}, () => {
-      stompClient.current.subscribe(`/sub/chatroom/` + roomId, (message) => {
+      stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
         const newMessage = JSON.parse(message.body);
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       });
@@ -35,16 +34,24 @@ const Chatting = () => {
   };
 
   useEffect(() => {
-    connect();
-    // 컴포넌트 언마운트 시 웹소켓 연결 해제
-    return () => disconnect();
-  }, [roomId]);
+    if (roomId) {
+      // roomId가 존재할 때만 연결
+      connect();
+      console.log(roomId);
+      return () => disconnect();
+    }
+  }, [roomId]); // roomId가 변경될 때마다 useEffect 실행
 
   //메세지 전송
   const sendMessage = () => {
-    if (stompClient.current && inputValue) {
+    const userId = localStorage.getItem("userId");
+    const nickname = localStorage.getItem("nickname");
+
+    if (stompClient.current && inputValue && userId && nickname) {
       const body = {
         roomId: roomId,
+        userId: userId,
+        nickname: nickname,
         content: inputValue,
       };
       stompClient.current.send(`/pub/message`, {}, JSON.stringify(body));
