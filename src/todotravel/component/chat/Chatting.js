@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Stomp } from "@stomp/stompjs";
-import { useParams } from "react-router-dom";
 import styles from "./Chat.module.css"; //CSS import
 
 const Chatting = ({ roomId }) => {
@@ -78,7 +77,7 @@ const Chatting = ({ roomId }) => {
             onChange={handleInputChange}
             placeholder="Type your message..."
         />
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage}></button> {/* Send 텍스트 제거 */}
       </div>
   );
 };
