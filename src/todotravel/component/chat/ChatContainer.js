@@ -1,37 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import ChatPage from './ChatPage'; // 경로 수정
-import { getChatRooms } from '../../service/ChatService';
+import React, { useEffect, useState } from "react";
+import { getChatRooms } from "../../service/ChatService"; // 채팅방 리스트
+import ChatRoomList from "./ChatRoomList"; // 채팅방 리스트
+import ChatRoomDetail from "./ChatRoomDetail"; // 채팅방 상세
 
 const ChatContainer = () => {
-    const [chatRooms, setChatRooms] = useState([]);
-    const [selectedRoomId, setSelectedRoomId] = useState(null);
+  const [chatRooms, setChatRooms] = useState([]); // 채팅방 목록
+  const [selectedRoomId, setSelectedRoomId] = useState(null); // RoomId 배열
 
-    const fetchChatRooms = async () => {
-        try {
-            const response = await getChatRooms(); // 채팅방 목록을 가져옴
-            setChatRooms(response);
-        } catch (error) {
-            console.error('Failed to fetch chat rooms', error);
-        }
-    };
+  const fetchChatRooms = async () => {
+    // 채팅방 리스트를 가져옴
+    try {
+      const response = await getChatRooms();
+      console.log("채팅방 응답:", response);
+      if (response && response.data && Array.isArray(response.data)) {
+        setChatRooms(response.data);
+      } else {
+        setChatRooms([]);
+      }
+    } catch (error) {
+      console.error("방을 찾을 수 없습니다.", error);
+      setChatRooms([]);
+    }
+  };
 
-    useEffect(() => {
-        fetchChatRooms(); // 컴포넌트 마운트 시 채팅방 목록을 가져옴
-    }, []);
+  useEffect(() => {
+    fetchChatRooms();
+  }, []);
 
-    const handleSelectRoom = (roomId) => {
-        setSelectedRoomId(roomId);
-    };
-
-    const selectedRoom = chatRooms.find((room) => room.roomId === selectedRoomId);
-
-    return (
-        <ChatPage
-            chatRooms={chatRooms}
-            selectedRoom={selectedRoom}
-            onSelectRoom={handleSelectRoom}
-        />
-    );
+  return (
+    <div>
+      <ChatRoomList chatRooms={chatRooms} onSelectRoom={setSelectedRoomId} />
+      {selectedRoomId && <ChatRoomDetail roomId={selectedRoomId} />}
+    </div>
+  );
 };
 
 export default ChatContainer;

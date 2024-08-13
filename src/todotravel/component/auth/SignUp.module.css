@@ -10,16 +10,18 @@
   font-family: "Inter", sans-serif;
   width: 1080px;
   margin: 40px auto;
+  box-sizing: border-box;
 }
 
 .title {
   font-weight: 700;
-  font-size: 60px;
+  font-size: 48px;
   line-height: 120%;
   text-align: center;
   letter-spacing: -0.02em;
   color: #000000;
   margin-bottom: 6px;
+  cursor: pointer;
 }
 
 .subtitle {
@@ -32,10 +34,10 @@
 }
 
 .subtitle_description {
-    font-size: 15px;
-    color: #009688;
-    padding-bottom: 20px;
-    margin-top: 5px;
+  font-size: 15px;
+  color: #009688;
+  padding-bottom: 20px;
+  margin-top: 5px;
 }
 
 .form {
@@ -126,11 +128,13 @@
 
 /* 선택적: 로딩 스피너 애니메이션 */
 @keyframes spinner {
-  to {transform: rotate(360deg);}
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .verificationButton.loading:before {
-  content: '';
+  content: "";
   box-sizing: border-box;
   position: absolute;
   top: 50%;
@@ -142,7 +146,7 @@
   border-radius: 50%;
   border: 2px solid #ffffff;
   border-top-color: #009688;
-  animation: spinner .8s linear infinite;
+  animation: spinner 0.8s linear infinite;
 }
 
 .success {

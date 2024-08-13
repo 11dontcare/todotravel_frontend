@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn, logout } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
-import styles from "./Side.module.css";
+import styles from "./Fragment.module.css";
 import { FiBell, FiMessageSquare } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
@@ -38,7 +38,6 @@ const Header = () => {
         navigate("/login"); // 로그인 페이지로 리다이렉트
       } catch (error) {
         console.error("로그아웃 오류:", error);
-        window.alert("로그아웃에 실패했습니다.");
       }
     } else {
       navigate("/login"); // 로그인 페이지로 이동
@@ -52,7 +51,7 @@ const Header = () => {
 
   return (
     <div className={styles.header}>
-      <h1>To Do Travel</h1>
+      <h1 onClick={() => handleNavigation("/")}>To Do Travel</h1>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 만들기</p>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 함께하기</p>
       <p onClick={() => handleNavigation("/plan")}>장소 검색하기</p>
