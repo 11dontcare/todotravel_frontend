@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getChatList } from "../../service/ChatService";
-import styles from "./Chat.module.css"; //CSS import
+import styles from "./Chat.module.css"; // CSS import
 
 const ChatList = ({ roomId }) => {
-  const [chatHistory, setChatHistory] = useState([]); // 채팅 기록을 저장하기위한 빈 배열
+  const [chatHistory, setChatHistory] = useState([]); // 채팅 기록을 저장하기 위한 빈 배열
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -24,7 +24,6 @@ const ChatList = ({ roomId }) => {
     try {
       const [datePart, timePart] = dateString.split("T");
       const [hours, minutes] = timePart.split(":");
-
       const date = new Date(`${datePart}T${hours}:${minutes}:00Z`);
 
       return date.toLocaleString("en-GB", {
@@ -42,11 +41,11 @@ const ChatList = ({ roomId }) => {
   };
 
   return (
-      <div className={styles.chatList}> {/* 스타일 적용 */}
+      <div className={styles.chatList}>
         <h3>Chat History</h3>
         <ul>
           {chatHistory.map((chat, index) => (
-              <li key={index}>
+              <li key={index} className={`${styles.message} ${chat.nickname === localStorage.getItem("nickname") ? styles.sent : styles.received}`}>
                 <strong>{chat.nickname}:</strong> {chat.content} <br/>
                 <small>{formatDate(chat.created_at)}</small>
               </li>
