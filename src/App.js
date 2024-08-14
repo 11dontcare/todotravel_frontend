@@ -25,120 +25,120 @@ import ChatContainer from "./todotravel/component/chat/ChatContainer";
 //!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
 
 function App() {
-  return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          {/* 로그인 여부 판별 X - Auth 및 메인 페이지 */}
-          <Route
-            path="/login"
-            element={
-              <AuthLayout>
-                <Login />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <AuthLayout>
-                <SignUp />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/find-account"
-            element={
-              <AuthLayout>
-                <ProfileSearch />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/find-id"
-            element={
-              <AuthLayout>
-                <UsernameResult />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/reset-password"
-            element={
-              <AuthLayout>
-                <ResetPassword />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/oauth2/redirect"
-            element={
-              <AuthLayout>
-                <OAuth2RedirectHandler />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/additional-info"
-            element={
-              <AuthLayout>
-                <AdditionalInfo />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <MainLayout>
-                <PlanList />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="/plan/:planId/details"
-            element={
-              <MainLayout>
-                <PlanDetails />
-              </MainLayout>
-            }
-          />
-          {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
-          <Route
-            path="/plan"
-            element={
-              <MainLayout>
-                <ProtectedRoute element={<PlanCreate />} />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="/plan/:planId"
-            element={
-              <MainLayout>
-                <ProtectedRoute element={<PlanPage />} />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="/plan/:planId/modify"
-            element={
-              <MainLayout>
-                <ProtectedRoute element={<PlanModify />} />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="/chat"
-            element={
-              <MainLayout>
-                <ProtectedRoute element={<ChatContainer />} />
-              </MainLayout>
-            }
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
-  );
+    return (
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    {/* 로그인 여부 판별 X - Auth 및 메인 페이지 */}
+                    <Route
+                        path="/login"
+                        element={
+                            <AuthLayout>
+                                <Login />
+                            </AuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/signup"
+                        element={
+                            <AuthLayout>
+                                <SignUp />
+                            </AuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/find-account"
+                        element={
+                            <AuthLayout>
+                                <ProfileSearch />
+                            </AuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/find-id"
+                        element={
+                            <AuthLayout>
+                                <UsernameResult />
+                            </AuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/reset-password"
+                        element={
+                            <AuthLayout>
+                                <ResetPassword />
+                            </AuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/oauth2/redirect"
+                        element={
+                            <AuthLayout>
+                                <OAuth2RedirectHandler />
+                            </AuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/additional-info"
+                        element={
+                            <AuthLayout>
+                                <AdditionalInfo />
+                            </AuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/"
+                        element={
+                            <MainLayout>
+                                <PlanList />
+                            </MainLayout>
+                        }
+                    />
+                    <Route
+                        path="/plan/:planId/details"
+                        element={
+                            <MainLayout>
+                                <PlanDetails />
+                            </MainLayout>
+                        }
+                    />
+                    {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
+                    <Route
+                        path="/plan"
+                        element={
+                            <MainLayout>
+                                <ProtectedRoute element={<PlanCreate />} />
+                            </MainLayout>
+                        }
+                    />
+                    <Route
+                        path="/plan/:planId"
+                        element={
+                            <MainLayout>
+                                <ProtectedRoute element={<PlanPage />} />
+                            </MainLayout>
+                        }
+                    />
+                    <Route
+                        path="/plan/:planId/modify"
+                        element={
+                            <MainLayout>
+                                <ProtectedRoute element={<PlanModify />} />
+                            </MainLayout>
+                        }
+                    />
+                    <Route
+                        path="/chat"
+                        element={
+                            <MainLayout>
+                                <ProtectedRoute element={<ChatContainer />} />
+                            </MainLayout>
+                        }
+                    />
+                </Routes>
+            </Router>
+        </AuthProvider>
+    );
 }
 
 export default App;
