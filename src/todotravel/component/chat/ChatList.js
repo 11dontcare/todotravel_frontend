@@ -46,9 +46,12 @@ const ChatList = ({ roomId }) => {
             <h3>Chat History</h3>
             <ul>
                 {chatHistory.map((chat, index) => (
-                    <li key={index}>
+                    <li
+                        key={index}
+                        className={`${styles.chatBubble} ${chat.isSent ? styles.sentMessage : styles.receivedMessage}`}
+                    >
                         <strong>{chat.nickname}:</strong> {chat.content} <br/>
-                        <small>{chat.created_at}</small>
+                        <small>{formatDate(chat.created_at)}</small>
                     </li>
                 ))}
             </ul>
