@@ -1,16 +1,14 @@
 import React from "react";
-import styles from "./Chat.module.css"; //CSS import
+import styles from "./Chat.module.css";  // CSS 모듈을 import
 
 const ChatRoomList = ({ chatRooms, onSelectRoom }) => {
     return (
-        <div className={styles.chatRoomList}> {/* 스타일 적용 */}
-            <h2>Chat Rooms</h2>
+        <div>
+            <div className={styles.chatHeader}>Chat Rooms</div>
+            {/* 헤더 스타일 적용 */}
             <ul>
                 {chatRooms.map((room) => (
-                    <li
-                        key={room.roomId}
-                        onClick={() => onSelectRoom(room.roomId)}
-                    >
+                    <li key={room.roomId} onClick={() => onSelectRoom(room.roomId)}>
                         {room.roomName}
                     </li>
                 ))}
