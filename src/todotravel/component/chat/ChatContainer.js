@@ -30,8 +30,11 @@ const ChatContainer = () => {
   return (
       <div className={styles.chatModal}>
         <div className={styles.chatContainer}>
-          {!selectedRoomId && <ChatRoomList chatRooms={chatRooms} onSelectRoom={setSelectedRoomId}/>}
-          {selectedRoomId && <ChatRoomDetail roomId={selectedRoomId}/>}
+          <ChatRoomDetail
+              roomId={selectedRoomId}
+              chatRooms={chatRooms}
+              onSelectRoom={setSelectedRoomId}
+          />
         </div>
       </div>
   );

@@ -45,3 +45,41 @@
     align-self: flex-start;
     margin-left: 0;
 }
+
+/* 전체 컨테이너를 좌우로 분할하는 스타일 추가 */
+.splitContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* 왼쪽 패널: 채팅방 목록 */
+.leftPanel {
+    width: 100px;  /* 패널의 너비를 줄임 */
+    height: 100%;
+    background-color: #F0F0F0;
+    border-right: 1px solid #CCCCCC;
+    overflow-y: auto;
+    padding: 0;  /* 패딩 제거 */
+}
+
+/* 작은 버튼 스타일 */
+.chatHeaderSmall {
+    width: 100%;  /* 버튼이 패널 전체 너비를 차지하도록 */
+    color: #000000;
+    text-align: left;  /* 텍스트를 왼쪽 정렬 */
+    padding: 5px;
+    border-radius: 0;  /* 둥근 모서리 제거 */
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;  /* 버튼의 여백 제거 */
+}
+
+/* 오른쪽 패널: 채팅방 세부 정보 */
+.rightPanel {
+    width: 70%;
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+}
