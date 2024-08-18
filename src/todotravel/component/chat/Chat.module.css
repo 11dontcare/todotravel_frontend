@@ -83,3 +83,14 @@
     padding: 20px;
     overflow-y: auto;
 }
+
+/* 기존 Send 버튼 스타일을 수정 */
+.sendButton {
+    background-color: #009ADD;  /* 버튼의 배경색을 #009ADD로 설정 */
+    color: white;  /* 버튼 텍스트 색상을 흰색으로 설정 */
+    border: none;  /* 필요에 따라 테두리를 없애거나 스타일을 수정 */
+    padding: 4px 12px;  /* 버튼 크기에 맞는 패딩 조정 */
+    border-radius: 5px;  /* 부드러운 모서리 */
+    cursor: pointer;  /* 마우스를 올렸을 때 포인터 커서 표시 */
+    font-size: 12px;  /* 텍스트 크기 */
+}
