@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getChatRooms } from "../../service/ChatService";
 import ChatRoomList from "./ChatRoomList";
 import ChatRoomDetail from "./ChatRoomDetail";
-import styles from "./Chat.module.css"; // CSS import
+import styles from "./Chat.module.css";  // CSS 모듈을 import
 
 const ChatContainer = () => {
   const [chatRooms, setChatRooms] = useState([]);
@@ -11,6 +11,7 @@ const ChatContainer = () => {
   const fetchChatRooms = async () => {
     try {
       const response = await getChatRooms();
+      console.log("채팅방 응답:", response);
       if (response && response.data && Array.isArray(response.data)) {
         setChatRooms(response.data);
       } else {
@@ -27,11 +28,14 @@ const ChatContainer = () => {
   }, []);
 
   return (
-      <div className={styles.chatContainer}>
-        <ChatRoomList chatRooms={chatRooms} onSelectRoom={setSelectedRoomId} />
-        {selectedRoomId && (
-            <ChatRoomDetail key={selectedRoomId} roomId={selectedRoomId} />
-        )}
+      <div className={styles.chatModal}>
+        <div className={styles.chatContainer}>
+          <ChatRoomDetail
+              roomId={selectedRoomId}
+              chatRooms={chatRooms}
+              onSelectRoom={setSelectedRoomId}
+          />
+        </div>
       </div>
   );
 };
