@@ -10,7 +10,7 @@
   padding-bottom: 30px;
   display: flex;
   align-items: flex-start;
-  border-bottom: 1px solid #E7E7E7;
+  border-bottom: 1px solid #e7e7e7;
 }
 
 .profileImage {
@@ -45,8 +45,72 @@
   margin: 5px 0;
 }
 
-.profileInfo p:last-child {
-  margin-top: 28px;
+.infoWrapper {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoContainer {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 15px;
+}
+
+.infoEditIcon {
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
+  color: #51d991;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.infoContainer p {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.infoEditContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 15px;
+}
+
+.infoTextarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.infoFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.charCount {
+  font-size: 12px;
+  color: #666;
+}
+
+.infoSaveButton {
+  padding: 5px 15px;
+  background-color: #51d991;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.infoSaveButton:hover {
+  background-color: #3ab172;
 }
 
 .editButton {
@@ -71,7 +135,7 @@
 .statsSection {
   display: flex;
   justify-content: center;
-  margin-top: 70px;
+  margin-top: 20px;
 }
 
 .statItem {
@@ -128,8 +192,8 @@
   text-align: right;
   width: 315px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  background: #FFFFFF;
-  border: 1px solid #E7E7E7;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
   border-radius: 20px;
   cursor: pointer;
 }
@@ -146,18 +210,18 @@
 }
 
 .location {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
   line-height: 100%;
-  color: #82EB71;
+  color: #82eb71;
 }
 
 .planTitle {
   color: #333;
   margin-bottom: 8px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -166,23 +230,23 @@
 
 .description {
   margin-bottom: 8px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 100%;
-  color: #ADADAD;
+  color: #adadad;
 }
 
 .dates {
   color: #777;
   margin-bottom: 8px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 100%;
-  color: #ADADAD;
+  color: #adadad;
 }
 
 .tripFooter {
@@ -214,12 +278,12 @@
 }
 
 .planUserNickname {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
   line-height: 100%;
-  color: #82EB71;
+  color: #82eb71;
   margin-left: auto;
   /* padding-right: 10px; */
 }
@@ -239,7 +303,7 @@
   align-items: center;
   background-color: #fff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #E7E7E7;
+  border: 1px solid #e7e7e7;
   border-radius: 10px;
   padding: 10px;
 }

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
-import { getUserProfileByNickname } from "../../service/MyPageService";
+import {
+  getUserProfileByNickname,
+  updateUserInfo,
+} from "../../service/MyPageService";
 
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import { DiAptana } from "react-icons/di";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 import styles from "./MyPage.module.css";
 
@@ -19,6 +23,8 @@ function MyPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { nickname } = useParams(); // URL에서 nickname 추출
+  const [isEditingInfo, setIsEditingInfo] = useState(false);
+  const [newInfo, setNewInfo] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +32,7 @@ function MyPage() {
         setIsLoading(true);
         const response = await getUserProfileByNickname(nickname);
         setProfileData(response.data);
+        setNewInfo(response.data.info || "");
         setError(null);
       } catch (error) {
         console.error("Error fetching profile data: ", error);
@@ -62,6 +69,28 @@ function MyPage() {
 
   const handleEditClick = () => {
     navigate(`/mypage/${profileData.nickname}/profile`);
+  };
+
+  const handleInfoEdit = () => {
+    setIsEditingInfo(true);
+  };
+
+  const handleInfoChange = (e) => {
+    const text = e.target.value;
+    if (text.length <= 160) {
+      setNewInfo(text);
+    }
+  };
+
+  const handleInfoSave = async () => {
+    try {
+      await updateUserInfo({ userId: profileData.userId, newInfo });
+      setProfileData({ ...profileData, info: newInfo });
+      setIsEditingInfo(false);
+    } catch (error) {
+      alert(error.message);
+      console.error("Error updating user info: ", error);
+    }
   };
 
   const handlePlanClick = (planId) => {
@@ -150,7 +179,39 @@ function MyPage() {
                 만 {profileData.age}세,{" "}
                 {profileData.gender === "MAN" ? "남성" : "여성"}
               </p>
-              <p>현재 작성된 소개글이 없습니다.</p>
+              <div className={styles.infoWrapper}>
+                {isEditingInfo ? (
+                  <div className={styles.infoEditContainer}>
+                    <textarea
+                      value={newInfo}
+                      onChange={handleInfoChange}
+                      maxLength={160}
+                      className={styles.infoTextarea}
+                    />
+                    <div className={styles.infoFooter}>
+                      <span className={styles.charCount}>
+                        {newInfo.length}/160
+                      </span>
+                      <button
+                        onClick={handleInfoSave}
+                        className={styles.infoSaveButton}
+                      >
+                        완료
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.infoContainer}>
+                    <HiOutlinePencilSquare
+                      className={styles.infoEditIcon}
+                      onClick={handleInfoEdit}
+                    />
+                    <p>
+                      {profileData.info || "현재 작성된 소개글이 없습니다."}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className={styles.statsSection}>
