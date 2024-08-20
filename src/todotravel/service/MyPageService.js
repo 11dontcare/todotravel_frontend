@@ -17,6 +17,24 @@ export const getPersonalProfile = (userId) => {
   });
 };
 
+// 닉네임 변경
+export const changeNickname = (nicknameRequest) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/nickname`,
+    method: "PUT",
+    body: JSON.stringify(nicknameRequest),
+  });
+};
+
+// 비밀번호 변경
+export const changePassword = (passwordRequest) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/password`,
+    method: "PUT",
+    body: JSON.stringify(passwordRequest),
+  });
+};
+
 // 내 모든 플랜 조회
 export const getAllMyPlans = (userId) => {
   return request({

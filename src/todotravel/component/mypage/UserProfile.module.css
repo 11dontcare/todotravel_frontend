@@ -1,0 +1,43 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profileSection {
+  margin-bottom: 30px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.infoItem span:first-child {
+  width: 100px;
+  font-weight: bold;
+}
+
+.infoItem span:nth-child(2) {
+  flex-grow: 1;
+}
+
+h1,
+h2 {
+  margin-bottom: 20px;
+}
+
+.changeButton {
+  background-color: #51D991;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.changeButton:hover {
+  background-color: #3ab172;
+}

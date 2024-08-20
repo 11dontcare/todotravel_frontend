@@ -60,6 +60,10 @@ function MyPage() {
     );
   }
 
+  const handleEditClick = () => {
+    navigate(`/mypage/${profileData.nickname}/profile`);
+  };
+
   const handlePlanClick = (planId) => {
     navigate(`/plan/${planId}/details`);
   };
@@ -164,7 +168,7 @@ function MyPage() {
             </div>
           </div>
         </div>
-        <div className={styles.editButton}>
+        <div className={styles.editButton} onClick={handleEditClick}>
           <DiAptana />
         </div>
       </div>
