@@ -9,6 +9,15 @@ export const getUserProfileByNickname = (nickname) => {
   });
 };
 
+// 소개글 수정
+export const updateUserInfo = (userInfoRequest) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/update-info`,
+    method: "PUT",
+    body: JSON.stringify(userInfoRequest),
+  });
+};
+
 // 개인정보 조회
 export const getPersonalProfile = (userId) => {
   return request({
@@ -32,6 +41,40 @@ export const changePassword = (passwordRequest) => {
     url: `${API_BASE_URL}/api/mypage/password`,
     method: "PUT",
     body: JSON.stringify(passwordRequest),
+  });
+};
+
+// 사용자 팔로우
+export const doFollowing = (followRequest) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/follow`,
+    method: "PUT",
+    body: JSON.stringify(followRequest),
+  });
+};
+
+// 팔로우 취소
+export const cancelFollowing = (followCancelRequest) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/follow`,
+    method: "DELETE",
+    body: JSON.stringify(followCancelRequest),
+  });
+};
+
+// 팔로잉 조회
+export const getFollowing = (userId) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/${userId}/following`,
+    method: "GET",
+  });
+};
+
+// 팔로워 조회
+export const getFollower = (userId) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/${userId}/follower`,
+    method: "GET",
   });
 };
 
