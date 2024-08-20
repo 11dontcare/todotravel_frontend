@@ -63,17 +63,27 @@ export const request = async (options) => {
 
     // AccessToken 만료된 경우 갱신 시도
     if (response.status === 401) {
-      try {
-        const newAccessToken = await refreshAccessToken();
-        headers.set("Authorization", "Bearer " + newAccessToken);
-        options.headers = headers;
+      const errorData = await response.json();
+      
+      // 토큰이 만료된 경우에만 재발급 시도
+      if (errorData.code === "EXPIRED_TOKEN") {
+        try {
+          const newAccessToken = await refreshAccessToken();
+          headers.set("Authorization", "Bearer " + newAccessToken);
+          options.headers = headers;
 
-        const retryResponse = await fetch(options.url, options);
-        return await handleJsonResponse(retryResponse);
-      } catch (refreshError) {
+          const retryResponse = await fetch(options.url, options);
+          return await handleJsonResponse(retryResponse);
+        } catch (refreshError) {
+          clearLocalStorage();
+          window.location.href = "/login";
+          throw new Error("회원 인증에 실패했습니다. 로그인을 다시 해주세요.");
+        }
+      } else {
+        // 다른 인증 오류의 경우 (예: 유효하지 않은 토큰, 지원되지 않는 토큰 등)
         clearLocalStorage();
         window.location.href = "/login";
-        throw new Error("회원 인증에 실패했습니다. 로그인을 다시 해주세요.");
+        throw new Error(errorData.message || "인증에 실패했습니다. 로그인을 다시 해주세요.");
       }
     }
 
