@@ -14,6 +14,10 @@ import UsernameResult from "./todotravel/component/auth/UsernameResult";
 import ResetPassword from "./todotravel/component/auth/ResetPassword";
 import OAuth2RedirectHandler from "./todotravel/component/auth/OAuth2RedirectHandler";
 import AdditionalInfo from "./todotravel/component/auth/AdditionalInfo";
+
+import MyPage from "./todotravel/component/mypage/MyPage";
+import UserProfile from "./todotravel/component/mypage/UserProfile";
+
 import PlanCreate from "./todotravel/component/plan/PlanCreate";
 import PlanPage from "./todotravel/component/plan/PlanPage";
 import PlanModify from "./todotravel/component/plan/PlanModify";
@@ -103,6 +107,22 @@ function App() {
                         }
                     />
                     {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
+                    <Route
+                        path="/mypage/:nickname"
+                        element={
+                            <MainLayout>
+                                <ProtectedRoute element={<MyPage />} />
+                            </MainLayout>
+                        }
+                    />
+                    <Route
+                        path="/mypage/:nickname/profile"
+                        element={
+                            <MainLayout>
+                                <ProtectedRoute element={<UserProfile />} />
+                            </MainLayout>
+                        }
+                    />
                     <Route
                         path="/plan"
                         element={

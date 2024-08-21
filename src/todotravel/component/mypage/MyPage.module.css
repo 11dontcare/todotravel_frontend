@@ -1,0 +1,327 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profileContainer {
+  position: relative;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.profileImage {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-right: 30px;
+}
+
+.profileContent {
+  flex-grow: 1;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+}
+
+.profileInfo {
+  flex-grow: 1;
+}
+
+.profileInfo h1 {
+  font-size: 24px;
+  margin-top: 24px;
+  margin-bottom: 5px;
+}
+
+.profileInfo p {
+  color: #666;
+  margin: 5px 0;
+}
+
+.infoWrapper {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoContainer {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 15px;
+}
+
+.infoEditIcon {
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
+  color: #51d991;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.infoContainer p {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.infoEditContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 15px;
+}
+
+.infoTextarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.infoFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.charCount {
+  font-size: 12px;
+  color: #666;
+}
+
+.infoSaveButton {
+  padding: 5px 15px;
+  background-color: #51d991;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.infoSaveButton:hover {
+  background-color: #3ab172;
+}
+
+.editButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.editButton svg {
+  font-size: 24px;
+  color: #333;
+}
+
+.statsSection {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.statItem {
+  text-align: center;
+  margin: 0 60px;
+}
+
+.statItem p:first-child {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.statItem p:last-child {
+  color: #666;
+  margin: 5px 0 0;
+}
+
+.tripSection {
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sectionTitle h2 {
+  font-size: 20px;
+}
+
+.sectionTitle span {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.tripGrid {
+  gap: 40px; /* 각 플랜 아이템 사이의 간격을 조절 */
+  display: flex;
+  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 세 개의 항목을 표시 */
+  align-items: center;
+  padding: 0 30px 10px;
+  justify-content: center;
+}
+
+.tripCard {
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  text-align: right;
+  width: 315px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.tripCard > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tripImage {
+  border-radius: 20px;
+  width: 292px;
+}
+
+.location {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 100%;
+  color: #82eb71;
+}
+
+.planTitle {
+  color: #333;
+  margin-bottom: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+}
+
+.description {
+  margin-bottom: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: #adadad;
+}
+
+.dates {
+  color: #777;
+  margin-bottom: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: #adadad;
+}
+
+.tripFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding-left: 12px;
+}
+
+.tripStats {
+  display: flex;
+  align-items: center;
+}
+
+.bookmarks,
+.likes {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.bookmarks svg,
+.likes svg {
+  margin-right: 4px;
+}
+
+.planUserNickname {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 100%;
+  color: #82eb71;
+  margin-left: auto;
+  /* padding-right: 10px; */
+}
+
+.commentSection {
+  margin-bottom: 30px;
+}
+
+.commentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.commentItem {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.commentImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 8px;
+}
+
+.commentContent {
+  flex: 1;
+}
+
+.commentContent p {
+  color: #333;
+  font-size: 14px;
+  margin: 0;
+}
