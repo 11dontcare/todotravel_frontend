@@ -53,7 +53,7 @@ export const changePassword = (passwordRequest) => {
 export const doFollowing = (followRequest) => {
   return request({
     url: `${API_BASE_URL}/api/mypage/follow`,
-    method: "PUT",
+    method: "POST",
     body: JSON.stringify(followRequest),
   });
 };
@@ -61,7 +61,7 @@ export const doFollowing = (followRequest) => {
 // 팔로우 취소
 export const cancelFollowing = (followCancelRequest) => {
   return request({
-    url: `${API_BASE_URL}/api/mypage/follow`,
+    url: `${API_BASE_URL}/api/mypage/cancel-follow`,
     method: "DELETE",
     body: JSON.stringify(followCancelRequest),
   });

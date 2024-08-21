@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  cancelFollowing,
+  doFollowing,
   getUserProfileByNickname,
   updateUserInfo,
 } from "../../service/MyPageService";
@@ -25,15 +27,16 @@ function MyPage() {
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [newInfo, setNewInfo] = useState("");
   const [isOwnProfile, setIsOwnProfile] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   // 무한 스크롤 관련 상태
   const [displayedPlans, setDisplayedPlans] = useState([]); // 현재 화면에 표시된 플랜
   const page = 1; // 현재 페이지 번호 (무한스크롤이므로 useState 없이 1로 설정)
   const [hasMore, setHasMore] = useState(true); // 더 불러올 플랜이 있는지 여부
-  const observer = useRef();  // InterSection Observer 참조
+  const observer = useRef(); // InterSection Observer 참조
   const plansPerPage = 6; // 한 번에 로드할 플랜 수
   const [allPlans, setAllPlans] = useState([]); // 전체 플랜 목록
-  const [isLoadingMore, setIsLoadingMore] = useState(false);  // 추가 플랜 로딩 중 여부
+  const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 플랜 로딩 중 여부
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +46,7 @@ function MyPage() {
         setProfileData(response.data);
         setNewInfo(response.data.info || "");
         setError(null);
+        setIsFollowing(response.data.following);
 
         const loggedInUserId = localStorage.getItem("userId");
         const isOwn = loggedInUserId === response.data.userId.toString();
@@ -70,10 +74,10 @@ function MyPage() {
 
   // 추가 플랜을 로드하는 함수
   const loadMorePlans = useCallback(async () => {
-    if (isLoadingMore || !hasMore) return;  // 이미 로딩 중이거나 더 불러올 플랜이 없으면 종료
+    if (isLoadingMore || !hasMore) return; // 이미 로딩 중이거나 더 불러올 플랜이 없으면 종료
 
     setIsLoadingMore(true);
-    await new Promise(resolve => setTimeout(resolve, 1100)); // 1.1초 지연
+    await new Promise((resolve) => setTimeout(resolve, 1100)); // 1.1초 지연
 
     const startIndex = displayedPlans.length;
     const endIndex = startIndex + plansPerPage;
@@ -81,7 +85,7 @@ function MyPage() {
 
     if (newPlans.length > 0) {
       // 새 플랜을 기존 플랜 목록에 추가
-      setDisplayedPlans(prevPlans => [...prevPlans, ...newPlans]);
+      setDisplayedPlans((prevPlans) => [...prevPlans, ...newPlans]);
       // 더 불러올 플랜이 있는지 확인
       setHasMore(endIndex < allPlans.length);
     } else {
@@ -109,10 +113,23 @@ function MyPage() {
   );
 
   if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div><p>{error}</p><button onClick={() => navigate(-1)}>뒤로 가기</button></div>;
-  if (!profileData) return <div><p>존재하지 않는 사용자입니다.</p><button onClick={() => navigate(-1)}>뒤로 가기</button></div>;
+  if (error)
+    return (
+      <div>
+        <p>{error}</p>
+        <button onClick={() => navigate(-1)}>뒤로 가기</button>
+      </div>
+    );
+  if (!profileData)
+    return (
+      <div>
+        <p>존재하지 않는 사용자입니다.</p>
+        <button onClick={() => navigate(-1)}>뒤로 가기</button>
+      </div>
+    );
 
-  const handleEditClick = () => navigate(`/mypage/${profileData.nickname}/profile`);
+  const handleEditClick = () =>
+    navigate(`/mypage/${profileData.nickname}/profile`);
   const handleInfoEdit = () => setIsEditingInfo(true);
   const handleInfoChange = (e) => {
     const text = e.target.value;
@@ -127,6 +144,40 @@ function MyPage() {
     } catch (error) {
       alert(error.message);
       console.error("Error updating user info: ", error);
+    }
+  };
+
+  const handleFollowToggle = async () => {
+    const loggedInUserId = localStorage.getItem("userId");
+    if (!loggedInUserId) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
+    }
+
+    try {
+      if (isFollowing) {
+        await cancelFollowing({
+          followerId: Number(loggedInUserId),
+          followingId: profileData.userId,
+        });
+        setIsFollowing(false);
+      } else {
+        await doFollowing({
+          followerId: Number(loggedInUserId),
+          followingId: profileData.userId,
+        });
+        setIsFollowing(true);
+      }
+      // 팔로워 수 업데이트
+      setProfileData((prevData) => ({
+        ...prevData,
+        followerCount: isFollowing
+          ? prevData.followerCount - 1
+          : prevData.followerCount + 1,
+      }));
+    } catch (error) {
+      console.error("팔로우 상태 변경 중 오류 발생: ", error.message);
+      alert("팔로우 상태 변경에 실패했습니다.");
     }
   };
 
@@ -156,17 +207,29 @@ function MyPage() {
               className={styles.tripCard}
               onClick={() => handlePlanClick(trip.planId)}
             >
-              <img src={travelImage} alt={trip.title} className={styles.tripImage} />
+              <img
+                src={travelImage}
+                alt={trip.title}
+                className={styles.tripImage}
+              />
               <p className={styles.location}>{trip.location}</p>
               <h2 className={styles.planTitle}>{trip.title}</h2>
               <p className={styles.description}>{trip.description}</p>
-              <p className={styles.dates}>{trip.startDate} ~ {trip.endDate}</p>
+              <p className={styles.dates}>
+                {trip.startDate} ~ {trip.endDate}
+              </p>
               <div className={styles.tripFooter}>
                 <div className={styles.tripStats}>
-                  <span className={styles.bookmarks}><FaRegBookmark /> {trip.bookmarkNumber}</span>
-                  <span className={styles.likes}><FaRegHeart /> {trip.likeNumber}</span>
+                  <span className={styles.bookmarks}>
+                    <FaRegBookmark /> {trip.bookmarkNumber}
+                  </span>
+                  <span className={styles.likes}>
+                    <FaRegHeart /> {trip.likeNumber}
+                  </span>
                 </div>
-                <span className={styles.planUserNickname}>{trip.planUserNickname}님의 여행 일정</span>
+                <span className={styles.planUserNickname}>
+                  {trip.planUserNickname}님의 여행 일정
+                </span>
               </div>
             </div>
           ))}
@@ -197,7 +260,11 @@ function MyPage() {
         <div className={styles.commentGrid}>
           {comments.slice(0, 4).map((comment, index) => (
             <div key={index} className={styles.commentItem}>
-              <img src={travelImage} alt="Trip thumbnail" className={styles.commentImage} />
+              <img
+                src={travelImage}
+                alt="Trip thumbnail"
+                className={styles.commentImage}
+              />
               <div className={styles.commentContent}>
                 <p>{comment.content}</p>
               </div>
@@ -217,8 +284,23 @@ function MyPage() {
         <div className={styles.profileContent}>
           <div className={styles.profileSection}>
             <div className={styles.profileInfo}>
-              <h1>{profileData.nickname}님의 MY PAGE</h1>
-              <p>만 {profileData.age}세, {profileData.gender === "MAN" ? "남성" : "여성"}</p>
+              <div className={styles.profileHeader}>
+                <h1>{profileData.nickname}님의 MY PAGE</h1>
+                {!isOwnProfile && (
+                  <button
+                    onClick={handleFollowToggle}
+                    className={`${styles.followButton} ${
+                      isFollowing ? styles.following : ""
+                    }`}
+                  >
+                    {isFollowing ? "팔로잉" : "팔로우"}
+                  </button>
+                )}
+              </div>
+              <p>
+                만 {profileData.age}세,{" "}
+                {profileData.gender === "MAN" ? "남성" : "여성"}
+              </p>
               {isOwnProfile ? (
                 <div className={styles.infoWrapper}>
                   {isEditingInfo ? (
@@ -230,14 +312,26 @@ function MyPage() {
                         className={styles.infoTextarea}
                       />
                       <div className={styles.infoFooter}>
-                        <span className={styles.charCount}>{newInfo.length}/160</span>
-                        <button onClick={handleInfoSave} className={styles.infoSaveButton}>완료</button>
+                        <span className={styles.charCount}>
+                          {newInfo.length}/160
+                        </span>
+                        <button
+                          onClick={handleInfoSave}
+                          className={styles.infoSaveButton}
+                        >
+                          완료
+                        </button>
                       </div>
                     </div>
                   ) : (
                     <div className={styles.infoContainer}>
-                      <HiOutlinePencilSquare className={styles.infoEditIcon} onClick={handleInfoEdit} />
-                      <p>{profileData.info || "현재 작성된 소개글이 없습니다."}</p>
+                      <HiOutlinePencilSquare
+                        className={styles.infoEditIcon}
+                        onClick={handleInfoEdit}
+                      />
+                      <p>
+                        {profileData.info || "현재 작성된 소개글이 없습니다."}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -246,7 +340,11 @@ function MyPage() {
               )}
             </div>
           </div>
-          <div className={styles.statsSection}>
+          <div
+            className={`${styles.statsSection} ${
+              !isOwnProfile ? styles.statsSectionOther : ""
+            }`}
+          >
             <div className={styles.statItem}>
               <p>{profileData.planCount}</p>
               <p>여행 수</p>
@@ -268,12 +366,24 @@ function MyPage() {
         )}
       </div>
 
-      {renderTripSection(`${profileData.nickname}님의 여행`, displayedPlans, "계획한 여행이 없습니다.")}
+      {renderTripSection(
+        `${profileData.nickname}님의 여행`,
+        displayedPlans,
+        "계획한 여행이 없습니다."
+      )}
 
       {isOwnProfile && (
         <>
-          {renderTripSection(`${profileData.nickname}님이 북마크한 여행`, profileData.recentBookmarks, "북마크한 여행이 없습니다.")}
-          {renderTripSection(`${profileData.nickname}님이 좋아요한 여행`, profileData.recentLikes, "좋아요한 여행이 없습니다.")}
+          {renderTripSection(
+            `${profileData.nickname}님이 북마크한 여행`,
+            profileData.recentBookmarks,
+            "북마크한 여행이 없습니다."
+          )}
+          {renderTripSection(
+            `${profileData.nickname}님이 좋아요한 여행`,
+            profileData.recentLikes,
+            "좋아요한 여행이 없습니다."
+          )}
           {renderCommentSection(profileData.recentComments)}
         </>
       )}
