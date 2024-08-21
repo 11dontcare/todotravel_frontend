@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../constant/backendAPI";
 import {
   getUserProfileByNickname,
   updateUserInfo,
@@ -97,48 +96,54 @@ function MyPage() {
     navigate(`/plan/${planId}/details`);
   };
 
-  const renderTripSection = (title, trips) => (
+  const renderTripSection = (title, trips, emptyMessage) => (
     <div className={styles.tripSection}>
       <div className={styles.sectionTitle}>
         <h2>{title}</h2>
-        <span>
-          <SlArrowRight />
-        </span>
+        {trips && trips.length > 0 && (
+          <span>
+            <SlArrowRight />
+          </span>
+        )}
       </div>
-      <div className={styles.tripGrid}>
-        {trips.slice(0, 3).map((trip, index) => (
-          <div
-            key={index}
-            className={styles.tripCard}
-            onClick={() => handlePlanClick(trip.planId)}
-          >
-            <img
-              src={travelImage}
-              alt={trip.title}
-              className={styles.tripImage}
-            />
-            <p className={styles.location}>{trip.location}</p>
-            <h2 className={styles.planTitle}>{trip.title}</h2>
-            <p className={styles.description}>{trip.description}</p>
-            <p className={styles.dates}>
-              {trip.startDate} ~ {trip.endDate}
-            </p>
-            <div className={styles.tripFooter}>
-              <div className={styles.tripStats}>
-                <span className={styles.bookmarks}>
-                  <FaRegBookmark /> {trip.bookmarkNumber}
-                </span>
-                <span className={styles.likes}>
-                  <FaRegHeart /> {trip.likeNumber}
+      {trips && trips.length > 0 ? (
+        <div className={styles.tripGrid}>
+          {trips.slice(0, 3).map((trip, index) => (
+            <div
+              key={index}
+              className={styles.tripCard}
+              onClick={() => handlePlanClick(trip.planId)}
+            >
+              <img
+                src={travelImage}
+                alt={trip.title}
+                className={styles.tripImage}
+              />
+              <p className={styles.location}>{trip.location}</p>
+              <h2 className={styles.planTitle}>{trip.title}</h2>
+              <p className={styles.description}>{trip.description}</p>
+              <p className={styles.dates}>
+                {trip.startDate} ~ {trip.endDate}
+              </p>
+              <div className={styles.tripFooter}>
+                <div className={styles.tripStats}>
+                  <span className={styles.bookmarks}>
+                    <FaRegBookmark /> {trip.bookmarkNumber}
+                  </span>
+                  <span className={styles.likes}>
+                    <FaRegHeart /> {trip.likeNumber}
+                  </span>
+                </div>
+                <span className={styles.planUserNickname}>
+                  {trip.planUserNickname}님의 여행 일정
                 </span>
               </div>
-              <span className={styles.planUserNickname}>
-                {trip.planUserNickname}님의 여행 일정
-              </span>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className={styles.emptyMessage}>{emptyMessage}</p>
+      )}
     </div>
   );
 
@@ -146,24 +151,30 @@ function MyPage() {
     <div className={styles.commentSection}>
       <div className={styles.sectionTitle}>
         <h2>{profileData.nickname}님의 댓글</h2>
-        <span>
-          <SlArrowRight />
-        </span>
+        {comments && comments.length > 0 && (
+          <span>
+            <SlArrowRight />
+          </span>
+        )}
       </div>
-      <div className={styles.commentGrid}>
-        {comments.slice(0, 4).map((comment, index) => (
-          <div key={index} className={styles.commentItem}>
-            <img
-              src={travelImage}
-              alt="Trip thumbnail"
-              className={styles.commentImage}
-            />
-            <div className={styles.commentContent}>
-              <p>{comment.content}</p>
+      {comments && comments.length > 0 ? (
+        <div className={styles.commentGrid}>
+          {comments.slice(0, 4).map((comment, index) => (
+            <div key={index} className={styles.commentItem}>
+              <img
+                src={travelImage}
+                alt="Trip thumbnail"
+                className={styles.commentImage}
+              />
+              <div className={styles.commentContent}>
+                <p>{comment.content}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className={styles.emptyMessage}>작성한 댓글이 없습니다.</p>
+      )}
     </div>
   );
 
@@ -236,23 +247,23 @@ function MyPage() {
 
       {renderTripSection(
         `${profileData.nickname}님의 여행`,
-        profileData.planList
+        profileData.planList,
+        "계획한 여행이 없습니다."
       )}
 
-      {profileData.recentBookmarks &&
-        renderTripSection(
-          `${profileData.nickname}님이 북마크한 여행`,
-          profileData.recentBookmarks
-        )}
+      {renderTripSection(
+        `${profileData.nickname}님이 북마크한 여행`,
+        profileData.recentBookmarks,
+        "북마크한 여행이 없습니다."
+      )}
 
-      {profileData.recentLikes &&
-        renderTripSection(
-          `${profileData.nickname}님이 좋아요한 여행`,
-          profileData.recentLikes
-        )}
+      {renderTripSection(
+        `${profileData.nickname}님이 좋아요한 여행`,
+        profileData.recentLikes,
+        "좋아요한 여행이 없습니다."
+      )}
 
-      {profileData.recentComments &&
-        renderCommentSection(profileData.recentComments)}
+      {renderCommentSection(profileData.recentComments)}
     </div>
   );
 }
