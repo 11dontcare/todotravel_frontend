@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getUserProfileByNickname,
   updateUserInfo,
 } from "../../service/MyPageService";
 
-import { FaRegBookmark } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegBookmark, FaRegHeart } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import { DiAptana } from "react-icons/di";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import styles from "./MyPage.module.css";
 
@@ -21,9 +21,19 @@ function MyPage() {
   const [profileData, setProfileData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { nickname } = useParams(); // URL에서 nickname 추출
+  const { nickname } = useParams();
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [newInfo, setNewInfo] = useState("");
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
+
+  // 무한 스크롤 관련 상태
+  const [displayedPlans, setDisplayedPlans] = useState([]); // 현재 화면에 표시된 플랜
+  const page = 1; // 현재 페이지 번호 (무한스크롤이므로 useState 없이 1로 설정)
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 플랜이 있는지 여부
+  const observer = useRef();  // InterSection Observer 참조
+  const plansPerPage = 6; // 한 번에 로드할 플랜 수
+  const [allPlans, setAllPlans] = useState([]); // 전체 플랜 목록
+  const [isLoadingMore, setIsLoadingMore] = useState(false);  // 추가 플랜 로딩 중 여부
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +43,20 @@ function MyPage() {
         setProfileData(response.data);
         setNewInfo(response.data.info || "");
         setError(null);
+
+        const loggedInUserId = localStorage.getItem("userId");
+        const isOwn = loggedInUserId === response.data.userId.toString();
+        setIsOwnProfile(isOwn);
+
+        // 초기 플랜 데이터 설정
+        setAllPlans(response.data.planList || []);
+
+        // 처음 보여줄 플랜 설정
+        const initialPlans = response.data.planList.slice(0, plansPerPage);
+        setDisplayedPlans(initialPlans);
+
+        // 더 보여줄 플랜이 있는지 확인
+        setHasMore(response.data.planList.length > plansPerPage);
       } catch (error) {
         console.error("Error fetching profile data: ", error);
         setError("사용자 정보를 불러오는 데 실패했습니다.");
@@ -44,41 +68,55 @@ function MyPage() {
     fetchData();
   }, [nickname]);
 
-  if (isLoading) {
-    return <div>로딩 중...</div>;
-  }
+  // 추가 플랜을 로드하는 함수
+  const loadMorePlans = useCallback(async () => {
+    if (isLoadingMore || !hasMore) return;  // 이미 로딩 중이거나 더 불러올 플랜이 없으면 종료
 
-  if (error) {
-    return (
-      <div>
-        <p>{error}</p>
-        <button onClick={() => navigate(-1)}>뒤로 가기</button>
-      </div>
-    );
-  }
+    setIsLoadingMore(true);
+    await new Promise(resolve => setTimeout(resolve, 1100)); // 1.1초 지연
 
-  if (!profileData) {
-    return (
-      <div>
-        <p>존재하지 않는 사용자입니다.</p>
-        <button onClick={() => navigate(-1)}>뒤로 가기</button>
-      </div>
-    );
-  }
+    const startIndex = displayedPlans.length;
+    const endIndex = startIndex + plansPerPage;
+    const newPlans = allPlans.slice(startIndex, endIndex);
 
-  const handleEditClick = () => {
-    navigate(`/mypage/${profileData.nickname}/profile`);
-  };
+    if (newPlans.length > 0) {
+      // 새 플랜을 기존 플랜 목록에 추가
+      setDisplayedPlans(prevPlans => [...prevPlans, ...newPlans]);
+      // 더 불러올 플랜이 있는지 확인
+      setHasMore(endIndex < allPlans.length);
+    } else {
+      setHasMore(false);
+    }
 
-  const handleInfoEdit = () => {
-    setIsEditingInfo(true);
-  };
+    setIsLoadingMore(false);
+  }, [displayedPlans, hasMore, isLoadingMore, allPlans]);
 
+  // Intersection Observer 콜백 함수
+  const lastPlanElementRef = useCallback(
+    (node) => {
+      if (isLoading || isLoadingMore) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        // 마지막 요소가 화면에 보이고, 더 불러올 플랜이 있으면 추가 로드
+        if (entries[0].isIntersecting && hasMore) {
+          loadMorePlans();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, isLoadingMore, hasMore, loadMorePlans]
+  );
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div><p>{error}</p><button onClick={() => navigate(-1)}>뒤로 가기</button></div>;
+  if (!profileData) return <div><p>존재하지 않는 사용자입니다.</p><button onClick={() => navigate(-1)}>뒤로 가기</button></div>;
+
+  const handleEditClick = () => navigate(`/mypage/${profileData.nickname}/profile`);
+  const handleInfoEdit = () => setIsEditingInfo(true);
   const handleInfoChange = (e) => {
     const text = e.target.value;
-    if (text.length <= 160) {
-      setNewInfo(text);
-    }
+    if (text.length <= 160) setNewInfo(text);
   };
 
   const handleInfoSave = async () => {
@@ -92,15 +130,13 @@ function MyPage() {
     }
   };
 
-  const handlePlanClick = (planId) => {
-    navigate(`/plan/${planId}/details`);
-  };
+  const handlePlanClick = (planId) => navigate(`/plan/${planId}/details`);
 
   const renderTripSection = (title, trips, emptyMessage) => (
     <div className={styles.tripSection}>
       <div className={styles.sectionTitle}>
         <h2>{title}</h2>
-        {trips && trips.length > 0 && (
+        {isOwnProfile && trips && trips.length > 0 && (
           <span>
             <SlArrowRight />
           </span>
@@ -108,41 +144,41 @@ function MyPage() {
       </div>
       {trips && trips.length > 0 ? (
         <div className={styles.tripGrid}>
-          {trips.slice(0, 3).map((trip, index) => (
+          {trips.map((trip, index) => (
             <div
-              key={index}
+              key={`${trip.planId}-${index}`}
+              // 마지막 요소에 ref 추가 (무한 스크롤을 위한 관찰 대상)
+              ref={
+                !isOwnProfile && index === trips.length - 1
+                  ? lastPlanElementRef
+                  : null
+              }
               className={styles.tripCard}
               onClick={() => handlePlanClick(trip.planId)}
             >
-              <img
-                src={travelImage}
-                alt={trip.title}
-                className={styles.tripImage}
-              />
+              <img src={travelImage} alt={trip.title} className={styles.tripImage} />
               <p className={styles.location}>{trip.location}</p>
               <h2 className={styles.planTitle}>{trip.title}</h2>
               <p className={styles.description}>{trip.description}</p>
-              <p className={styles.dates}>
-                {trip.startDate} ~ {trip.endDate}
-              </p>
+              <p className={styles.dates}>{trip.startDate} ~ {trip.endDate}</p>
               <div className={styles.tripFooter}>
                 <div className={styles.tripStats}>
-                  <span className={styles.bookmarks}>
-                    <FaRegBookmark /> {trip.bookmarkNumber}
-                  </span>
-                  <span className={styles.likes}>
-                    <FaRegHeart /> {trip.likeNumber}
-                  </span>
+                  <span className={styles.bookmarks}><FaRegBookmark /> {trip.bookmarkNumber}</span>
+                  <span className={styles.likes}><FaRegHeart /> {trip.likeNumber}</span>
                 </div>
-                <span className={styles.planUserNickname}>
-                  {trip.planUserNickname}님의 여행 일정
-                </span>
+                <span className={styles.planUserNickname}>{trip.planUserNickname}님의 여행 일정</span>
               </div>
             </div>
           ))}
         </div>
       ) : (
         <p className={styles.emptyMessage}>{emptyMessage}</p>
+      )}
+      {/* 추가 플랜 로딩 중일 때 표시할 스피너 */}
+      {isLoadingMore && (
+        <div className={styles.loadingSpinner}>
+          <AiOutlineLoading3Quarters className={styles.spinnerIcon} />
+        </div>
       )}
     </div>
   );
@@ -161,11 +197,7 @@ function MyPage() {
         <div className={styles.commentGrid}>
           {comments.slice(0, 4).map((comment, index) => (
             <div key={index} className={styles.commentItem}>
-              <img
-                src={travelImage}
-                alt="Trip thumbnail"
-                className={styles.commentImage}
-              />
+              <img src={travelImage} alt="Trip thumbnail" className={styles.commentImage} />
               <div className={styles.commentContent}>
                 <p>{comment.content}</p>
               </div>
@@ -186,43 +218,32 @@ function MyPage() {
           <div className={styles.profileSection}>
             <div className={styles.profileInfo}>
               <h1>{profileData.nickname}님의 MY PAGE</h1>
-              <p>
-                만 {profileData.age}세,{" "}
-                {profileData.gender === "MAN" ? "남성" : "여성"}
-              </p>
-              <div className={styles.infoWrapper}>
-                {isEditingInfo ? (
-                  <div className={styles.infoEditContainer}>
-                    <textarea
-                      value={newInfo}
-                      onChange={handleInfoChange}
-                      maxLength={160}
-                      className={styles.infoTextarea}
-                    />
-                    <div className={styles.infoFooter}>
-                      <span className={styles.charCount}>
-                        {newInfo.length}/160
-                      </span>
-                      <button
-                        onClick={handleInfoSave}
-                        className={styles.infoSaveButton}
-                      >
-                        완료
-                      </button>
+              <p>만 {profileData.age}세, {profileData.gender === "MAN" ? "남성" : "여성"}</p>
+              {isOwnProfile ? (
+                <div className={styles.infoWrapper}>
+                  {isEditingInfo ? (
+                    <div className={styles.infoEditContainer}>
+                      <textarea
+                        value={newInfo}
+                        onChange={handleInfoChange}
+                        maxLength={160}
+                        className={styles.infoTextarea}
+                      />
+                      <div className={styles.infoFooter}>
+                        <span className={styles.charCount}>{newInfo.length}/160</span>
+                        <button onClick={handleInfoSave} className={styles.infoSaveButton}>완료</button>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className={styles.infoContainer}>
-                    <HiOutlinePencilSquare
-                      className={styles.infoEditIcon}
-                      onClick={handleInfoEdit}
-                    />
-                    <p>
-                      {profileData.info || "현재 작성된 소개글이 없습니다."}
-                    </p>
-                  </div>
-                )}
-              </div>
+                  ) : (
+                    <div className={styles.infoContainer}>
+                      <HiOutlinePencilSquare className={styles.infoEditIcon} onClick={handleInfoEdit} />
+                      <p>{profileData.info || "현재 작성된 소개글이 없습니다."}</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <p>{profileData.info || "현재 작성된 소개글이 없습니다."}</p>
+              )}
             </div>
           </div>
           <div className={styles.statsSection}>
@@ -240,30 +261,22 @@ function MyPage() {
             </div>
           </div>
         </div>
-        <div className={styles.editButton} onClick={handleEditClick}>
-          <DiAptana />
-        </div>
+        {isOwnProfile && (
+          <div className={styles.editButton} onClick={handleEditClick}>
+            <DiAptana />
+          </div>
+        )}
       </div>
 
-      {renderTripSection(
-        `${profileData.nickname}님의 여행`,
-        profileData.planList,
-        "계획한 여행이 없습니다."
-      )}
+      {renderTripSection(`${profileData.nickname}님의 여행`, displayedPlans, "계획한 여행이 없습니다.")}
 
-      {renderTripSection(
-        `${profileData.nickname}님이 북마크한 여행`,
-        profileData.recentBookmarks,
-        "북마크한 여행이 없습니다."
+      {isOwnProfile && (
+        <>
+          {renderTripSection(`${profileData.nickname}님이 북마크한 여행`, profileData.recentBookmarks, "북마크한 여행이 없습니다.")}
+          {renderTripSection(`${profileData.nickname}님이 좋아요한 여행`, profileData.recentLikes, "좋아요한 여행이 없습니다.")}
+          {renderCommentSection(profileData.recentComments)}
+        </>
       )}
-
-      {renderTripSection(
-        `${profileData.nickname}님이 좋아요한 여행`,
-        profileData.recentLikes,
-        "좋아요한 여행이 없습니다."
-      )}
-
-      {renderCommentSection(profileData.recentComments)}
     </div>
   );
 }
