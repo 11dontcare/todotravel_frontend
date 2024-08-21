@@ -41,6 +41,11 @@ export const changePassword = (passwordRequest) => {
     url: `${API_BASE_URL}/api/mypage/password`,
     method: "PUT",
     body: JSON.stringify(passwordRequest),
+  }).catch((error) => {
+    if (error.message === "기존 비밀번호가 일치하지 않습니다.") {
+      throw error; // 이 오류는 상위로 전파하여 UserProfile에서 처리
+    }
+    throw new Error("비밀번호 변경 중 오류가 발생했습니다.");
   });
 };
 

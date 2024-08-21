@@ -64,7 +64,7 @@ export const request = async (options) => {
     // AccessToken 만료된 경우 갱신 시도
     if (response.status === 401) {
       const errorData = await response.json();
-      
+
       // 토큰이 만료된 경우에만 재발급 시도
       if (errorData.code === "EXPIRED_TOKEN") {
         try {
@@ -79,11 +79,22 @@ export const request = async (options) => {
           window.location.href = "/login";
           throw new Error("회원 인증에 실패했습니다. 로그인을 다시 해주세요.");
         }
-      } else {
+      } else if (
+        [
+          "NOT_FOUND_TOKEN",
+          "INVALID_TOKEN",
+          "UNSUPPORTED_TOKEN",
+          "UNKNOWN_ERROR",
+        ].includes(errorData.code)
+      ) {
         // 다른 인증 오류의 경우 (예: 유효하지 않은 토큰, 지원되지 않는 토큰 등)
         clearLocalStorage();
         window.location.href = "/login";
-        throw new Error(errorData.message || "인증에 실패했습니다. 로그인을 다시 해주세요.");
+        throw new Error(
+          errorData.message || "인증에 실패했습니다. 로그인을 다시 해주세요."
+        );
+      } else {
+        throw new Error(errorData.message);
       }
     }
 
