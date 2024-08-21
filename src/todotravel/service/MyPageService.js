@@ -68,17 +68,19 @@ export const cancelFollowing = (followCancelRequest) => {
 };
 
 // 팔로잉 조회
-export const getFollowing = (userId) => {
+export const getFollowing = (userId, page) => {
+  console.log("getFollowing called with page:", page);
   return request({
-    url: `${API_BASE_URL}/api/mypage/${userId}/following`,
+    url: `${API_BASE_URL}/api/mypage/${userId}/following?page=${page}`,
     method: "GET",
   });
 };
 
 // 팔로워 조회
-export const getFollower = (userId) => {
+export const getFollower = (userId, page) => {
+  console.log("getFollower called with page:", page);
   return request({
-    url: `${API_BASE_URL}/api/mypage/${userId}/follower`,
+    url: `${API_BASE_URL}/api/mypage/${userId}/follower?page=${page}`,
     method: "GET",
   });
 };

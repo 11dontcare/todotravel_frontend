@@ -6,6 +6,7 @@ import {
   getUserProfileByNickname,
   updateUserInfo,
 } from "../../service/MyPageService";
+import FollowModal from "./FollowModal";
 
 import { FaRegBookmark, FaRegHeart } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
@@ -37,6 +38,19 @@ function MyPage() {
   const plansPerPage = 6; // 한 번에 로드할 플랜 수
   const [allPlans, setAllPlans] = useState([]); // 전체 플랜 목록
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 플랜 로딩 중 여부
+
+  // 팔로우, 팔로잉 모달 상태
+  const [showFollowModal, setShowFollowModal] = useState(false);
+  const [isFollowingModal, setIsFollowingModal] = useState(true);
+
+  const handleFollowClick = useCallback((isFollowing) => {
+    setIsFollowingModal(isFollowing);
+    setShowFollowModal(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setShowFollowModal(false);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -349,11 +363,17 @@ function MyPage() {
               <p>{profileData.planCount}</p>
               <p>여행 수</p>
             </div>
-            <div className={styles.statItem}>
+            <div
+              className={`${styles.statItem} ${styles.clickableStatItem}`}
+              onClick={() => handleFollowClick(false)}
+            >
               <p>{profileData.followerCount}</p>
               <p>팔로워</p>
             </div>
-            <div className={styles.statItem}>
+            <div
+              className={`${styles.statItem} ${styles.clickableStatItem}`}
+              onClick={() => handleFollowClick(true)}
+            >
               <p>{profileData.followingCount}</p>
               <p>팔로잉</p>
             </div>
@@ -386,6 +406,14 @@ function MyPage() {
           )}
           {renderCommentSection(profileData.recentComments)}
         </>
+      )}
+
+      {showFollowModal && (
+        <FollowModal
+          userId={profileData.userId}
+          isFollowing={isFollowingModal}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );

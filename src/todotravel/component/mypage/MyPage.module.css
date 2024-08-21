@@ -188,6 +188,15 @@
   margin: 0 60px;
 }
 
+.clickableStatItem {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.clickableStatItem:hover {
+  transform: scale(1.05);
+}
+
 .statItem p:first-child {
   font-size: 24px;
   font-weight: bold;
