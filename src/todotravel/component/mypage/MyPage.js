@@ -8,6 +8,7 @@ import {
   getAllMyPlans,
   getAllBookmarkedPlans,
   getAllLikedPlans,
+  getAllCommentedPlans,
 } from "../../service/MyPageService";
 import FollowModal from "./FollowModal";
 
@@ -53,6 +54,14 @@ function MyPage() {
   const [hasMoreFullList, setHasMoreFullList] = useState(true);
   const [allFullTripList, setAllFullTripList] = useState([]);
   const fullListObserver = useRef();
+
+  // 댓글 더보기 섹션
+  const [displayedComments, setDisplayedComments] = useState([]);
+  const [isLoadingComments, setIsLoadingComments] = useState(false);
+  const [hasMoreComments, setHasMoreComments] = useState(true);
+  const [allComments, setAllComments] = useState([]);
+  const commentsObserver = useRef();
+  const commentsPerPage = 14;
 
   const handleFollowClick = useCallback((isFollowing) => {
     setIsFollowingModal(isFollowing);
@@ -173,6 +182,43 @@ function MyPage() {
     [isLoading, isLoadingFullList, hasMoreFullList, loadMoreFullList]
   );
 
+  // 댓글 더보기 - 추가 댓글을 로드하는 함수
+  const loadMoreComments = useCallback(async () => {
+    if (isLoadingComments || !hasMoreComments) return;
+
+    setIsLoadingComments(true);
+    await new Promise((resolve) => setTimeout(resolve, 1100));
+
+    const startIndex = displayedComments.length;
+    const endIndex = startIndex + commentsPerPage;
+    const newComments = allComments.slice(startIndex, endIndex);
+
+    if (newComments.length > 0) {
+      setDisplayedComments((prevComments) => [...prevComments, ...newComments]);
+      setHasMoreComments(endIndex < allComments.length);
+    } else {
+      setHasMoreComments(false);
+    }
+
+    setIsLoadingComments(false);
+  }, [displayedComments, allComments, isLoadingComments, hasMoreComments]);
+
+  // 댓글 더보기 - 옵저버
+  const lastCommentElementRef = useCallback(
+    (node) => {
+      if (isLoading || isLoadingComments) return;
+      if (commentsObserver.current) commentsObserver.current.disconnect();
+
+      commentsObserver.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMoreComments) {
+          loadMoreComments();
+        }
+      });
+      if (node) commentsObserver.current.observe(node);
+    },
+    [isLoading, isLoadingComments, hasMoreComments, loadMoreComments]
+  );
+
   // 개인 정보 수정
   const handleEditClick = () =>
     navigate(`/mypage/${profileData.nickname}/profile`);
@@ -269,6 +315,28 @@ function MyPage() {
     }
   };
 
+  // 댓글 더보기 제어
+  const handleSeeMoreComments = async () => {
+    if (!profileData) return;
+
+    setCurrentView("comments");
+    setIsLoadingComments(true);
+    setAllComments([]);
+    setDisplayedComments([]);
+    setHasMoreComments(true);
+
+    try {
+      const response = await getAllCommentedPlans(profileData.userId);
+      setAllComments(response.data);
+      setDisplayedComments(response.data.slice(0, commentsPerPage));
+      setHasMoreComments(response.data.length > commentsPerPage);
+    } catch (error) {
+      console.error("Error fetching all comments: ", error);
+    } finally {
+      setIsLoadingComments(false);
+    }
+  };
+
   if (isLoading) return <div>로딩 중...</div>;
   if (error)
     return (
@@ -279,6 +347,68 @@ function MyPage() {
     );
   if (!profileData)
     return <div>사용자 정보를 불러오는 중 오류가 발생했습니다.</div>;
+
+  // 메인 렌더링
+  const renderTripSection = (title, trips, emptyMessage, type) => (
+    <div className={styles.tripSection}>
+      <div className={styles.sectionTitle}>
+        <h2>{title}</h2>
+        {isOwnProfile && trips && trips.length > 0 && (
+          <span onClick={() => handleSeeMore(type)}>
+            <SlArrowRight />
+          </span>
+        )}
+      </div>
+      {trips && trips.length > 0 ? (
+        <div className={styles.tripGrid}>
+          {trips.map((trip, index) => (
+            <div
+              key={`${trip.planId}-${index}`}
+              ref={
+                !isOwnProfile && index === trips.length - 1
+                  ? lastPlanElementRef
+                  : null
+              }
+              className={styles.tripCard}
+              onClick={() => handlePlanClick(trip.planId)}
+            >
+              <img
+                src={travelImage}
+                alt={trip.title}
+                className={styles.tripImage}
+              />
+              <p className={styles.location}>{trip.location}</p>
+              <h2 className={styles.planTitle}>{trip.title}</h2>
+              <p className={styles.description}>{trip.description}</p>
+              <p className={styles.dates}>
+                {trip.startDate} ~ {trip.endDate}
+              </p>
+              <div className={styles.tripFooter}>
+                <div className={styles.tripStats}>
+                  <span className={styles.bookmarks}>
+                    <FaRegBookmark /> {trip.bookmarkNumber}
+                  </span>
+                  <span className={styles.likes}>
+                    <FaRegHeart /> {trip.likeNumber}
+                  </span>
+                </div>
+                <span className={styles.planUserNickname}>
+                  {trip.planUserNickname}님의 여행 일정
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className={styles.emptyMessage}>{emptyMessage}</p>
+      )}
+      {isLoadingMore && (
+        <div className={styles.loadingSpinner}>
+          <AiOutlineLoading3Quarters className={styles.spinnerIcon} />
+        </div>
+      )}
+    </div>
+  );
 
   // 여행 더보기 렌더링
   const renderFullTripList = () => (
@@ -345,75 +475,13 @@ function MyPage() {
     </div>
   );
 
-  // 메인 렌더링
-  const renderTripSection = (title, trips, emptyMessage, type) => (
-    <div className={styles.tripSection}>
-      <div className={styles.sectionTitle}>
-        <h2>{title}</h2>
-        {isOwnProfile && trips && trips.length > 0 && (
-          <span onClick={() => handleSeeMore(type)}>
-            <SlArrowRight />
-          </span>
-        )}
-      </div>
-      {trips && trips.length > 0 ? (
-        <div className={styles.tripGrid}>
-          {trips.map((trip, index) => (
-            <div
-              key={`${trip.planId}-${index}`}
-              ref={
-                !isOwnProfile && index === trips.length - 1
-                  ? lastPlanElementRef
-                  : null
-              }
-              className={styles.tripCard}
-              onClick={() => handlePlanClick(trip.planId)}
-            >
-              <img
-                src={travelImage}
-                alt={trip.title}
-                className={styles.tripImage}
-              />
-              <p className={styles.location}>{trip.location}</p>
-              <h2 className={styles.planTitle}>{trip.title}</h2>
-              <p className={styles.description}>{trip.description}</p>
-              <p className={styles.dates}>
-                {trip.startDate} ~ {trip.endDate}
-              </p>
-              <div className={styles.tripFooter}>
-                <div className={styles.tripStats}>
-                  <span className={styles.bookmarks}>
-                    <FaRegBookmark /> {trip.bookmarkNumber}
-                  </span>
-                  <span className={styles.likes}>
-                    <FaRegHeart /> {trip.likeNumber}
-                  </span>
-                </div>
-                <span className={styles.planUserNickname}>
-                  {trip.planUserNickname}님의 여행 일정
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className={styles.emptyMessage}>{emptyMessage}</p>
-      )}
-      {isLoadingMore && (
-        <div className={styles.loadingSpinner}>
-          <AiOutlineLoading3Quarters className={styles.spinnerIcon} />
-        </div>
-      )}
-    </div>
-  );
-
-  // 댓글 부분 렌더링
+  // 댓글 부분 렌더링 (메인 화면)
   const renderCommentSection = (comments) => (
     <div className={styles.commentSection}>
       <div className={styles.sectionTitle}>
         <h2>{profileData.nickname}님의 댓글</h2>
         {comments && comments.length > 0 && (
-          <span>
+          <span onClick={handleSeeMoreComments}>
             <SlArrowRight />
           </span>
         )}
@@ -421,20 +489,70 @@ function MyPage() {
       {comments && comments.length > 0 ? (
         <div className={styles.commentGrid}>
           {comments.slice(0, 4).map((comment, index) => (
-            <div key={index} className={styles.commentItem}>
+            <div
+              key={index}
+              className={styles.commentItem}
+              onClick={() => handlePlanClick(comment.planId)}
+            >
               <img
                 src={travelImage}
                 alt="Trip thumbnail"
                 className={styles.commentImage}
               />
               <div className={styles.commentContent}>
-                <p>{comment.content}</p>
+                <h3 className={styles.commentTitle}>{comment.title}</h3>
+                <p className={styles.commentLocation}>{comment.location}</p>
+                <p className={styles.commentText}>{comment.content}</p>
               </div>
             </div>
           ))}
         </div>
       ) : (
         <p className={styles.emptyMessage}>작성한 댓글이 없습니다.</p>
+      )}
+    </div>
+  );
+
+  // 댓글 더보기 렌더링
+  const renderFullCommentList = () => (
+    <div className={styles.tripSection}>
+      <div className={styles.sectionTitle}>
+        <h2>{profileData.nickname}님의 모든 댓글</h2>
+        <span onClick={() => setCurrentView("overview")}>뒤로 가기</span>
+      </div>
+      {displayedComments.length > 0 ? (
+        <div className={styles.commentGrid}>
+          {displayedComments.map((comment, index) => (
+            <div
+              key={`${comment.planId}-${index}`}
+              ref={
+                index === displayedComments.length - 1
+                  ? lastCommentElementRef
+                  : null
+              }
+              className={styles.commentItem}
+              onClick={() => handlePlanClick(comment.planId)}
+            >
+              <img
+                src={travelImage}
+                alt="Trip thumbnail"
+                className={styles.commentImage}
+              />
+              <div className={styles.commentContent}>
+                <h3 className={styles.commentTitle}>{comment.title}</h3>
+                <p className={styles.commentLocation}>{comment.location}</p>
+                <p className={styles.commentText}>{comment.content}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className={styles.emptyMessage}>작성한 댓글이 없습니다.</p>
+      )}
+      {isLoadingComments && (
+        <div className={styles.loadingSpinner}>
+          <AiOutlineLoading3Quarters className={styles.spinnerIcon} />
+        </div>
       )}
     </div>
   );
@@ -562,6 +680,8 @@ function MyPage() {
             </>
           )}
         </>
+      ) : currentView === "comments" ? (
+        renderFullCommentList()
       ) : (
         renderFullTripList()
       )}

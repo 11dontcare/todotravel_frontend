@@ -258,7 +258,12 @@
   background: #ffffff;
   border: 1px solid #e7e7e7;
   border-radius: 20px;
+  transition: transform 0.3s ease;
   cursor: pointer;
+}
+
+.tripCard:hover {
+  transform: translateY(-5px);
 }
 
 .tripCard > div:last-child {
@@ -363,12 +368,18 @@
 
 .commentItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   background-color: #fff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid #e7e7e7;
   border-radius: 10px;
-  padding: 10px;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.commentItem:hover {
+  transform: translateY(-5px);
 }
 
 .commentImage {
@@ -381,12 +392,32 @@
 
 .commentContent {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.commentContent p {
+.commentTitle {
+  font-size: 16px;
+  font-weight: bold;
   color: #333;
+  margin: 0 0 5px 0;
+}
+
+.commentLocation {
   font-size: 14px;
+  color: #82eb71;
+  margin: 0 0 10px 0;
+}
+
+.commentText {
+  font-size: 14px;
+  color: #666;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .loadingSpinner {
