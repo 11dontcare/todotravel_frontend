@@ -5,6 +5,9 @@ import {
   doFollowing,
   getUserProfileByNickname,
   updateUserInfo,
+  getAllMyPlans,
+  getAllBookmarkedPlans,
+  getAllLikedPlans,
 } from "../../service/MyPageService";
 import FollowModal from "./FollowModal";
 
@@ -30,18 +33,26 @@ function MyPage() {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
 
-  // 무한 스크롤 관련 상태
+  // 메인 - 무한 스크롤 관련 상태 (타 사용자)
   const [displayedPlans, setDisplayedPlans] = useState([]); // 현재 화면에 표시된 플랜
-  const page = 1; // 현재 페이지 번호 (무한스크롤이므로 useState 없이 1로 설정)
-  const [hasMore, setHasMore] = useState(true); // 더 불러올 플랜이 있는지 여부
-  const observer = useRef(); // InterSection Observer 참조
-  const plansPerPage = 6; // 한 번에 로드할 플랜 수
-  const [allPlans, setAllPlans] = useState([]); // 전체 플랜 목록
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 플랜 로딩 중 여부
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 플랜이 있는지 여부
+  const [allPlans, setAllPlans] = useState([]); // 전체 플랜 목록
+  const observer = useRef(); // InterSection Observer 참조
+  const page = 1; // 현재 페이지 번호 (무한스크롤이므로 useState 없이 1로 설정)
+  const plansPerPage = 9; // 한 번에 로드할 플랜 수
 
   // 팔로우, 팔로잉 모달 상태
   const [showFollowModal, setShowFollowModal] = useState(false);
   const [isFollowingModal, setIsFollowingModal] = useState(true);
+
+  // 여행 더보기 섹션
+  const [currentView, setCurrentView] = useState("overview");
+  const [displayedFullTripList, setDisplayedFullTripList] = useState([]);
+  const [isLoadingFullList, setIsLoadingFullList] = useState(false);
+  const [hasMoreFullList, setHasMoreFullList] = useState(true);
+  const [allFullTripList, setAllFullTripList] = useState([]);
+  const fullListObserver = useRef();
 
   const handleFollowClick = useCallback((isFollowing) => {
     setIsFollowingModal(isFollowing);
@@ -52,10 +63,12 @@ function MyPage() {
     setShowFollowModal(false);
   }, []);
 
+  // 메인
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
+        setCurrentView("overview"); // 새로운 사용자 페이지로 이동할 때 overview로 리셋
         const response = await getUserProfileByNickname(nickname);
         setProfileData(response.data);
         setNewInfo(response.data.info || "");
@@ -66,14 +79,9 @@ function MyPage() {
         const isOwn = loggedInUserId === response.data.userId.toString();
         setIsOwnProfile(isOwn);
 
-        // 초기 플랜 데이터 설정
         setAllPlans(response.data.planList || []);
-
-        // 처음 보여줄 플랜 설정
         const initialPlans = response.data.planList.slice(0, plansPerPage);
         setDisplayedPlans(initialPlans);
-
-        // 더 보여줄 플랜이 있는지 확인
         setHasMore(response.data.planList.length > plansPerPage);
       } catch (error) {
         console.error("Error fetching profile data: ", error);
@@ -86,9 +94,9 @@ function MyPage() {
     fetchData();
   }, [nickname]);
 
-  // 추가 플랜을 로드하는 함수
+  // 메인 - 추가 플랜을 로드하는 함수 (타 사용자)
   const loadMorePlans = useCallback(async () => {
-    if (isLoadingMore || !hasMore) return; // 이미 로딩 중이거나 더 불러올 플랜이 없으면 종료
+    if (isLoadingMore || !hasMore) return;
 
     setIsLoadingMore(true);
     await new Promise((resolve) => setTimeout(resolve, 1100)); // 1.1초 지연
@@ -98,9 +106,7 @@ function MyPage() {
     const newPlans = allPlans.slice(startIndex, endIndex);
 
     if (newPlans.length > 0) {
-      // 새 플랜을 기존 플랜 목록에 추가
       setDisplayedPlans((prevPlans) => [...prevPlans, ...newPlans]);
-      // 더 불러올 플랜이 있는지 확인
       setHasMore(endIndex < allPlans.length);
     } else {
       setHasMore(false);
@@ -109,14 +115,13 @@ function MyPage() {
     setIsLoadingMore(false);
   }, [displayedPlans, hasMore, isLoadingMore, allPlans]);
 
-  // Intersection Observer 콜백 함수
+  // 메인 - Intersection Observer 콜백 함수
   const lastPlanElementRef = useCallback(
     (node) => {
       if (isLoading || isLoadingMore) return;
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        // 마지막 요소가 화면에 보이고, 더 불러올 플랜이 있으면 추가 로드
         if (entries[0].isIntersecting && hasMore) {
           loadMorePlans();
         }
@@ -126,30 +131,60 @@ function MyPage() {
     [isLoading, isLoadingMore, hasMore, loadMorePlans]
   );
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error)
-    return (
-      <div>
-        <p>{error}</p>
-        <button onClick={() => navigate(-1)}>뒤로 가기</button>
-      </div>
-    );
-  if (!profileData)
-    return (
-      <div>
-        <p>존재하지 않는 사용자입니다.</p>
-        <button onClick={() => navigate(-1)}>뒤로 가기</button>
-      </div>
-    );
+  // 여행 더보기 - 추가 플랜을 로드하는 함수
+  const loadMoreFullList = useCallback(async () => {
+    if (isLoadingFullList || !hasMoreFullList) return;
 
+    setIsLoadingFullList(true);
+    await new Promise((resolve) => setTimeout(resolve, 1100)); // 1.1초 지연
+
+    const startIndex = displayedFullTripList.length;
+    const endIndex = startIndex + plansPerPage;
+    const newPlans = allFullTripList.slice(startIndex, endIndex);
+
+    if (newPlans.length > 0) {
+      setDisplayedFullTripList((prevTrips) => [...prevTrips, ...newPlans]);
+      setHasMoreFullList(endIndex < allFullTripList.length);
+    } else {
+      setHasMoreFullList(false);
+    }
+
+    setIsLoadingFullList(false);
+  }, [
+    displayedFullTripList,
+    allFullTripList,
+    isLoadingFullList,
+    hasMoreFullList,
+  ]);
+
+  // 여행 더보기 - 옵저버
+  const lastFullListElementRef = useCallback(
+    (node) => {
+      if (isLoading || isLoadingFullList) return;
+      if (fullListObserver.current) fullListObserver.current.disconnect();
+
+      fullListObserver.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMoreFullList) {
+          loadMoreFullList();
+        }
+      });
+      if (node) fullListObserver.current.observe(node);
+    },
+    [isLoading, isLoadingFullList, hasMoreFullList, loadMoreFullList]
+  );
+
+  // 개인 정보 수정
   const handleEditClick = () =>
     navigate(`/mypage/${profileData.nickname}/profile`);
+  // 소개글 수정
   const handleInfoEdit = () => setIsEditingInfo(true);
+  // 소개글 변화
   const handleInfoChange = (e) => {
     const text = e.target.value;
     if (text.length <= 160) setNewInfo(text);
   };
 
+  // 소개글 변화 저장
   const handleInfoSave = async () => {
     try {
       await updateUserInfo({ userId: profileData.userId, newInfo });
@@ -161,6 +196,7 @@ function MyPage() {
     }
   };
 
+  // 팔로우, 팔로잉 토글
   const handleFollowToggle = async () => {
     const loggedInUserId = localStorage.getItem("userId");
     if (!loggedInUserId) {
@@ -195,14 +231,127 @@ function MyPage() {
     }
   };
 
+  // 각 플랜 클릭 시
   const handlePlanClick = (planId) => navigate(`/plan/${planId}/details`);
 
-  const renderTripSection = (title, trips, emptyMessage) => (
+  // 여행, 좋아요, 북마크 더보기 제어
+  const handleSeeMore = async (type) => {
+    if (!profileData) return;
+
+    setCurrentView(type);
+    setIsLoadingFullList(true);
+    setAllFullTripList([]);
+    setDisplayedFullTripList([]);
+    setHasMoreFullList(true);
+
+    try {
+      let response;
+      switch (type) {
+        case "my-trips":
+          response = await getAllMyPlans(profileData.userId);
+          break;
+        case "bookmarked":
+          response = await getAllBookmarkedPlans(profileData.userId);
+          break;
+        case "liked":
+          response = await getAllLikedPlans(profileData.userId);
+          break;
+        default:
+          throw new Error("Invalid list type");
+      }
+      setAllFullTripList(response.data);
+      setDisplayedFullTripList(response.data.slice(0, plansPerPage));
+      setHasMoreFullList(response.data.length > plansPerPage);
+    } catch (error) {
+      console.error("Error fetching full trip list: ", error);
+    } finally {
+      setIsLoadingFullList(false);
+    }
+  };
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error)
+    return (
+      <div>
+        <p>{error}</p>
+        <button onClick={() => navigate(-1)}>뒤로 가기</button>
+      </div>
+    );
+  if (!profileData)
+    return <div>사용자 정보를 불러오는 중 오류가 발생했습니다.</div>;
+
+  // 여행 더보기 렌더링
+  const renderFullTripList = () => (
+    <div className={styles.tripSection}>
+      <div className={styles.sectionTitle}>
+        <h2>
+          {profileData.nickname}님의{" "}
+          {currentView === "my-trips"
+            ? "모든 여행"
+            : currentView === "bookmarked"
+            ? "북마크한 여행"
+            : "좋아요한 여행"}
+        </h2>
+        <span onClick={() => setCurrentView("overview")}>뒤로 가기</span>
+      </div>
+      {displayedFullTripList.length > 0 ? (
+        <div className={styles.tripGrid}>
+          {displayedFullTripList.map((trip, index) => (
+            <div
+              key={`${trip.planId}-${index}`}
+              ref={
+                index === displayedFullTripList.length - 1
+                  ? lastFullListElementRef
+                  : null
+              }
+              className={styles.tripCard}
+              onClick={() => handlePlanClick(trip.planId)}
+            >
+              <img
+                src={travelImage}
+                alt={trip.title}
+                className={styles.tripImage}
+              />
+              <p className={styles.location}>{trip.location}</p>
+              <h2 className={styles.planTitle}>{trip.title}</h2>
+              <p className={styles.description}>{trip.description}</p>
+              <p className={styles.dates}>
+                {trip.startDate} ~ {trip.endDate}
+              </p>
+              <div className={styles.tripFooter}>
+                <div className={styles.tripStats}>
+                  <span className={styles.bookmarks}>
+                    <FaRegBookmark /> {trip.bookmarkNumber}
+                  </span>
+                  <span className={styles.likes}>
+                    <FaRegHeart /> {trip.likeNumber}
+                  </span>
+                </div>
+                <span className={styles.planUserNickname}>
+                  {trip.planUserNickname}님의 여행 일정
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className={styles.emptyMessage}>표시할 여행이 없습니다.</p>
+      )}
+      {isLoadingFullList && (
+        <div className={styles.loadingSpinner}>
+          <AiOutlineLoading3Quarters className={styles.spinnerIcon} />
+        </div>
+      )}
+    </div>
+  );
+
+  // 메인 렌더링
+  const renderTripSection = (title, trips, emptyMessage, type) => (
     <div className={styles.tripSection}>
       <div className={styles.sectionTitle}>
         <h2>{title}</h2>
         {isOwnProfile && trips && trips.length > 0 && (
-          <span>
+          <span onClick={() => handleSeeMore(type)}>
             <SlArrowRight />
           </span>
         )}
@@ -212,7 +361,6 @@ function MyPage() {
           {trips.map((trip, index) => (
             <div
               key={`${trip.planId}-${index}`}
-              // 마지막 요소에 ref 추가 (무한 스크롤을 위한 관찰 대상)
               ref={
                 !isOwnProfile && index === trips.length - 1
                   ? lastPlanElementRef
@@ -251,7 +399,6 @@ function MyPage() {
       ) : (
         <p className={styles.emptyMessage}>{emptyMessage}</p>
       )}
-      {/* 추가 플랜 로딩 중일 때 표시할 스피너 */}
       {isLoadingMore && (
         <div className={styles.loadingSpinner}>
           <AiOutlineLoading3Quarters className={styles.spinnerIcon} />
@@ -260,6 +407,7 @@ function MyPage() {
     </div>
   );
 
+  // 댓글 부분 렌더링
   const renderCommentSection = (comments) => (
     <div className={styles.commentSection}>
       <div className={styles.sectionTitle}>
@@ -291,6 +439,7 @@ function MyPage() {
     </div>
   );
 
+  // 메인 JSX
   return (
     <div className={styles.container}>
       <div className={styles.profileContainer}>
@@ -386,26 +535,35 @@ function MyPage() {
         )}
       </div>
 
-      {renderTripSection(
-        `${profileData.nickname}님의 여행`,
-        displayedPlans,
-        "계획한 여행이 없습니다."
-      )}
-
-      {isOwnProfile && (
+      {currentView === "overview" ? (
         <>
           {renderTripSection(
-            `${profileData.nickname}님이 북마크한 여행`,
-            profileData.recentBookmarks,
-            "북마크한 여행이 없습니다."
+            `${profileData.nickname}님의 여행`,
+            displayedPlans,
+            "계획한 여행이 없습니다.",
+            "my-trips"
           )}
-          {renderTripSection(
-            `${profileData.nickname}님이 좋아요한 여행`,
-            profileData.recentLikes,
-            "좋아요한 여행이 없습니다."
+
+          {isOwnProfile && (
+            <>
+              {renderTripSection(
+                `${profileData.nickname}님이 북마크한 여행`,
+                profileData.recentBookmarks,
+                "북마크한 여행이 없습니다.",
+                "bookmarked"
+              )}
+              {renderTripSection(
+                `${profileData.nickname}님이 좋아요한 여행`,
+                profileData.recentLikes,
+                "좋아요한 여행이 없습니다.",
+                "liked"
+              )}
+              {renderCommentSection(profileData.recentComments)}
+            </>
           )}
-          {renderCommentSection(profileData.recentComments)}
         </>
+      ) : (
+        renderFullTripList()
       )}
 
       {showFollowModal && (
