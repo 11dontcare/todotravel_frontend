@@ -88,8 +88,12 @@ function UserProfile() {
       alert("비밀번호 변경 성공");
       setShowPasswordModal(false);
     } catch (error) {
-      alert(error.message);
-      console.error("비밀번호 변경 실패: ", error);
+      if (error.message === "기존 비밀번호가 일치하지 않습니다.") {
+        alert(error.message);
+      } else {
+        alert("비밀번호 변경 중 오류가 발생했습니다.");
+        console.error("비밀번호 변경 실패: ", error);
+      }
     }
   };
 

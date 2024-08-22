@@ -41,6 +41,11 @@ export const changePassword = (passwordRequest) => {
     url: `${API_BASE_URL}/api/mypage/password`,
     method: "PUT",
     body: JSON.stringify(passwordRequest),
+  }).catch((error) => {
+    if (error.message === "기존 비밀번호가 일치하지 않습니다.") {
+      throw error; // 이 오류는 상위로 전파하여 UserProfile에서 처리
+    }
+    throw new Error("비밀번호 변경 중 오류가 발생했습니다.");
   });
 };
 
@@ -48,7 +53,7 @@ export const changePassword = (passwordRequest) => {
 export const doFollowing = (followRequest) => {
   return request({
     url: `${API_BASE_URL}/api/mypage/follow`,
-    method: "PUT",
+    method: "POST",
     body: JSON.stringify(followRequest),
   });
 };
@@ -56,24 +61,26 @@ export const doFollowing = (followRequest) => {
 // 팔로우 취소
 export const cancelFollowing = (followCancelRequest) => {
   return request({
-    url: `${API_BASE_URL}/api/mypage/follow`,
+    url: `${API_BASE_URL}/api/mypage/cancel-follow`,
     method: "DELETE",
     body: JSON.stringify(followCancelRequest),
   });
 };
 
 // 팔로잉 조회
-export const getFollowing = (userId) => {
+export const getFollowing = (userId, page) => {
+  console.log("getFollowing called with page:", page);
   return request({
-    url: `${API_BASE_URL}/api/mypage/${userId}/following`,
+    url: `${API_BASE_URL}/api/mypage/${userId}/following?page=${page}`,
     method: "GET",
   });
 };
 
 // 팔로워 조회
-export const getFollower = (userId) => {
+export const getFollower = (userId, page) => {
+  console.log("getFollower called with page:", page);
   return request({
-    url: `${API_BASE_URL}/api/mypage/${userId}/follower`,
+    url: `${API_BASE_URL}/api/mypage/${userId}/follower?page=${page}`,
     method: "GET",
   });
 };
