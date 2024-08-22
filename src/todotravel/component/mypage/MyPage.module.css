@@ -34,10 +34,51 @@
   flex-grow: 1;
 }
 
-.profileInfo h1 {
+.profileHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profileHeader h1 {
   font-size: 24px;
   margin-top: 24px;
   margin-bottom: 5px;
+}
+
+.followButton {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  margin-left: 20px; /* 버튼을 오른쪽으로 밀어냅니다 */
+}
+
+.followButton:not(.following) {
+  background-color: #51d991;
+  color: white;
+}
+
+.followButton:not(.following):hover {
+  background-color: #3ab172;
+}
+
+.followButton.following {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.followButton.following:hover {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.profileInfo {
+  flex-grow: 1;
 }
 
 .profileInfo p {
@@ -135,12 +176,25 @@
 .statsSection {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px; /* 기본 margin-top */
+}
+
+.statsSectionOther {
+  margin-top: 80px; /* 타인 페이지일 때의 margin-top */
 }
 
 .statItem {
   text-align: center;
   margin: 0 60px;
+}
+
+.clickableStatItem {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.clickableStatItem:hover {
+  transform: scale(1.05);
 }
 
 .statItem p:first-child {
@@ -172,6 +226,15 @@
 .sectionTitle span {
   color: #007bff;
   cursor: pointer;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
 }
 
 .tripGrid {
@@ -324,4 +387,25 @@
   color: #333;
   font-size: 14px;
   margin: 0;
+}
+
+.loadingSpinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.spinnerIcon {
+  font-size: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
