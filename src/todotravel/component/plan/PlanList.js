@@ -28,7 +28,7 @@ const PlanList = () => {
       })
       .catch((e) => {
         console.log(e);
-        alert("실패");
+        alert("목록을 불러올 수 없습니다.");
       });
   };
 
