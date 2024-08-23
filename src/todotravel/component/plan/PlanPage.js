@@ -17,12 +17,12 @@ const PlanPage = () => {
     if(window.confirm("플랜을 삭제하시겠습니까?")){
       deletePlan(planId)
         .then(() => {
-          alert("플랜 삭제 성공");
+          alert("플랜이 삭제되었습니다.");
           navigate("/");
         })
         .catch((e) => {
           console.log(e);
-          alert("플랜 삭제 실패");
+          alert("플랜 삭제에 실패했습니다. 다시 시도해주세요.");
         })
     }
   }
@@ -67,7 +67,7 @@ const PlanPage = () => {
       <div>
         <button>투표 리스트</button>
         <div>
-      <button onClick={handleOpenPaticipantsModal}>친구 목록 보기</button>
+      <button onClick={handleOpenPaticipantsModal}>참여 목록 보기</button>
 
       <Modal show={showParticipantsModal} onClose={handleClosePaticipantsModal}>
         <PlanFriend onInviteClick={handleOpenInviteModal} />

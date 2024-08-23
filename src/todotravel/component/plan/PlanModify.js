@@ -55,7 +55,7 @@ const PlanModify = () => {
       })
       .catch((e) => {
         console.log(e);
-        alert("실패");
+        alert("플랜을 불러올 수 없습니다. 다시 시도해주세요.");
       });
   };
 
@@ -84,7 +84,7 @@ const PlanModify = () => {
 
     modifyPlan(planForm, planId)
       .then((response) => {
-        alert("플랜 수정 완료");
+        alert("플랜이 수정되었습니다.");
         // navigate("/plan/" + planId);
         console.log(response);
         console.log(planForm);
@@ -92,7 +92,7 @@ const PlanModify = () => {
       })
       .catch((e) => {
         console.log(e);
-        alert("플랜 수정 실패");
+        alert("플랜 수정에 실패했습니다. 다시 시도해주세요.");
       });
   };
 

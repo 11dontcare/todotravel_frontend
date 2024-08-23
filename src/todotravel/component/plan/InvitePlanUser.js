@@ -19,7 +19,7 @@ const InvitePlanUser = ({ onBackClick }) => {
       })
       .catch((e) => {
         console.log(e);
-        alert("실패");
+        alert("목록을 불러올 수 없습니다. 다시 시도해주세요.");
       });
   };
 
@@ -31,7 +31,7 @@ const InvitePlanUser = ({ onBackClick }) => {
             alert(`${user.nickname}님을 초대했습니다.`);
         }).catch((e) => {
             console.log(e);
-            alert("초대 실패");
+            alert("초대에 실패했습니다. 다시 시도해주세요.");
       });
     if (onBackClick) {
         onBackClick();
