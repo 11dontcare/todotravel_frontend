@@ -138,7 +138,7 @@ const PlanDetails = () => {
           })
           .catch((e) => {
             console.log(e);
-            alert("플랜 불러오기 실패");
+            alert("플랜 불러오기를 실패했습니다. 다시 시도해주세요.");
           })
     }
     else if (option === 'modifyPlan'){
@@ -148,12 +148,12 @@ const PlanDetails = () => {
       if(window.confirm("플랜을 삭제하시겠습니까?")){
         deletePlan(planId)
           .then(() => {
-            alert("플랜 삭제 성공");
+            alert("플랜이 삭제되었습니다.");
             navigate("/");
           })
           .catch((e) => {
             console.log(e);
-            alert("플랜 삭제 실패");
+            alert("플랜 삭제에 실패했습니다. 다시 시도해주세요.");
           })
       }
     }
@@ -165,7 +165,7 @@ const PlanDetails = () => {
   }
 
   if (!plan) {
-    return <p>No plan found.</p>; // 데이터가 없을 때 표시
+    return <p>플랜을 찾을 수 없습니다.</p>; // 데이터가 없을 때 표시
   }
 
   return (

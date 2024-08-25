@@ -23,7 +23,7 @@ const PlanFriend = ({onInviteClick}) => {
       })
       .catch((e) => {
         console.log(e);
-        alert("실패");
+        alert("목록을 불러올 수 없습니다. 다시 시도해주세요.");
       });
   };
 
@@ -35,7 +35,7 @@ const PlanFriend = ({onInviteClick}) => {
         navigate("/");
       }).catch((e) => {
         console.log(e);
-        alert("플랜 나가기 실패");
+        alert("플랜 나가기에 실패했습니다. 다시 시도해주세요.");
       });
   };
 
