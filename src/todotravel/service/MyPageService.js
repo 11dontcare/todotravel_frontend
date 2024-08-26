@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../constant/backendAPI";
-import { request } from "./APIService";
+import { request, formRequest } from "./APIService";
 
 // 닉네임으로 특정 사용자 페이지 조회
 export const getUserProfileByNickname = (nickname) => {
@@ -131,13 +131,34 @@ export const getAllCommentedPlans = (userId) => {
   });
 };
 
+// 프로필 이미지 업로드
+export const uploadProfileImage = (userId, file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  return formRequest({
+    url: `${API_BASE_URL}/api/mypage/profile-image/${userId}`,
+    method: "POST",
+    body: formData,
+  });
+};
+
 const MyPageService = {
   getUserProfileByNickname,
+  updateUserInfo,
   getPersonalProfile,
+  changeNickname,
+  changePassword,
+  doWithdraw,
+  doFollowing,
+  cancelFollowing,
+  getFollowing,
+  getFollower,
   getAllMyPlans,
   getAllBookmarkedPlans,
   getAllLikedPlans,
   getAllCommentedPlans,
+  uploadProfileImage,
 };
 
 export default MyPageService;
