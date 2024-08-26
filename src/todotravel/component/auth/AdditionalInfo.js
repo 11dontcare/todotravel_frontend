@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { completeOAuth2Signup } from '../../service/AuthService';
-import { ACCESS_TOKEN } from '../../constant/backendAPI';
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { completeOAuth2Signup } from "../../service/AuthService";
+import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
-import styles from './AdditionalInfo.module.css';
+import styles from "./AdditionalInfo.module.css";
 
 function AdditionalInfo() {
   const navigate = useNavigate();
   const location = useLocation();
   const [additionalInfo, setAdditionalInfo] = useState({
     token: location.state?.token, // token을 state에서 가져옴
-    gender: '',
-    birthDate: '',
+    nickname: "",
+    gender: "",
+    birthDate: "",
   });
 
   const handleChange = (e) => {
@@ -25,14 +26,14 @@ function AdditionalInfo() {
     e.preventDefault();
     try {
       const response = await completeOAuth2Signup(additionalInfo);
-      localStorage.setItem('userId', response.userId);
-      localStorage.setItem('nickname', response.nickname);
-      localStorage.setItem('role', response.role);
+      localStorage.setItem("userId", response.userId);
+      localStorage.setItem("nickname", response.nickname);
+      localStorage.setItem("role", response.role);
       localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('추가 정보 입력 실패:', error);
-      alert('추가 정보 입력에 실패했습니다. 다시 시도해주세요.');
+      console.error("추가 정보 입력 실패:", error);
+      alert("추가 정보 입력에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -41,6 +42,17 @@ function AdditionalInfo() {
       <div className={styles.container}>
         <h1>추가 정보 입력</h1>
         <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.inputField}>
+            <label htmlFor="nickname">닉네임</label>
+            <input
+              type="text"
+              id="nickname"
+              name="nickname"
+              value={additionalInfo.nickname}
+              onChange={handleChange}
+              required
+            />
+          </div>
           <div className={styles.inputField}>
             <label htmlFor="gender">성별</label>
             <select

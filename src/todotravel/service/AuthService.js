@@ -138,6 +138,7 @@ export const completeOAuth2Signup = async (additionalInfo) => {
       method: "PUT",
       body: JSON.stringify({
         token: additionalInfo.token,
+        nickname: additionalInfo.nickname,
         gender: additionalInfo.gender,
         birthDate: additionalInfo.birthDate,
       }),
