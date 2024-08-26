@@ -131,12 +131,12 @@ ul {
 
 /* 보낸 메시지 */
 .sentMessage {
-    background-color: #6dbcde;  /* 보낸 메시지의 배경색을 #4fbff0로 설정 */
+    background-color: #a1cbeb;  /* 보낸 메시지의 배경색을 #4fbff0로 설정 */
     align-self: flex-end;  /* 오른쪽 정렬 */
 }
 
 /* 받은 메시지 */
 .receivedMessage {
-    background-color: #69cfc4;  /* 받은 메시지의 배경색을 #2f9c91로 설정 */
+    background-color: #a0c9c3;  /* 받은 메시지의 배경색을 #2f9c91로 설정 */
     align-self: flex-start;  /* 왼쪽 정렬 */
 }
