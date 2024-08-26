@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ChatContainer from './ChatContainer';
-import './FloatingButton.module.css';
+import styles from './FloatingButton.module.css';
 
 function FloatingButton() {
     // 채팅 모달이 열려 있는지 여부를 관리하는 상태
@@ -13,19 +13,15 @@ function FloatingButton() {
 
     return (
         <>
-            <div className={`floatingButton ${isChatOpen ? 'active' : ''}`} onClick={toggleChat}>
-                {/* 채팅창이 열려있지 않을 때 표시될 아이콘 */}
+            <div className={`${styles.floatingButton} ${isChatOpen ? styles.active : ''}`} onClick={toggleChat}>
                 {!isChatOpen && (
-                    <div className="chatIcon">
-                        <div className="dot dot1"></div>
-                        <div className="dot dot2"></div>
-                        <div className="dot dot3"></div>
+                    <div className={styles.chatIcon}>
+                        <div className={`${styles.dot} ${styles.dot1}`}></div>
+                        <div className={`${styles.dot} ${styles.dot2}`}></div>
+                        <div className={`${styles.dot} ${styles.dot3}`}></div>
                     </div>
                 )}
-                {/* 채팅창이 열려있을 때 표시될 X 아이콘 */}
-                {isChatOpen && (
-                    <div className="closeIcon"></div>
-                )}
+                {isChatOpen && <div className={styles.closeIcon}></div>}
             </div>
             {isChatOpen && <ChatContainer />}
         </>
