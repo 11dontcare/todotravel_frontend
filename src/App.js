@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./todotravel/context/AuthContext";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {AuthProvider} from "./todotravel/context/AuthContext";
 import styles from "./App.module.css";
 //ProtectedRoute.js
 import ProtectedRoute from "./todotravel/ProtectedRoute";
@@ -26,6 +26,8 @@ import PlanList from "./todotravel/component/plan/PlanList";
 import PlanDetails from "./todotravel/component/plan/PlanDetails";
 import ChatContainer from "./todotravel/component/chat/ChatContainer";
 
+import FloatingButton from "./todotravel/component/chat/FloatingButton";
+
 //!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
                         path="/login"
                         element={
                             <AuthLayout>
-                                <Login />
+                                <Login/>
                             </AuthLayout>
                         }
                     />
@@ -46,7 +48,7 @@ function App() {
                         path="/signup"
                         element={
                             <AuthLayout>
-                                <SignUp />
+                                <SignUp/>
                             </AuthLayout>
                         }
                     />
@@ -54,7 +56,7 @@ function App() {
                         path="/find-account"
                         element={
                             <AuthLayout>
-                                <ProfileSearch />
+                                <ProfileSearch/>
                             </AuthLayout>
                         }
                     />
@@ -62,7 +64,7 @@ function App() {
                         path="/find-id"
                         element={
                             <AuthLayout>
-                                <UsernameResult />
+                                <UsernameResult/>
                             </AuthLayout>
                         }
                     />
@@ -70,7 +72,7 @@ function App() {
                         path="/reset-password"
                         element={
                             <AuthLayout>
-                                <ResetPassword />
+                                <ResetPassword/>
                             </AuthLayout>
                         }
                     />
@@ -78,7 +80,7 @@ function App() {
                         path="/oauth2/redirect"
                         element={
                             <AuthLayout>
-                                <OAuth2RedirectHandler />
+                                <OAuth2RedirectHandler/>
                             </AuthLayout>
                         }
                     />
@@ -86,7 +88,7 @@ function App() {
                         path="/additional-info"
                         element={
                             <AuthLayout>
-                                <AdditionalInfo />
+                                <AdditionalInfo/>
                             </AuthLayout>
                         }
                     />
@@ -94,7 +96,7 @@ function App() {
                         path="/"
                         element={
                             <MainLayout>
-                                <PlanList />
+                                <PlanList/>
                             </MainLayout>
                         }
                     />
@@ -102,7 +104,7 @@ function App() {
                         path="/plan/:planId/details"
                         element={
                             <MainLayout>
-                                <PlanDetails />
+                                <PlanDetails/>
                             </MainLayout>
                         }
                     />
@@ -111,7 +113,7 @@ function App() {
                         path="/mypage/:nickname"
                         element={
                             <MainLayout>
-                                <ProtectedRoute element={<MyPage />} />
+                                <ProtectedRoute element={<MyPage/>}/>
                             </MainLayout>
                         }
                     />
@@ -119,7 +121,7 @@ function App() {
                         path="/mypage/:nickname/profile"
                         element={
                             <MainLayout>
-                                <ProtectedRoute element={<UserProfile />} />
+                                <ProtectedRoute element={<UserProfile/>}/>
                             </MainLayout>
                         }
                     />
@@ -127,7 +129,7 @@ function App() {
                         path="/plan"
                         element={
                             <MainLayout>
-                                <ProtectedRoute element={<PlanCreate />} />
+                                <ProtectedRoute element={<PlanCreate/>}/>
                             </MainLayout>
                         }
                     />
@@ -135,7 +137,7 @@ function App() {
                         path="/plan/:planId"
                         element={
                             <MainLayout>
-                                <ProtectedRoute element={<PlanPage />} />
+                                <ProtectedRoute element={<PlanPage/>}/>
                             </MainLayout>
                         }
                     />
@@ -143,7 +145,7 @@ function App() {
                         path="/plan/:planId/modify"
                         element={
                             <MainLayout>
-                                <ProtectedRoute element={<PlanModify />} />
+                                <ProtectedRoute element={<PlanModify/>}/>
                             </MainLayout>
                         }
                     />
@@ -151,12 +153,14 @@ function App() {
                         path="/chat"
                         element={
                             <MainLayout>
-                                <ProtectedRoute element={<ChatContainer />} />
+                                <ProtectedRoute element={<ChatContainer/>}/>
                             </MainLayout>
                         }
                     />
                 </Routes>
             </Router>
+            {/* 플로팅 버튼을 모든 페이지에서 보이도록 설정 */}
+            <FloatingButton />
         </AuthProvider>
     );
 }
