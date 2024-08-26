@@ -1,0 +1,92 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalContent h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.userList {
+  overflow-y: auto;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  max-height: 60vh;
+  scrollbar-width: thin;
+  scrollbar-color: #51d991 transparent;
+}
+
+.userList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.userList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.userList::-webkit-scrollbar-thumb {
+  background-color: #51d991;
+  border-radius: 4px;
+}
+
+.userList::-webkit-scrollbar-button {
+  display: none;
+}
+
+.userItem {
+  padding: 13px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.userItem:last-child {
+  border-bottom: none;
+}
+
+.userItem:hover {
+  background-color: #f5f5f5;
+}
+
+.loading {
+  text-align: center;
+  padding: 10px;
+  font-style: italic;
+  color: #888;
+}
+
+.closeButton {
+  align-self: center;
+  padding: 10px 20px;
+  background-color: #51d991;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.closeButton:hover {
+  background-color: #3ab172;
+}

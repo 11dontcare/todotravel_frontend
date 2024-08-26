@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan } from "../../service/PlanService";
+import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan } from "../../service/PlanService";
 
 import styles from './PlanDetails.module.css';
 
 import { FaBookmark } from "react-icons/fa";
-import { FcLike } from "react-icons/fc";
+import { FaHeart } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { FiMoreVertical } from "react-icons/fi";
 
 const PlanDetails = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const PlanDetails = () => {
 
   const [plan, setPlan] = useState();
   const [loading, setLoading] = useState(true); // 로딩 상태
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   useEffect(() => {
     fetchPlan();
@@ -119,12 +121,51 @@ const PlanDetails = () => {
     }
   };
 
+  // 버튼 클릭 시 상태 변경
+  const toggleMoreOptions = () => {
+    setIsMoreOpen(!isMoreOpen);
+  };
+
+  const handleOptionClick = (option) => {
+    console.log(`${option} clicked!`);
+    // 원하는 로직 추가
+    if (option === 'copyPlan'){
+      loadPlan(planId)
+          .then((response) => {
+            console.log(response);
+            alert("플랜 불러오기 성공");
+            navigate("/plan/" + response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+            alert("플랜 불러오기를 실패했습니다. 다시 시도해주세요.");
+          })
+    }
+    else if (option === 'modifyPlan'){
+      navigate("/plan/" + planId);
+    }
+    else {
+      if(window.confirm("플랜을 삭제하시겠습니까?")){
+        deletePlan(planId)
+          .then(() => {
+            alert("플랜이 삭제되었습니다.");
+            navigate("/");
+          })
+          .catch((e) => {
+            console.log(e);
+            alert("플랜 삭제에 실패했습니다. 다시 시도해주세요.");
+          })
+      }
+    }
+    setIsMoreOpen(false); // 옵션 클릭 후 메뉴 닫기
+  };
+
   if (loading) {
     return <p>Loading...</p>; // 데이터 로딩 중일 때 표시
   }
 
   if (!plan) {
-    return <p>No plan found.</p>; // 데이터가 없을 때 표시
+    return <p>플랜을 찾을 수 없습니다.</p>; // 데이터가 없을 때 표시
   }
 
   return (
@@ -147,14 +188,25 @@ const PlanDetails = () => {
           <div className={styles.bookmarkLikeContainer}>
             <div className={styles.bookmarkSection}>
               <button className={styles.bookmarkButton} onClick={handleBookmarkClick}>
-                {isBookmarked ? "북마크 취소" : "북마크"}
+                {isBookmarked ? <FaBookmark/> : <FaRegBookmark/>}
               </button> <p className={styles.bookmarkCount}> {bookmarkNumber}</p>
             </div>
             <div className={styles.likeSection}>
               <button className={styles.likeButton} onClick={handleLikeClick}>
-                {isLiked ? "좋아요 취소" : "좋아요"}
+                {isLiked ? <FaHeart style={{color: 'red', fontSize: '17px'}}/> : <FaRegHeart style={{fontSize: '17px'}}/>}
               </button> <p className={styles.likeCount}> {likeNumber}</p>
             </div>
+            <div className={styles.moreButton} onClick={toggleMoreOptions}><FiMoreVertical style={{fontSize: '18px'}}/></div>
+            {/* 더보기 창 */}
+              {isMoreOpen && (
+                <div className={styles.moreOptions}>
+                  <ul>
+                    <li onClick={() => handleOptionClick('copyPlan')}>불러오기</li>
+                    <li onClick={() => handleOptionClick('modifyPlan')}>수정하기</li>
+                    <li onClick={() => handleOptionClick('deletePlan')}>삭제하기</li>
+                  </ul>
+                </div>
+              )}
           </div>
         </div>
       </div>

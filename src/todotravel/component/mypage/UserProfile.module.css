@@ -1,0 +1,89 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.tabContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.tab {
+  width: 300px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  line-height: 140%;
+  padding: 4px 12px;
+  cursor: pointer;
+  color: #b9b8b8;
+  border-bottom: 2px solid #b9b8b8;
+}
+
+.activeTab {
+  border-bottom: 2px solid #009688;
+  color: #009688;
+}
+
+.deleteAccountSection {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* background-color: #ffe6e6; */
+}
+
+.deleteButton {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.deleteButton:hover {
+  background-color: #cc0000;
+}
+
+.profileSection {
+  margin-bottom: 30px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.infoItem span:first-child {
+  width: 100px;
+  font-weight: bold;
+}
+
+.infoItem span:nth-child(2) {
+  flex-grow: 1;
+}
+
+h1,
+h2 {
+  margin-bottom: 20px;
+}
+
+.changeButton {
+  background-color: #51d991;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.changeButton:hover {
+  background-color: #3ab172;
+}

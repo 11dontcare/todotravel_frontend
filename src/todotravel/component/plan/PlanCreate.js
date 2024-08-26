@@ -45,7 +45,7 @@ const PlanCreate = () => {
 
     createPlan(planForm)
       .then((response) => {
-        alert("플랜 생성이 완료되었습니다.");
+        alert("플랜이 생성되었습니다.");
         const planId = response.data.planId;
         console.log(response);
         console.log(planForm);
@@ -54,7 +54,7 @@ const PlanCreate = () => {
       })
       .catch((e) => {
         console.log(e);
-        alert("플랜 생성에 실패했습니다.");
+        alert("플랜 생성에 실패했습니다. 다시 시도해주세요.");
       });
   };
 

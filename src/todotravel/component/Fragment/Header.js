@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn, logout } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
@@ -12,6 +12,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [nickname, setNickname] = useState("투두");
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 메뉴 열림/닫힘 상태
+  const menuRef = useRef(null);
   const navigate = useNavigate();
 
   // 컴포넌트가 렌더링될 때 로그인 상태를 확인
@@ -23,6 +24,20 @@ const Header = () => {
       const getNickname = localStorage.getItem("nickname");
       setNickname(getNickname);
     }
+  }, []);
+
+  // 토글 메뉴가 열린 상태에서 다른 곳을 클릭하면 닫히도록
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleNavigation = (path) => {
@@ -58,7 +73,7 @@ const Header = () => {
       <input placeholder='계획 검색하기' />
 
       {isLoggedIn ? (
-        <div className={styles.option}>
+        <div className={styles.option} ref={menuRef}>
           <FiBell className={styles.bell} />
           <FiMessageSquare className={styles.message} />
           <p>{nickname}</p>
@@ -74,7 +89,7 @@ const Header = () => {
               <hr />
               <div className={styles.box2}>
                 <FaRegStar className={styles.star} />
-                <p onClick={() => navigate("/mypage")}>마이페이지</p>
+                <p onClick={() => navigate(`/mypage/${nickname}`)}>마이페이지</p>
               </div>
               <div className={styles.boxContent}>
                 <p>여행 일정 관리</p>

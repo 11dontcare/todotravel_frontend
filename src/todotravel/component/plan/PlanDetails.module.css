@@ -10,29 +10,35 @@
     justify-content: space-between; /* planDetail과 planActions 사이의 공간 분배 */
     align-items: flex-start; /* 상단 정렬 */
     border-bottom: 1px solid #ddd;
-    padding-bottom: 0;
-    padding-top: 20px;
-    height: 200px;
-    width: 950px;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    height: 135px;
+    width: 800px;
+    gap: 20px;
   }
   
   .planDetail {
-    flex: 1; /* planDetail이 가능한 공간을 차지하도록 설정 */
+    /* flex: 1;  */
+    /* planDetail이 가능한 공간을 차지하도록 설정 */
     display: flex;
     flex-direction: column;
-    padding-left: 50px;
-    gap: 0px; /* 세로 간격 조절 */
-    height: 200px;
+    gap: 5px; /* 세로 간격 조절 */
+    /* height: 200px; */
+    width: 500px;
   }
   
   .planTitle {
     font-size: 28px;
     color: #333;
+    margin: 0px;
   }
   
   .planInfo {
     display: flex;
     gap: 10px; /* 두 항목 간의 간격 조절 */
+    border: 0px;
+    align-items: center;
   }
   
   .planDates {
@@ -41,38 +47,48 @@
   }
   
   .planStatus {
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 13px;
+    /* font-weight: bold; */
+    border-radius: 8px;
+    color: white;
+    height: 18px;
+    width: 45px;
+    justify-self: center;
   }
   
   .activeStatus {
-    color: rgb(2, 158, 90);
+    background-color: rgb(2, 158, 90);
   }
   
   .inactiveStatus {
-    color: rgb(2, 95, 55);
+    background-color: rgb(2, 95, 55);
   }
   
   .planCreator {
     font-size: 16px;
     color: #777;
+    margin: 0px;
   }
   
   .planActions {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* 하단 정렬 */
-    align-items: flex-end; /* 오른쪽 정렬 */
-    width: 250px; /* 적절한 너비 설정 */
-    height: 200px;
+    margin-top: 80px;
+    justify-content: flex-end;
+     /* 하단 정렬 */
+    align-items: flex-end; 
+    /* 오른쪽 정렬 */
+    /* width: 250px;  */
+    /* 적절한 너비 설정 */
+    /* height: 200px; */
   }
   
   .bookmarkLikeContainer {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 10px; /* 북마크와 좋아요 사이의 간격 조절 */
-    width: 250px;
-    padding-bottom: 40px;
+    /* width: 250px; */
+    /* padding-top: 130px; */
+    position: relative;
   }
   
   .bookmarkSection,
@@ -86,29 +102,33 @@
   .likeCount {
     font-size: 16px;
     color: #777;
-    margin-left: 10px; /* 카운트와 버튼 간의 간격 조절 */
+    margin-left: 5px; /* 카운트와 버튼 간의 간격 조절 */
   }
   
   .bookmarkButton,
-  .likeButton {
+  .likeButton,
+  .moreButton {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background: none;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* transition: background-color 0.3s ease; */
+    padding: 0px;
   }
   
-  .bookmarkButton:hover,
   .likeButton:hover {
-    background-color: #0056b3;
+    color: red;
   }
   
   .planDetails {
     display: flex;
     flex-direction: column;
-    width: 950px;
+    width: 800px;
   }
   
   .planDescription,
@@ -116,5 +136,34 @@
   .planBudget {
     font-size: 16px;
     color: #555;
-    padding-left: 50px;
+    padding-left: 10px;
+  }
+
+  .moreOptions {
+    position: absolute;
+    top: 100%; /* 버튼 바로 아래에 위치하도록 설정 */
+    left: 0; /* 버튼의 왼쪽에 맞춰 정렬 */
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0px;
+    z-index: 100; /* 다른 요소보다 위에 표시 */
+    border-radius: 5px;
+  }
+  
+  .moreOptions ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .moreOptions li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    width: 110px;
+  }
+  
+  .moreOptions li:hover {
+    background-color: #f0f0f0;
   }
