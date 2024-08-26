@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { exitPlan, showPlanUsers } from "../../service/PlanService";
 
+import styles from './PlanFriend.module.css';
+
+import profileImage from "../../../image/user_profile_icon.png";
+
+import { GoPerson } from "react-icons/go";
+import { GoPersonAdd } from "react-icons/go";
+import { RxExit } from "react-icons/rx";
+
 const PlanFriend = ({onInviteClick}) => {
   const navigate = useNavigate();
 
@@ -10,6 +18,8 @@ const PlanFriend = ({onInviteClick}) => {
   const { planId } = useParams();
 
   const nickname = localStorage.getItem("nickname");
+
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     fetchPlanUsers();
@@ -20,6 +30,7 @@ const PlanFriend = ({onInviteClick}) => {
       .then((response) => {
         setplanUsers(response.data);
         console.log(response);
+        planUsers.sort((a,b) => a.userId - b.userId);
       })
       .catch((e) => {
         console.log(e);
@@ -27,8 +38,20 @@ const PlanFriend = ({onInviteClick}) => {
       });
   };
 
-  const handleExitPlan = (user) => {
-    exitPlan(planId, user.userId)
+  // const handleExitPlan = (user) => {
+  //   exitPlan(planId, user.userId)
+  //     .then((response) => {
+  //       console.log(response);
+  //       alert("플랜에서 나갔습니다.");
+  //       navigate("/");
+  //     }).catch((e) => {
+  //       console.log(e);
+  //       alert("플랜 나가기에 실패했습니다. 다시 시도해주세요.");
+  //     });
+  // };
+
+  const handleExitPlan = () => {
+    exitPlan(planId, userId)
       .then((response) => {
         console.log(response);
         alert("플랜에서 나갔습니다.");
@@ -46,36 +69,55 @@ const PlanFriend = ({onInviteClick}) => {
 
   return (
     <div>
-      <div>플랜 참여자 목록</div>
-      <h3>참여 중</h3>
-      <ul>
+      <div className={styles.title}>
+        <span>플랜 참여자 목록</span>
+        <span className={styles.people}><GoPerson /><span>{acceptUsers.length}</span></span>
+      </div>
+      <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>참여 중</h3>
+      <ul className={styles.userList}>
         {acceptUsers.map((user) => (
-          <li key={user.userId}>
-            {user.nickname}
-            {user.nickname === nickname && (
-              <button onClick={handleExitPlan}>나가기</button>
-            )}
+          <li key={user.userId} className={styles.userItem}>
+            <span className={styles.userInfo}>
+              <img src={profileImage} alt="Profile" className={styles.profileImage} />
+              <span className={styles.userNickname}>{user.nickname}</span>
+            </span>
+            {/* {user.nickname === nickname && (
+              <button className={styles.exitButton} onClick={() => handleExitPlan(user)}>나가기</button>
+            )} */}
           </li>
         ))}
       </ul>
-      <h3>요청됨</h3>
-      <ul>
+      </div>
+      <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>요청됨</h3>
+      <ul className={styles.userList}>
         {pendingUsers.map((user) => (
-          <li key={user.userId}>
-            {user.nickname}
-            {/* {user.nickname === nickname && (<button onClick={() => handleCancelInvite(user)}>초대 취소</button>)} */}
+          <li key={user.userId} className={styles.userItem}>
+            <span className={styles.userInfo}>
+              <img src={profileImage} alt="Profile" className={styles.profileImage} />
+              <span className={styles.userNickname}>{user.nickname}</span>
+            </span>
+            {/* {user === planUsers[0] && (<button onClick={() => handleCancelInvite(user)}>초대 취소</button>)} */}
           </li>
         ))}
       </ul>
-      <h3>거절됨</h3>
-      <ul>
+      </div>
+      <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>거절됨</h3>
+      <ul className={styles.userList}>
         {rejectUsers.map((user) => (
-          <li key={user.userId}>
-            {user.nickname}
+          <li key={user.userId} className={styles.userItem}>
+            <span className={styles.userInfo}>
+              <img src={profileImage} alt="Profile" className={styles.profileImage} />
+              <span className={styles.userNickname}>{user.nickname}</span>
+            </span>
           </li>
         ))}
       </ul>
-      <button onClick={onInviteClick}>초대하기</button>
+      </div>
+      <button className={styles.inviteButton} onClick={onInviteClick}><GoPersonAdd /></button>
+      <button className={styles.button} onClick={handleExitPlan}><RxExit /></button>
     </div>
   );
 };
