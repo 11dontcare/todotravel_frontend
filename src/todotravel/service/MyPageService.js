@@ -49,6 +49,20 @@ export const changePassword = (passwordRequest) => {
   });
 };
 
+// 회원 탈퇴
+export const doWithdraw = (userId) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/${userId}/withdraw`,
+    method: "DELETE",
+  }).then((response) => {
+    if (response.success) {
+      return response.message;
+    } else {
+      throw new Error(response.message);
+    }
+  });
+};
+
 // 사용자 팔로우
 export const doFollowing = (followRequest) => {
   return request({
