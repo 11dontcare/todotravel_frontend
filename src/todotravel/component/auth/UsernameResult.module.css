@@ -1,80 +1,96 @@
 .pageContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #fff;
-  }
-  
-  .container {
-    width: 500px;
-    background: #ffffff;
-    border: 1px solid #000000;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
-    padding: 30px;
-  }
-  
-  .title {
-    font-weight: 700;
-    font-size: 40px;
-    text-align: center;
-    margin-bottom: 20px;
-    cursor: pointer;
-  }
-  
-  .description {
-    font-size: 18px;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .resultTable {
-    border: 1px solid #e0e0e0;
-    margin-bottom: 30px;
-  }
-  
-  .row {
-    display: flex;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .row:last-child {
-    border-bottom: none;
-  }
-  
-  .label {
-    width: 100px;
-    padding: 15px;
-    background-color: #f5f5f5;
-    font-weight: bold;
-  }
-  
-  .value {
-    flex-grow: 1;
-    padding: 15px;
-  }
-  
-  .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .loginButton, .findPasswordButton {
-    width: 48%;
-    height: 40px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .loginButton {
-    background-color: #2c2c2c;
-    color: #ffffff;
-  }
-  
-  .findPasswordButton {
-    background-color: #5a5a5a;
-    color: #ffffff;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.container {
+  width: 500px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  padding: 30px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.description {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.resultTable {
+  border: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.row {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 100px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.value {
+  flex-grow: 1;
+  padding: 15px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonGroupSocial {
+  display: flex;
+  justify-content: center;
+}
+
+.loginButton,
+.findPasswordButton {
+  width: 48%;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.loginButtonSocial {
+  width: 48%;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.loginButton,
+.loginButtonSocial {
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+
+.findPasswordButton {
+  background-color: #5a5a5a;
+  color: #ffffff;
+}
