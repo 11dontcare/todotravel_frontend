@@ -44,10 +44,10 @@
 }
 
 .travelImg {
-    /* image 11 */
     border-radius: 20px;
     width: 285px;
-
+    height: 190px;
+    object-fit: cover;
 }
   
 .location {
