@@ -49,10 +49,11 @@
   justify-content: flex-start;
 }
 
-.tripImage {
-  border-radius: 12px;
-  width: 100%;
-  height: auto;
+.travelImg {
+  border-radius: 20px;
+  /* width: 285px; */
+  height: 190px; 
+  object-fit: cover; 
 }
 
 .location {

@@ -8,7 +8,7 @@ import { FaRegHeart } from "react-icons/fa";
 import styles from "./PlanList.module.css";
 import gridStyles from "./TripGrid.module.css";
 
-import travel from "../../../image/travel.png";
+import defaultThumbnail from "../../../image/thumbnail.png";
 
 const PlanList = () => {
   const navigate = useNavigate();
@@ -47,7 +47,15 @@ const PlanList = () => {
               className={gridStyles.tripCard}
               onClick={() => handlePlanClick(plan.planId)}
             >
-              <img src={travel} alt="travel" className={gridStyles.tripImage} />
+              <img
+                src={
+                  plan.planThumbnailUrl
+                    ? plan.planThumbnailUrl
+                    : defaultThumbnail
+                }
+                alt="Plan Thumbnail"
+                className={gridStyles.travelImg}
+              />
               <p className={gridStyles.location}>{plan.location}</p>
               <h2 className={gridStyles.planTitle}>{plan.title}</h2>
               <p className={gridStyles.description}>{plan.description}</p>
