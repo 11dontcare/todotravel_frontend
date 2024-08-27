@@ -120,7 +120,7 @@ function UserProfile() {
     try {
       const userId = localStorage.getItem("userId");
       const message = await doWithdraw(userId);
-      
+
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem("userId");
       localStorage.removeItem("nickname");
@@ -142,13 +142,17 @@ function UserProfile() {
     <div className={styles.container}>
       <div className={styles.tabContainer}>
         <div
-          className={activeTab === "profile" ? styles.activeTab : ""}
+          className={`${styles.tab} ${
+            activeTab === "profile" ? styles.activeTab : ""
+          }`}
           onClick={() => setActiveTab("profile")}
         >
           회원 정보
         </div>
         <div
-          className={activeTab === "deleteAccount" ? styles.activeTab : ""}
+          className={`${styles.tab} ${
+            activeTab === "deleteAccount" ? styles.activeTab : ""
+          }`}
           onClick={() => setActiveTab("deleteAccount")}
         >
           회원 탈퇴
@@ -157,76 +161,86 @@ function UserProfile() {
 
       {activeTab === "profile" && (
         <div className={styles.profileSection}>
-          <h2>로그인 정보</h2>
-          <div className={styles.infoItem}>
-            <span>아이디</span>
-            <span>
-              {isSocialUser
-                ? "소셜 유저는 아이디가 존재하지 않습니다."
-                : profileData.username}
-            </span>
-          </div>
-          <div className={styles.infoItem}>
-            <span>닉네임</span>
-            <span>{profileData.nickname}</span>
-            <button
-              onClick={() => setShowNicknameModal(true)}
-              className={styles.changeButton}
-            >
-              변경
-            </button>
-          </div>
-          <div className={styles.infoItem}>
-            <span>가입 유형</span>
-            <span>{isSocialUser ? "소셜 가입" : "일반 회원"}</span>
-          </div>
-          {!isSocialUser && (
+          <h2 className={styles.sectionTitle}>로그인 정보</h2>
+          <div className={styles.infoContainer}>
             <div className={styles.infoItem}>
-              <span>비밀번호</span>
-              <span>********</span>
+              <span className={styles.infoLabel}>아이디</span>
+              <span className={styles.infoValue}>
+                {isSocialUser
+                  ? "소셜 유저는 아이디가 존재하지 않습니다."
+                  : profileData.username}
+              </span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>닉네임</span>
+              <span className={styles.infoValue}>{profileData.nickname}</span>
               <button
-                onClick={() => setShowPasswordModal(true)}
+                onClick={() => setShowNicknameModal(true)}
                 className={styles.changeButton}
               >
                 변경
               </button>
             </div>
-          )}
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>가입 유형</span>
+              <span className={styles.infoValue}>
+                {isSocialUser ? "소셜 가입" : "일반 회원"}
+              </span>
+            </div>
+            {!isSocialUser && (
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>비밀번호</span>
+                <span className={styles.infoValue}>********</span>
+                <button
+                  onClick={() => setShowPasswordModal(true)}
+                  className={styles.changeButton}
+                >
+                  변경
+                </button>
+              </div>
+            )}
+          </div>
 
-          <h2>개인 정보</h2>
-          <div className={styles.infoItem}>
-            <span>이름</span>
-            <span>{profileData.name}</span>
-          </div>
-          <div className={styles.infoItem}>
-            <span>이메일</span>
-            <span>{profileData.email}</span>
-          </div>
-          <div className={styles.infoItem}>
-            <span>성별</span>
-            <span>{profileData.gender === "MAN" ? "남성" : "여성"}</span>
-          </div>
-          <div className={styles.infoItem}>
-            <span>생년월일</span>
-            <span>{profileData.birthDate}</span>
+          <h2 className={styles.sectionTitle}>개인 정보</h2>
+          <div className={styles.infoContainer}>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>이름</span>
+              <span className={styles.infoValue}>{profileData.name}</span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>이메일</span>
+              <span className={styles.infoValue}>{profileData.email}</span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>성별</span>
+              <span className={styles.infoValue}>
+                {profileData.gender === "MAN" ? "남성" : "여성"}
+              </span>
+            </div>
+            <div className={styles.infoItem}>
+              <span className={styles.infoLabel}>생년월일</span>
+              <span className={styles.infoValue}>{profileData.birthDate}</span>
+            </div>
           </div>
         </div>
       )}
 
       {activeTab === "deleteAccount" && (
         <div className={styles.deleteAccountSection}>
-          <h2>회원 탈퇴</h2>
+          <h2 className={styles.sectionTitle}>회원 탈퇴</h2>
           <p>
             회원탈퇴 시 개인정보는 즉시 삭제됩니다. 또한 회원님이 생성한 모든
             여행도 삭제되며, 탈퇴처리 이후에는 어떠한 방법으로도 회원님의
             개인정보를 복원할 수 없으니 신중하게 결정하시기 바랍니다.
           </p>
-          <button
-            className={styles.deleteButton}
-            onClick={handleShowConfirmModal}
-          >
-            회원탈퇴
-          </button>
+          <div className={styles.deleteButtonContainer}>
+            <button
+              className={styles.deleteButton}
+              onClick={handleShowConfirmModal}
+            >
+              회원탈퇴
+            </button>
+          </div>
         </div>
       )}
 
@@ -317,17 +331,34 @@ function UserProfile() {
         show={showConfirmModal}
         onHide={() => setShowConfirmModal(false)}
         centered
+        dialogClassName={styles.withdrawalModal}
       >
         <Modal.Header closeButton>
-          <Modal.Title>회원 탈퇴 확인</Modal.Title>
+          <Modal.Title className={styles.withdrawalTitle}>
+            회원 탈퇴 확인
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>정말 회원 탈퇴를 수행하시겠습니까?</Modal.Body>
+        <Modal.Body>
+          <p className={styles.withdrawalWarning}>
+            정말로 To Do Travel을 떠나시겠습니까?
+          </p>
+          <ul className={styles.withdrawalList}>
+            <li>모든 개인 정보가 삭제되며 복구할 수 없습니다.</li>
+            <li>작성한 모든 여행 계획과 리뷰가 삭제됩니다.</li>
+            <li>저장한 북마크와 좋아요 정보가 모두 사라집니다.</li>
+            <li>탈퇴 후 동일한 이메일로 재가입이 불가능할 수 있습니다.</li>
+          </ul>
+          <p className={styles.withdrawalReconsider}>
+            To Do Travel과 함께한 소중한 추억들을 정말 모두 지우시겠습니까?
+          </p>
+        </Modal.Body>
         <Modal.Footer>
           <Button
             variant="secondary"
             onClick={() => setShowConfirmModal(false)}
+            className={styles.stayButton}
           >
-            취소
+            To Do Travel 계속 사용하기
           </Button>
           <Button
             variant="danger"
@@ -335,8 +366,9 @@ function UserProfile() {
               setShowConfirmModal(false);
               handleWithdraw();
             }}
+            className={styles.withdrawButton}
           >
-            회원탈퇴
+            회원 탈퇴
           </Button>
         </Modal.Footer>
       </Modal>
