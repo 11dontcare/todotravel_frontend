@@ -11,6 +11,7 @@
   display: flex;
   align-items: flex-start;
   border-bottom: 1px solid #e7e7e7;
+  flex-wrap: wrap; /* 추가: 작은 화면에서 요소들이 줄바꿈되도록 함 */
 }
 
 .profileImageContainer {
@@ -19,6 +20,7 @@
   height: 300px;
   margin-left: 20px;
   margin-right: 30px;
+  flex-shrink: 0; /* 추가: 이미지 크기가 줄어들지 않도록 함 */
 }
 
 .profileImage {
@@ -54,6 +56,41 @@
 
 .profileContent {
   flex-grow: 1;
+  min-width: 300px; /* 추가: 콘텐츠의 최소 너비 설정 */
+}
+
+/* 미디어 쿼리 추가 */
+@media (max-width: 860px) {
+  .profileContainer {
+    justify-content: center;
+  }
+
+  .profileImageContainer {
+    margin: 0 0 20px 0;
+  }
+
+  .profileContent {
+    width: 100%;
+    text-align: center;
+  }
+
+  .statsSection {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileImageContainer {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 360px) {
+  .profileImageContainer {
+    width: 150px;
+    height: 150px;
+  }
 }
 
 .profileSection {
