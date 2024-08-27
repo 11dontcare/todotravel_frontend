@@ -1,13 +1,13 @@
 .container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 50px 10px 20px 10px;
 }
 
 .profileContainer {
   position: relative;
   margin-bottom: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
   display: flex;
   align-items: flex-start;
   border-bottom: 1px solid #e7e7e7;
@@ -197,6 +197,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  padding-top: 20px;
 }
 
 .editButton svg {
@@ -248,6 +249,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  padding-left: 20px;
 }
 
 .sectionTitle h2 {
@@ -258,6 +260,7 @@
   color: #555;
   cursor: pointer;
   user-select: none;
+  padding-right: 20px;
   transition: color 0.3s ease;
 }
 
@@ -287,124 +290,8 @@
   border-radius: 8px;
 }
 
-.tripGrid {
-  gap: 40px; /* 각 플랜 아이템 사이의 간격을 조절 */
-  display: flex;
-  flex-direction: row;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 한 줄에 세 개의 항목을 표시 */
-  align-items: center;
-  padding: 0 30px 10px;
-  justify-content: center;
-}
-
-.tripCard {
-  padding: 10px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-  text-align: right;
-  width: 315px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  border: 1px solid #e7e7e7;
-  border-radius: 20px;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.tripCard:hover {
-  transform: translateY(-5px);
-}
-
-.tripCard > div:last-child {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.tripImage {
-  border-radius: 20px;
-  width: 292px;
-}
-
-.location {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 100%;
-  color: #82eb71;
-}
-
-.planTitle {
-  color: #333;
-  margin-bottom: 8px;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 100%;
-}
-
-.description {
-  margin-bottom: 8px;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 100%;
-  color: #adadad;
-}
-
-.dates {
-  color: #777;
-  margin-bottom: 8px;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 100%;
-  color: #adadad;
-}
-
-.tripFooter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 5px 0;
-  padding-left: 12px;
-}
-
-.tripStats {
-  display: flex;
-  align-items: center;
-}
-
-.bookmarks,
-.likes {
-  font-size: 0.9rem;
-  color: #444;
-  margin-bottom: 0;
-  display: inline-flex;
-  align-items: center;
-  margin-right: 10px;
-}
-
-.bookmarks svg,
-.likes svg {
-  margin-right: 4px;
-}
-
-.planUserNickname {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 100%;
-  color: #82eb71;
-  margin-left: auto;
-  /* padding-right: 10px; */
-}
+/* 여행 관련 Grid + Card 부분은 TripGrid.module.css를
+공통으로 사용하도록 수정함 */
 
 .commentSection {
   margin-bottom: 30px;
@@ -413,7 +300,8 @@
 .commentGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 32px;
+  padding: 0 20px 10px;
 }
 
 .commentItem {
