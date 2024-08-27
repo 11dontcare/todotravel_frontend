@@ -1,0 +1,133 @@
+.tripGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0 20px 10px;
+  justify-content: center;
+}
+
+.tripCard {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+.tripCard:hover {
+  transform: translateY(-5px);
+}
+
+.tripCard > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tripImage {
+  border-radius: 20px;
+  width: 100%;
+  max-width: 292px;
+  height: auto;
+}
+
+.location {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 100%;
+  color: #82eb71;
+}
+
+.planTitle {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  margin-bottom: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: #adadad;
+}
+
+.dates {
+  color: #777;
+  margin-bottom: 12px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: #adadad;
+}
+
+.tripFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding-left: 12px;
+}
+
+.tripStats {
+  display: flex;
+  align-items: center;
+}
+
+.bookmarks,
+.likes {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.bookmarks svg,
+.likes svg {
+  margin-right: 4px;
+}
+
+.planUserNickname {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 100%;
+  color: #82eb71;
+  margin-left: auto;
+  /* padding-right: 10px; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+}
