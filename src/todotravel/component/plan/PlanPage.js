@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deletePlan } from "../../service/PlanService";
 import PlanModify from "./PlanModify";
-import ScheduleCreate from "./ScheduleCreate";
 import Modal from "./Modal";
 import PlanFriend from "./PlanFriend";
 import InvitePlanUser from "./InvitePlanUser";
@@ -14,7 +13,7 @@ const PlanPage = () => {
   console.log(planId);
 
   const handleDelete = () => {
-    if(window.confirm("플랜을 삭제하시겠습니까?")){
+    if (window.confirm("플랜을 삭제하시겠습니까?")) {
       deletePlan(planId)
         .then(() => {
           alert("플랜이 삭제되었습니다.");
@@ -23,9 +22,9 @@ const PlanPage = () => {
         .catch((e) => {
           console.log(e);
           alert("플랜 삭제에 실패했습니다. 다시 시도해주세요.");
-        })
+        });
     }
-  }
+  };
 
   //모달창
   const [showParticipantsModal, setShowParticipantsModal] = useState(false);
@@ -67,19 +66,20 @@ const PlanPage = () => {
       <div>
         <button>투표 리스트</button>
         <div>
-      <button onClick={handleOpenPaticipantsModal}>참여 목록 보기</button>
+          <button onClick={handleOpenPaticipantsModal}>참여 목록 보기</button>
 
-      <Modal show={showParticipantsModal} onClose={handleClosePaticipantsModal}>
-        <PlanFriend onInviteClick={handleOpenInviteModal} />
-      </Modal>
+          <Modal
+            show={showParticipantsModal}
+            onClose={handleClosePaticipantsModal}
+          >
+            <PlanFriend onInviteClick={handleOpenInviteModal} />
+          </Modal>
 
-      <Modal show={showInviteModal} onClose={handleCloseInviteModal}>
-        <InvitePlanUser onBackClick={handleCloseInviteModal} />
-      </Modal>
-    </div>
+          <Modal show={showInviteModal} onClose={handleCloseInviteModal}>
+            <InvitePlanUser onBackClick={handleCloseInviteModal} />
+          </Modal>
+        </div>
       </div>
-
-      <ScheduleCreate />
     </div>
   );
 };
