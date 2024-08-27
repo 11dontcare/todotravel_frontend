@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, socialLogin } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
+import { useAuth } from "../../context/AuthContext";
 
 import styles from "./Login.module.css";
 
@@ -15,6 +16,7 @@ function Login() {
     username: "",
     password: "",
   });
+  const { setIsLoggedIn } = useAuth();
 
   const handleLoginFormChange = (e) => {
     const changedField = e.target.name;
@@ -34,6 +36,7 @@ function Login() {
         localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
 
         window.alert(response.message);
+        setIsLoggedIn(true);
         navigate("/");
       })
       .catch((error) => {

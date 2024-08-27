@@ -8,7 +8,7 @@ import { FaRegHeart } from "react-icons/fa";
 import styles from "./PlanList.module.css";
 import gridStyles from "./TripGrid.module.css";
 
-import travel from "../../../image/travel.png";
+import defaultThumbnail from "../../../image/thumbnail.png";
 
 const PlanList = () => {
   const navigate = useNavigate();
@@ -47,39 +47,33 @@ const PlanList = () => {
               className={gridStyles.tripCard}
               onClick={() => handlePlanClick(plan.planId)}
             >
-              <div className={gridStyles.tripCardContent}>
-                <div className={gridStyles.tripCardTop}>
-                  <img
-                    src={travel}
-                    alt="travel"
-                    className={gridStyles.tripImage}
-                  />
-                  <p className={gridStyles.location}>{plan.location}</p>
-                  <h2 className={gridStyles.planTitle}>{plan.title}</h2>
+              <img
+                src={
+                  plan.planThumbnailUrl
+                    ? plan.planThumbnailUrl
+                    : defaultThumbnail
+                }
+                alt="travel"
+                className={gridStyles.tripImage}
+              />
+              <p className={gridStyles.location}>{plan.location}</p>
+              <h2 className={gridStyles.planTitle}>{plan.title}</h2>
+              <p className={gridStyles.description}>{plan.description}</p>
+              <p className={gridStyles.dates}>
+                {plan.startDate} ~ {plan.endDate}
+              </p>
+              <div className={gridStyles.tripFooter}>
+                <div className={gridStyles.tripStats}>
+                  <span className={gridStyles.bookmarks}>
+                    <FaRegBookmark /> {plan.bookmarkNumber}
+                  </span>
+                  <span className={gridStyles.likes}>
+                    <FaRegHeart /> {plan.likeNumber}
+                  </span>
                 </div>
-                <div className={gridStyles.tripCardMiddle}>
-                  <p className={gridStyles.description}>
-                    {plan.description || "\u00A0"}
-                  </p>
-                </div>
-                <div className={gridStyles.tripCardBottom}>
-                  <p className={gridStyles.dates}>
-                    {plan.startDate} ~ {plan.endDate}
-                  </p>
-                  <div className={gridStyles.tripFooter}>
-                    <div className={gridStyles.tripStats}>
-                      <span className={gridStyles.bookmarks}>
-                        <FaRegBookmark /> {plan.bookmarkNumber}
-                      </span>
-                      <span className={gridStyles.likes}>
-                        <FaRegHeart /> {plan.likeNumber}
-                      </span>
-                    </div>
-                    <span className={gridStyles.planUserNickname}>
-                      {plan.planUserNickname}님의 여행 일정
-                    </span>
-                  </div>
-                </div>
+                <span className={gridStyles.planUserNickname}>
+                  {plan.planUserNickname}님의 여행 일정
+                </span>
               </div>
             </div>
           ))
