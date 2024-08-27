@@ -55,7 +55,7 @@ function MyPage() {
   const [allPlans, setAllPlans] = useState([]); // 전체 플랜 목록
   const observer = useRef(); // InterSection Observer 참조
   const page = 1; // 현재 페이지 번호 (무한스크롤이므로 useState 없이 1로 설정)
-  const plansPerPage = 9; // 한 번에 로드할 플랜 수
+  const plansPerPage = 12; // 한 번에 로드할 플랜 수
 
   // 팔로우, 팔로잉 모달 상태
   const [showFollowModal, setShowFollowModal] = useState(false);
