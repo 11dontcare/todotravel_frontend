@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { checkIfLoggedIn, logout } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
@@ -12,9 +12,10 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [nickname, setNickname] = useState("투두");
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 메뉴 열림/닫힘 상태
-  const [scrollClass, setScrollClass] = useState(""); // 헤더 보임 상태
+  const [isTransparent, setIsTransparent] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // 컴포넌트가 렌더링될 때 로그인 상태를 확인
   useEffect(() => {
@@ -25,27 +26,18 @@ const Header = () => {
       const getNickname = localStorage.getItem("nickname");
       setNickname(getNickname);
     }
-  }, []);
 
-  // 헤더 스크롤 관리
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
+    setIsTransparent(location.pathname === "/" && window.scrollY === 0);
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY === 0) {
-        setScrollClass("");
-      } else if (currentScrollY < lastScrollY) {
-        setScrollClass(styles.visible);
-      } else {
-        setScrollClass(styles.hidden);
+      if (location.pathname === "/") {
+        setIsTransparent(window.scrollY === 0);
       }
-      lastScrollY = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location]);
 
   // 토글 메뉴가 열린 상태에서 다른 곳을 클릭하면 닫히도록
   useEffect(() => {
@@ -99,7 +91,7 @@ const Header = () => {
   };
 
   return (
-    <div className={`${styles.header} ${scrollClass}`}>
+    <div className={`${styles.header} ${isTransparent ? styles.transparentHeader : ''}`}>
       <h1 onClick={() => handleNavigation("/")}>To Do Travel</h1>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 만들기</p>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 함께하기</p>
