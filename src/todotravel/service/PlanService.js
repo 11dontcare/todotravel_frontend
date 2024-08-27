@@ -107,6 +107,13 @@ export function exitPlan(planId, userId){
   });
 }//여행 플랜 나가기 요청
 
+export function isUserInPlan(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/exist/" + userId,
+    method: "GET",
+  });
+}//여행 플랜에 사용자가 참여중인지 여부 요청
+
 
 
 //북마크, 좋아요

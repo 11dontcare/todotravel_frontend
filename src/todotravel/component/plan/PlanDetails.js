@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan, createComment, updateComment, deleteComment } from "../../service/PlanService";
+import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan, createComment, updateComment, deleteComment, isUserInPlan } from "../../service/PlanService";
 
 import styles from './PlanDetails.module.css';
 
@@ -17,6 +17,8 @@ const PlanDetails = () => {
 
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
+
+  const [existsUserInPlan, setExistsUserInPlan] = useState(false);
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -67,6 +69,17 @@ const PlanDetails = () => {
       .then((likeResponse) => {
         if (likeResponse) {
           setIsLiked(likeResponse.data);
+        }
+
+        if (userId) { // userId가 null이 아닐 때만 실행
+          return isUserInPlan(planId, userId);
+        } else {
+          return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
+        }
+      })
+      .then((existResponse) => {
+        if(existResponse){
+          setExistsUserInPlan(existResponse.data);
         }
       })
       .catch((e) => {
@@ -241,8 +254,12 @@ const PlanDetails = () => {
                 <div className={styles.moreOptions}>
                   <ul>
                     <li onClick={() => handleOptionClick('copyPlan')}>불러오기</li>
+                    {existsUserInPlan && (
                     <li onClick={() => handleOptionClick('modifyPlan')}>수정하기</li>
+                    )}
+                    {existsUserInPlan && (
                     <li onClick={() => handleOptionClick('deletePlan')}>삭제하기</li>
+                    )}
                   </ul>
                 </div>
               )}
