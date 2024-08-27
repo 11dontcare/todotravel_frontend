@@ -96,6 +96,12 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
+  // 토글 메뉴의 각 소항목 클릭 시 마이페이지의 해당 섹션으로 이동
+  const handleMyPageNavigation = (view) => {
+    navigate(`/mypage/${nickname}?view=${view}`);
+    setIsMenuOpen(false);
+  };
+
   // 화면이 줄어들었을 때 추가될 메뉴 아이템
   const menuItems = [
     { label: "여행 일정 만들기", path: "/plan" },
@@ -127,9 +133,11 @@ const Header = () => {
           <div className={styles.rightIcons}>
             <FiBell className={styles.bell} />
             {isMobileView && (
-              <FiMenu 
-                className={`${styles.menuIcon} ${isTransparent ? styles.whiteIcon : styles.blackIcon}`} 
-                onClick={toggleMenu} 
+              <FiMenu
+                className={`${styles.menuIcon} ${
+                  isTransparent ? styles.whiteIcon : styles.blackIcon
+                }`}
+                onClick={toggleMenu}
               />
             )}
           </div>
@@ -178,10 +186,18 @@ const Header = () => {
                 </p>
               </div>
               <div className={styles.boxContent}>
-                <p>여행 일정 관리</p>
-                <p>북마크 관리</p>
-                <p>댓글 관리</p>
-                <p>좋아요 관리</p>
+                <p onClick={() => handleMyPageNavigation("my-trips")}>
+                  여행 일정 관리
+                </p>
+                <p onClick={() => handleMyPageNavigation("bookmarked")}>
+                  북마크 관리
+                </p>
+                <p onClick={() => handleMyPageNavigation("liked")}>
+                  좋아요 관리
+                </p>
+                <p onClick={() => handleMyPageNavigation("comments")}>
+                  댓글 관리
+                </p>
               </div>
               <div className={styles.box2}>
                 <FaRegStar className={styles.star} />

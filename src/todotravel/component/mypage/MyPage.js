@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   cancelFollowing,
   doFollowing,
@@ -27,7 +27,12 @@ import profileImage from "../../../image/user_profile_icon.png";
 
 // 파일 크기 및 형식 제한을 위한 유틸리티
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+const ALLOWED_FILE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/gif",
+];
 
 const isFileSizeValid = (file) => {
   return file.size <= MAX_FILE_SIZE;
@@ -43,6 +48,9 @@ function MyPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { nickname } = useParams();
+  const [searchParams] = useSearchParams();
+  const initialView = searchParams.get("view") || "overview";
+  const [currentView, setCurrentView] = useState(initialView);
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [newInfo, setNewInfo] = useState("");
   const [isOwnProfile, setIsOwnProfile] = useState(false);
@@ -62,7 +70,6 @@ function MyPage() {
   const [isFollowingModal, setIsFollowingModal] = useState(true);
 
   // 여행 더보기 섹션
-  const [currentView, setCurrentView] = useState("overview");
   const [displayedFullTripList, setDisplayedFullTripList] = useState([]);
   const [isLoadingFullList, setIsLoadingFullList] = useState(false);
   const [hasMoreFullList, setHasMoreFullList] = useState(true);
@@ -94,7 +101,6 @@ function MyPage() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        setCurrentView("overview"); // 새로운 사용자 페이지로 이동할 때 overview로 리셋
         const response = await getUserProfileByNickname(nickname);
         setProfileData(response.data);
         setNewInfo(response.data.info || "");
@@ -109,6 +115,11 @@ function MyPage() {
         const initialPlans = response.data.planList.slice(0, plansPerPage);
         setDisplayedPlans(initialPlans);
         setHasMore(response.data.planList.length > plansPerPage);
+
+        // 여기서 currentView에 따라 추가 데이터를 로드합니다
+        if (currentView !== "overview") {
+          await loadViewData(currentView, response.data.userId);
+        }
       } catch (error) {
         console.error("Error fetching profile data: ", error);
         setError("사용자 정보를 불러오는 데 실패했습니다.");
@@ -118,7 +129,7 @@ function MyPage() {
     };
 
     fetchData();
-  }, [nickname]);
+  }, [nickname, currentView]);
 
   // 메인 - 추가 플랜을 로드하는 함수 (타 사용자)
   const loadMorePlans = useCallback(async () => {
@@ -297,11 +308,8 @@ function MyPage() {
   // 각 플랜 클릭 시
   const handlePlanClick = (planId) => navigate(`/plan/${planId}/details`);
 
-  // 여행, 좋아요, 북마크 더보기 제어
-  const handleSeeMore = async (type) => {
-    if (!profileData) return;
-
-    setCurrentView(type);
+  // 더보기 view 상태에 따라 데이터 요청해서 불러오기
+  const loadViewData = async (view, userId) => {
     setIsLoadingFullList(true);
     setAllFullTripList([]);
     setDisplayedFullTripList([]);
@@ -309,49 +317,47 @@ function MyPage() {
 
     try {
       let response;
-      switch (type) {
+      switch (view) {
         case "my-trips":
-          response = await getAllMyPlans(profileData.userId);
+          response = await getAllMyPlans(userId);
           break;
         case "bookmarked":
-          response = await getAllBookmarkedPlans(profileData.userId);
+          response = await getAllBookmarkedPlans(userId);
           break;
         case "liked":
-          response = await getAllLikedPlans(profileData.userId);
+          response = await getAllLikedPlans(userId);
           break;
+        case "comments":
+          response = await getAllCommentedPlans(userId);
+          setAllComments(response.data);
+          setDisplayedComments(response.data.slice(0, commentsPerPage));
+          setHasMoreComments(response.data.length > commentsPerPage);
+          return;
         default:
-          throw new Error("Invalid list type");
+          throw new Error("Invalid view type");
       }
       setAllFullTripList(response.data);
       setDisplayedFullTripList(response.data.slice(0, plansPerPage));
       setHasMoreFullList(response.data.length > plansPerPage);
     } catch (error) {
-      console.error("Error fetching full trip list: ", error);
+      console.error(`Error fetching ${view} data:`, error);
     } finally {
       setIsLoadingFullList(false);
     }
   };
 
+  // 여행, 좋아요, 북마크 더보기 제어
+  const handleSeeMore = async (type) => {
+    if (!profileData) return;
+    setCurrentView(type);
+    await loadViewData(type, profileData.userId);
+  };
+
   // 댓글 더보기 제어
   const handleSeeMoreComments = async () => {
     if (!profileData) return;
-
     setCurrentView("comments");
-    setIsLoadingComments(true);
-    setAllComments([]);
-    setDisplayedComments([]);
-    setHasMoreComments(true);
-
-    try {
-      const response = await getAllCommentedPlans(profileData.userId);
-      setAllComments(response.data);
-      setDisplayedComments(response.data.slice(0, commentsPerPage));
-      setHasMoreComments(response.data.length > commentsPerPage);
-    } catch (error) {
-      console.error("Error fetching all comments: ", error);
-    } finally {
-      setIsLoadingComments(false);
-    }
+    await loadViewData("comments", profileData.userId);
   };
 
   // 프로필 이미지 클릭 핸들러
@@ -370,7 +376,9 @@ function MyPage() {
         return;
       }
       if (!isFileTypeValid(file)) {
-        alert("지원하지 않는 파일 형식입니다. JPEG, JPG, PNG, GIF 형식의 이미지만 업로드 가능합니다.");
+        alert(
+          "지원하지 않는 파일 형식입니다. JPEG, JPG, PNG, GIF 형식의 이미지만 업로드 가능합니다."
+        );
         return;
       }
 
