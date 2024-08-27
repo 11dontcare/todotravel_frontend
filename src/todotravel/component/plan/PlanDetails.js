@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan } from "../../service/PlanService";
+import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan, createComment, updateComment, deleteComment } from "../../service/PlanService";
 
 import styles from './PlanDetails.module.css';
 
@@ -9,6 +9,8 @@ import { FaHeart } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
+import { BiComment } from "react-icons/bi";
+
 
 const PlanDetails = () => {
   const navigate = useNavigate();
@@ -22,8 +24,12 @@ const PlanDetails = () => {
   const [bookmarkNumber, setBookmarkNumber] = useState(0);
   const [likeNumber, setLikeNumber] = useState(0);
 
-  const [plan, setPlan] = useState();
+  const [plan, setPlan] = useState(null);
+  const [comments, setComments] = useState([]); // 댓글 상태
+  const [newComment, setNewComment] = useState(''); // 새로운 댓글 입력 상태
+  
   const [loading, setLoading] = useState(true); // 로딩 상태
+
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   useEffect(() => {
@@ -35,6 +41,7 @@ const PlanDetails = () => {
       .then((response) => {
         console.log(response);
         setPlan(response.data);
+        setComments(response.data.commentList || []); // 댓글 상태 초기화
         setBookmarkNumber(response.data.bookmarkNumber);
         setLikeNumber(response.data.likeNumber);
         setLoading(false);
@@ -160,6 +167,34 @@ const PlanDetails = () => {
     setIsMoreOpen(false); // 옵션 클릭 후 메뉴 닫기
   };
 
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+  
+    if (newComment.trim() === '') return;
+  
+    const newCommentObject = {
+      nickname: localStorage.getItem("nickname"),
+      content: newComment,
+      beforeTravel: true,
+    };
+  
+    // 서버에 새로운 댓글 추가 요청
+    createComment(planId, userId, newCommentObject)
+      .then((response) => {
+        const addedComment = response.data; // 서버에서 반환된 추가된 댓글
+
+        alert("댓글이 등록되었습니다.");
+
+        // 기존 댓글 리스트에 새로운 댓글 추가
+        setComments([...comments, addedComment]);
+        setNewComment(''); // 입력 필드 초기화
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("댓글 등록에 실패했습니다");
+      });
+  };
+
   if (loading) {
     return <p>Loading...</p>; // 데이터 로딩 중일 때 표시
   }
@@ -187,16 +222,20 @@ const PlanDetails = () => {
         <div className={styles.planActions}>
           <div className={styles.bookmarkLikeContainer}>
             <div className={styles.bookmarkSection}>
-              <button className={styles.bookmarkButton} onClick={handleBookmarkClick}>
+              <button className={styles.button} onClick={handleBookmarkClick}>
                 {isBookmarked ? <FaBookmark/> : <FaRegBookmark/>}
-              </button> <p className={styles.bookmarkCount}> {bookmarkNumber}</p>
+              </button> <p className={styles.count}> {bookmarkNumber}</p>
             </div>
             <div className={styles.likeSection}>
               <button className={styles.likeButton} onClick={handleLikeClick}>
                 {isLiked ? <FaHeart style={{color: 'red', fontSize: '17px'}}/> : <FaRegHeart style={{fontSize: '17px'}}/>}
-              </button> <p className={styles.likeCount}> {likeNumber}</p>
+              </button> <p className={styles.count}> {likeNumber}</p>
             </div>
-            <div className={styles.moreButton} onClick={toggleMoreOptions}><FiMoreVertical style={{fontSize: '18px'}}/></div>
+            <div className={styles.button}>
+              <BiComment style={{fontSize: '18px'}}/>
+              <p className={styles.count}> {comments.length}</p>
+            </div>
+            <div className={styles.button} onClick={toggleMoreOptions}><FiMoreVertical style={{fontSize: '18px'}}/></div>
             {/* 더보기 창 */}
               {isMoreOpen && (
                 <div className={styles.moreOptions}>
@@ -216,7 +255,6 @@ const PlanDetails = () => {
         {/* <p className={styles.planBudget}>총 예산: {plan.totalBudget}</p> */}
       </div>
 
-      {/* {isLiked ? (<FaRegBookmark onClick={handleLikeClick}/>) : (<FaBookmark onClick={handleLikeClick}/>)} */}
       {/* <h2>Schedule</h2>
       {plan.scheduleList && plan.scheduleList.length > 0 ? (
         <ul>
@@ -230,20 +268,31 @@ const PlanDetails = () => {
         </ul>
       ) : (
         <p>No schedule available.</p>
-      )}
-
-      <h2>Comments</h2>
-      {plan.commentList && plan.commentList.length > 0 ? (
-        <ul>
-          {plan.commentList.map((comment, index) => (
-            <li key={index}>
-              <strong>{comment.userNickname}:</strong> {comment.content}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No comments available.</p>
       )} */}
+      <div className={styles.commentsSection}>
+        <h3>댓글 {comments.length}</h3>
+        <form onSubmit={handleCommentSubmit} className={styles.commentForm}>
+          <textarea
+            className={styles.commentInput}
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="댓글을 입력해주세요..."
+          ></textarea>
+          <button type="submit" className={styles.commentButton}>등록</button>
+        </form>
+        {plan.commentList && plan.commentList.length > 0 ? (
+          <ul className={styles.commentList}>
+            {comments.map((comment, index) => (
+              <li key={index} className={styles.commentItem}>
+                <strong>{comment.nickname} 님</strong>
+                <p>{comment.content}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.noComments}>등록된 댓글이 없습니다.</p>
+        )}
+      </div>
     </div>
   );
 };
