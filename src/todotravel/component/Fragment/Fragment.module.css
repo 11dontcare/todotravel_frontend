@@ -11,13 +11,28 @@
   background-color: white;
   transition: transform 0.3s ease-in-out;
   z-index: 1000;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-.header.visible {
-  transform: translateY(0);
+.transparentHeader {
+  background-color: transparent;
+  border-bottom: none;
 }
 
-.header.hidden {
-  transform: translateY(-100%);
+.transparentHeader > h1,
+.transparentHeader > p,
+.transparentHeader .option > p,
+.transparentHeader .bell,
+.transparentHeader .down {
+  color: white;
+}
+
+.transparentHeader > input {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.transparentHeader > input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 .header > h1 {
   margin: 0;
