@@ -1,0 +1,154 @@
+.tripGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 34px;
+  padding: 0 20px 10px;
+  justify-content: center;
+}
+
+@media (max-width: 1200px) {
+  .tripGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .tripGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .tripGrid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+.tripCard {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.tripCard:hover {
+  transform: translateY(-5px);
+}
+
+.tripCard > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tripImage {
+  border-radius: 12px;
+  width: 100%;
+  height: auto;
+}
+
+.location {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 100%;
+  color: #0e5a1a;
+  margin-left: 2px;
+}
+
+.planTitle {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  margin-bottom: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: #adadad;
+}
+
+.dates {
+  color: #777;
+  margin-bottom: 12px;
+  margin-left: 4px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: #adadad;
+}
+
+.tripFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding-left: 5px;
+}
+
+.tripStats {
+  display: flex;
+  align-items: center;
+}
+
+.bookmarks,
+.likes {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.bookmarks svg,
+.likes svg {
+  margin-right: 4px;
+}
+
+.planUserNickname {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 100%;
+  color: #0e5a1a;
+  margin-left: auto;
+  /* padding-right: 10px; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+}
