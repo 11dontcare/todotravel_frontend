@@ -36,6 +36,7 @@
   cursor: pointer;
   height: 100%;
   width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .tripCard:hover {
@@ -49,25 +50,26 @@
 }
 
 .tripImage {
-  border-radius: 20px;
+  border-radius: 12px;
   width: 100%;
-  max-width: 292px;
   height: auto;
 }
 
 .location {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
   line-height: 100%;
-  color: #82eb71;
+  color: #0e5a1a;
+  margin-left: 2px;
 }
 
 .planTitle {
   color: #333;
   margin-top: 0;
   margin-bottom: 10px;
+  margin-left: 2px;
   font-family: "Inter";
   font-style: normal;
   font-weight: 700;
@@ -91,6 +93,7 @@
 .dates {
   color: #777;
   margin-bottom: 12px;
+  margin-left: 4px;
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
@@ -104,7 +107,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 5px 0;
-  padding-left: 12px;
+  padding-left: 5px;
 }
 
 .tripStats {
@@ -130,10 +133,10 @@
 .planUserNickname {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
   line-height: 100%;
-  color: #82eb71;
+  color: #0e5a1a;
   margin-left: auto;
   /* padding-right: 10px; */
   white-space: nowrap;
