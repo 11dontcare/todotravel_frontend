@@ -96,11 +96,6 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
-  // 닉네임을 5글자로 제한하는 함수
-  const truncateNickname = (nickname) => {
-    return nickname.length > 5 ? nickname.slice(0, 5) + ".." : nickname;
-  };
-
   // 화면이 줄어들었을 때 추가될 메뉴 아이템
   const menuItems = [
     { label: "여행 일정 만들기", path: "/plan" },
@@ -140,7 +135,7 @@ const Header = () => {
           </div>
           {!isMobileView && (
             <>
-              <p onClick={toggleMenu}>{truncateNickname(nickname)}</p>
+              <p onClick={toggleMenu}>{nickname}</p>
               <GoTriangleDown className={styles.down} onClick={toggleMenu} />
             </>
           )}
@@ -163,7 +158,7 @@ const Header = () => {
                 </>
               )}
               <div className={styles.box1}>
-                <h3>{truncateNickname(nickname)}</h3>
+                <h3>{nickname}</h3>
                 <p
                   className={styles.logout}
                   onClick={() => handleMenuItemClick(handleAuthClick)}
