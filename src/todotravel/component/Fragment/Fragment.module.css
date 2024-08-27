@@ -9,9 +9,8 @@
   left: 0;
   right: 0;
   background-color: white;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
   z-index: 1000;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .transparentHeader {
   background-color: transparent;
@@ -67,8 +66,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 120px;
+  width: 130px;
   position: relative;
+}
+.rightIcons {
+  display: flex;
+  align-items: center;
 }
 .bell {
   font-size: 24px;
@@ -94,6 +97,7 @@
   cursor: pointer;
   margin-top: 2px;
 }
+
 /* dropdown */
 .dropdownMenu {
   position: absolute;
@@ -154,6 +158,65 @@
   margin: 0;
   cursor: pointer;
 }
+
+/* 화면 줄어들었을 때 */
+.menuIcon {
+  font-size: 24px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.whiteIcon {
+  color: white;
+}
+
+.blackIcon {
+  color: black;
+}
+
+@media (max-width: 1090px) {
+  .header {
+    padding: 14px 20px 14px 41px;
+    justify-content: space-between;
+  }
+
+  .header > h1 {
+    margin-right: 20px;
+  }
+
+  .header > input,
+  .header > p {
+    display: none;
+    cursor: pointer;
+  }
+
+  .option {
+    width: auto;
+    margin-left: auto;
+  }
+
+  .rightIcons {
+    margin-left: auto;
+  }
+
+  .dropdownMenu {
+    width: 200px;
+    right: -20px;
+  }
+
+  .dropdownMenu > p {
+    cursor: pointer;
+  }
+}
+
+.dropdownMenu input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+
 /* Footer */
 .footer {
   display: flex;
@@ -164,8 +227,4 @@
 .footer > p {
   font-size: 14px;
   margin: 5px 0;
-}
-/* 컨텐츠가 헤더 아래에 위치하도록 body에 패딩 추가 */
-body {
-  /* padding-top: 10px; 헤더의 실제 높이에 맞게 조정 */
 }
