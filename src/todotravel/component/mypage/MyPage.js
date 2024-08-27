@@ -9,10 +9,11 @@ import {
   getAllBookmarkedPlans,
   getAllLikedPlans,
   getAllCommentedPlans,
+  uploadProfileImage,
 } from "../../service/MyPageService";
 import FollowModal from "./FollowModal";
 
-import { FaRegBookmark, FaRegHeart } from "react-icons/fa";
+import { FaRegBookmark, FaRegHeart, FaCamera } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import { DiAptana } from "react-icons/di";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
@@ -22,6 +23,18 @@ import styles from "./MyPage.module.css";
 
 import travelImage from "../../../image/travel.png";
 import profileImage from "../../../image/user_profile_icon.png";
+
+// 파일 크기 및 형식 제한을 위한 유틸리티
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+
+const isFileSizeValid = (file) => {
+  return file.size <= MAX_FILE_SIZE;
+};
+
+const isFileTypeValid = (file) => {
+  return ALLOWED_FILE_TYPES.includes(file.type);
+};
 
 function MyPage() {
   const navigate = useNavigate();
@@ -62,6 +75,9 @@ function MyPage() {
   const [allComments, setAllComments] = useState([]);
   const commentsObserver = useRef();
   const commentsPerPage = 14;
+
+  // 프로필 이미지 입력을 위한 상태
+  const fileInputRef = useRef(null);
 
   const handleFollowClick = useCallback((isFollowing) => {
     setIsFollowingModal(isFollowing);
@@ -337,6 +353,44 @@ function MyPage() {
     }
   };
 
+  // 프로필 이미지 클릭 핸들러
+  const handleProfileImageClick = () => {
+    if (isOwnProfile && fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // 파일 선택 핸들러
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (!isFileSizeValid(file)) {
+        alert("이미지는 최대 5MB까지 업로드할 수 있습니다.");
+        return;
+      }
+      if (!isFileTypeValid(file)) {
+        alert("지원하지 않는 파일 형식입니다. JPEG, JPG, PNG, GIF 형식의 이미지만 업로드 가능합니다.");
+        return;
+      }
+
+      try {
+        const response = await uploadProfileImage(profileData.userId, file);
+        if (response.success) {
+          setProfileData((prevData) => ({
+            ...prevData,
+            profileImageUrl: response.data.profileImageUrl,
+          }));
+          alert(response.message);
+        } else {
+          alert(response.message || "프로필 이미지 업로드에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("프로필 이미지 업로드 중 오류 발생: ", error.message);
+        alert("프로필 이미지 업로드 중 오류가 발생했습니다.");
+      }
+    }
+  };
+
   if (isLoading) return <div>로딩 중...</div>;
   if (error)
     return (
@@ -561,7 +615,28 @@ function MyPage() {
   return (
     <div className={styles.container}>
       <div className={styles.profileContainer}>
-        <img src={profileImage} alt="Profile" className={styles.profileImage} />
+        <div
+          className={styles.profileImageContainer}
+          onClick={handleProfileImageClick}
+        >
+          <img
+            src={profileData.profileImageUrl || profileImage}
+            alt="Profile"
+            className={styles.profileImage}
+          />
+          {isOwnProfile && (
+            <div className={styles.profileImageOverlay}>
+              <FaCamera className={styles.cameraIcon} />
+            </div>
+          )}
+        </div>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+          accept="image/jpeg,image/jpg,image/png,image/gif"
+        />
         <div className={styles.profileContent}>
           <div className={styles.profileSection}>
             <div className={styles.profileInfo}>

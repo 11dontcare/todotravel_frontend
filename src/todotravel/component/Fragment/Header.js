@@ -12,6 +12,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [nickname, setNickname] = useState("투두");
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 메뉴 열림/닫힘 상태
+  const [scrollClass, setScrollClass] = useState(""); // 헤더 보임 상태
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
@@ -24,6 +25,26 @@ const Header = () => {
       const getNickname = localStorage.getItem("nickname");
       setNickname(getNickname);
     }
+  }, []);
+
+  // 헤더 스크롤 관리
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY === 0) {
+        setScrollClass("");
+      } else if (currentScrollY < lastScrollY) {
+        setScrollClass(styles.visible);
+      } else {
+        setScrollClass(styles.hidden);
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // 토글 메뉴가 열린 상태에서 다른 곳을 클릭하면 닫히도록
@@ -42,6 +63,7 @@ const Header = () => {
 
   const handleNavigation = (path) => {
     navigate(path);
+    setIsMenuOpen(false); // 메뉴 항목 클릭 시 메뉴 닫기
   };
 
   const handleAuthClick = async () => {
@@ -57,6 +79,7 @@ const Header = () => {
     } else {
       navigate("/login"); // 로그인 페이지로 이동
     }
+    setIsMenuOpen(false); // 로그아웃 버튼 클릭 시 메뉴 닫기
   };
 
   //메뉴 열림/닫힘 토글
@@ -64,32 +87,52 @@ const Header = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
 
+  // 메뉴 항목 클릭 시 메뉴를 닫는 함수
+  const handleMenuItemClick = (action) => {
+    action();
+    setIsMenuOpen(false);
+  };
+
+  // 닉네임을 5글자로 제한하는 함수
+  const truncateNickname = (nickname) => {
+    return nickname.length > 5 ? nickname.slice(0, 5) + ".." : nickname;
+  };
+
   return (
-    <div className={styles.header}>
+    <div className={`${styles.header} ${scrollClass}`}>
       <h1 onClick={() => handleNavigation("/")}>To Do Travel</h1>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 만들기</p>
       <p onClick={() => handleNavigation("/plan")}>여행 일정 함께하기</p>
       <p onClick={() => handleNavigation("/plan")}>장소 검색하기</p>
-      <input placeholder='계획 검색하기' />
+      <input placeholder="계획 검색하기" />
 
       {isLoggedIn ? (
         <div className={styles.option} ref={menuRef}>
           <FiBell className={styles.bell} />
-          <FiMessageSquare className={styles.message} />
-          <p>{nickname}</p>
+          {/* <FiMessageSquare className={styles.message} /> */}
+          <p onClick={toggleMenu}>{truncateNickname(nickname)}</p>
           <GoTriangleDown className={styles.down} onClick={toggleMenu} />
           {isMenuOpen && (
             <div className={styles.dropdownMenu}>
               <div className={styles.box1}>
-                <h3>{nickname}</h3>
-                <p className={styles.logout} onClick={handleAuthClick}>
+                <h3>{truncateNickname(nickname)}</h3>
+                <p
+                  className={styles.logout}
+                  onClick={() => handleMenuItemClick(handleAuthClick)}
+                >
                   로그아웃
                 </p>
               </div>
               <hr />
               <div className={styles.box2}>
                 <FaRegStar className={styles.star} />
-                <p onClick={() => navigate(`/mypage/${nickname}`)}>마이페이지</p>
+                <p
+                  onClick={() =>
+                    handleMenuItemClick(() => navigate(`/mypage/${nickname}`))
+                  }
+                >
+                  마이페이지
+                </p>
               </div>
               <div className={styles.boxContent}>
                 <p>여행 일정 관리</p>

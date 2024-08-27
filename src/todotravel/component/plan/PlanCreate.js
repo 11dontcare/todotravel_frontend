@@ -7,6 +7,7 @@ import styles from './Form.module.css';
 const PlanCreate = () => {
   const navigate = useNavigate();
   const [isPublic, setIsPublic] = useState(false); // 상태를 추가하여 스위치의 상태를 관리합니다.
+  let planId = null;
 
   const handleSwitchChange = () => {
     setIsPublic(!isPublic); // 스위치 상태를 반전시킵니다.
@@ -46,11 +47,11 @@ const PlanCreate = () => {
     createPlan(planForm)
       .then((response) => {
         alert("플랜이 생성되었습니다.");
-        const planId = response.data.planId;
+        planId = response.data;
         console.log(response);
         console.log(planForm);
 
-        navigate("/");
+        navigate("/plan/" + planId);
       })
       .catch((e) => {
         console.log(e);
