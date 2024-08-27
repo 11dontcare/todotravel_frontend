@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { checkIfLoggedIn, logout } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
 import styles from "./Fragment.module.css";
-import { FiBell, FiMessageSquare } from "react-icons/fi";
+import { FiBell, FiMessageSquare, FiMenu } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
 
@@ -12,9 +12,11 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [nickname, setNickname] = useState("투두");
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 메뉴 열림/닫힘 상태
-  const [scrollClass, setScrollClass] = useState(""); // 헤더 보임 상태
+  const [isTransparent, setIsTransparent] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // 컴포넌트가 렌더링될 때 로그인 상태를 확인
   useEffect(() => {
@@ -25,27 +27,28 @@ const Header = () => {
       const getNickname = localStorage.getItem("nickname");
       setNickname(getNickname);
     }
-  }, []);
 
-  // 헤더 스크롤 관리
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
+    setIsTransparent(location.pathname === "/" && window.scrollY === 0);
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY === 0) {
-        setScrollClass("");
-      } else if (currentScrollY < lastScrollY) {
-        setScrollClass(styles.visible);
-      } else {
-        setScrollClass(styles.hidden);
+      if (location.pathname === "/") {
+        setIsTransparent(window.scrollY === 0);
       }
-      lastScrollY = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 1090);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [location]);
 
   // 토글 메뉴가 열린 상태에서 다른 곳을 클릭하면 닫히도록
   useEffect(() => {
@@ -98,22 +101,67 @@ const Header = () => {
     return nickname.length > 5 ? nickname.slice(0, 5) + ".." : nickname;
   };
 
+  // 화면이 줄어들었을 때 추가될 메뉴 아이템
+  const menuItems = [
+    { label: "여행 일정 만들기", path: "/plan" },
+    { label: "여행 일정 함께하기", path: "/plan" },
+    { label: "장소 검색하기", path: "/plan" },
+  ];
+
   return (
-    <div className={`${styles.header} ${scrollClass}`}>
+    <div
+      className={`${styles.header} ${
+        isTransparent ? styles.transparentHeader : ""
+      }`}
+    >
       <h1 onClick={() => handleNavigation("/")}>To Do Travel</h1>
-      <p onClick={() => handleNavigation("/plan")}>여행 일정 만들기</p>
-      <p onClick={() => handleNavigation("/plan")}>여행 일정 함께하기</p>
-      <p onClick={() => handleNavigation("/plan")}>장소 검색하기</p>
-      <input placeholder="계획 검색하기" />
+
+      {!isMobileView ? (
+        <>
+          {menuItems.map((item, index) => (
+            <p key={index} onClick={() => handleNavigation(item.path)}>
+              {item.label}
+            </p>
+          ))}
+          <input placeholder="계획 검색하기" />
+        </>
+      ) : null}
 
       {isLoggedIn ? (
         <div className={styles.option} ref={menuRef}>
-          <FiBell className={styles.bell} />
-          {/* <FiMessageSquare className={styles.message} /> */}
-          <p onClick={toggleMenu}>{truncateNickname(nickname)}</p>
-          <GoTriangleDown className={styles.down} onClick={toggleMenu} />
+          <div className={styles.rightIcons}>
+            <FiBell className={styles.bell} />
+            {isMobileView && (
+              <FiMenu 
+                className={`${styles.menuIcon} ${isTransparent ? styles.whiteIcon : styles.blackIcon}`} 
+                onClick={toggleMenu} 
+              />
+            )}
+          </div>
+          {!isMobileView && (
+            <>
+              <p onClick={toggleMenu}>{truncateNickname(nickname)}</p>
+              <GoTriangleDown className={styles.down} onClick={toggleMenu} />
+            </>
+          )}
           {isMenuOpen && (
             <div className={styles.dropdownMenu}>
+              {isMobileView && (
+                <>
+                  {menuItems.map((item, index) => (
+                    <p
+                      key={index}
+                      onClick={() =>
+                        handleMenuItemClick(() => handleNavigation(item.path))
+                      }
+                    >
+                      {item.label}
+                    </p>
+                  ))}
+                  <input placeholder="계획 검색하기" />
+                  <hr />
+                </>
+              )}
               <div className={styles.box1}>
                 <h3>{truncateNickname(nickname)}</h3>
                 <p

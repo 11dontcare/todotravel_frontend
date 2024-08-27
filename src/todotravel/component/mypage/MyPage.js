@@ -20,6 +20,7 @@ import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import styles from "./MyPage.module.css";
+import gridStyles from "../plan/TripGrid.module.css";
 
 import travelImage from "../../../image/travel.png";
 import profileImage from "../../../image/user_profile_icon.png";
@@ -54,7 +55,7 @@ function MyPage() {
   const [allPlans, setAllPlans] = useState([]); // 전체 플랜 목록
   const observer = useRef(); // InterSection Observer 참조
   const page = 1; // 현재 페이지 번호 (무한스크롤이므로 useState 없이 1로 설정)
-  const plansPerPage = 9; // 한 번에 로드할 플랜 수
+  const plansPerPage = 12; // 한 번에 로드할 플랜 수
 
   // 팔로우, 팔로잉 모달 상태
   const [showFollowModal, setShowFollowModal] = useState(false);
@@ -414,7 +415,7 @@ function MyPage() {
         )}
       </div>
       {trips && trips.length > 0 ? (
-        <div className={styles.tripGrid}>
+        <div className={gridStyles.tripGrid}>
           {trips.map((trip, index) => (
             <div
               key={`${trip.planId}-${index}`}
@@ -423,30 +424,30 @@ function MyPage() {
                   ? lastPlanElementRef
                   : null
               }
-              className={styles.tripCard}
+              className={gridStyles.tripCard}
               onClick={() => handlePlanClick(trip.planId)}
             >
               <img
                 src={travelImage}
                 alt={trip.title}
-                className={styles.tripImage}
+                className={gridStyles.tripImage}
               />
-              <p className={styles.location}>{trip.location}</p>
-              <h2 className={styles.planTitle}>{trip.title}</h2>
-              <p className={styles.description}>{trip.description}</p>
-              <p className={styles.dates}>
+              <p className={gridStyles.location}>{trip.location}</p>
+              <h2 className={gridStyles.planTitle}>{trip.title}</h2>
+              <p className={gridStyles.description}>{trip.description}</p>
+              <p className={gridStyles.dates}>
                 {trip.startDate} ~ {trip.endDate}
               </p>
-              <div className={styles.tripFooter}>
-                <div className={styles.tripStats}>
-                  <span className={styles.bookmarks}>
+              <div className={gridStyles.tripFooter}>
+                <div className={gridStyles.tripStats}>
+                  <span className={gridStyles.bookmarks}>
                     <FaRegBookmark /> {trip.bookmarkNumber}
                   </span>
-                  <span className={styles.likes}>
+                  <span className={gridStyles.likes}>
                     <FaRegHeart /> {trip.likeNumber}
                   </span>
                 </div>
-                <span className={styles.planUserNickname}>
+                <span className={gridStyles.planUserNickname}>
                   {trip.planUserNickname}님의 여행 일정
                 </span>
               </div>
@@ -454,7 +455,7 @@ function MyPage() {
           ))}
         </div>
       ) : (
-        <p className={styles.emptyMessage}>{emptyMessage}</p>
+        <p className={gridStyles.emptyMessage}>{emptyMessage}</p>
       )}
       {isLoadingMore && (
         <div className={styles.loadingSpinner}>
@@ -479,7 +480,7 @@ function MyPage() {
         <span onClick={() => setCurrentView("overview")}>뒤로 가기</span>
       </div>
       {displayedFullTripList.length > 0 ? (
-        <div className={styles.tripGrid}>
+        <div className={gridStyles.tripGrid}>
           {displayedFullTripList.map((trip, index) => (
             <div
               key={`${trip.planId}-${index}`}
@@ -488,30 +489,30 @@ function MyPage() {
                   ? lastFullListElementRef
                   : null
               }
-              className={styles.tripCard}
+              className={gridStyles.tripCard}
               onClick={() => handlePlanClick(trip.planId)}
             >
               <img
                 src={travelImage}
                 alt={trip.title}
-                className={styles.tripImage}
+                className={gridStyles.tripImage}
               />
-              <p className={styles.location}>{trip.location}</p>
-              <h2 className={styles.planTitle}>{trip.title}</h2>
-              <p className={styles.description}>{trip.description}</p>
-              <p className={styles.dates}>
+              <p className={gridStyles.location}>{trip.location}</p>
+              <h2 className={gridStyles.planTitle}>{trip.title}</h2>
+              <p className={gridStyles.description}>{trip.description}</p>
+              <p className={gridStyles.dates}>
                 {trip.startDate} ~ {trip.endDate}
               </p>
-              <div className={styles.tripFooter}>
-                <div className={styles.tripStats}>
-                  <span className={styles.bookmarks}>
+              <div className={gridStyles.tripFooter}>
+                <div className={gridStyles.tripStats}>
+                  <span className={gridStyles.bookmarks}>
                     <FaRegBookmark /> {trip.bookmarkNumber}
                   </span>
-                  <span className={styles.likes}>
+                  <span className={gridStyles.likes}>
                     <FaRegHeart /> {trip.likeNumber}
                   </span>
                 </div>
-                <span className={styles.planUserNickname}>
+                <span className={gridStyles.planUserNickname}>
                   {trip.planUserNickname}님의 여행 일정
                 </span>
               </div>
@@ -519,7 +520,7 @@ function MyPage() {
           ))}
         </div>
       ) : (
-        <p className={styles.emptyMessage}>표시할 여행이 없습니다.</p>
+        <p className={gridStyles.emptyMessage}>표시할 여행이 없습니다.</p>
       )}
       {isLoadingFullList && (
         <div className={styles.loadingSpinner}>

@@ -155,5 +155,34 @@ export function cancelLike(planId, userId) {
   });
 } //플랜 좋아요 취소 요청
 
+
+
+//댓글
+
+
+
+export function createComment(planId, userId, commentRequest) {
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/comment/" + userId,
+    method: "POST",
+    body: JSON.stringify(commentRequest),
+  });
+} //댓글 생성 요청
+
+export function updateComment(commentId, commentRequest) {
+  return request({
+    url: API_BASE_URL + "/api/plan/comment/" + commentId,
+    method: "PUT",
+    body: JSON.stringify(commentRequest),
+  });
+} //댓글 수정 요청
+
+export function deleteComment(commentId) {
+  return request({
+    url: API_BASE_URL + "/api/plan/comment/" + commentId,
+    method: "DELETE",
+  });
+} //댓글 삭제 요청
+
 class PlanService {}
 export default new PlanService();
