@@ -1,0 +1,14 @@
+.text {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 100%;
+    /* or 32px */
+    padding: 20px;
+    padding-top: 40px;
+    /* padding-left: 55px; */
+    margin: 20px;
+
+    color: #000000;
+}

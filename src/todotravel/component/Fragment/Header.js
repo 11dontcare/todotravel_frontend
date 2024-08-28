@@ -17,6 +17,7 @@ const Header = () => {
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   // 컴포넌트가 렌더링될 때 로그인 상태를 확인
   useEffect(() => {
@@ -108,6 +109,17 @@ const Header = () => {
     { label: "장소 검색하기", path: "/plan" },
   ];
 
+  //플랜 검색
+  const handleInputChange = (e) => {
+    setSearchKeyword(e.target.value);
+  };
+
+  const handleSearchClick = () => {
+    console.log(searchKeyword);
+    setSearchKeyword('');
+    navigate("/plan/" + searchKeyword);
+  };
+
   return (
     <div
       className={`${styles.header} ${
@@ -123,7 +135,8 @@ const Header = () => {
               {item.label}
             </p>
           ))}
-          <input placeholder="계획 검색하기" />
+          <input type="text" placeholder="계획 검색하기" value={searchKeyword} onChange={handleInputChange}/>
+          <button onClick={handleSearchClick}>검색</button>
         </>
       ) : null}
 
