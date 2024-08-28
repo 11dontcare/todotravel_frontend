@@ -53,8 +53,8 @@ const PlanList = () => {
                     ? plan.planThumbnailUrl
                     : defaultThumbnail
                 }
-                alt="Plan Thumbnail"
-                className={gridStyles.travelImg}
+                alt="travel"
+                className={gridStyles.tripImage}
               />
               <p className={gridStyles.location}>{plan.location}</p>
               <h2 className={gridStyles.planTitle}>{plan.title}</h2>

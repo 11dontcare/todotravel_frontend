@@ -1,13 +1,7 @@
-.pageContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #fff;
-}
-
 .container {
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;

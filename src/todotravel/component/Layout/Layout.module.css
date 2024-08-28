@@ -5,12 +5,19 @@
   min-height: 100vh;
   background-color: #f9f9f9;
 }
+.authContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 40px 0;
+}
 .mainPage {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  padding: 0 0 15px 0;
+  padding: 0;
   margin: 0 auto;
   box-sizing: border-box;
   /* border-left: 1px solid #e7e7e7;
