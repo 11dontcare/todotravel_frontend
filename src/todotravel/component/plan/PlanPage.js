@@ -5,6 +5,7 @@ import PlanModify from "./PlanModify";
 import Modal from "./Modal";
 import PlanFriend from "./PlanFriend";
 import InvitePlanUser from "./InvitePlanUser";
+import VoteList from "./Vote/VoteList";
 
 const PlanPage = () => {
   const navigate = useNavigate();
@@ -20,13 +21,14 @@ const PlanPage = () => {
   //모달창
   const [showParticipantsModal, setShowParticipantsModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showVoteListModal, setShowVoteListModal] = useState(false);
 
   useEffect(() => {
     isUserInPlan(planId, userId)
       .then((response) => {
-        if(response.data){
+        if (response.data) {
           setExistsPlanUser(true);
-        }else{
+        } else {
           setExistsPlanUser(false);
         }
       })
@@ -40,7 +42,7 @@ const PlanPage = () => {
   }, []);
 
   useEffect(() => {
-    if(existsPlanUser === false){
+    if (existsPlanUser === false) {
       alert("접근 권한이 없습니다.");
       navigate("/");
     }
@@ -82,6 +84,14 @@ const PlanPage = () => {
     setShowParticipantsModal(true); // 사용자 추가 모달을 닫고 친구 목록 모달을 다시 엽니다.
   };
 
+  const handleOpenVoteListModal = () => {
+    setShowVoteListModal(true);
+  };
+
+  const handleCloseVoteListModal = () => {
+    setShowVoteListModal(false);
+  };
+
   return (
     <div>
       {/* <div>
@@ -112,6 +122,11 @@ const PlanPage = () => {
           <Modal show={showInviteModal} onClose={handleCloseInviteModal}>
             <InvitePlanUser onBackClick={handleCloseInviteModal} />
           </Modal>
+
+          <VoteList
+            show={showVoteListModal}
+            onClose={handleCloseVoteListModal}
+          />
         </div>
       </div>
     </div>
