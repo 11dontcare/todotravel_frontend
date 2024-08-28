@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getChatRooms } from "../../service/ChatService";
-import ChatRoomList from "./ChatRoomList";
 import ChatRoomDetail from "./ChatRoomDetail";
 import styles from "./Chat.module.css";  // CSS 모듈을 import
 

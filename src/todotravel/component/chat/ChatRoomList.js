@@ -2,16 +2,20 @@ import React from "react";
 import styles from "./Chat.module.css";  // CSS 모듈을 import
 
 const ChatRoomList = ({ chatRooms, onSelectRoom }) => {
+    console.log("ChatRoomList rendered with rooms:", chatRooms);
+
     return (
-        <div>
-            <div className={styles.chatHeaderSmall}>Chat Rooms</div>
-            {/* 헤더 스타일 적용 */}
+        <div className={styles.chatRoomList}>
             <ul>
-                {chatRooms.map((room) => (
-                    <li key={room.roomId} onClick={() => onSelectRoom(room.roomId)}>
-                        {room.roomName}
-                    </li>
-                ))}
+                {chatRooms.length > 0 ? (
+                    chatRooms.map((room) => (
+                        <li key={room.roomId} onClick={() => onSelectRoom(room.roomId)}>
+                            {room.roomName}
+                        </li>
+                    ))
+                ) : (
+                    <li className={styles.noChatRooms}>참여 중인 채팅방이 없습니다</li>
+                )}
             </ul>
         </div>
     );
