@@ -1,17 +1,45 @@
+.scrollContainer {
+  max-height: 550px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* 스크롤바 숨기기 */
+.scrollContainer::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.scrollContainer {
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+  -ms-overflow-style: none; /* IE에서 스크롤바 숨기기 */
+}
+
 .title {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 40px;
-    margin-top: 20px;
+    margin: 20px 16px 40px;
+    /* margin-top: 20px; */
     color: #333;
-    /* text-align: center; */
-    align-self: center;
     display: flex;
-    margin-left: 130px;
+    justify-content: space-between;
+    align-items: center;
+    
+    /* margin-left: 130px; */
+  }
+
+  .backButton {
+    background-color: white;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    font-size: 24px;
+    text-align: center;
+    height: 24px;
   }
 
   .people {
-    margin-left: 60px;
+    /* margin-left: 60px; */
     font-size: 20px;
     display: flex;
     align-items: center;

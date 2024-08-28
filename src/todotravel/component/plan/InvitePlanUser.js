@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { inviteUser, showUsers } from "../../service/PlanService";
 
+import styles from './InvitePlanUser.module.css';
+
+import profileImage from "../../../image/user_profile_icon.png";
+
+import { IoArrowBack } from "react-icons/io5";
+
 const InvitePlanUser = ({ onBackClick }) => {
     const { planId } = useParams();
 
@@ -39,16 +45,23 @@ const InvitePlanUser = ({ onBackClick }) => {
   };
   return (
     <div>
-      <h2>사용자 추가</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.userId}>
-            {user.nickname}
-            <button onClick={() => handleInviteClick(user)}>초대하기</button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={onBackClick}>취소</button>
+      <div className={styles.title}>
+      <button onClick={onBackClick} className={styles.backButton}><IoArrowBack /></button>
+        <span style={{marginLeft: '90px', }}>팔로워 목록</span>
+      </div>
+      <div className={styles.listContainer}>
+        <ul className={styles.userList}>
+          {users.map((user) => (
+            <li key={user.userId} className={styles.userItem}>
+              <span className={styles.userInfo}>
+                <img src={profileImage} alt="Profile" className={styles.profileImage} />
+                <span className={styles.userNickname}>{user.nickname}</span>
+              </span>
+              <button onClick={() => handleInviteClick(user)} className={styles.inviteButton}>초대하기</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

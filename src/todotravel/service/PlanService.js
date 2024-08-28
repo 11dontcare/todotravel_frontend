@@ -7,7 +7,7 @@ export function createPlan(formData) {
     method: "POST",
     body: formData,
   });
-}
+}//여행 플랜 생성 요청
 
 export function uploadThumbnail(formData, planId) {
   return request({
@@ -111,6 +111,13 @@ export function exitPlan(planId, userId) {
   });
 } //여행 플랜 나가기 요청
 
+export function isUserInPlan(planId, userId){
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/exist/" + userId,
+    method: "GET",
+  });
+}//여행 플랜에 사용자가 참여중인지 여부 요청
+
 //북마크, 좋아요
 
 export function checkIsBookmarked(planId, userId) {
@@ -155,11 +162,7 @@ export function cancelLike(planId, userId) {
   });
 } //플랜 좋아요 취소 요청
 
-
-
 //댓글
-
-
 
 export function createComment(planId, userId, commentRequest) {
   return request({
