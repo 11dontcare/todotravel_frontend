@@ -18,6 +18,16 @@
   background-repeat: no-repeat;
 }
 
+.authPage > h1 {
+  position: absolute;
+  color: #fefefe;
+  margin-top: 15px;
+  margin-left: 42px;
+  margin-bottom: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
 .contentOverlay {
   position: relative;
   z-index: 1;
