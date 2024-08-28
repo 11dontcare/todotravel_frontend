@@ -61,59 +61,63 @@ function Login() {
     socialLogin(provider);
   };
 
-  const handleTitleClick = () => {
-    navigate("/");
-  };
-
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        {/* <button className={styles.closeButton} onClick={handleClose}>X</button> */}
-        <h1 onClick={handleTitleClick}>To Do Travel</h1>
-        <h2>로그인</h2>
+        <div className={styles.titleWrap}>
+          <h1>만나서 반가워요!</h1>
+          <h3>서비스 이용을 위해 로그인이 필요해요.</h3>
+        </div>
+
+        <p className={styles.snsLogin}>SNS 로그인</p>
+        <div className={styles.socialButtons}>
+          <img
+            src={naverLogo}
+            alt="naver"
+            onClick={() => handleSocialLogin("naver")}
+            className={styles.socialButton}
+          />
+          <img
+            src={kakaoLogo}
+            alt="kakao"
+            onClick={() => handleSocialLogin("kakao")}
+            className={styles.socialButton}
+          />
+          <img
+            src={googleLogo}
+            alt="google"
+            onClick={() => handleSocialLogin("google")}
+            className={styles.socialButton}
+          />
+        </div>
+
+        <hr />
+
         <form className={styles.form} onSubmit={handleLoginFormSubmit}>
           <input
-            placeholder='아이디'
-            type='text'
-            name='username'
+            placeholder="아이디"
+            type="text"
+            name="username"
             required
             value={loginForm.username}
             onChange={handleLoginFormChange}
-          ></input>
+          />
           <input
-            placeholder='비밀번호'
-            type='password'
-            name='password'
+            placeholder="비밀번호"
+            type="password"
+            name="password"
             required
             value={loginForm.password}
             onChange={handleLoginFormChange}
-          ></input>
-          <button className={styles.button}>로그인</button>
+          />
+          <button className={styles.loginButton}>로그인</button>
         </form>
-        <p className={styles.forgetAuth} onClick={handleGoProfileSearch}>
-          아이디/비밀번호 찾기
-        </p>
-        <hr></hr>
-        <div className={styles.social}>
-          <img
-            src={kakaoLogo}
-            alt='kakao'
-            onClick={() => handleSocialLogin("kakao")}
-          ></img>
-          <img
-            src={naverLogo}
-            alt='naver'
-            onClick={() => handleSocialLogin("naver")}
-          ></img>
-          <img
-            src={googleLogo}
-            alt='google'
-            onClick={() => handleSocialLogin("google")}
-          ></img>
+
+        <div className={styles.bottomLinks}>
+          <span onClick={handleGoProfileSearch}>아이디/비밀번호 찾기</span>
+          <span>|</span>
+          <span onClick={handleGoSignUp}>회원가입</span>
         </div>
-        <p className={styles.goSignUp}>
-          계정이 없으신가요? <strong onClick={handleGoSignUp}>회원가입</strong>
-        </p>
       </div>
     </div>
   );
