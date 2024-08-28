@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { completeOAuth2Signup } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
+import { useAuth } from "../../context/AuthContext";
 
 import styles from "./AdditionalInfo.module.css";
 
 function AdditionalInfo() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setIsLoggedIn } = useAuth();
   const [additionalInfo, setAdditionalInfo] = useState({
     token: location.state?.token, // token을 state에서 가져옴
     nickname: "",
@@ -30,6 +32,7 @@ function AdditionalInfo() {
       localStorage.setItem("nickname", response.nickname);
       localStorage.setItem("role", response.role);
       localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+      setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
       console.error("추가 정보 입력 실패:", error);
