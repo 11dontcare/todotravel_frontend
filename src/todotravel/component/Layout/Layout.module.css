@@ -1,3 +1,4 @@
+/* 사용자 인증 관련 Layout */
 .authPage {
   display: flex;
   flex-direction: column;
@@ -6,7 +7,6 @@
   position: relative;
   overflow: hidden;
 }
-
 .backgroundImage {
   position: absolute;
   top: 0;
@@ -17,7 +17,6 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-
 .authPage > h1 {
   position: absolute;
   color: #fefefe;
@@ -27,13 +26,32 @@
   cursor: pointer;
   z-index: 2;
 }
-.authContent {
+.contentOverlay {
+  position: relative;
+  z-index: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f9f9f9;
-  padding: 40px 0;
+  min-height: 100vh;
+  width: 100%;
+  /* background-color: rgba(249, 249, 249, 0.7); */
 }
+.copyright {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  z-index: 2;
+}
+.copyright p {
+  margin: 5px 0;
+}
+
+/* Main Layout */
 .mainPage {
   display: flex;
   flex-direction: column;
@@ -44,7 +62,7 @@
   box-sizing: border-box;
   /* border-left: 1px solid #e7e7e7;
   border-right: 1px solid #e7e7e7; */
-  background-color: rgb(247, 247, 247);
+  background-color: #fff;
 }
 .mainContent {
   max-width: 1300px;
