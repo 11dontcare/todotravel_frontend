@@ -6,9 +6,9 @@ import { useAuth } from "../../context/AuthContext";
 
 import styles from "./Login.module.css";
 
-import kakaoLogo from "../../../image/kakao.png";
-import naverLogo from "../../../image/naver.png";
-import googleLogo from "../../../image/google.png";
+import kakaoLogo from "../../../image/kakaoButton.png";
+import naverLogo from "../../../image/naverButton.png";
+import googleLogo from "../../../image/googleButton.png";
 
 function Login() {
   const navigate = useNavigate();
