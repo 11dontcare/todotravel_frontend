@@ -1,63 +1,58 @@
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 50px 20px 20px 20px;
 }
 
 .tabContainer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 25px;
+  border-bottom: 1px solid #ddd;
 }
 
 .tab {
-  width: 300px;
-  height: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  line-height: 140%;
-  padding: 4px 12px;
+  padding: 10px 20px;
   cursor: pointer;
-  color: #b9b8b8;
-  border-bottom: 2px solid #b9b8b8;
+  font-size: 16px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  margin-right: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .activeTab {
-  border-bottom: 2px solid #009688;
-  color: #009688;
-}
-
-.deleteAccountSection {
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  /* background-color: #ffe6e6; */
-}
-
-.deleteButton {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.deleteButton:hover {
-  background-color: #cc0000;
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
 }
 
 .profileSection {
   margin-bottom: 30px;
 }
 
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #009688;
+}
+
+.infoContainer {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
 .infoItem {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  /* padding: 10px; */
+  border-bottom: 1px solid #eee;
 }
 
 .infoItem span:first-child {
@@ -66,6 +61,22 @@
 }
 
 .infoItem span:nth-child(2) {
+  flex-grow: 1;
+}
+
+.infoItem:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  width: 120px;
+  font-weight: bold;
+  background-color: #f8f8f8;
+  padding: 15px;
+  margin-right: 10px;
+}
+
+.infoValue {
   flex-grow: 1;
 }
 
@@ -82,8 +93,110 @@ h2 {
   border-radius: 5px;
   cursor: pointer;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .changeButton:hover {
   background-color: #3ab172;
+}
+
+.deleteAccountSection {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.deleteButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.deleteButton {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #cc0000;
+}
+
+/* 회원 탈퇴 확인 모달 */
+.withdrawalModal {
+  font-family: "Arial", sans-serif;
+}
+
+.withdrawalModal :global(.modal-dialog) {
+  width: 500px;
+  max-width: 500px;
+}
+
+.withdrawalModal :global(.modal-content) {
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.withdrawalTitle {
+  color: #d9534f;
+  font-weight: bold;
+}
+
+.withdrawalWarning {
+  font-size: 18px;
+  font-weight: bold;
+  color: #d9534f;
+  margin-bottom: 20px;
+}
+
+.withdrawalList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.withdrawalList li {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.withdrawalList li:before {
+  content: "•";
+  color: #d9534f;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.withdrawalReconsider {
+  font-style: italic;
+  color: #31708f;
+  margin-top: 20px;
+}
+
+.stayButton {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.stayButton:hover {
+  background-color: #449d44;
+  border-color: #398439;
+}
+
+.withdrawButton {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  margin-bottom: 20px;
+}
+
+.withdrawButton:hover {
+  background-color: #c9302c;
+  border-color: #ac2925;
 }

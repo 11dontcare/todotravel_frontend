@@ -277,45 +277,43 @@ const ProfileSearch = () => {
   );
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.container}>
-        <h1 className={styles.title} onClick={handleTitleClick}>
-          To Do Travel
-        </h1>
-        <div className={styles.tabContainer}>
-          <div
-            className={`${styles.tab} ${
-              activeTab === "id" ? styles.activeTab : ""
-            }`}
-            onClick={() => setActiveTab("id")}
-          >
-            아이디 찾기
-          </div>
-          <div
-            className={`${styles.tab} ${
-              activeTab === "password" ? styles.activeTab : ""
-            }`}
-            onClick={() => setActiveTab("password")}
-          >
-            비밀번호 찾기
-          </div>
+    <div className={styles.container}>
+      <h1 className={styles.title} onClick={handleTitleClick}>
+        To Do Travel
+      </h1>
+      <div className={styles.tabContainer}>
+        <div
+          className={`${styles.tab} ${
+            activeTab === "id" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("id")}
+        >
+          아이디 찾기
         </div>
-        <p className={styles.description}>
-          {activeTab === "id"
-            ? "회원정보에 등록된 이메일로 아이디를 찾을 수 있습니다."
-            : "회원정보에 등록된 이메일로 비밀번호를 재설정할 수 있습니다."}
-        </p>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          {activeTab === "id" ? renderIdSearch() : renderPasswordSearch()}
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={!savedCode || !verificationCode}
-          >
-            인증 확인
-          </button>
-        </form>
+        <div
+          className={`${styles.tab} ${
+            activeTab === "password" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("password")}
+        >
+          비밀번호 찾기
+        </div>
       </div>
+      <p className={styles.description}>
+        {activeTab === "id"
+          ? "회원정보에 등록된 이메일로 아이디를 찾을 수 있습니다."
+          : "회원정보에 등록된 이메일로 비밀번호를 재설정할 수 있습니다."}
+      </p>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        {activeTab === "id" ? renderIdSearch() : renderPasswordSearch()}
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={!savedCode || !verificationCode}
+        >
+          인증 확인
+        </button>
+      </form>
     </div>
   );
 };
