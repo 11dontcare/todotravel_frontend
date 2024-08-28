@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan, createComment, updateComment, deleteComment } from "../../service/PlanService";
+import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan, createComment, updateComment, deleteComment, isUserInPlan } from "../../service/PlanService";
 
 import styles from './PlanDetails.module.css';
 
@@ -17,6 +17,9 @@ const PlanDetails = () => {
 
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
+
+  const [existsUserInPlan, setExistsUserInPlan] = useState(null);
+  const [isPublic, setIsPublic] = useState(null);
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -41,9 +44,21 @@ const PlanDetails = () => {
       .then((response) => {
         console.log(response);
         setPlan(response.data);
+        setIsPublic(response.data.isPublic);
         setComments(response.data.commentList || []); // 댓글 상태 초기화
         setBookmarkNumber(response.data.bookmarkNumber);
         setLikeNumber(response.data.likeNumber);
+
+        if (userId) { // userId가 null이 아닐 때만 실행
+          return isUserInPlan(planId, userId);
+        } else {
+          return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
+        }
+      })
+      .then((existResponse) => {
+        if(existResponse){
+          setExistsUserInPlan(existResponse.data);
+        }
         setLoading(false);
 
         // 플랜 정보 가져온 후 북마크 상태도 확인
@@ -71,10 +86,27 @@ const PlanDetails = () => {
       })
       .catch((e) => {
         console.log(e);
-        setLoading(false);
         alert("플랜 정보 조회에 실패했습니다");
+        setLoading(false);
       });
   };
+
+  useEffect(() => {
+    if(isPublic !== null && existsUserInPlan !== null){
+      if(!isPublic && !existsUserInPlan){
+        alert("접근 권한이 없습니다.");
+        navigate("/");
+      }
+    }
+  }, [isPublic, existsUserInPlan, navigate]);
+
+  if (loading) {
+    return <p>Loading...</p>; // 데이터 로딩 중일 때 표시
+  }
+
+  if (!plan) {
+    return <p>플랜을 찾을 수 없습니다.</p>; // 데이터가 없을 때 표시
+  }
 
   const handleBookmarkClick = () => {
     if (isBookmarked) {
@@ -195,14 +227,6 @@ const PlanDetails = () => {
       });
   };
 
-  if (loading) {
-    return <p>Loading...</p>; // 데이터 로딩 중일 때 표시
-  }
-
-  if (!plan) {
-    return <p>플랜을 찾을 수 없습니다.</p>; // 데이터가 없을 때 표시
-  }
-
   return (
     <div className={styles.planContainer}>
       <div className={styles.planHeader}>
@@ -241,8 +265,12 @@ const PlanDetails = () => {
                 <div className={styles.moreOptions}>
                   <ul>
                     <li onClick={() => handleOptionClick('copyPlan')}>불러오기</li>
+                    {existsUserInPlan && (
                     <li onClick={() => handleOptionClick('modifyPlan')}>수정하기</li>
+                    )}
+                    {existsUserInPlan && (
                     <li onClick={() => handleOptionClick('deletePlan')}>삭제하기</li>
+                    )}
                   </ul>
                 </div>
               )}

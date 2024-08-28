@@ -9,10 +9,10 @@ const Modal = ({ show, onClose, children }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>
+        {/* <button className={styles.closeButton} onClick={onClose}>
           ×
-        </button>
-        {children}
+        </button> */}
+        {React.cloneElement(children, { onClose })}
       </div>
     </div>
   );

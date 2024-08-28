@@ -28,6 +28,8 @@ import ChatContainer from "./todotravel/component/chat/ChatContainer";
 
 import FloatingButton from "./todotravel/component/chat/FloatingButton";
 
+import PlanSearch from "./todotravel/component/plan/PlanSearch";
+
 //!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
 
 function App() {
@@ -105,6 +107,14 @@ function App() {
                         element={
                             <MainLayout>
                                 <PlanDetails/>
+                            </MainLayout>
+                        }
+                    />
+                    <Route
+                        path="/plan/:keyword"
+                        element={
+                            <MainLayout>
+                                <PlanSearch/>
                             </MainLayout>
                         }
                     />
