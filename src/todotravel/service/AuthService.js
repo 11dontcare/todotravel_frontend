@@ -164,19 +164,8 @@ export const handleOAuth2Login = async (token) => {
     });
 
     if (response.success) {
-      if (response.data.isNewUser) {
-        return { isNewUser: true, userId: response.data.userId };
-      } else {
-        return {
-          isNewUser: false,
-          loginData: {
-            userId: response.data.userId,
-            nickname: response.data.nickname,
-            role: response.data.role,
-            accessToken: response.data.accessToken,
-          },
-        };
-      }
+      localStorage.removeItem(ACCESS_TOKEN);
+      return response.data;
     }
     throw new Error(response.message || "소셜 로그인 실패");
   } catch (error) {
