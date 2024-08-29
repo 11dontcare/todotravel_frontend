@@ -53,11 +53,13 @@ const Chatting = ({ roomId }) => {
   };
 
   return (
-      <div>
-        <input type="text" value={inputValue} onChange={handleInputChange}/>
-        <button className={styles.sendButton} onClick={sendMessage}>Send</button>
-        {/* 수정된 스타일 클래스 적용 */}
+      <div className={styles.chattingContainer}>
+        <div className={styles.inputContainer}>
+          <input type="text" value={inputValue} onChange={handleInputChange}/>
+          <button className={styles.sendButton} onClick={sendMessage}>보내기</button>
+        </div>
       </div>
+
   );
 };
 
