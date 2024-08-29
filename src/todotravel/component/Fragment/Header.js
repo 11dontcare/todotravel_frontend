@@ -4,7 +4,7 @@ import { checkIfLoggedIn, logout } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
 import styles from "./Fragment.module.css";
-import { FiBell, FiMessageSquare, FiMenu } from "react-icons/fi";
+import { FiBell, FiMessageSquare, FiMenu, FiSearch } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
 
@@ -17,7 +17,7 @@ const Header = () => {
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   // 컴포넌트가 렌더링될 때 로그인 상태를 확인
   useEffect(() => {
@@ -38,7 +38,7 @@ const Header = () => {
     };
 
     const handleResize = () => {
-      setIsMobileView(window.innerWidth <= 1090);
+      setIsMobileView(window.innerWidth <= 1140);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -117,8 +117,22 @@ const Header = () => {
 
   const handleSearchClick = () => {
     console.log(searchKeyword);
-    setSearchKeyword('');
-    navigate("/plan/" + searchKeyword);
+    if (searchKeyword.trim()) {
+      navigate("/plan/" + searchKeyword.trim());
+      setSearchKeyword("");
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    handleSearchClick();
+  };
+
+  // 엔터로도 검색 되도록
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchClick();
+    }
   };
 
   return (
@@ -136,8 +150,22 @@ const Header = () => {
               {item.label}
             </p>
           ))}
-          <input type="text" placeholder="계획 검색하기" value={searchKeyword} onChange={handleInputChange}/>
-          <button onClick={handleSearchClick}>검색</button>
+          <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+            <input
+              type="text"
+              placeholder="계획 검색하기"
+              value={searchKeyword}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+            />
+            <button
+              type="submit"
+              className={styles.searchButton}
+              onClick={handleSearchClick}
+            >
+              <FiSearch />
+            </button>
+          </form>
         </>
       ) : null}
 
@@ -162,22 +190,6 @@ const Header = () => {
           )}
           {isMenuOpen && (
             <div className={styles.dropdownMenu}>
-              {isMobileView && (
-                <>
-                  {menuItems.map((item, index) => (
-                    <p
-                      key={index}
-                      onClick={() =>
-                        handleMenuItemClick(() => handleNavigation(item.path))
-                      }
-                    >
-                      {item.label}
-                    </p>
-                  ))}
-                  <input placeholder="계획 검색하기" />
-                  <hr />
-                </>
-              )}
               <div className={styles.box1}>
                 <h3>{nickname}</h3>
                 <p
@@ -216,6 +228,40 @@ const Header = () => {
                 <FaRegStar className={styles.star} />
                 <p>채팅</p>
               </div>
+              {isMobileView && (
+                <>
+                  <hr/>
+                  {menuItems.map((item, index) => (
+                    <p
+                      key={index}
+                      onClick={() =>
+                        handleMenuItemClick(() => handleNavigation(item.path))
+                      }
+                    >
+                      {item.label}
+                    </p>
+                  ))}
+                  <form
+                    onSubmit={handleSearchSubmit}
+                    className={styles.searchForm}
+                  >
+                    <input
+                      type="text"
+                      placeholder="계획 검색하기"
+                      value={searchKeyword}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                    />
+                    <button
+                      type="submit"
+                      className={styles.searchButton}
+                      onClick={handleSearchClick}
+                    >
+                      <FiSearch />
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
           )}
         </div>
