@@ -2,8 +2,7 @@
 .floatingButton {
     position: fixed; /* 버튼이 화면의 고정된 위치에 표시되도록 설정 */
     bottom: 60px; /* 화면 하단에서 50px 위 */
-    left: 50%; /* 화면의 왼쪽에서 50% (즉, 중앙)에 위치 */
-    transform: translateX(450px) translateX(-50%); /* 중앙에서 오른쪽으로 50px 이동 */
+    right: 80px; /* 화면 우측으로부터 80px 옆 */
     width: 75px; /* 버튼의 너비 */
     height: 60px; /* 버튼의 높이 */
     background: #FFFFFF; /* 버튼의 배경색을 흰색으로 설정 */

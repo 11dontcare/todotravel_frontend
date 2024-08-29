@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { handleOAuth2Login } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
+import { useAuth } from "../../context/AuthContext";
 
 function OAuth2RedirectHandler() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -25,18 +27,14 @@ function OAuth2RedirectHandler() {
         navigate("/additional-info", { state: { token: token } });
       } else {
         handleOAuth2Login(token)
-          .then(data => {
-            if (!data.isNewUser) {
-              // 기존 사용자의 경우 로그인 처리
-              localStorage.setItem("userId", data.loginData.userId);
-              localStorage.setItem("nickname", data.loginData.nickname);
-              localStorage.setItem("role", data.loginData.role);
-              localStorage.setItem(ACCESS_TOKEN, data.loginData.accessToken);
-
-              navigate("/");
-            } else {
-              throw new Error(data.message || "OAuth2 로그인 실패");
-            }
+          .then((data) => {
+            // 기존 사용자의 경우 로그인 처리
+            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("nickname", data.nickname);
+            localStorage.setItem("role", data.role);
+            localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+            setIsLoggedIn(true);
+            navigate("/");
           })
           .catch((error) => {
             console.error("OAuth2 로그인 에러: ", error);
@@ -49,7 +47,7 @@ function OAuth2RedirectHandler() {
       alert("로그인 정보가 올바르지 않습니다. 다시 시도해 주세요.");
       navigate("/login");
     }
-  }, [location, navigate]);
+  }, [location, navigate, setIsLoggedIn]);
 
   return <div>OAuth2 로그인 처리 중...</div>;
 }

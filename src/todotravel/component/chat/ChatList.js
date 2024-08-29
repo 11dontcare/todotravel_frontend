@@ -43,7 +43,6 @@ const ChatList = ({ roomId }) => {
 
     return (
         <div>
-            <h3>Chat History</h3>
             <ul>
                 {chatHistory.map((chat, index) => (
                     <li

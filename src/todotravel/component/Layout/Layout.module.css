@@ -1,27 +1,68 @@
+/* 사용자 인증 관련 Layout */
 .authPage {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  background-color: #f9f9f9;
+  position: relative;
+  overflow: hidden;
 }
-.authContent {
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.authPage > h1 {
+  position: absolute;
+  color: #fefefe;
+  margin-top: 15px;
+  margin-left: 42px;
+  margin-bottom: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.contentOverlay {
+  position: relative;
+  z-index: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f9f9f9;
-  padding: 40px 0;
+  min-height: 100vh;
+  width: 100%;
+  /* background-color: rgba(249, 249, 249, 0.7); */
 }
+.copyright {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  z-index: 2;
+}
+.copyright p {
+  margin: 5px 0;
+}
+
+/* Main Layout */
 .mainPage {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  padding: 0;
+  padding: 0 0 15px 0;
   margin: 0 auto;
   box-sizing: border-box;
   /* border-left: 1px solid #e7e7e7;
   border-right: 1px solid #e7e7e7; */
+  background-color: #fff;
 }
 .mainContent {
   max-width: 1300px;
@@ -30,16 +71,53 @@
   width: 100%;
   flex: 1;
 }
+
 .homeImgWrapper {
-  width: 100%;
-  height: 700px;
-  overflow: hidden;
+  background-image: url("../../../image/test3.png");
+  background-size: cover;
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   position: relative;
 }
 
-.homeImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.overlayTextWrapper {
+  color: white;
+  text-align: center;
+  padding: 20vh 0;
+}
+
+.overlayText {
+  font-size: 80px;
+  font-weight: bold;
+}
+
+.overlayDescription {
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 12px; /* This sets the gap between the buttons */
+  margin-top: 20px;
+}
+
+.mainButton {
+  padding: 13px 20px;
+  background-color: #157c24;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.mainButton:hover {
+  background-color: #0e5819;
+  transform: scale(1.05);
 }

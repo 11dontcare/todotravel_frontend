@@ -1,142 +1,196 @@
-/* Chat.module.css */
-
 /* 모달창 스타일 */
 .chatModal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
-    height: 80vh;
-    background: #E5E5E5;
-    border-radius: 20px;
-    z-index: 1000;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 20px;
+    position: fixed; /* 모달창을 화면에 고정 */
+    top: 25%;
+    right: 80px;
+    width: 500px; /* 모달창의 너비를 600px로 설정 */
+    height: 800px; /* 모달창의 높이를 화면 높이의 80%로 설정 */
+    background: #F0F0F0; /* 모달창의 배경색을 연한 회색으로 설정 */
+    border-radius: 20px; /* 모달창의 모서리를 둥글게 설정 */
+    z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
+    overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+    display: flex; /* 플렉스박스 레이아웃을 사용 */
+    flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
+    justify-content: flex-start; /* 플렉스 아이템들을 위쪽에 정렬 */
+    align-items: flex-start; /* 플렉스 아이템들을 왼쪽에 정렬 */
+    padding: 20px; /* 모달창 내부에 20px의 여백을 추가 */
+    border: 1px solid black; /* 모달창 테두리에 2px 두께의 검정색 선 추가 */
 }
 
 /* 전체 채팅창 스타일을 모달에 적용 */
 .chatContainer {
-    width: 100%;
-    height: 100%;
-    background: transparent;
+    width: 100%; /* 컨테이너의 너비를 100%로 설정 */
+    height: 100%; /* 컨테이너의 높이를 100%로 설정 */
+    background: transparent; /* 배경색을 투명하게 설정 */
+    display: flex; /* 플렉스박스 레이아웃을 사용 */
+    flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
+    justify-content: space-between; /* 상단에 헤더, 하단에 채팅 입력 칸 위치 */
+}
+
+/* 헤더 컨테이너 스타일 */
+.chatHeaderContainer {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: space-between; /* 헤더와 버튼을 양 끝에 배치 */
+    align-items: center; /* 수직 가운데 정렬 */
+    width: 100%;
+    margin-bottom: 20px; /* 아래쪽에 20px의 여백 추가 */
 }
 
 /* 헤더 스타일 */
 .chatHeader {
-    width: fit-content;
-    background-color: #009688;
-    color: #FFFFFF;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    align-self: flex-start;
-    margin-left: 0;
+    width: fit-content; /* 헤더의 너비를 내용에 맞게 설정 */
+    background-color: #009688; /* 헤더의 배경색을 청록색으로 설정 */
+    color: #FFFFFF; /* 헤더 텍스트 색상을 흰색으로 설정 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    padding: 20px; /* 헤더 내부에 20px의 여백을 추가 */
+    border-radius: 10px; /* 헤더의 모서리를 둥글게 설정 */
+    font-family: 'Inter', sans-serif; /* 텍스트의 폰트를 'Inter'로 설정 */
+    font-size: 24px; /* 텍스트 크기를 24px로 설정 */
+    font-weight: 700; /* 텍스트를 굵게 설정 */
+    margin-bottom: 20px; /* 아래쪽에 20px의 여백 추가 */
+    align-self: flex-start; /* 헤더를 왼쪽에 정렬 */
+    margin-left: 0; /* 왼쪽 여백을 제거하여 왼쪽 정렬 */
+    border: 1px solid #000000; /* 검정색 테두리 설정 */
 }
 
-/* 전체 컨테이너를 좌우로 분할하는 스타일 추가 */
-.splitContainer {
+/* 채팅방 목록 버튼 스타일 */
+.chatRoomListButton {
+    background-color: #e3e3e3; /* 버튼의 배경색을 밝은 회색으로 설정 */
+    color: #000000; /* 텍스트 색상을 검정색으로 설정 */
+    padding: 5px 10px; /* 버튼 내부에 여백 추가 */
+    border-radius: 10px; /* 모서리를 둥글게 설정 */
+    font-size: 14px; /* 텍스트 크기를 16px로 설정 */
+    font-weight: 800; /* 텍스트를 중간 굵기로 설정 */
+    border: 1px solid #000000; /* 검정색 테두리 설정 */
+    cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+}
+
+/* ChatRoomList 기본 스타일 */
+.chatRoomList {
+    display: none; /* 기본적으로 숨김 */
+    position: absolute;
+    top: 100px; /* 헤더 바로 아래에 위치하도록 설정 */
+    right: 0;
+    width: 135px; /* 적당한 너비를 설정 */
+    font-size: 12px; /* 텍스트 크기를 16px로 설정 */
+    font-weight: 500; /* 텍스트를 중간 굵기로 설정 */
+    background-color: #ffffff; /* 배경색을 흰색으로 설정 */
+    border: 1px solid #ccc; /* 테두리를 밝은 회색으로 설정 */
+    border-radius: 10px; /* 모서리를 둥글게 설정 */
+    z-index: 1000000; /* 다른 요소들보다 위에 표시되도록 설정 */
+}
+
+/* ChatRoomList가 보일 때의 스타일 */
+.chatRoomList.show {
+    display: block; /* 채팅방 목록을 보이게 설정 */
+}
+
+/* 채팅방 리스트의 각 항목 스타일 */
+.chatRoomList li {
+    background-color: #f0f0f0; /* 각 채팅방 항목의 배경색 */
+    padding: 10px; /* 안쪽 여백을 10px로 설정 */
+    margin: 5px 0; /* 상하 간격을 5px로, 좌우 간격을 0으로 설정 */
+    border-radius: 8px; /* 모서리를 둥글게 설정 */
+    cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+    list-style: none; /* 리스트 스타일 제거 */
+    transition: background-color 0.3s ease; /* 배경색 전환에 부드러운 효과 추가 */
+    width: 100%; /* 채팅방 항목의 너비를 100%로 설정하여 좌우 너비를 고정 */
+    word-wrap: break-word; /* 긴 단어나 문장이 넘칠 경우 줄바꿈 처리 */
+    white-space: normal; /* 텍스트가 한 줄에 이어지지 않고 여러 줄로 나뉘도록 설정 */
+}
+
+/* 채팅방 항목에 마우스를 올렸을 때 */
+.chatRoomList li:hover {
+    background-color: #e0e0e0; /* 항목에 마우스를 올렸을 때 배경색 변경 */
+}
+
+/* 참여 중인 채팅방이 없을 때 메시지 스타일 */
+.noChatRooms {
+    color: #666666; /* 회색 텍스트 색상 */
+    padding: 10px; /* 적당한 여백 */
+    text-align: center; /* 가운데 정렬 */
+    font-size: 16px; /* 텍스트 크기 설정 */
+    font-weight: bold; /* 텍스트를 굵게 설정 */
+}
+
+/* 입력 칸과 전송 버튼 컨테이너 */
+.inputContainer {
     display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-/* 왼쪽 패널: 채팅방 목록 */
-.leftPanel {
-    width: 105px;
-    height: 100%;
-    background-color: #F0F0F0;
-    padding: 3px;
-    border-radius: 10px;
-}
-
-/* Chat Rooms 작은 버튼 스타일 */
-.chatHeaderSmall {
-    width: 100%;  /* 버튼이 패널 전체 너비를 차지하도록 */
-    color: #000000;
-    text-align: left;  /* 텍스트를 왼쪽 정렬 */
-    padding: 5px;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    margin: 0;  /* 버튼의 여백 제거 */
-}
-
-/* 채팅방 목록 아이템 스타일 */
-.chatRoomItem {
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    border: 1px solid black;  /* 검정색 테두리 */
-    border-radius: 10px;  /* 모서리를 둥글게 설정 */
-    cursor: pointer;
-    background-color: white;  /* 배경색을 흰색으로 설정 */
-    transition: background-color 0.3s ease;
-    font-size: 12px;  /* 폰트 크기를 줄임 */
-}
-
-.chatRoomItem:hover {
-    background-color: #f0f0f0;  /* 호버 시 배경색을 약간 진하게 변경 */
-}
-
-/* 오른쪽 패널: 채팅방 세부 정보 */
-.rightPanel {
-    width: 70%;
-    height: 100%;
-    padding: 20px;
-    overflow-y: auto;
+    justify-content: center; /* 입력 칸과 전송 버튼을 수평으로 중앙에 정렬 */
+    align-items: center;
+    position: absolute; /* 절대 위치를 사용해 컨테이너를 모달창 맨 밑에 고정 */
+    bottom: 10px; /* 모달창의 맨 밑에 위치 */
+    left: 0;
+    width: 100%; /* 컨테이너가 모달창 너비를 꽉 채우도록 설정 */
+    padding: 10px;
+    box-sizing: border-box; /* 패딩을 포함한 박스 크기 계산 */
 }
 
 /* 기존 Send 버튼 스타일을 수정 */
 .sendButton {
-    background-color: #009ADD;  /* 버튼의 배경색을 #009ADD로 설정 */
+    background-color: #009ADD;  /* 버튼의 배경색을 청색으로 설정 */
     color: white;  /* 버튼 텍스트 색상을 흰색으로 설정 */
-    border: none;  /* 필요에 따라 테두리를 없애거나 스타일을 수정 */
-    padding: 4px 12px;  /* 버튼 크기에 맞는 패딩 조정 */
-    border-radius: 5px;  /* 부드러운 모서리 */
+    border: none;  /* 테두리를 제거 */
+    padding: 3px 12px;
+    border-radius: 5px;  /* 모서리를 둥글게 설정 */
     cursor: pointer;  /* 마우스를 올렸을 때 포인터 커서 표시 */
-    font-size: 12px;  /* 텍스트 크기 */
+    font-size: 15px;  /* 텍스트 크기를 15px로 설정 */
+    margin-left: 10px; /* 입력 칸과 전송 버튼 사이에 여백 추가 */
+    border: 1px solid #000000; /* 검정색 테두리 설정 */
+}
+
+/* 기본 상태의 입력 칸 스타일 */
+.chatModal input[type="text"] {
+    width: 70%; /* 입력 칸의 너비를 설정 */
+    padding: 4px;
+    font-size: 15px;
+    border-radius: 5px; /* 모서리를 둥글게 설정 */
+    border: 2px solid #808080; /* 짙은 회색 테두리 설정 (DarkGray) */
+    outline: none; /* 클릭 시 기본 파란색 외곽선을 제거 */
+}
+
+/* 입력 칸이 클릭되었을 때 (포커스 상태) */
+.chatModal input[type="text"]:focus {
+    border: 2px solid #000000; /* 검정색 테두리 설정 */
+}
+
+/* ul의 기본 리스트 스타일 제거 */
+.chatModal ul {
+    padding: 0; /* 내부 여백을 제거 */
+    margin: 0; /* 외부 여백을 제거 */
+    list-style-type: none;  /* 리스트 스타일 제거 */
+    display: flex; /* 플렉스박스 레이아웃을 사용 */
+    flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
 }
 
 /* 채팅 메시지 버블 스타일 */
 .chatBubble {
-    color: black;  /* 텍스트 색상을 흰색으로 설정 */
-    padding: 10px;  /* 내부 여백 추가 */
-    border-radius: 15px;  /* 둥근 모서리 */
-    margin-bottom: 10px;  /* 버블 간의 간격 추가 */
-    width: 70%;  /* 버블 너비 설정 */
+    color: black;  /* 텍스트 색상을 검정색으로 설정 */
+    padding: 10px;  /* 내부에 10px의 여백을 추가 */
+    border-radius: 15px;  /* 모서리를 둥글게 설정 */
+    margin-bottom: 10px;  /* 버블 간의 간격을 10px로 설정 */
+    width: 70%;  /* 버블의 너비를 70%로 설정 */
     word-wrap: break-word;  /* 긴 단어를 줄바꿈 처리 */
     list-style-type: none;  /* 리스트 스타일 제거 */
 }
 
-/* ul의 기본 리스트 스타일 제거 */
-ul {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;  /* 리스트 스타일 제거 */
-    display: flex;
-    flex-direction: column;
-}
-
 /* 보낸 메시지 */
 .sentMessage {
-    background-color: #a1cbeb;  /* 보낸 메시지의 배경색을 #4fbff0로 설정 */
+    background-color: #a1cbeb;  /* 보낸 메시지의 배경색을 밝은 파란색으로 설정 */
     align-self: flex-end;  /* 오른쪽 정렬 */
 }
 
 /* 받은 메시지 */
 .receivedMessage {
-    background-color: #a0c9c3;  /* 받은 메시지의 배경색을 #2f9c91로 설정 */
+    background-color: #a0c9c3;  /* 받은 메시지의 배경색을 밝은 녹색으로 설정 */
     align-self: flex-start;  /* 왼쪽 정렬 */
+}
+
+/* 로그인 후 사용해주세요 메시지 스타일 */
+.loginPrompt {
+    font-size: 18px;
+    color: #FF0000; /* 빨간색으로 설정 */
+    text-align: center;
+    width: 100%;
+    margin-top: 50%; /* 메시지를 모달 중앙에 배치 */
 }

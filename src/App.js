@@ -1,5 +1,5 @@
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import {AuthProvider} from "./todotravel/context/AuthContext";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./todotravel/context/AuthContext";
 import styles from "./App.module.css";
 //ProtectedRoute.js
 import ProtectedRoute from "./todotravel/ProtectedRoute";
@@ -34,154 +34,154 @@ import RecruitmentList from "./todotravel/component/plan/RecruitmentList";
 //!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
 
 function App() {
-    return (
-        <AuthProvider>
-            <Router>
-                <Routes>
-                    {/* 로그인 여부 판별 X - Auth 및 메인 페이지 */}
-                    <Route
-                        path="/login"
-                        element={
-                            <AuthLayout>
-                                <Login/>
-                            </AuthLayout>
-                        }
-                    />
-                    <Route
-                        path="/signup"
-                        element={
-                            <AuthLayout>
-                                <SignUp/>
-                            </AuthLayout>
-                        }
-                    />
-                    <Route
-                        path="/find-account"
-                        element={
-                            <AuthLayout>
-                                <ProfileSearch/>
-                            </AuthLayout>
-                        }
-                    />
-                    <Route
-                        path="/find-id"
-                        element={
-                            <AuthLayout>
-                                <UsernameResult/>
-                            </AuthLayout>
-                        }
-                    />
-                    <Route
-                        path="/reset-password"
-                        element={
-                            <AuthLayout>
-                                <ResetPassword/>
-                            </AuthLayout>
-                        }
-                    />
-                    <Route
-                        path="/oauth2/redirect"
-                        element={
-                            <AuthLayout>
-                                <OAuth2RedirectHandler/>
-                            </AuthLayout>
-                        }
-                    />
-                    <Route
-                        path="/additional-info"
-                        element={
-                            <AuthLayout>
-                                <AdditionalInfo/>
-                            </AuthLayout>
-                        }
-                    />
-                    <Route
-                        path="/"
-                        element={
-                            <MainLayout>
-                                <PlanList/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/plan/:planId/details"
-                        element={
-                            <MainLayout>
-                                <PlanDetails/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/plan/search/:keyword"
-                        element={
-                            <MainLayout>
-                                <PlanSearch/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/plan/recruitment"
-                        element={
-                            <MainLayout>
-                                <RecruitmentList/>
-                            </MainLayout>
-                        }
-                    />
-                    {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
-                    <Route
-                        path="/mypage/:nickname"
-                        element={
-                            <MainLayout>
-                                <ProtectedRoute element={<MyPage/>}/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/mypage/:nickname/profile"
-                        element={
-                            <MainLayout>
-                                <ProtectedRoute element={<UserProfile/>}/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/plan"
-                        element={
-                            <MainLayout>
-                                <ProtectedRoute element={<PlanCreate/>}/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/plan/:planId"
-                        element={
-                            <MainLayout>
-                                <ProtectedRoute element={<PlanPage/>}/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/plan/:planId/modify"
-                        element={
-                            <MainLayout>
-                                <ProtectedRoute element={<PlanModify/>}/>
-                            </MainLayout>
-                        }
-                    />
-                    <Route
-                        path="/chat"
-                        element={
-                            <MainLayout>
-                                <ProtectedRoute element={<ChatContainer/>}/>
-                            </MainLayout>
-                        }
-                    />
-                </Routes>
-            </Router>
-            {/* 플로팅 버튼을 모든 페이지에서 보이도록 설정 */}
-            <FloatingButton />
-        </AuthProvider>
-    );
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* 로그인 여부 판별 X - Auth 및 메인 페이지 */}
+          <Route
+            path='/login'
+            element={
+              <AuthLayout>
+                <Login />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/signup'
+            element={
+              <AuthLayout>
+                <SignUp />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/find-account'
+            element={
+              <AuthLayout>
+                <ProfileSearch />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/find-id'
+            element={
+              <AuthLayout>
+                <UsernameResult />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/reset-password'
+            element={
+              <AuthLayout>
+                <ResetPassword />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/oauth2/redirect'
+            element={
+              <AuthLayout>
+                <OAuth2RedirectHandler />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/additional-info'
+            element={
+              <AuthLayout>
+                <AdditionalInfo />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path='/'
+            element={
+              <MainLayout>
+                <PlanList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan/:planId/details'
+            element={
+              <MainLayout>
+                <PlanDetails />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan/search/:keyword'
+            element={
+              <MainLayout>
+                <PlanSearch />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/plan/recruitment"
+            element={
+              <MainLayout>
+                <RecruitmentList/>
+              </MainLayout>
+            }
+          />
+          {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
+          <Route
+            path='/mypage/:nickname'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<MyPage />} />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/mypage/:nickname/profile'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<UserProfile />} />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<PlanCreate />} />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan/:planId'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<PlanPage />} />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan/:planId/modify'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<PlanModify />} />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/chat'
+            element={
+              <MainLayout>
+                <ProtectedRoute element={<ChatContainer />} />
+              </MainLayout>
+            }
+          />
+        </Routes>
+      </Router>
+      {/* 플로팅 버튼을 모든 페이지에서 보이도록 설정 */}
+      <FloatingButton />
+    </AuthProvider>
+  );
 }
 
 export default App;
