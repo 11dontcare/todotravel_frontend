@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getChatList } from "../../service/ChatService";
 import styles from "./Chat.module.css";
 
-const ChatList = ({ roomId }) => {
+const ChatList = ({ roomId, newMessage }) => {
     const [chatHistory, setChatHistory] = useState([]);
     const userId = localStorage.getItem("userId"); // 현재 로그인된 사용자의 ID를 로컬 스토리지에서 가져옴
 
@@ -20,6 +20,12 @@ const ChatList = ({ roomId }) => {
             fetchChatHistory();
         }
     }, [roomId]);
+
+    useEffect(() => {
+        if (newMessage && newMessage.roomId === roomId) {
+            setChatHistory((prevHistory) => [...prevHistory, newMessage]);
+        }
+    }, [newMessage, roomId]);
 
     const formatDate = (dateString) => {
         try {

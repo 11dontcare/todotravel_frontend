@@ -179,7 +179,7 @@
     justify-content: space-between; /* 상단에 헤더, 하단에 채팅 입력 칸 위치 */
     overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
     padding-right: 10px; /* 스크롤바로 인해 내용이 가려지지 않도록 우측에 패딩 추가 */
-    padding-bottom: 70px; /* 마지막 메시지 버블이 입력 칸에 가려지지 않도록 하단에 여유 공간 추가 */
+    padding-bottom: 20px; /* 마지막 메시지 버블이 입력 칸에 가려지지 않도록 하단에 여유 공간 추가 */
 }
 
 /* 채팅 메시지 버블 스타일 */
