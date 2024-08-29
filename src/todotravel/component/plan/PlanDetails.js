@@ -58,6 +58,7 @@ const PlanDetails = () => {
       .then((existResponse) => {
         if(existResponse){
           setExistsUserInPlan(existResponse.data);
+          console.log(existResponse);
         }
         setLoading(false);
 
@@ -86,8 +87,8 @@ const PlanDetails = () => {
       })
       .catch((e) => {
         console.log(e);
-        alert("플랜 정보 조회에 실패했습니다");
         setLoading(false);
+        alert("플랜 정보 조회에 실패했습니다");
       });
   };
 
@@ -271,6 +272,9 @@ const PlanDetails = () => {
                     {existsUserInPlan && (
                     <li onClick={() => handleOptionClick('deletePlan')}>삭제하기</li>
                     )}
+                    {/* {(plan.planUserId === userId) && (
+                    <li onClick={() => handleOptionClick('deletePlan')}>모집하기</li>
+                    )} */}
                   </ul>
                 </div>
               )}

@@ -106,7 +106,7 @@ const Header = () => {
   // 화면이 줄어들었을 때 추가될 메뉴 아이템
   const menuItems = [
     { label: "여행 일정 만들기", path: "/plan" },
-    { label: "여행 일정 함께하기", path: "/plan" },
+    { label: "여행 일정 함께하기", path: "/plan/recruitment" },
     { label: "장소 검색하기", path: "/plan" },
   ];
 
@@ -118,7 +118,7 @@ const Header = () => {
   const handleSearchClick = () => {
     console.log(searchKeyword);
     setSearchKeyword('');
-    navigate("/plan/" + searchKeyword);
+    navigate("/plan/search/" + searchKeyword);
   };
 
   return (
