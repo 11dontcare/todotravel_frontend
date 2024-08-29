@@ -4,6 +4,7 @@ import styles from "./Chat.module.css";  // CSS 모듈을 import
 
 const ChatList = ({ roomId }) => {
     const [chatHistory, setChatHistory] = useState([]);
+    const userId = localStorage.getItem("userId"); // 현재 로그인된 사용자의 ID를 로컬 스토리지에서 가져옴
 
     useEffect(() => {
         const fetchChatHistory = async () => {
@@ -47,10 +48,10 @@ const ChatList = ({ roomId }) => {
                 {chatHistory.map((chat, index) => (
                     <li
                         key={index}
-                        className={`${styles.chatBubble} ${chat.isSent ? styles.sentMessage : styles.receivedMessage}`}
+                        className={`${styles.chatBubble} ${chat.userId === Number(userId) ? styles.sentMessage : styles.receivedMessage}`}
                     >
                         <strong>{chat.nickname}:</strong> {chat.content} <br/>
-                        <small>{formatDate(chat.created_at)}</small>
+                        <small>{formatDate(chat.chat_date)}</small>
                     </li>
                 ))}
             </ul>

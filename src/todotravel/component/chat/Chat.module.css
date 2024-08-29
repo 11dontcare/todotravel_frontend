@@ -176,14 +176,18 @@
 
 /* 보낸 메시지 */
 .sentMessage {
-    background-color: #a1cbeb;  /* 보낸 메시지의 배경색을 밝은 파란색으로 설정 */
-    align-self: flex-end;  /* 오른쪽 정렬 */
+    background-color: #a1cbeb;  /* 보낸 메시지의 배경색을 밝은 하늘색으로 설정 */
+    align-self: flex-end;  /* 우측에 정렬 */
+    margin-left: auto; /* 좌측 여백을 자동으로 설정하여 우측 정렬 강화 */
+    margin-right: 0; /* 우측 여백 제거 */
 }
 
 /* 받은 메시지 */
 .receivedMessage {
-    background-color: #a0c9c3;  /* 받은 메시지의 배경색을 밝은 녹색으로 설정 */
-    align-self: flex-start;  /* 왼쪽 정렬 */
+    background-color: #a0c9c3;  /* 받은 메시지의 배경색을 밝은 초록색으로 설정 */
+    align-self: flex-start;  /* 좌측에 정렬 */
+    margin-right: auto; /* 우측 여백을 자동으로 설정하여 좌측 정렬 강화 */
+    margin-left: 0; /* 좌측 여백 제거 */
 }
 
 /* 로그인 후 사용해주세요 메시지 스타일 */
