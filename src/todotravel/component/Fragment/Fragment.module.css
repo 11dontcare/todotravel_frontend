@@ -117,6 +117,34 @@
   margin-top: 2px;
 }
 
+/* 로그인하지 않았을 때 */
+.authContainer {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.loginButton {
+  padding: 8px 16px;
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.loginButton:hover {
+  background-color: #00796b;
+}
+
+.menuIcon {
+  font-size: 24px;
+  cursor: pointer;
+  color: inherit;
+}
+
 /* dropdown */
 .dropdownMenu {
   position: absolute;
@@ -201,7 +229,6 @@
 @media (max-width: 1140px) {
   .header {
     padding: 14px 20px 14px 41px;
-    margin-right: 5px;
     justify-content: space-between;
   }
 
@@ -259,6 +286,7 @@
   .dropdownMenu {
     width: 200px;
     right: -20px;
+    margin-right: 30px;
   }
 
   .dropdownMenu > p {
@@ -276,6 +304,10 @@
 
   .transparentHeader .dropdownMenu .searchButton svg {
     color: #757575;
+  }
+
+  .loginButton {
+    margin-left: 10px;
   }
 }
 

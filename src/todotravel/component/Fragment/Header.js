@@ -135,6 +135,25 @@ const Header = () => {
     }
   };
 
+  const SearchForm = () => (
+    <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+      <input
+        type="text"
+        placeholder="계획 검색하기"
+        value={searchKeyword}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+      />
+      <button
+        type="submit"
+        className={styles.searchButton}
+        onClick={handleSearchClick}
+      >
+        <FiSearch />
+      </button>
+    </form>
+  );
+
   return (
     <div
       className={`${styles.header} ${
@@ -143,36 +162,43 @@ const Header = () => {
     >
       <h1 onClick={() => handleNavigation("/")}>To Do Travel</h1>
 
-      {!isMobileView ? (
+      {!isMobileView && (
         <>
           {menuItems.map((item, index) => (
             <p key={index} onClick={() => handleNavigation(item.path)}>
               {item.label}
             </p>
           ))}
-          <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
-            <input
-              type="text"
-              placeholder="계획 검색하기"
-              value={searchKeyword}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-            />
-            <button
-              type="submit"
-              className={styles.searchButton}
-              onClick={handleSearchClick}
-            >
-              <FiSearch />
-            </button>
-          </form>
+          <SearchForm />
         </>
-      ) : null}
+      )}
 
-      {isLoggedIn ? (
-        <div className={styles.option} ref={menuRef}>
-          <div className={styles.rightIcons}>
-            <FiBell className={styles.bell} />
+      <div className={styles.option} ref={menuRef}>
+        {isLoggedIn ? (
+          <>
+            <div className={styles.rightIcons}>
+              <FiBell className={styles.bell} />
+              {isMobileView && (
+                <FiMenu
+                  className={`${styles.menuIcon} ${
+                    isTransparent ? styles.whiteIcon : styles.blackIcon
+                  }`}
+                  onClick={toggleMenu}
+                />
+              )}
+            </div>
+            {!isMobileView && (
+              <>
+                <p onClick={toggleMenu}>{nickname}</p>
+                <GoTriangleDown className={styles.down} onClick={toggleMenu} />
+              </>
+            )}
+          </>
+        ) : (
+          <div className={styles.authContainer}>
+            <button onClick={handleAuthClick} className={styles.loginButton}>
+              로그인
+            </button>
             {isMobileView && (
               <FiMenu
                 className={`${styles.menuIcon} ${
@@ -182,92 +208,66 @@ const Header = () => {
               />
             )}
           </div>
-          {!isMobileView && (
-            <>
-              <p onClick={toggleMenu}>{nickname}</p>
-              <GoTriangleDown className={styles.down} onClick={toggleMenu} />
-            </>
-          )}
-          {isMenuOpen && (
-            <div className={styles.dropdownMenu}>
-              <div className={styles.box1}>
-                <h3>{nickname}</h3>
-                <p
-                  className={styles.logout}
-                  onClick={() => handleMenuItemClick(handleAuthClick)}
-                >
-                  로그아웃
-                </p>
-              </div>
-              <hr />
-              <div className={styles.box2}>
-                <FaRegStar className={styles.star} />
-                <p
-                  onClick={() =>
-                    handleMenuItemClick(() => navigate(`/mypage/${nickname}`))
-                  }
-                >
-                  마이페이지
-                </p>
-              </div>
-              <div className={styles.boxContent}>
-                <p onClick={() => handleMyPageNavigation("my-trips")}>
-                  여행 일정 관리
-                </p>
-                <p onClick={() => handleMyPageNavigation("bookmarked")}>
-                  북마크 관리
-                </p>
-                <p onClick={() => handleMyPageNavigation("liked")}>
-                  좋아요 관리
-                </p>
-                <p onClick={() => handleMyPageNavigation("comments")}>
-                  댓글 관리
-                </p>
-              </div>
-              <div className={styles.box2}>
-                <FaRegStar className={styles.star} />
-                <p>채팅</p>
-              </div>
-              {isMobileView && (
-                <>
-                  <hr/>
-                  {menuItems.map((item, index) => (
-                    <p
-                      key={index}
-                      onClick={() =>
-                        handleMenuItemClick(() => handleNavigation(item.path))
-                      }
-                    >
-                      {item.label}
-                    </p>
-                  ))}
-                  <form
-                    onSubmit={handleSearchSubmit}
-                    className={styles.searchForm}
+        )}
+        {isMenuOpen && (
+          <div className={styles.dropdownMenu}>
+            {isLoggedIn ? (
+              <>
+                <div className={styles.box1}>
+                  <h3>{nickname}</h3>
+                  <p
+                    className={styles.logout}
+                    onClick={() => handleMenuItemClick(handleAuthClick)}
                   >
-                    <input
-                      type="text"
-                      placeholder="계획 검색하기"
-                      value={searchKeyword}
-                      onChange={handleInputChange}
-                      onKeyDown={handleKeyDown}
-                    />
-                    <button
-                      type="submit"
-                      className={styles.searchButton}
-                      onClick={handleSearchClick}
-                    >
-                      <FiSearch />
-                    </button>
-                  </form>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-      ) : (
-        <button onClick={handleAuthClick}>로그인</button>
-      )}
+                    로그아웃
+                  </p>
+                </div>
+                <hr />
+                <div className={styles.box2}>
+                  <FaRegStar className={styles.star} />
+                  <p
+                    onClick={() =>
+                      handleMenuItemClick(() => navigate(`/mypage/${nickname}`))
+                    }
+                  >
+                    마이페이지
+                  </p>
+                </div>
+                <div className={styles.boxContent}>
+                  <p onClick={() => handleMyPageNavigation("my-trips")}>
+                    여행 일정 관리
+                  </p>
+                  <p onClick={() => handleMyPageNavigation("bookmarked")}>
+                    북마크 관리
+                  </p>
+                  <p onClick={() => handleMyPageNavigation("liked")}>
+                    좋아요 관리
+                  </p>
+                  <p onClick={() => handleMyPageNavigation("comments")}>
+                    댓글 관리
+                  </p>
+                </div>
+                <hr/>
+              </>
+            ) : null}
+            {isMobileView && (
+              <>
+                {menuItems.map((item, index) => (
+                  <p
+                    key={index}
+                    onClick={() =>
+                      handleMenuItemClick(() => handleNavigation(item.path))
+                    }
+                  >
+                    {item.label}
+                  </p>
+                ))}
+                <SearchForm />
+              </>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
