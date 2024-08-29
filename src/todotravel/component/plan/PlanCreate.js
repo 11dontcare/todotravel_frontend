@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPlan } from "../../service/PlanService";
+import { Provinces, Citys } from "./PlanData";
 
 import styles from "./Form.module.css";
 
@@ -8,6 +9,28 @@ const PlanCreate = () => {
   const navigate = useNavigate();
   const [isPublic, setIsPublic] = useState(false); // 상태를 추가하여 스위치의 상태를 관리합니다.
   const [thumbnail, setThumbnail] = useState(null);
+  const [availableCitys, setAvailableCitys] = useState([]);
+
+  const [planForm, setPlanForm] = useState({
+    title: "",
+    startDate: "",
+    endDate: "",
+    frontLocation: "",
+    location: "",
+    totalBudget: "",
+    isPublic: false,
+    status: false,
+  });
+
+  useEffect(() => {
+    if (planForm.frontLocation) {
+      const selectedProvince = Citys.find(
+        (item) => item.province === planForm.frontLocation
+      );
+      setAvailableCitys(selectedProvince ? selectedProvince.citys : []);
+      setPlanForm((prev) => ({ ...prev, location: "" }));
+    }
+  }, [planForm.frontLocation]);
 
   const handleSwitchChange = () => {
     setIsPublic(!isPublic); // 스위치 상태를 반전시킵니다.
@@ -16,17 +39,6 @@ const PlanCreate = () => {
       isPublic: !isPublic,
     });
   };
-
-  const [planForm, setPlanForm] = useState({
-    title: "",
-    startDate: "",
-    endDate: "",
-    // front_location: "",
-    location: "",
-    totalBudget: "",
-    isPublic: false,
-    status: false,
-  });
 
   const handlePlanFormChange = (e) => {
     const changedField = e.target.name;
@@ -50,8 +62,11 @@ const PlanCreate = () => {
       "planRequestDto",
       new Blob([JSON.stringify(planForm)], { type: "application/json" })
     );
+
     if (thumbnail) {
       formData.append("planThumbnail", thumbnail);
+    } else {
+      formData.append("planThumbnail", new Blob([]), "");
     }
 
     createPlan(formData)
@@ -67,104 +82,117 @@ const PlanCreate = () => {
 
   return (
     <div className={styles.container}>
-      <div>
-        {/* 플랜 생성 */}
-        <form onSubmit={planCreateSubmit} className={styles.form}>
-          <div className={styles.inputContainer}>
-            <div className={styles.inputGroup}>
-              <div className={styles.inputFirstLine}>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  placeholder="제목을 입력해주세요."
-                  required
-                  value={planForm.title}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputTitle}
-                />
-              </div>
-              <div className={styles.inputSecondLine}>
-                <input
-                  type="date"
-                  id="startDate"
-                  name="startDate"
-                  placeholder="여행 시작 일자"
-                  required
-                  value={planForm.startDate}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputDate}
-                />
-                ~
-                <input
-                  type="date"
-                  id="endDate"
-                  name="endDate"
-                  placeholder="여행 종료 일자"
-                  required
-                  value={planForm.endDate}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputDate}
-                />
-                <span></span>
-                <input
-                  type="text"
-                  id="front_location"
-                  name="front_location"
-                  placeholder="행정 구역"
-                  required
-                  // value={planForm.front_location}
-                  // onChange={handlePlanFormChange}
-                  className={styles.inputFLocation}
-                />
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  placeholder="지역 선택"
-                  required
-                  value={planForm.location}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputLocation}
-                />
-              </div>
-              <div className={styles.inputThirdLine}>
-                <input
-                  type="text"
-                  id="totalBudget"
-                  name="totalBudget"
-                  placeholder="총 예산안 입력"
-                  required
-                  value={planForm.totalBudget}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputBudget}
-                />
-                <span className={styles.inputPublish}>
-                  <label>여행 일정 공유</label>
-                  <input
-                    type="checkbox"
-                    id="isPublic"
-                    name="isPublic"
-                    checked={isPublic}
-                    onChange={handleSwitchChange}
-                  />
-                </span>
-              </div>
-              <div className={styles.inputThumbnail}>
-                <label>썸네일 이미지 업로드</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleThumbnailChange}
-                />
-              </div>
+      <form onSubmit={planCreateSubmit} className={styles.form}>
+        <div className={styles.inputContainer}>
+          <div className={styles.row}>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="제목을 입력해주세요"
+              required
+              value={planForm.title}
+              onChange={handlePlanFormChange}
+              className={styles.inputTitle}
+            />
+            <div className={styles.dateInputWrapper}>
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                required
+                value={planForm.startDate}
+                onChange={handlePlanFormChange}
+                className={styles.inputDate}
+              />
+              <label htmlFor="startDate" className={styles.dateLabel}>
+                여행 시작 일자
+              </label>
+            </div>
+            <div className={styles.dateInputWrapper}>
+              <input
+                type="date"
+                id="endDate"
+                name="endDate"
+                required
+                value={planForm.endDate}
+                onChange={handlePlanFormChange}
+                className={styles.inputDate}
+              />
+              <label htmlFor="endDate" className={styles.dateLabel}>
+                여행 종료 일자
+              </label>
             </div>
           </div>
-          <button type="submit" className={styles.submitButton}>
-            계획 시작하기
-          </button>
-        </form>
-      </div>
+          <div className={styles.row}>
+            <select
+              id="frontLocation"
+              name="frontLocation"
+              required
+              value={planForm.frontLocation}
+              onChange={handlePlanFormChange}
+              className={styles.inputSelect}
+            >
+              <option value="">행정 구역 선택</option>
+              {Provinces.map((province) => (
+                <option key={province} value={province}>
+                  {province}
+                </option>
+              ))}
+            </select>
+            <select
+              id="location"
+              name="location"
+              required
+              value={planForm.location}
+              onChange={handlePlanFormChange}
+              className={styles.inputSelect}
+              disabled={!planForm.frontLocation}
+            >
+              <option value="">지역 선택</option>
+              {availableCitys.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+            <input
+              type="number"
+              id="totalBudget"
+              name="totalBudget"
+              placeholder="총 예산안 입력"
+              required
+              value={planForm.totalBudget}
+              onChange={handlePlanFormChange}
+              className={styles.inputBudget}
+            />
+          </div>
+          <div className={styles.row}>
+            <div className={styles.inputPublish}>
+              <label htmlFor="isPublic">여행 일정 공유</label>
+              <input
+                type="checkbox"
+                id="isPublic"
+                name="isPublic"
+                checked={isPublic}
+                onChange={handleSwitchChange}
+              />
+            </div>
+            <div className={styles.inputThumbnail}>
+              <label htmlFor="thumbnail">썸네일 이미지 업로드</label>
+              <input
+                type="file"
+                id="thumbnail"
+                accept="image/*"
+                onChange={handleThumbnailChange}
+              />
+            </div>
+          </div>
+        </div>
+        <button type="submit" className={styles.submitButton}>
+          계획 시작하기
+        </button>
+      </form>
     </div>
   );
 };

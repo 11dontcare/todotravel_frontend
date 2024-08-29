@@ -107,6 +107,14 @@ export const getAllMyPlans = (userId) => {
   });
 };
 
+// 내 모집 중인 플랜 조회
+export const getAllRecruitmentPlans = (userId) => {
+  return request({
+    url: `${API_BASE_URL}/api/mypage/${userId}/my-recruitment`,
+    method: "GET",
+  });
+};
+
 // 내가 북마크한 모든 플랜 조회
 export const getAllBookmarkedPlans = (userId) => {
   return request({
