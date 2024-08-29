@@ -1,16 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePlan } from "../../service/PlanService";
+import { deletePlan, isUserInPlan } from "../../service/PlanService";
 import PlanModify from "./PlanModify";
 import Modal from "./Modal";
 import PlanFriend from "./PlanFriend";
 import InvitePlanUser from "./InvitePlanUser";
+import VoteList from "./Vote/VoteList";
 
 const PlanPage = () => {
   const navigate = useNavigate();
 
   const { planId } = useParams();
   console.log(planId);
+
+  const userId = localStorage.getItem("userId");
+
+  const [existsPlanUser, setExistsPlanUser] = useState(null);
+  const [loading, setLoading] = useState(true); // 로딩 상태 관리
+
+  //모달창
+  const [showParticipantsModal, setShowParticipantsModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showVoteListModal, setShowVoteListModal] = useState(false);
+
+  useEffect(() => {
+    isUserInPlan(planId, userId)
+      .then((response) => {
+        if (response.data) {
+          setExistsPlanUser(true);
+        } else {
+          setExistsPlanUser(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        setExistsPlanUser(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (existsPlanUser === false) {
+      alert("접근 권한이 없습니다.");
+      navigate("/");
+    }
+  }, [existsPlanUser, navigate]);
+
+  if (loading) {
+    return <div>Loading...</div>; // 로딩 중일 때 표시할 컴포넌트
+  }
 
   const handleDelete = () => {
     if (window.confirm("플랜을 삭제하시겠습니까?")) {
@@ -25,10 +65,6 @@ const PlanPage = () => {
         });
     }
   };
-
-  //모달창
-  const [showParticipantsModal, setShowParticipantsModal] = useState(false);
-  const [showInviteModal, setShowInviteModal] = useState(false);
 
   const handleOpenPaticipantsModal = () => {
     setShowParticipantsModal(true);
@@ -46,6 +82,14 @@ const PlanPage = () => {
   const handleCloseInviteModal = () => {
     setShowInviteModal(false);
     setShowParticipantsModal(true); // 사용자 추가 모달을 닫고 친구 목록 모달을 다시 엽니다.
+  };
+
+  const handleOpenVoteListModal = () => {
+    setShowVoteListModal(true);
+  };
+
+  const handleCloseVoteListModal = () => {
+    setShowVoteListModal(false);
   };
 
   return (
@@ -78,6 +122,11 @@ const PlanPage = () => {
           <Modal show={showInviteModal} onClose={handleCloseInviteModal}>
             <InvitePlanUser onBackClick={handleCloseInviteModal} />
           </Modal>
+
+          <VoteList
+            show={showVoteListModal}
+            onClose={handleCloseVoteListModal}
+          />
         </div>
       </div>
     </div>

@@ -9,8 +9,9 @@ import profileImage from "../../../image/user_profile_icon.png";
 import { GoPerson } from "react-icons/go";
 import { GoPersonAdd } from "react-icons/go";
 import { RxExit } from "react-icons/rx";
+import { IoArrowBack } from "react-icons/io5";
 
-const PlanFriend = ({onInviteClick}) => {
+const PlanFriend = ({onInviteClick, onClose}) => {
   const navigate = useNavigate();
 
   const [planUsers, setplanUsers] = useState([]);
@@ -70,9 +71,11 @@ const PlanFriend = ({onInviteClick}) => {
   return (
     <div>
       <div className={styles.title}>
+        <button onClick={onClose} className={styles.backButton}><IoArrowBack /></button>
         <span>플랜 참여자 목록</span>
         <span className={styles.people}><GoPerson /><span>{acceptUsers.length}</span></span>
       </div>
+      <div className={styles.scrollContainer}>
       <div className={styles.section}>
       <h3 className={styles.sectionTitle}>참여 중</h3>
       <ul className={styles.userList}>
@@ -115,6 +118,7 @@ const PlanFriend = ({onInviteClick}) => {
           </li>
         ))}
       </ul>
+      </div>
       </div>
       <button className={styles.inviteButton} onClick={onInviteClick}><GoPersonAdd /></button>
       <button className={styles.button} onClick={handleExitPlan}><RxExit /></button>

@@ -184,200 +184,208 @@ const SignUp = () => {
     }
   };
 
-  const handleTitleClick = () => {
-    navigate("/");
-  }
-
   return (
     <div className={styles.signupContainer}>
-      <h1 className={styles.title} onClick={handleTitleClick}>To Do Travel</h1>
       <p className={styles.subtitle}>회원가입에 대한 내용을 입력해주세요</p>
       <p className={styles.subtitle_description}>
         (모든 부분은 필수 입력 항목입니다.)
       </p>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.inputField}>
-          <label className={styles.label} htmlFor="username">
-            아이디
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            name="username"
-            placeholder="아이디를 입력하세요."
-            value={signUpForm.username}
-            onChange={handleLoginFormChange}
-            required
-          />
-          {errors.username && <p className={styles.error}>{errors.username}</p>}
-        </div>
-        <div className={styles.inputField}>
-          <label className={styles.label} htmlFor="email">
-            이메일 인증
-          </label>
-          <div className={styles.emailVerificationContainer}>
+      <div className={styles.scrollContainer}>
+        <form className={styles.form} onSubmit={onSubmit}>
+          <div className={styles.inputField}>
+            <label className={styles.label} htmlFor="username">
+              아이디
+            </label>
             <input
               className={styles.input}
-              type="email"
-              name="email"
-              placeholder="이메일을 입력하세요."
-              value={signUpForm.email}
+              type="text"
+              name="username"
+              placeholder="아이디를 입력하세요."
+              value={signUpForm.username}
               onChange={handleLoginFormChange}
               required
             />
-            <button
-              type="button"
-              onClick={requestEmailVerification}
-              disabled={!signUpForm.email || errors.email || isEmailVerified || isLoading}
-              className={`${styles.verificationButton} ${isLoading ? styles.loading : ''}`}
-            >
-              {isLoading ? "요청 중..." : verificationButtonText}
-            </button>
+            {errors.username && (
+              <p className={styles.error}>{errors.username}</p>
+            )}
           </div>
-          {errors.email && <p className={styles.error}>{errors.email}</p>}
-          {emailVerificationCode && !isEmailVerified && (
+          <div className={styles.inputField}>
+            <label className={styles.label} htmlFor="email">
+              이메일 인증
+            </label>
             <div className={styles.emailVerificationContainer}>
               <input
                 className={styles.input}
-                type="text"
-                placeholder="인증 코드를 입력하세요."
-                value={verificationCodeInput}
-                onChange={(e) => setVerificationCodeInput(e.target.value)}
+                type="email"
+                name="email"
+                placeholder="이메일을 입력하세요."
+                value={signUpForm.email}
+                onChange={handleLoginFormChange}
+                required
               />
               <button
                 type="button"
-                onClick={verifyEmailCode}
-                className={styles.verificationButton}
-                disabled={isEmailVerified || timeLeft === 0}
+                onClick={requestEmailVerification}
+                disabled={
+                  !signUpForm.email ||
+                  errors.email ||
+                  isEmailVerified ||
+                  isLoading
+                }
+                className={`${styles.verificationButton} ${
+                  isLoading ? styles.loading : ""
+                }`}
               >
-                인증 확인
+                {isLoading ? "요청 중..." : verificationButtonText}
               </button>
-              {timeLeft > 0 && (
-                <span className={styles.timer}>{formatTime(timeLeft)}</span>
-              )}
             </div>
-          )}
-          {isEmailVerified && (
-            <p className={styles.success}>이메일이 인증되었습니다.</p>
-          )}
-        </div>
-        <div className={styles.inputField}>
-          <label className={styles.label} htmlFor="name">
-            이름
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            id="name"
-            name="name"
-            placeholder="이름을 입력하세요."
-            value={signUpForm.name}
-            onChange={handleLoginFormChange}
-            required
-          />
-        </div>
-        <div className={styles.inputField}>
-          <label className={styles.label} htmlFor="nickname">
-            닉네임
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            id="nickname"
-            name="nickname"
-            placeholder="닉네임을 입력하세요."
-            value={signUpForm.nickname}
-            onChange={handleLoginFormChange}
-            required
-          />
-          {errors.nickname && <p className={styles.error}>{errors.nickname}</p>}
-        </div>
-        <div className={styles.genderContainer}>
-          <label className={styles.label}>성별</label>
-          <div className={styles.genderOptions}>
-            <div className={styles.genderOption}>
-              <input
-                type="radio"
-                id="gender_male"
-                name="gender"
-                value="MAN"
-                checked={signUpForm.gender === "MAN"}
-                onChange={handleLoginFormChange}
-              />
-              <label htmlFor="gender_male" className={styles.genderLabel}>
-                남성
-              </label>
-            </div>
-            <div className={styles.genderOption}>
-              <input
-                type="radio"
-                id="gender_female"
-                name="gender"
-                value="WOMAN"
-                checked={signUpForm.gender === "WOMAN"}
-                onChange={handleLoginFormChange}
-              />
-              <label htmlFor="gender_female" className={styles.genderLabel}>
-                여성
-              </label>
+            {errors.email && <p className={styles.error}>{errors.email}</p>}
+            {emailVerificationCode && !isEmailVerified && (
+              <div className={styles.emailVerificationContainer}>
+                <input
+                  className={styles.input}
+                  type="text"
+                  placeholder="인증 코드를 입력하세요."
+                  value={verificationCodeInput}
+                  onChange={(e) => setVerificationCodeInput(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={verifyEmailCode}
+                  className={styles.verificationButton}
+                  disabled={isEmailVerified || timeLeft === 0}
+                >
+                  인증 확인
+                </button>
+                {timeLeft > 0 && (
+                  <span className={styles.timer}>{formatTime(timeLeft)}</span>
+                )}
+              </div>
+            )}
+            {isEmailVerified && (
+              <p className={styles.success}>이메일이 인증되었습니다.</p>
+            )}
+          </div>
+          <div className={styles.inputField}>
+            <label className={styles.label} htmlFor="name">
+              이름
+            </label>
+            <input
+              className={styles.input}
+              type="text"
+              id="name"
+              name="name"
+              placeholder="이름을 입력하세요."
+              value={signUpForm.name}
+              onChange={handleLoginFormChange}
+              required
+            />
+          </div>
+          <div className={styles.inputField}>
+            <label className={styles.label} htmlFor="nickname">
+              닉네임
+            </label>
+            <input
+              className={styles.input}
+              type="text"
+              id="nickname"
+              name="nickname"
+              placeholder="닉네임을 입력하세요."
+              value={signUpForm.nickname}
+              onChange={handleLoginFormChange}
+              required
+            />
+            {errors.nickname && (
+              <p className={styles.error}>{errors.nickname}</p>
+            )}
+          </div>
+          <div className={styles.genderContainer}>
+            <label className={styles.label}>성별</label>
+            <div className={styles.genderOptions}>
+              <div className={styles.genderOption}>
+                <input
+                  type="radio"
+                  id="gender_male"
+                  name="gender"
+                  value="MAN"
+                  checked={signUpForm.gender === "MAN"}
+                  onChange={handleLoginFormChange}
+                />
+                <label htmlFor="gender_male" className={styles.genderLabel}>
+                  남성
+                </label>
+              </div>
+              <div className={styles.genderOption}>
+                <input
+                  type="radio"
+                  id="gender_female"
+                  name="gender"
+                  value="WOMAN"
+                  checked={signUpForm.gender === "WOMAN"}
+                  onChange={handleLoginFormChange}
+                />
+                <label htmlFor="gender_female" className={styles.genderLabel}>
+                  여성
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div className={styles.inputField}>
-          <label className={styles.label} htmlFor="birthdate">
-            생일
-          </label>
-          <input
-            className={styles.input}
-            type="date"
-            id="birthdate"
-            name="birthDate"
-            value={signUpForm.birthDate}
-            onChange={handleLoginFormChange}
-            required
-          />
-        </div>
-        <div className={styles.inputField}>
-          <label className={styles.label} htmlFor="password">
-            비밀번호
-          </label>
-          <input
-            className={styles.input}
-            type="password"
-            id="password"
-            name="password"
-            placeholder="비밀번호를 입력하세요."
-            value={signUpForm.password}
-            onChange={handleLoginFormChange}
-            required
-          />
-        </div>
-        <div className={styles.inputField}>
-          <label className={styles.label} htmlFor="password_confirm">
-            비밀번호 확인
-          </label>
-          <input
-            className={styles.input}
-            type="password"
-            id="password_confirm"
-            name="password_confirm"
-            placeholder="비밀번호를 다시 입력하세요."
-            value={passwordConfirm}
-            onChange={onPasswordConfirmChange}
-            required
-          />
-          {passwordConfirmMessage && (
-            <p className={styles.error}>{passwordConfirmMessage}</p>
-          )}
-        </div>
-        <button
-          className={styles.submitButton}
-          type="submit"
-          disabled={!isFormValid}
-        >
-          가입하기
-        </button>
-      </form>
+          <div className={styles.inputField}>
+            <label className={styles.label} htmlFor="birthdate">
+              생일
+            </label>
+            <input
+              className={styles.input}
+              type="date"
+              id="birthdate"
+              name="birthDate"
+              value={signUpForm.birthDate}
+              onChange={handleLoginFormChange}
+              required
+            />
+          </div>
+          <div className={styles.inputField}>
+            <label className={styles.label} htmlFor="password">
+              비밀번호
+            </label>
+            <input
+              className={styles.input}
+              type="password"
+              id="password"
+              name="password"
+              placeholder="비밀번호를 입력하세요."
+              value={signUpForm.password}
+              onChange={handleLoginFormChange}
+              required
+            />
+          </div>
+          <div className={styles.inputField}>
+            <label className={styles.label} htmlFor="password_confirm">
+              비밀번호 확인
+            </label>
+            <input
+              className={styles.input}
+              type="password"
+              id="password_confirm"
+              name="password_confirm"
+              placeholder="비밀번호를 다시 입력하세요."
+              value={passwordConfirm}
+              onChange={onPasswordConfirmChange}
+              required
+            />
+            {passwordConfirmMessage && (
+              <p className={styles.error}>{passwordConfirmMessage}</p>
+            )}
+          </div>
+          <button
+            className={styles.submitButton}
+            type="submit"
+            disabled={!isFormValid}
+          >
+            가입하기
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

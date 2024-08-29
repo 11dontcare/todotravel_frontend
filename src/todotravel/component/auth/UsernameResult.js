@@ -13,7 +13,7 @@ const UsernameResult = () => {
   };
 
   const handleFindPassword = () => {
-    navigate("/profile-search", { state: { activeTab: "password" } });
+    navigate("/find-account", { state: { activeTab: "password" } });
   };
 
   const handleTitleClick = () => {

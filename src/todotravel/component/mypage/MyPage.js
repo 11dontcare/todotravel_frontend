@@ -24,6 +24,7 @@ import gridStyles from "../plan/TripGrid.module.css";
 
 import travelImage from "../../../image/travel.png";
 import profileImage from "../../../image/user_profile_icon.png";
+import defaultThumbnail from "../../../image/thumbnail.png";
 
 // 파일 크기 및 형식 제한을 위한 유틸리티
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -436,7 +437,7 @@ function MyPage() {
               onClick={() => handlePlanClick(trip.planId)}
             >
               <img
-                src={travelImage}
+                src={trip.planThumbnailUrl || defaultThumbnail}
                 alt={trip.title}
                 className={gridStyles.tripImage}
               />
@@ -501,7 +502,7 @@ function MyPage() {
               onClick={() => handlePlanClick(trip.planId)}
             >
               <img
-                src={travelImage}
+                src={trip.planThumbnailUrl || defaultThumbnail}
                 alt={trip.title}
                 className={gridStyles.tripImage}
               />
@@ -558,7 +559,7 @@ function MyPage() {
               onClick={() => handlePlanClick(comment.planId)}
             >
               <img
-                src={travelImage}
+                src={comment.planThumbnailUrl || defaultThumbnail}
                 alt="Trip thumbnail"
                 className={styles.commentImage}
               />
@@ -597,7 +598,7 @@ function MyPage() {
               onClick={() => handlePlanClick(comment.planId)}
             >
               <img
-                src={travelImage}
+                src={comment.planThumbnailUrl || defaultThumbnail}
                 alt="Trip thumbnail"
                 className={styles.commentImage}
               />
