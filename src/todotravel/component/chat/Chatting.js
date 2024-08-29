@@ -11,6 +11,12 @@ const Chatting = ({ roomId }) => {
     setInputValue(event.target.value);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      sendMessage();
+    }
+  };
+
   const connect = () => {
     const socket = new WebSocket("ws://localhost:8080/ws");
     stompClient.current = Stomp.over(socket);
@@ -53,13 +59,17 @@ const Chatting = ({ roomId }) => {
   };
 
   return (
-      <div className={styles.chattingContainer}>
+      <div className={styles.chatContainer}>
         <div className={styles.inputContainer}>
-          <input type="text" value={inputValue} onChange={handleInputChange}/>
+          <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown} // Enter 키를 감지하는 핸들러 추가
+          />
           <button className={styles.sendButton} onClick={sendMessage}>보내기</button>
         </div>
       </div>
-
   );
 };
 

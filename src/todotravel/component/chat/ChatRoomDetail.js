@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import ChatList from "./ChatList";  // 채팅 메시지 목록 컴포넌트
-import Chatting from "./Chatting";  // 채팅 입력 컴포넌트
-import ChatRoomList from "./ChatRoomList";  // 채팅방 목록 컴포넌트
-import styles from "./Chat.module.css";  // CSS 모듈 import
+import ChatList from "./ChatList";
+import Chatting from "./Chatting";
+import ChatRoomList from "./ChatRoomList";
+import styles from "./Chat.module.css";
 
 const ChatRoomDetail = ({ roomId, chatRooms, onSelectRoom }) => {
     const [currentRoomName, setCurrentRoomName] = useState("채팅방 선택");

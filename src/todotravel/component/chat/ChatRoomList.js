@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Chat.module.css";  // CSS 모듈을 import
+import styles from "./Chat.module.css";
 
 const ChatRoomList = ({ chatRooms, onSelectRoom }) => {
     console.log("ChatRoomList rendered with rooms:", chatRooms);

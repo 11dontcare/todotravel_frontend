@@ -25,14 +25,20 @@
     display: flex; /* 플렉스박스 레이아웃을 사용 */
     flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
     justify-content: space-between; /* 상단에 헤더, 하단에 채팅 입력 칸 위치 */
+    overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
+    padding-right: 10px; /* 스크롤바로 인해 내용이 가려지지 않도록 우측에 패딩 추가 */
 }
 
 /* 헤더 컨테이너 스타일 */
 .chatHeaderContainer {
+    position: sticky; /* 스크롤 시 상단에 고정 */
+    top: 0; /* 헤더를 상단에 고정 */
     display: flex;
     justify-content: space-between; /* 헤더와 버튼을 양 끝에 배치 */
     align-items: center; /* 수직 가운데 정렬 */
     width: 100%;
+    background-color: #F0F0F0; /* 스크롤 시 배경색 유지 */
+    z-index: 10; /* 헤더가 다른 요소들 위에 표시되도록 설정 */
     margin-bottom: 20px; /* 아래쪽에 20px의 여백 추가 */
 }
 
@@ -163,12 +169,25 @@
     flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
 }
 
+/* 전체 채팅창 스타일을 모달에 적용 */
+.chatContainer {
+    width: 100%; /* 컨테이너의 너비를 100%로 설정 */
+    height: 100%; /* 컨테이너의 높이를 100%로 설정 */
+    background: transparent; /* 배경색을 투명하게 설정 */
+    display: flex; /* 플렉스박스 레이아웃을 사용 */
+    flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
+    justify-content: space-between; /* 상단에 헤더, 하단에 채팅 입력 칸 위치 */
+    overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
+    padding-right: 10px; /* 스크롤바로 인해 내용이 가려지지 않도록 우측에 패딩 추가 */
+    padding-bottom: 70px; /* 마지막 메시지 버블이 입력 칸에 가려지지 않도록 하단에 여유 공간 추가 */
+}
+
 /* 채팅 메시지 버블 스타일 */
 .chatBubble {
     color: black;  /* 텍스트 색상을 검정색으로 설정 */
     padding: 10px;  /* 내부에 10px의 여백을 추가 */
     border-radius: 15px;  /* 모서리를 둥글게 설정 */
-    margin-bottom: 10px;  /* 버블 간의 간격을 10px로 설정 */
+    margin-bottom: 15px;  /* 버블 간의 간격을 10px에서 15px로 설정 */
     width: 70%;  /* 버블의 너비를 70%로 설정 */
     word-wrap: break-word;  /* 긴 단어를 줄바꿈 처리 */
     list-style-type: none;  /* 리스트 스타일 제거 */

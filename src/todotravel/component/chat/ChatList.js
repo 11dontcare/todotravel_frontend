@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getChatList } from "../../service/ChatService";
-import styles from "./Chat.module.css";  // CSS 모듈을 import
+import styles from "./Chat.module.css";
 
 const ChatList = ({ roomId }) => {
     const [chatHistory, setChatHistory] = useState([]);

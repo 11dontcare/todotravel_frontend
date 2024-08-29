@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getChatRooms } from "../../service/ChatService";
 import ChatRoomDetail from "./ChatRoomDetail";
-import styles from "./Chat.module.css";  // CSS 모듈을 import
+import styles from "./Chat.module.css";
 
 const ChatContainer = () => {
   const [chatRooms, setChatRooms] = useState([]);
