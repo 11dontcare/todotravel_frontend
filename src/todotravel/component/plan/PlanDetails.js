@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan, createComment, updateComment, deleteComment, isUserInPlan } from "../../service/PlanService";
+import { bookmarkPlan, cancelBookmark, cancelLike, checkIsBookmarked, checkIsLiked, likePlan, getPlan, deletePlan, loadPlan, createComment, updateComment, deleteComment, isUserInPlan, recruitmentPlan, cancelRecruitment, requestRecruit } from "../../service/PlanService";
 
 import styles from './PlanDetails.module.css';
 
@@ -10,6 +10,7 @@ import { FaRegBookmark } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { BiComment } from "react-icons/bi";
+import RecruitModal from "./RecruitModal";
 
 
 const PlanDetails = () => {
@@ -34,6 +35,8 @@ const PlanDetails = () => {
   const [loading, setLoading] = useState(true); // 로딩 상태
 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+
+  const [isRecruitModalOpen, setRecruitModalOpen] = useState(false);
 
   useEffect(() => {
     fetchPlan();
@@ -184,7 +187,7 @@ const PlanDetails = () => {
     else if (option === 'modifyPlan'){
       navigate("/plan/" + planId);
     }
-    else {
+    else if (option === 'deletePlan'){
       if(window.confirm("플랜을 삭제하시겠습니까?")){
         deletePlan(planId)
           .then(() => {
@@ -197,8 +200,48 @@ const PlanDetails = () => {
           })
       }
     }
+    else if (option === 'recruitPlan'){
+      //participantsCount 입력 받음
+      setRecruitModalOpen(true);
+    }
+    else if (option === 'cancelRecruit'){
+      cancelRecruitment(planId)
+          .then((response) => {
+            console.log(response);
+            alert("플랜 모집이 취소되었습니다.");
+            navigate("/plan/" + planId);
+          })
+          .catch((e) => {
+            console.log(e);
+            alert("플랜 모집 취소를 실패했습니다. 다시 시도해주세요.");
+          })
+    }
     setIsMoreOpen(false); // 옵션 클릭 후 메뉴 닫기
   };
+
+  const handleRecruit = (participantsCount) => {
+    recruitmentPlan(planId, participantsCount)
+        .then((response) => {
+          console.log(response);
+          alert("플랜이 모집글로 변경되었습니다.");
+          navigate("/plan/" + planId);
+        }).catch((e) => {
+          console.log(e);
+          alert("플랜 모집글 변경에 실패했습니다.")
+        })
+  };
+
+  const handleRecruitClick = () => {
+    requestRecruit(planId, userId)
+        .then((response) => {
+          console.log(response);
+          alert("플랜 참가 요청을 보냈습니다.");
+          // navigate("/plan/" + planId);
+        }).catch((e) => {
+          console.log(e);
+          alert("플랜 참가 요청에 실패했습니다.");
+        })
+  }
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -236,11 +279,26 @@ const PlanDetails = () => {
           <div className={styles.planInfo}>
             <p className={styles.planDates}>{plan.startDate} ~ {plan.endDate}</p>
             {/* <p className={styles.planPublic}>Public: {plan.isPublic ? "Yes" : "No"}</p> */}
-            <p
+            <>
+              {plan.recruitment ? (
+                <p
+                className={`${styles.planStatus} ${(plan.participantsCount !== plan.planUserCount) ? styles.activeStatus : styles.inactiveStatus}`}
+                >
+                  {(plan.participantsCount !== plan.planUserCount) ? "모집중" : "모집마감"}
+                </p>
+              ) : (
+                <p
+                  className={`${styles.planStatus} ${plan.status ? styles.activeStatus : styles.inactiveStatus}`}
+                >
+                  {plan.status ? "여행 후" : "여행 전"}
+                </p>
+              )}
+            </>
+            {/* <p
               className={`${styles.planStatus} ${plan.status ? styles.activeStatus : styles.inactiveStatus}`}
             >
               {plan.status ? "여행 후" : "여행 전"}
-            </p>
+            </p> */}
           </div>
           <p className={styles.planCreator}>{plan.planUserNickname}님의 여행</p>
         </div>
@@ -272,12 +330,23 @@ const PlanDetails = () => {
                     {existsUserInPlan && (
                     <li onClick={() => handleOptionClick('deletePlan')}>삭제하기</li>
                     )}
-                    {/* {(plan.planUserId === userId) && (
-                    <li onClick={() => handleOptionClick('deletePlan')}>모집하기</li>
-                    )} */}
+                    {(Number(userId) === plan.planUserId) && (
+                      <>
+                        {plan.recruitment ? (
+                          <li onClick={() => handleOptionClick('cancelRecruit')}>모집 중지</li>
+                        ) : (
+                          <li onClick={() => handleOptionClick('recruitPlan')}>모집하기</li>
+                        )}
+                      </>
+                    )}
                   </ul>
                 </div>
               )}
+              <RecruitModal
+                isOpen={isRecruitModalOpen}
+                onClose={() => setRecruitModalOpen(false)}
+                onRecruit={handleRecruit}
+              />
           </div>
         </div>
       </div>
@@ -301,6 +370,9 @@ const PlanDetails = () => {
       ) : (
         <p>No schedule available.</p>
       )} */}
+      {(plan.recruitment && !existsUserInPlan && (plan.participantsCount !== plan.planUserCount)) && (
+        <button onClick={handleRecruitClick}>플랜 참가</button>
+      )}
       <div className={styles.commentsSection}>
         <h3>댓글 {comments.length}</h3>
         <form onSubmit={handleCommentSubmit} className={styles.commentForm}>
