@@ -6,6 +6,7 @@ import {
   getUserProfileByNickname,
   updateUserInfo,
   getAllMyPlans,
+  getAllRecruitmentPlans,
   getAllBookmarkedPlans,
   getAllLikedPlans,
   getAllCommentedPlans,
@@ -107,6 +108,8 @@ function MyPage() {
         setNewInfo(response.data.info || "");
         setError(null);
         setIsFollowing(response.data.following);
+
+        console.log(response);
 
         const loggedInUserId = localStorage.getItem("userId");
         const isOwn = loggedInUserId === response.data.userId.toString();
@@ -322,6 +325,9 @@ function MyPage() {
         case "my-trips":
           response = await getAllMyPlans(userId);
           break;
+        case "my-recruitment":
+          response = await getAllRecruitmentPlans(userId);
+          break;
         case "bookmarked":
           response = await getAllBookmarkedPlans(userId);
           break;
@@ -337,6 +343,7 @@ function MyPage() {
         default:
           throw new Error("Invalid view type");
       }
+      console.log(response.data);
       setAllFullTripList(response.data);
       setDisplayedFullTripList(response.data.slice(0, plansPerPage));
       setHasMoreFullList(response.data.length > plansPerPage);
@@ -482,6 +489,8 @@ function MyPage() {
           {profileData.nickname}님의{" "}
           {currentView === "my-trips"
             ? "모든 여행"
+            : currentView === "my-recruitment"
+            ? "모집 중인 여행"
             : currentView === "bookmarked"
             ? "북마크한 여행"
             : "좋아요한 여행"}
@@ -749,6 +758,12 @@ function MyPage() {
 
           {isOwnProfile && (
             <>
+              {renderTripSection(
+                `${profileData.nickname}님이 모집 중인 여행`,
+                profileData.recruitingPlans,
+                "모집 중인 여행이 없습니다.",
+                "my-recruitment"
+              )}
               {renderTripSection(
                 `${profileData.nickname}님이 북마크한 여행`,
                 profileData.recentBookmarks,
