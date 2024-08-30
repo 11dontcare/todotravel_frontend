@@ -234,6 +234,9 @@ const Header = () => {
                   <p onClick={() => handleMyPageNavigation("my-trips")}>
                     여행 일정 관리
                   </p>
+                  <p onClick={() => handleMyPageNavigation("my-recruitment")}>
+                    모집 중인 여행
+                  </p>
                   <p onClick={() => handleMyPageNavigation("bookmarked")}>
                     북마크 관리
                   </p>
