@@ -298,6 +298,10 @@
   }
 
   /* 투명 헤더일 때 모바일 뷰에서의 검색 폼 스타일 */
+  .transparentHeader .dropdownMenu .searchForm input {
+    color: #000000;
+  }
+
   .transparentHeader .dropdownMenu .searchForm input::placeholder {
     color: #757575;
   }
