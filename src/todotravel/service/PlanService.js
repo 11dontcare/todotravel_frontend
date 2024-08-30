@@ -24,11 +24,11 @@ export function getPlan(planId) {
   });
 } //여행 플랜 조회 요청(모든 정보)
 
-export function modifyPlan(planRequest, planId) {
-  return request({
+export function modifyPlan(formData, planId) {
+  return formRequest({
     url: API_BASE_URL + "/api/plan/" + planId,
     method: "PUT",
-    body: JSON.stringify(planRequest),
+    body: formData,
   });
 } //여행 플랜 수정 요청
 
