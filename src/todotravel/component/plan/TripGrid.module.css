@@ -135,7 +135,8 @@
 }
 
 .bookmarks,
-.likes {
+.likes,
+.participants {
   font-size: 0.9rem;
   color: #444;
   margin-bottom: 0;
@@ -144,8 +145,13 @@
   margin-right: 10px;
 }
 
+.participant {
+  font-size: 1.1rem;
+}
+
 .bookmarks svg,
-.likes svg {
+.likes svg,
+.participants svg {
   margin-right: 4px;
 }
 
@@ -170,3 +176,20 @@
   background-color: #f8f8f8;
   border-radius: 8px;
 }
+
+/* .planStatus {
+  font-size: 13px;
+  border-radius: 8px;
+  color: white;
+  height: 18px;
+  width: 45px;
+  justify-self: center;
+}
+
+.activeStatus {
+  background-color: rgb(2, 158, 90);
+}
+
+.inactiveStatus {
+  background-color: rgb(2, 95, 55);
+} */
