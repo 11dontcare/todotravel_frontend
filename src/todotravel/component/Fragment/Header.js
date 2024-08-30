@@ -118,7 +118,7 @@ const Header = () => {
   const handleSearchClick = () => {
     console.log(searchKeyword);
     if (searchKeyword.trim()) {
-      navigate("/plan/" + searchKeyword.trim());
+      navigate("/plan/search/" + searchKeyword.trim());
       setSearchKeyword("");
     }
   };

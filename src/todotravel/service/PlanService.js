@@ -187,5 +187,50 @@ export function deleteComment(commentId) {
   });
 } //댓글 삭제 요청
 
+//플랜 모집
+
+export function recruitmentPlan(planId, participantsCount) {
+  return request({
+    url: API_BASE_URL + "/api/recruitment/" + planId,
+    method: "PUT",
+    body: JSON.stringify(participantsCount),
+  });
+} //여행 플랜 모집중으로 변경 요청
+
+export function cancelRecruitment(planId, userId) {
+  return request({
+    url: API_BASE_URL + "/api/recruitment/cancel/" + planId,
+    method: "PUT",
+  });
+} //여행 플랜 모집 취소 요청
+
+export function viewRecruitments() {
+  return request({
+    url: API_BASE_URL + "/api/plan/recruitment",
+    method: "GET",
+  });
+} //모집중인 플랜 목록 요청
+
+export function requestRecruit(planId, userId) {
+  return request({
+    url: API_BASE_URL + "/api/recruitment/" + planId + "/request/" + userId,
+    method: "POST",
+  });
+} //모집중인 플랜 참가 요청
+
+export function acceptRecruit(planParticipantId) {
+  return request({
+    url: API_BASE_URL + "/api/recruitment/" + planParticipantId + "/accept",
+    method: "PUT",
+  });
+} //모집중인 플랜 참가 승인 요청
+
+export function rejectRecruit(planParticipantId) {
+  return request({
+    url: API_BASE_URL + "/api/recruitment/" + planParticipantId + "/reject",
+    method: "PUT",
+  });
+} //모집중인 플랜 참가 거절 요청
+
 class PlanService {}
 export default new PlanService();
