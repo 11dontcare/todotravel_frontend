@@ -151,7 +151,7 @@ const PlanDetails = () => {
         .then(() => {
           setIsBookmarked(false);
           setBookmarkNumber(bookmarkNumber - 1);
-          alert("북마크가 취소되었습니다.");
+          // alert("북마크가 취소되었습니다.");
         })
         .catch((error) => {
           console.error("북마크 취소에 실패했습니다.", error);
@@ -162,7 +162,7 @@ const PlanDetails = () => {
         .then(() => {
           setIsBookmarked(true);
           setBookmarkNumber(bookmarkNumber + 1);
-          alert("북마크가 추가되었습니다.");
+          // alert("북마크가 추가되었습니다.");
         })
         .catch((error) => {
           console.error("북마크 추가에 실패했습니다.", error);
@@ -177,7 +177,7 @@ const PlanDetails = () => {
         .then(() => {
           setIsLiked(false);
           setLikeNumber(likeNumber - 1);
-          alert("좋아요가 취소되었습니다.");
+          // alert("좋아요가 취소되었습니다.");
         })
         .catch((error) => {
           console.error("좋아요 취소에 실패했습니다.", error);
@@ -188,7 +188,7 @@ const PlanDetails = () => {
         .then(() => {
           setIsLiked(true);
           setLikeNumber(likeNumber + 1);
-          alert("좋아요가 추가되었습니다.");
+          // alert("좋아요가 추가되었습니다.");
         })
         .catch((error) => {
           console.error("좋아요 추가에 실패했습니다.", error);
