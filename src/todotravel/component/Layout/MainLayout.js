@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "../Fragment/Header";
 import Footer from "../Fragment/Footer";
-import PlanList from "../plan/PlanList";
+// import PlanList from "../plan/PlanList";
+import MainPlanList from "../plan/MainPlanList";
 
 import styles from "./Layout.module.css";
 
@@ -10,7 +11,7 @@ import test1 from "../../../image/test3.png";
 
 const MainLayout = ({ children }) => {
   const isPlanList =
-    React.isValidElement(children) && children.type === PlanList;
+    React.isValidElement(children) && children.type === MainPlanList;
 
   return (
     <div className={styles.mainPage}>
