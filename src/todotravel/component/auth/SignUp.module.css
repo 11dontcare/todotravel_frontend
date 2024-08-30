@@ -134,6 +134,7 @@
   border-radius: 4px;
   cursor: pointer;
   line-height: 1.2;
+  margin-bottom: 10px;
 }
 
 .verificationButton:disabled {
