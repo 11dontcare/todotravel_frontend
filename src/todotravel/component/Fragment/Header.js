@@ -106,7 +106,7 @@ const Header = () => {
   // 화면이 줄어들었을 때 추가될 메뉴 아이템
   const menuItems = [
     { label: "여행 일정 만들기", path: "/plan" },
-    { label: "여행 일정 함께하기", path: "/plan" },
+    { label: "여행 일정 함께하기", path: "/plan/recruitment" },
   ];
 
   // 플랜 검색 입력 변화 감지
