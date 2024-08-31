@@ -27,11 +27,13 @@ const PlanList = () => {
   const planListRef = useRef(null);
   const observer = useRef(null);
   const isInitialLoad = useRef(true);
+  const [searchTrigger, setSearchTrigger] = useState(0);
 
   const loadPlans = useCallback(async () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
+    console.log('loadPlans::');
     try {
       if (!isInitialLoad.current) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -54,7 +56,7 @@ const PlanList = () => {
       const responseData = response.data;
       const newPlans = responseData.content;
 
-      setPlanList((prevPlans) => [...prevPlans, ...newPlans]);
+      setPlanList((prevPlans) => (page === 0 ? newPlans : [...prevPlans, ...newPlans]));
       setHasMore(newPlans.length === 12 && responseData.last);
       setPage((prevPage) => prevPage + 1);
       
@@ -76,16 +78,14 @@ const PlanList = () => {
     setPlanList([]);
     setPage(0);
     setHasMore(true);
+    setLoading(false);
     isInitialLoad.current = true;
-    loadPlans();
+    setSearchTrigger(prev => prev + 1);
   };
 
   useEffect(() => {
-    // 초기 로드 시에만 최신순으로 데이터를 가져옵니다.
-    if (isInitialLoad.current) {
-      loadPlans();
-    }
-  }, []);
+    loadPlans();
+  }, [searchTrigger]);
 
   useEffect(() => {
     if (frontLocation) {
