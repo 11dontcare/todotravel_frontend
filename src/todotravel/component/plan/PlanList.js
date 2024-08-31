@@ -33,7 +33,7 @@ const PlanList = () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
-    console.log('loadPlans::');
+    console.log("loadPlans::");
     try {
       if (!isInitialLoad.current) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -56,13 +56,15 @@ const PlanList = () => {
       const responseData = response.data;
       const newPlans = responseData.content;
 
-      setPlanList((prevPlans) => (page === 0 ? newPlans : [...prevPlans, ...newPlans]));
+      setPlanList((prevPlans) =>
+        page === 0 ? newPlans : [...prevPlans, ...newPlans]
+      );
       setHasMore(newPlans.length === 12 && responseData.last);
       setPage((prevPage) => prevPage + 1);
-      
-      console.log('Response data:', responseData);
-      console.log('New plans:', newPlans);
-      console.log('Has more:', !responseData.last);
+
+      console.log("Response data:", responseData);
+      console.log("New plans:", newPlans);
+      console.log("Has more:", !responseData.last);
 
       isInitialLoad.current = false;
     } catch (error) {
@@ -80,7 +82,7 @@ const PlanList = () => {
     setHasMore(true);
     setLoading(false);
     isInitialLoad.current = true;
-    setSearchTrigger(prev => prev + 1);
+    setSearchTrigger((prev) => prev + 1);
   };
 
   useEffect(() => {
@@ -103,7 +105,7 @@ const PlanList = () => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          console.log('Loading more plans...');
+          console.log("Loading more plans...");
           loadPlans();
         }
       });
@@ -118,43 +120,48 @@ const PlanList = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.filterContainer}>
-        <select
-          value={frontLocation}
-          onChange={(e) => setFrontLocation(e.target.value)}
-          className={styles.select}
-        >
-          <option value="">행정 구역 선택</option>
-          {Provinces.map((province) => (
-            <option key={province} value={province}>
-              {province}
-            </option>
-          ))}
-        </select>
-        <select
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className={styles.select}
-          disabled={!frontLocation}
-        >
-          <option value="">지역 선택</option>
-          {availableCitys.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
-        <select
-          value={sortType}
-          onChange={(e) => setSortType(e.target.value)}
-          className={styles.select}
-        >
-          <option value="recent">최신순</option>
-          <option value="popular">인기순</option>
-        </select>
-        <button onClick={handleSearch} className={styles.searchButton}>
-          검색
-        </button>
+      <div className={styles.filterBox}>
+        <div className={styles.filterContainer}>
+          <select
+            value={frontLocation}
+            onChange={(e) => setFrontLocation(e.target.value)}
+            className={styles.select}
+          >
+            <option value="">행정 구역 선택</option>
+            {Provinces.map((province) => (
+              <option key={province} value={province}>
+                {province}
+              </option>
+            ))}
+          </select>
+          <select
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className={styles.select}
+            disabled={!frontLocation}
+          >
+            <option value="">지역 선택</option>
+            {availableCitys.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+          <select
+            value={sortType}
+            onChange={(e) => setSortType(e.target.value)}
+            className={styles.select}
+          >
+            <option value="recent">최신순</option>
+            <option value="popular">인기순</option>
+          </select>
+          <button onClick={handleSearch} className={styles.searchButton}>
+            검색
+          </button>
+        </div>
+        <p className={styles.filterNote}>
+          ※ 필터링된 플랜은 아래에서 볼 수 있습니다.
+        </p>
       </div>
       <div className={gridStyles.tripGrid} ref={planListRef}>
         {planList.map((plan, index) => (
