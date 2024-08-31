@@ -107,14 +107,14 @@ const Header = () => {
   const menuItems = [
     { label: "여행 일정 만들기", path: "/plan" },
     { label: "여행 일정 함께하기", path: "/plan/recruitment" },
-    { label: "장소 검색하기", path: "/plan" },
   ];
 
-  //플랜 검색
+  // 플랜 검색 입력 변화 감지
   const handleInputChange = (e) => {
     setSearchKeyword(e.target.value);
   };
 
+  // 검색 클릭
   const handleSearchClick = () => {
     console.log(searchKeyword);
     if (searchKeyword.trim()) {
@@ -123,6 +123,7 @@ const Header = () => {
     }
   };
 
+  // 폼 제출
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     handleSearchClick();
@@ -134,25 +135,6 @@ const Header = () => {
       handleSearchClick();
     }
   };
-
-  const SearchForm = () => (
-    <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
-      <input
-        type="text"
-        placeholder="계획 검색하기"
-        value={searchKeyword}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-      />
-      <button
-        type="submit"
-        className={styles.searchButton}
-        onClick={handleSearchClick}
-      >
-        <FiSearch />
-      </button>
-    </form>
-  );
 
   return (
     <div
@@ -169,7 +151,22 @@ const Header = () => {
               {item.label}
             </p>
           ))}
-          <SearchForm />
+          <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+            <input
+              type="text"
+              placeholder="계획 검색하기"
+              value={searchKeyword}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+            />
+            <button
+              type="submit"
+              className={styles.searchButton}
+              onClick={handleSearchClick}
+            >
+              <FiSearch />
+            </button>
+          </form>
         </>
       )}
 
@@ -237,6 +234,9 @@ const Header = () => {
                   <p onClick={() => handleMyPageNavigation("my-trips")}>
                     여행 일정 관리
                   </p>
+                  <p onClick={() => handleMyPageNavigation("my-recruitment")}>
+                    모집 중인 여행
+                  </p>
                   <p onClick={() => handleMyPageNavigation("bookmarked")}>
                     북마크 관리
                   </p>
@@ -247,7 +247,9 @@ const Header = () => {
                     댓글 관리
                   </p>
                 </div>
-                <hr/>
+                {isMobileView && (
+                  <hr/>
+                )}
               </>
             ) : null}
             {isMobileView && (
@@ -262,7 +264,22 @@ const Header = () => {
                     {item.label}
                   </p>
                 ))}
-                <SearchForm />
+                <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+                  <input
+                    type="text"
+                    placeholder="계획 검색하기"
+                    value={searchKeyword}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                  />
+                  <button
+                    type="submit"
+                    className={styles.searchButton}
+                    onClick={handleSearchClick}
+                  >
+                    <FiSearch />
+                  </button>
+                </form>
               </>
             )}
           </div>

@@ -24,11 +24,53 @@ export function getPlan(planId) {
   });
 } //여행 플랜 조회 요청(모든 정보)
 
-export function modifyPlan(planRequest, planId) {
+export function getPopularPlans(page) {
   return request({
+    url: `${API_BASE_URL}/api/plan/popular?page=${page}`,
+    method: "GET",
+  });
+} // 플랜 기본 인기순으로 가져오기 (Public, No Recruitment)
+
+export function getPopularPlansByFrontLocation(page, frontLocation) {
+  return request({
+    url: `${API_BASE_URL}/api/plan/popular/frontLocation?page=${page}&frontLocation=${frontLocation}`,
+    method: "GET",
+  });
+} // 행정구역별 인기순 플랜 가져오기
+
+export function getPopularPlansByLocation(page, frontLocation, location) {
+  return request({
+    url: `${API_BASE_URL}/api/plan/popular/location?page=${page}&frontLocation=${frontLocation}&location=${location}`,
+    method: "GET",
+  });
+} // 행정구역+도시별 인기순 플랜 가져오기
+
+export function getRecentPlans(page) {
+  return request({
+    url: `${API_BASE_URL}/api/plan/recent?page=${page}`,
+    method: "GET",
+  });
+} // 플랜 기본 최신순으로 가져오기 (Public, No Recruitment)
+
+export function getRecentPlansByFrontLocation(page, frontLocation) {
+  return request({
+    url: `${API_BASE_URL}/api/plan/recent/frontLocation?page=${page}&frontLocation=${frontLocation}`,
+    method: "GET",
+  });
+} // 행정구역별 최신순 플랜 가져오기
+
+export function getRecentPlansByLocation(page, frontLocation, location) {
+  return request({
+    url: `${API_BASE_URL}/api/plan/recent/location?page=${page}&frontLocation=${frontLocation}&location=${location}`,
+    method: "GET",
+  });
+} // 행정구역+도시별 최신순 플랜 가져오기
+
+export function modifyPlan(formData, planId) {
+  return formRequest({
     url: API_BASE_URL + "/api/plan/" + planId,
     method: "PUT",
-    body: JSON.stringify(planRequest),
+    body: formData,
   });
 } //여행 플랜 수정 요청
 
