@@ -32,6 +32,13 @@ const PlanCreate = () => {
     }
   }, [planForm.frontLocation]);
 
+  useEffect(() => {
+    // 시작 일자가 변경될 때 종료 일자 조정
+    if (planForm.startDate && planForm.endDate && planForm.startDate > planForm.endDate) {
+      setPlanForm(prev => ({ ...prev, endDate: planForm.startDate }));
+    }
+  }, [planForm.startDate, planForm.endDate]);
+
   const handleSwitchChange = () => {
     setIsPublic(!isPublic); // 스위치 상태를 반전시킵니다.
     setPlanForm({
@@ -118,6 +125,7 @@ const PlanCreate = () => {
                 value={planForm.endDate}
                 onChange={handlePlanFormChange}
                 className={styles.inputDate}
+                min={planForm.startDate} // 시작 일자 이후로만 선택 가능
               />
               <label htmlFor="endDate" className={styles.dateLabel}>
                 여행 종료 일자

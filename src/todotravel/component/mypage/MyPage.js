@@ -50,7 +50,7 @@ function MyPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { nickname } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const initialView = searchParams.get("view") || "overview";
   const [currentView, setCurrentView] = useState(initialView);
   const [isEditingInfo, setIsEditingInfo] = useState(false);
@@ -134,6 +134,14 @@ function MyPage() {
 
     fetchData();
   }, [nickname, currentView]);
+
+  useEffect(() => {
+    const view = searchParams.get("view") || "overview";
+    setCurrentView(view);
+    if (view !== "overview") {
+      loadViewData(view, profileData?.userId);
+    }
+  }, [searchParams, profileData]);
 
   // 메인 - 추가 플랜을 로드하는 함수 (타 사용자)
   const loadMorePlans = useCallback(async () => {
@@ -355,18 +363,16 @@ function MyPage() {
   };
 
   // 여행, 좋아요, 북마크 더보기 제어
-  const handleSeeMore = async (type) => {
+  const handleSeeMore = useCallback((type) => {
     if (!profileData) return;
-    setCurrentView(type);
-    await loadViewData(type, profileData.userId);
-  };
+    setSearchParams({ view: type });
+  }, [profileData, setSearchParams]);
 
   // 댓글 더보기 제어
-  const handleSeeMoreComments = async () => {
+  const handleSeeMoreComments = useCallback(() => {
     if (!profileData) return;
-    setCurrentView("comments");
-    await loadViewData("comments", profileData.userId);
-  };
+    setSearchParams({ view: "comments" });
+  }, [profileData, setSearchParams]);
 
   // 프로필 이미지 클릭 핸들러
   const handleProfileImageClick = () => {
@@ -495,7 +501,7 @@ function MyPage() {
             ? "북마크한 여행"
             : "좋아요한 여행"}
         </h2>
-        <span onClick={() => setCurrentView("overview")}>뒤로 가기</span>
+        <span onClick={() => setSearchParams({})}>뒤로 가기</span>
       </div>
       {displayedFullTripList.length > 0 ? (
         <div className={gridStyles.tripGrid}>
@@ -591,7 +597,7 @@ function MyPage() {
     <div className={styles.tripSection}>
       <div className={styles.sectionTitle}>
         <h2>{profileData.nickname}님의 모든 댓글</h2>
-        <span onClick={() => setCurrentView("overview")}>뒤로 가기</span>
+        <span onClick={() => setSearchParams({})}>뒤로 가기</span>
       </div>
       {displayedComments.length > 0 ? (
         <div className={styles.commentGrid}>
