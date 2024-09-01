@@ -82,7 +82,12 @@ const PlanFriend = ({onInviteClick, onClose}) => {
         {acceptUsers.map((user) => (
           <li key={user.userId} className={styles.userItem}>
             <span className={styles.userInfo}>
-              <img src={profileImage} alt="Profile" className={styles.profileImage} />
+              {/* <img src={profileImage} alt="Profile" className={styles.profileImage} /> */}
+              <img
+                src={acceptUsers.profileImageUrl || profileImage}
+                alt="Profile"
+                className={styles.profileImage}
+              />
               <span className={styles.userNickname}>{user.nickname}</span>
             </span>
             {/* {user.nickname === nickname && (
@@ -98,7 +103,12 @@ const PlanFriend = ({onInviteClick, onClose}) => {
         {pendingUsers.map((user) => (
           <li key={user.userId} className={styles.userItem}>
             <span className={styles.userInfo}>
-              <img src={profileImage} alt="Profile" className={styles.profileImage} />
+              {/* <img src={profileImage} alt="Profile" className={styles.profileImage} /> */}
+              <img
+                src={acceptUsers.profileImageUrl || profileImage}
+                alt="Profile"
+                className={styles.profileImage}
+              />
               <span className={styles.userNickname}>{user.nickname}</span>
             </span>
             {/* {user === planUsers[0] && (<button onClick={() => handleCancelInvite(user)}>초대 취소</button>)} */}

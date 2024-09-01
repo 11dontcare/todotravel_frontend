@@ -316,5 +316,14 @@ export function rejectRecruit(planParticipantId) {
   });
 } //모집중인 플랜 참가 거절 요청
 
+//플랜 참가, 초대 리스트
+
+export function showParticipantsByUser(userId) {
+  return request({
+    url: API_BASE_URL + "/api/participant/pending/" + userId,
+    method: "GET",
+  });
+} //수락,거절할 플랜 참가,초대 목록 요청
+
 class PlanService {}
 export default new PlanService();
