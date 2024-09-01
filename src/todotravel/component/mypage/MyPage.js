@@ -6,6 +6,7 @@ import {
   getUserProfileByNickname,
   updateUserInfo,
   getAllMyPlans,
+  getAllRecruitmentPlans,
   getAllBookmarkedPlans,
   getAllLikedPlans,
   getAllCommentedPlans,
@@ -49,7 +50,7 @@ function MyPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { nickname } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const initialView = searchParams.get("view") || "overview";
   const [currentView, setCurrentView] = useState(initialView);
   const [isEditingInfo, setIsEditingInfo] = useState(false);
@@ -108,6 +109,8 @@ function MyPage() {
         setError(null);
         setIsFollowing(response.data.following);
 
+        console.log(response);
+
         const loggedInUserId = localStorage.getItem("userId");
         const isOwn = loggedInUserId === response.data.userId.toString();
         setIsOwnProfile(isOwn);
@@ -131,6 +134,14 @@ function MyPage() {
 
     fetchData();
   }, [nickname, currentView]);
+
+  useEffect(() => {
+    const view = searchParams.get("view") || "overview";
+    setCurrentView(view);
+    if (view !== "overview") {
+      loadViewData(view, profileData?.userId);
+    }
+  }, [searchParams, profileData]);
 
   // 메인 - 추가 플랜을 로드하는 함수 (타 사용자)
   const loadMorePlans = useCallback(async () => {
@@ -322,6 +333,9 @@ function MyPage() {
         case "my-trips":
           response = await getAllMyPlans(userId);
           break;
+        case "my-recruitment":
+          response = await getAllRecruitmentPlans(userId);
+          break;
         case "bookmarked":
           response = await getAllBookmarkedPlans(userId);
           break;
@@ -337,6 +351,7 @@ function MyPage() {
         default:
           throw new Error("Invalid view type");
       }
+      console.log(response.data);
       setAllFullTripList(response.data);
       setDisplayedFullTripList(response.data.slice(0, plansPerPage));
       setHasMoreFullList(response.data.length > plansPerPage);
@@ -348,18 +363,16 @@ function MyPage() {
   };
 
   // 여행, 좋아요, 북마크 더보기 제어
-  const handleSeeMore = async (type) => {
+  const handleSeeMore = useCallback((type) => {
     if (!profileData) return;
-    setCurrentView(type);
-    await loadViewData(type, profileData.userId);
-  };
+    setSearchParams({ view: type });
+  }, [profileData, setSearchParams]);
 
   // 댓글 더보기 제어
-  const handleSeeMoreComments = async () => {
+  const handleSeeMoreComments = useCallback(() => {
     if (!profileData) return;
-    setCurrentView("comments");
-    await loadViewData("comments", profileData.userId);
-  };
+    setSearchParams({ view: "comments" });
+  }, [profileData, setSearchParams]);
 
   // 프로필 이미지 클릭 핸들러
   const handleProfileImageClick = () => {
@@ -482,11 +495,13 @@ function MyPage() {
           {profileData.nickname}님의{" "}
           {currentView === "my-trips"
             ? "모든 여행"
+            : currentView === "my-recruitment"
+            ? "모집 중인 여행"
             : currentView === "bookmarked"
             ? "북마크한 여행"
             : "좋아요한 여행"}
         </h2>
-        <span onClick={() => setCurrentView("overview")}>뒤로 가기</span>
+        <span onClick={() => setSearchParams({})}>뒤로 가기</span>
       </div>
       {displayedFullTripList.length > 0 ? (
         <div className={gridStyles.tripGrid}>
@@ -582,7 +597,7 @@ function MyPage() {
     <div className={styles.tripSection}>
       <div className={styles.sectionTitle}>
         <h2>{profileData.nickname}님의 모든 댓글</h2>
-        <span onClick={() => setCurrentView("overview")}>뒤로 가기</span>
+        <span onClick={() => setSearchParams({})}>뒤로 가기</span>
       </div>
       {displayedComments.length > 0 ? (
         <div className={styles.commentGrid}>
@@ -749,6 +764,12 @@ function MyPage() {
 
           {isOwnProfile && (
             <>
+              {renderTripSection(
+                `${profileData.nickname}님이 모집 중인 여행`,
+                profileData.recruitingPlans,
+                "모집 중인 여행이 없습니다.",
+                "my-recruitment"
+              )}
               {renderTripSection(
                 `${profileData.nickname}님이 북마크한 여행`,
                 profileData.recentBookmarks,

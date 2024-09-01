@@ -1,26 +1,27 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  getRecentPlans,
-  getPopularPlans,
-  getRecentPlansByFrontLocation,
-  getPopularPlansByFrontLocation,
-  getRecentPlansByLocation,
-  getPopularPlansByLocation,
+  getRecentRecruitPlans,
+  getRecentRecruitPlansByFrontLocation,
+  getRecentRecruitPlansByFrontLocationAndStartDate,
+  getRecentRecruitPlansByLocation,
+  getRecentRecruitPlansByLocationAndStartDate,
+  getRecentRecruitPlansByStartDate,
 } from "../../service/PlanService";
 import { FaRegBookmark, FaRegHeart } from "react-icons/fa";
+import { GoPerson } from "react-icons/go";
 import { Provinces, Citys } from "./PlanData";
 import styles from "./PlanList.module.css";
 import gridStyles from "./TripGrid.module.css";
 import defaultThumbnail from "../../../image/thumbnail.png";
 
-const PlanList = () => {
+const RecruitmentList = () => {
   const navigate = useNavigate();
   const [planList, setPlanList] = useState([]);
   const [frontLocation, setFrontLocation] = useState("");
   const [location, setLocation] = useState("");
   const [availableCitys, setAvailableCitys] = useState([]);
-  const [sortType, setSortType] = useState("recent");
+  const [startDate, setStartDate] = useState(null);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -38,19 +39,21 @@ const PlanList = () => {
       }
 
       let response;
+      console.log(startDate);
       if (!frontLocation) {
-        response = await (sortType === "recent"
-          ? getRecentPlans(page)
-          : getPopularPlans(page));
+        response = await (startDate === null
+          ? getRecentRecruitPlans(page)
+          : getRecentRecruitPlansByStartDate(page, startDate));
       } else if (!location) {
-        response = await (sortType === "recent"
-          ? getRecentPlansByFrontLocation(page, frontLocation)
-          : getPopularPlansByFrontLocation(page, frontLocation));
+        response = await (startDate === null
+          ? getRecentRecruitPlansByFrontLocation(page, frontLocation)
+          : getRecentRecruitPlansByFrontLocationAndStartDate(page, frontLocation, startDate));
       } else {
-        response = await (sortType === "recent"
-          ? getRecentPlansByLocation(page, frontLocation, location)
-          : getPopularPlansByLocation(page, frontLocation, location));
+        response = await (startDate === null
+          ? getRecentRecruitPlansByLocation(page, frontLocation, location)
+          : getRecentRecruitPlansByLocationAndStartDate(page, frontLocation, location, startDate));
       }
+
       const responseData = response.data;
       const newPlans = responseData.content;
 
@@ -70,7 +73,7 @@ const PlanList = () => {
     } finally {
       setLoading(false);
     }
-  }, [frontLocation, location, sortType, page, loading, hasMore]);
+  }, [frontLocation, location, page, startDate, loading, hasMore]);
 
   const handleSearch = () => {
     setPlanList([]);
@@ -144,14 +147,12 @@ const PlanList = () => {
             </option>
           ))}
         </select>
-        <select
-          value={sortType}
-          onChange={(e) => setSortType(e.target.value)}
-          className={styles.select}
-        >
-          <option value="recent">최신순</option>
-          <option value="popular">인기순</option>
-        </select>
+        <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className={styles.select}>
+        </input>
         <button onClick={handleSearch} className={styles.searchButton}>
           검색
         </button>
@@ -183,6 +184,9 @@ const PlanList = () => {
                 <span className={gridStyles.likes}>
                   <FaRegHeart /> {plan.likeNumber}
                 </span>
+                <span className={gridStyles.participants}>
+                    <GoPerson className={gridStyles.participant} /> {plan.planUserCount}/{plan.participantsCount}
+                  </span>
               </div>
               <span className={gridStyles.planUserNickname}>
                 {plan.planUserNickname}님의 여행 일정
@@ -204,4 +208,4 @@ const PlanList = () => {
   );
 };
 
-export default PlanList;
+export default RecruitmentList;
