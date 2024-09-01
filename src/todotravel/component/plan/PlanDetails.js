@@ -373,9 +373,9 @@ const PlanDetails = () => {
             <>
               {plan.recruitment ? (
                 <p
-                className={`${styles.planStatus} ${(plan.participantsCount !== plan.planUserCount) ? styles.activeStatus : styles.inactiveStatus}`}
+                className={`${styles.planStatus} ${(plan.participantsCount > plan.planUserCount) ? styles.activeStatus : styles.inactiveStatus}`}
                 >
-                  {(plan.participantsCount !== plan.planUserCount) ? "모집중" : "모집마감"}
+                  {(plan.participantsCount > plan.planUserCount) ? "모집중" : "모집마감"}
                 </p>
               ) : (
                 <p
@@ -476,7 +476,7 @@ const PlanDetails = () => {
       ) : (
         <p>No schedule available.</p>
       )} */}
-      {(plan.recruitment && !existsUserInPlan && (plan.participantsCount !== plan.planUserCount)) && (
+      {(plan.recruitment && !existsUserInPlan && (plan.participantsCount > plan.planUserCount)) && (
         <button onClick={handleRecruitClick}>플랜 참가</button>
       )}
       <div className={styles.commentsSection}>
