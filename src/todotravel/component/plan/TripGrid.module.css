@@ -135,7 +135,8 @@
 }
 
 .bookmarks,
-.likes {
+.likes,
+.participants {
   font-size: 0.9rem;
   color: #444;
   margin-bottom: 0;
@@ -144,8 +145,13 @@
   margin-right: 10px;
 }
 
+.participant {
+  font-size: 1.1rem;
+}
+
 .bookmarks svg,
-.likes svg {
+.likes svg,
+.participants svg {
   margin-right: 4px;
 }
 

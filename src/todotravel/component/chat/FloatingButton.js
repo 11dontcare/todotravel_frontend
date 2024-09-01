@@ -7,12 +7,10 @@ function FloatingButton() {
     const [isChatOpen, setChatOpen] = useState(false);
     const { isLoggedIn } = useAuth();
 
-    // 채팅 모달을 열고 닫는 함수
     const toggleChat = () => {
         setChatOpen(!isChatOpen);
     };
 
-    // 오버레이를 클릭했을 때 모달을 닫는 함수
     const handleOverlayClick = (e) => {
         if (e.target === e.currentTarget) {
             setChatOpen(false);
@@ -34,7 +32,7 @@ function FloatingButton() {
             {isChatOpen && (
                 <div className={styles.chatOverlay} onClick={handleOverlayClick}>
                     {isLoggedIn ? (
-                        <ChatContainer />  // 로그인된 경우 채팅 모달 표시
+                        <ChatContainer />
                     ) : (
                         <div className={styles.chatModal}>
                             <p className={styles.loginPrompt}>로그인 후 사용해주세요</p>

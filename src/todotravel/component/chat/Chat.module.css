@@ -1,11 +1,11 @@
 /* 모달창 스타일 */
 .chatModal {
-    position: fixed; /* 모달창을 화면에 고정 */
+    position: fixed;
     top: 25%;
     right: 80px;
-    width: 500px; /* 모달창의 너비를 600px로 설정 */
-    height: 800px; /* 모달창의 높이를 화면 높이의 80%로 설정 */
-    background: #F0F0F0; /* 모달창의 배경색을 연한 회색으로 설정 */
+    width: 500px;
+    height: 800px;
+    background: #F0F0F0;
     border-radius: 20px; /* 모달창의 모서리를 둥글게 설정 */
     z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
     overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */

@@ -2,14 +2,89 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getPlan, modifyPlan } from "../../service/PlanService";
+import { Provinces, Citys } from "./PlanData";
 
-import styles from './Form.module.css';
+import styles from "./Form.module.css";
 
 const PlanModify = () => {
   const { planId } = useParams();
-  console.log(planId);
   const navigate = useNavigate();
-  const [isPublic, setIsPublic] = useState(false); // 상태를 추가하여 스위치의 상태를 관리합니다.
+  const [isPublic, setIsPublic] = useState(false);
+  const [thumbnail, setThumbnail] = useState(null);
+  const [currentThumbnailName, setCurrentThumbnailName] = useState("");
+  const [availableCitys, setAvailableCitys] = useState([]);
+  const [isEditable, setIsEditable] = useState(false);
+
+  const [planForm, setPlanForm] = useState({
+    title: "",
+    startDate: "",
+    endDate: "",
+    frontLocation: "",
+    location: "",
+    totalBudget: "",
+    isPublic: false,
+    status: false,
+  });
+
+  useEffect(() => {
+    fetchPlan();
+  }, []);
+
+  useEffect(() => {
+    if (planForm.frontLocation) {
+      const selectedProvince = Citys.find(
+        (item) => item.province === planForm.frontLocation
+      );
+      setAvailableCitys(selectedProvince ? selectedProvince.citys : []);
+    }
+  }, [planForm.frontLocation]);
+
+  useEffect(() => {
+    if (
+      planForm.startDate &&
+      planForm.endDate &&
+      planForm.startDate > planForm.endDate
+    ) {
+      setPlanForm((prev) => ({ ...prev, endDate: planForm.startDate }));
+    }
+  }, [planForm.startDate, planForm.endDate]);
+
+  const fetchPlan = () => {
+    getPlan(planId)
+      .then((response) => {
+        const {
+          title,
+          startDate,
+          endDate,
+          frontLocation,
+          location,
+          totalBudget,
+          isPublic,
+          status,
+          planThumbnailUrl,
+        } = response.data;
+        setPlanForm({
+          title,
+          startDate,
+          endDate,
+          frontLocation,
+          location,
+          totalBudget,
+          isPublic,
+          status,
+        });
+        setIsPublic(isPublic);
+        if (planThumbnailUrl) {
+          const FIXED_URL_LENGTH = 88; // 이미지 URL의 고정 부분 길이
+          const thumbnailName = planThumbnailUrl.substring(FIXED_URL_LENGTH);
+          setCurrentThumbnailName(thumbnailName);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("플랜을 불러올 수 없습니다. 다시 시도해주세요.");
+      });
+  };
 
   const handleSwitchChange = () => {
     setIsPublic(!isPublic); // 스위치 상태를 반전시킵니다.
@@ -17,46 +92,6 @@ const PlanModify = () => {
       ...planForm,
       isPublic: !isPublic,
     });
-  };
-
-  const [planForm, setPlanForm] = useState({
-    title: "",
-    startDate: "",
-    endDate: "",
-    // front_location: "",
-    location: "",
-    totalBudget: "",
-    isPublic: false,
-    status: false,
-  });
-
-  const [isEditable, setIsEditable] = useState(false); // 수정 가능 여부 상태
-
-  useEffect(() => {
-    fetchPlan();
-  }, []);
-
-  const fetchPlan = () => {
-    getPlan(planId)
-      .then((response) => {
-        const {title, startDate, endDate, location, totalBudget, isPublic, status} = response.data;
-        setPlanForm({
-          title,
-          startDate,
-          endDate,
-          location,
-          totalBudget,
-          isPublic,
-          status,
-        });
-        setIsPublic(isPublic);
-        console.log(response);
-        console.log(title);
-      })
-      .catch((e) => {
-        console.log(e);
-        alert("플랜을 불러올 수 없습니다. 다시 시도해주세요.");
-      });
   };
 
   const handlePlanFormChange = (e) => {
@@ -69,26 +104,36 @@ const PlanModify = () => {
     });
   };
 
+  const handleThumbnailChange = (e) => {
+    setThumbnail(e.target.files[0]);
+  };
+
   const toggleEditMode = (e) => {
     e.preventDefault();
     e.stopPropagation(); // 이벤트 전파 차단
     setIsEditable(!isEditable); // 수정 가능/불가능 상태 전환
   };
 
-
   const planModifySubmit = (e) => {
     e.preventDefault();
-    console.log("planModifySubmit");
-    console.log(planForm);
-    console.log(localStorage.getItem("nickname"));
 
-    modifyPlan(planForm, planId)
+    const formData = new FormData();
+    formData.append(
+      "planRequestDto",
+      new Blob([JSON.stringify(planForm)], { type: "application/json" })
+    );
+
+    if (thumbnail) {
+      formData.append("planThumbnail", thumbnail);
+    } else {
+      formData.append("planThumbnail", new Blob([]), "");
+    }
+
+    modifyPlan(formData, planId)
       .then((response) => {
         alert("플랜이 수정되었습니다.");
-        // navigate("/plan/" + planId);
-        console.log(response);
-        console.log(planForm);
-        toggleEditMode(e); // 수정 완료 후 수정 불가능 상태로 전환
+        setIsEditable(false);
+        navigate("/plan/" + planId);
       })
       .catch((e) => {
         console.log(e);
@@ -102,20 +147,19 @@ const PlanModify = () => {
         {/* 플랜 수정 */}
         <form onSubmit={planModifySubmit} className={styles.form}>
           <div className={styles.inputContainer}>
-            <div className={styles.inputGroup}>
-              <div className={styles.inputFirstLine}>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  required
-                  value={planForm.title}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputTitle}
-                  disabled={!isEditable} // 수정 가능 상태에 따라 비활성화
-                />
-              </div>
-              <div className={styles.inputSecondLine}>
+            <div className={styles.row}>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="제목을 입력해주세요"
+                required
+                value={planForm.title}
+                onChange={handlePlanFormChange}
+                className={styles.inputTitle}
+                disabled={!isEditable}
+              />
+              <div className={styles.dateInputWrapper}>
                 <input
                   type="date"
                   id="startDate"
@@ -124,9 +168,13 @@ const PlanModify = () => {
                   value={planForm.startDate}
                   onChange={handlePlanFormChange}
                   className={styles.inputDate}
-                  disabled={!isEditable} // 수정 가능 상태에 따라 비활성화
+                  disabled={!isEditable}
                 />
-                ~
+                <label htmlFor="startDate" className={styles.dateLabel}>
+                  여행 시작 일자
+                </label>
+              </div>
+              <div className={styles.dateInputWrapper}>
                 <input
                   type="date"
                   id="endDate"
@@ -135,64 +183,99 @@ const PlanModify = () => {
                   value={planForm.endDate}
                   onChange={handlePlanFormChange}
                   className={styles.inputDate}
-                  disabled={!isEditable} // 수정 가능 상태에 따라 비활성화
+                  min={planForm.startDate}
+                  disabled={!isEditable}
                 />
-                <span></span>
+                <label htmlFor="endDate" className={styles.dateLabel}>
+                  여행 종료 일자
+                </label>
+              </div>
+            </div>
+            <div className={styles.row}>
+              <select
+                id="frontLocation"
+                name="frontLocation"
+                required
+                value={planForm.frontLocation}
+                onChange={handlePlanFormChange}
+                className={styles.inputSelect}
+                disabled={!isEditable}
+              >
+                <option value="">행정 구역 선택</option>
+                {Provinces.map((province) => (
+                  <option key={province} value={province}>
+                    {province}
+                  </option>
+                ))}
+              </select>
+              <select
+                id="location"
+                name="location"
+                required
+                value={planForm.location}
+                onChange={handlePlanFormChange}
+                className={styles.inputSelect}
+                disabled={!isEditable || !planForm.frontLocation}
+              >
+                <option value="">지역 선택</option>
+                {availableCitys.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="number"
+                id="totalBudget"
+                name="totalBudget"
+                placeholder="총 예산안 입력"
+                required
+                value={planForm.totalBudget}
+                onChange={handlePlanFormChange}
+                className={styles.inputBudget}
+                disabled={!isEditable}
+              />
+            </div>
+            <div className={styles.row}>
+              <div className={styles.inputPublish}>
+                <label htmlFor="isPublic">여행 일정 공유</label>
                 <input
-                  type='text'
-                  id='front_location'
-                  name='front_location'
-                  placeholder='행정 구역'
-                  required
-                  // value={planForm.front_location}
-                  // onChange={handlePlanFormChange}
-                  className={styles.inputFLocation}
-                />
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  required
-                  value={planForm.location}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputLocation}
-                  disabled={!isEditable} // 수정 가능 상태에 따라 비활성화
+                  type="checkbox"
+                  id="isPublic"
+                  name="isPublic"
+                  checked={isPublic}
+                  onChange={handleSwitchChange}
+                  disabled={!isEditable}
                 />
               </div>
-              <div className={styles.inputThirdLine}>
+              <div className={styles.inputThumbnail}>
+                <label htmlFor="thumbnail">썸네일 이미지 업로드</label>
                 <input
-                  type="text"
-                  id="totalBudget"
-                  name="totalBudget"
-                  required
-                  value={planForm.totalBudget}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputBudget}
-                  disabled={!isEditable} // 수정 가능 상태에 따라 비활성화
+                  type="file"
+                  id="thumbnail"
+                  accept="image/*"
+                  onChange={handleThumbnailChange}
+                  disabled={!isEditable}
                 />
-                <span className={styles.inputPublish}>
-                  <label>여행 일정 공유</label>
-                  <input
-                    type="checkbox"
-                    id="isPublic"
-                    name="isPublic"
-                    checked={planForm.isPublic}
-                    onChange={handleSwitchChange}
-                    disabled={!isEditable} // 수정 가능 상태에 따라 비활성화
-                  />
-                </span><span style={{paddingLeft: "470px",}}>
-                {isEditable ? (
-                  <button type="submit" className={styles.submitModify}>
-                    수정 완료
-                  </button>
-                ) : (
-                  <button type="button" onClick={toggleEditMode} className={styles.submitModify}>
-                    수정 시작
-                  </button>
-                )}</span>
+                {currentThumbnailName && !thumbnail && (
+                  <span>현재 파일: {currentThumbnailName}</span>
+                )}
               </div>
             </div>
           </div>
+          {isEditable ? (
+            <button type="submit" className={styles.submitButton}>
+              수정 완료
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={toggleEditMode}
+              className={styles.submitButton}
+            >
+              수정 시작
+            </button>
+          )}
         </form>
       </div>
     </div>

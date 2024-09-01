@@ -7,8 +7,8 @@ import styles from "./Chat.module.css";
 const ChatRoomDetail = ({ roomId, chatRooms, onSelectRoom }) => {
     const [currentRoomName, setCurrentRoomName] = useState("채팅방 선택");
     const [showChatRoomList, setShowChatRoomList] = useState(false);
-    const chatRoomListRef = useRef(null); // 채팅방 목록 참조를 위한 ref 생성
-    const toggleButtonRef = useRef(null); // 채팅방 목록 버튼 참조를 위한 ref 생성
+    const chatRoomListRef = useRef(null);
+    const toggleButtonRef = useRef(null);
 
     useEffect(() => {
         const selectedRoom = chatRooms.find((room) => room.roomId === roomId);

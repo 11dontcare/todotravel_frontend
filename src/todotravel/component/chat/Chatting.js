@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Stomp } from "@stomp/stompjs";
-import styles from "./Chat.module.css";  // CSS 모듈을 import
+import styles from "./Chat.module.css";
 
-const Chatting = ({ roomId }) => {
+const Chatting = ({ roomId, onNewMessage }) => {
   const stompClient = useRef(null);
-  const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (event) => {
@@ -23,7 +22,7 @@ const Chatting = ({ roomId }) => {
     stompClient.current.connect({}, () => {
       stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
         const newMessage = JSON.parse(message.body);
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        onNewMessage(newMessage);
       });
     });
   };
@@ -37,7 +36,6 @@ const Chatting = ({ roomId }) => {
   useEffect(() => {
     if (roomId) {
       connect();
-      console.log(roomId);
       return () => disconnect();
     }
   }, [roomId]);
@@ -65,7 +63,7 @@ const Chatting = ({ roomId }) => {
               type="text"
               value={inputValue}
               onChange={handleInputChange}
-              onKeyDown={handleKeyDown} // Enter 키를 감지하는 핸들러 추가
+              onKeyDown={handleKeyDown}
           />
           <button className={styles.sendButton} onClick={sendMessage}>보내기</button>
         </div>
