@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getRecentPlans, getPopularPlans } from "../../service/PlanService";
+import {
+  getRecentPlans,
+  getPopularPlans,
+  getRecentRecruitPlans,
+} from "../../service/PlanService";
 import { FaRegBookmark, FaRegHeart } from "react-icons/fa";
 import { MdOutlineReadMore } from "react-icons/md";
 import styles from "./MainPlanList.module.css";
@@ -11,28 +15,37 @@ import defaultThumbnail from "../../../image/thumbnail.png";
 const MainPlanList = () => {
   const navigate = useNavigate();
   const [planList, setPlanList] = useState([]); // 플랜 리스트를 저장
+  const [recruitPlanList, setRecruitPlanList] = useState([]); // 모집중인 플랜 리스트를 저장
   const [sortBy, setSortBy] = useState("newest"); // 정렬 기준을 관리: "newest" 또는 "popular"
   const [isDragging, setIsDragging] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchPlans();
+    fetchRecruitPlans();
   }, [sortBy]);
 
   const fetchPlans = () => {
-    setIsLoading(true);
     const fetchFunction =
       sortBy === "newest" ? getRecentPlans : getPopularPlans;
 
     fetchFunction(0, 12)
       .then((response) => {
         setPlanList(response.data.content || []);
-        setIsLoading(false);
       })
       .catch((e) => {
         console.log(e);
         alert("플랜 목록을 불러올 수 없습니다.");
-        setIsLoading(false);
+      });
+  };
+
+  const fetchRecruitPlans = () => {
+    getRecentRecruitPlans(0)
+      .then((response) => {
+        setRecruitPlanList(response.data.content || []);
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("모집중인 플랜 목록을 불러올 수 없습니다.");
       });
   };
 
@@ -51,7 +64,6 @@ const MainPlanList = () => {
   };
 
   const handleReadMoreClick = () => {
-    // 전체 플랜 목록 페이지로 이동하거나 더 많은 플랜을 로드
     navigate("/plans");
   };
 
@@ -74,6 +86,8 @@ const MainPlanList = () => {
           </button>
         </div>
       </div>
+
+      {/* 공유된 플랜 리스트 */}
       <ScrollContainer
         className={styles.planListContainer}
         onMouseDown={onDragStart}
@@ -125,6 +139,61 @@ const MainPlanList = () => {
           </>
         ) : (
           <p className={gridStyles.emptyMessage}>플랜이 없습니다.</p>
+        )}
+      </ScrollContainer>
+
+      {/* 모집중인 플랜 리스트 */}
+      <div className={styles.text}>
+        <span>모집중인 플랜</span>
+      </div>
+      <ScrollContainer
+        className={styles.planListContainer}
+        onMouseDown={onDragStart}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+      >
+        {recruitPlanList.length > 0 ? (
+          <>
+            {recruitPlanList.map((plan, index) => (
+              <div
+                key={plan.planId}
+                className={`${gridStyles.tripCard} ${styles.fadeIn}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => handlePlanClick(plan.planId)}
+              >
+                <img
+                  src={
+                    plan.planThumbnailUrl
+                      ? plan.planThumbnailUrl
+                      : defaultThumbnail
+                  }
+                  alt="travel"
+                  className={gridStyles.tripImage}
+                />
+                <p className={gridStyles.location}>{plan.location}</p>
+                <h2 className={gridStyles.planTitle}>{plan.title}</h2>
+                <p className={gridStyles.description}>{plan.description}</p>
+                <p className={gridStyles.dates}>
+                  {plan.startDate} ~ {plan.endDate}
+                </p>
+                <div className={gridStyles.tripFooter}>
+                  <div className={gridStyles.tripStats}>
+                    <span className={gridStyles.bookmarks}>
+                      <FaRegBookmark /> {plan.bookmarkNumber}
+                    </span>
+                    <span className={gridStyles.likes}>
+                      <FaRegHeart /> {plan.likeNumber}
+                    </span>
+                  </div>
+                  <span className={gridStyles.planUserNickname}>
+                    {plan.planUserNickname}님의 여행 일정
+                  </span>
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <p className={gridStyles.emptyMessage}>모집중인 플랜이 없습니다.</p>
         )}
       </ScrollContainer>
     </div>
