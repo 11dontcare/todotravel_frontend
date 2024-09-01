@@ -20,7 +20,7 @@
 /* 전체 채팅창 스타일을 모달에 적용 */
 .chatContainer {
     width: 100%; /* 컨테이너의 너비를 100%로 설정 */
-    height: 100%; /* 컨테이너의 높이를 100%로 설정 */
+    flex-grow: 1; /* 부모 요소의 남은 공간을 채우도록 설정 */
     background: transparent; /* 배경색을 투명하게 설정 */
     display: flex; /* 플렉스박스 레이아웃을 사용 */
     flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
@@ -28,8 +28,9 @@
     overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
     overflow-x: hidden; /* 좌우 스크롤을 없애기 위해 숨김 처리 */
     padding-right: 10px; /* 스크롤바로 인해 내용이 가려지지 않도록 우측에 패딩 추가 */
-    padding-bottom: 40px;
-    padding-top: 90px;
+    padding-bottom: 0;
+    padding-top: 50px;
+    scroll-behavior: smooth;
 }
 
 /* 헤더 컨테이너 스타일 */

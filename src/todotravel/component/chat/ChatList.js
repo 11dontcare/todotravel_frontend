@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getChatList } from "../../service/ChatService";
 import styles from "./Chat.module.css";
 
 const ChatList = ({ roomId }) => {
     const [chatHistory, setChatHistory] = useState([]);
     const userId = localStorage.getItem("userId"); // 현재 로그인된 사용자의 ID를 로컬 스토리지에서 가져옴
+    const chatListRef = useRef(null); // 메시지 리스트를 참조하기 위한 ref 생성
 
     useEffect(() => {
         const fetchChatHistory = async () => {
@@ -20,6 +21,13 @@ const ChatList = ({ roomId }) => {
             fetchChatHistory();
         }
     }, [roomId]);
+
+    useEffect(() => {
+        // 새로운 메시지가 추가될 때마다 스크롤을 하단으로 이동
+        if (chatListRef.current) {
+            chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+        }
+    }, [chatHistory]);
 
     const formatDate = (dateString) => {
         try {
@@ -43,7 +51,7 @@ const ChatList = ({ roomId }) => {
     };
 
     return (
-        <div>
+        <div ref={chatListRef} className={styles.chatContainer}>
             <ul>
                 {chatHistory.map((chat, index) => (
                     <li
