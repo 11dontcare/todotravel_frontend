@@ -2,7 +2,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 30px;
   line-height: 1.2;
   padding: 20px 20px 30px 55px;
   color: #000000;
@@ -23,6 +23,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sortButtons button:hover {
@@ -52,6 +53,10 @@
   box-sizing: border-box;
   cursor: grab;
   transition: transform 0.3s ease;
+  margin-bottom: 60px;
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.1);
+  background-color: #9999991c;
+  border-radius: 20px;
 }
 
 .planListContainer:active {
