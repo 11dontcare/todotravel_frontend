@@ -1,34 +1,45 @@
-.homeImg {
-  width: 1000px;
-  padding: 20px;
-  justify-content: center;
-}
-/* .planListContainer {
-  gap: 20px; 
-  display: flex;
-  flex-direction: row;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  padding: 0 30px 10px;
-  border-bottom: 1px solid #e7e7e7;
-  
-  justify-content: center;
-} */
 .text {
-  /* 일정 공유해요 */
-
   font-family: 'Inter';
   font-style: normal;
   font-weight: bold;
-  font-size: 17px;
-  line-height: 100%;
-  /* or 32px */
-  padding: 20px;
-  padding-left: 55px;
-  padding-bottom: 30px;
-
+  font-size: 24px;
+  line-height: 1.2;
+  padding: 20px 20px 30px 55px;
   color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sortButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.sortButtons button {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sortButtons button:hover {
+  background-color: #d4d4d4;
+  transform: scale(1.05);
+}
+
+.sortButtons button:active {
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
+
+.sortButtons button.active {
+  background-color: #0e5a1a;
+  color: white;
+  border: none;
+  transform: scale(1.1);
 }
 
 .planListContainer {
@@ -40,14 +51,71 @@
   gap: 20px;
   box-sizing: border-box;
   cursor: grab;
+  transition: transform 0.3s ease;
 }
 
 .planListContainer:active {
   cursor: grabbing;
+  transform: scale(0.98);
 }
 
 .planListContainer::-webkit-scrollbar {
   display: none;
 }
-/* 여행 관련 Grid + Card 부분은 TripGrid.module.css를
-공통으로 사용하도록 수정함 */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.tripCard {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tripCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.loadingMessage {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #999;
+}
+
+.readMoreCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.readMoreCard:hover {
+  transform: translateY(-5px);
+  background-color: #e0e0e0;
+}
+
+.readMoreCard p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
