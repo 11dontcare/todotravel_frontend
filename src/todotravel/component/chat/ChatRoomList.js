@@ -2,11 +2,9 @@ import React from "react";
 import styles from "./Chat.module.css";
 
 const ChatRoomList = ({ chatRooms, onSelectRoom }) => {
-    console.log("ChatRoomList rendered with rooms:", chatRooms);
-
     return (
-        <div className={styles.chatRoomList}>
-            <ul>
+        <div>
+            <ul className={styles.chatRoomList}>
                 {chatRooms.length > 0 ? (
                     chatRooms.map((room) => (
                         <li key={room.roomId} onClick={() => onSelectRoom(room.roomId)}>
