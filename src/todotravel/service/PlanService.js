@@ -253,6 +253,48 @@ export function viewRecruitments() {
   });
 } //모집중인 플랜 목록 요청
 
+export function getRecentRecruitPlans(page) {
+  return request({
+    url: `${API_BASE_URL}/api/recruitment/recent?page=${page}`,
+    method: "GET",
+  });
+} // 모집 플랜 최신순으로 가져오기
+
+export function getRecentRecruitPlansByFrontLocation(page, frontLocation) {
+  return request({
+    url: `${API_BASE_URL}/api/recruitment/recent/frontLocation?page=${page}&frontLocation=${frontLocation}`,
+    method: "GET",
+  });
+} // 행정구역별 최신순 모집 플랜 가져오기
+
+export function getRecentRecruitPlansByLocation(page, frontLocation, location) {
+  return request({
+    url: `${API_BASE_URL}/api/recruitment/recent/location?page=${page}&frontLocation=${frontLocation}&location=${location}`,
+    method: "GET",
+  });
+} // 행정구역+도시별 최신순 모집 플랜 가져오기
+
+export function getRecentRecruitPlansByStartDate(page, startDate) {
+  return request({
+    url: `${API_BASE_URL}/api/recruitment/recent/startDate?page=${page}&startDate=${startDate}`,
+    method: "GET",
+  });
+} // 모집 플랜 날짜, 최신순으로 가져오기
+
+export function getRecentRecruitPlansByFrontLocationAndStartDate(page, frontLocation, startDate) {
+  return request({
+    url: `${API_BASE_URL}/api/recruitment/recent/frontLocation/startDate?page=${page}&frontLocation=${frontLocation}&startDate=${startDate}`,
+    method: "GET",
+  });
+} // 날짜, 행정구역별 최신순 모집 플랜 가져오기
+
+export function getRecentRecruitPlansByLocationAndStartDate(page, frontLocation, location, startDate) {
+  return request({
+    url: `${API_BASE_URL}/api/recruitment/recent/location/startDate?page=${page}&frontLocation=${frontLocation}&location=${location}&startDate=${startDate}`,
+    method: "GET",
+  });
+} // 날짜, 행정구역+도시별 최신순 모집 플랜 가져오기
+
 export function requestRecruit(planId, userId) {
   return request({
     url: API_BASE_URL + "/api/recruitment/" + planId + "/request/" + userId,
