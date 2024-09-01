@@ -28,12 +28,14 @@
     overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
     overflow-x: hidden; /* 좌우 스크롤을 없애기 위해 숨김 처리 */
     padding-right: 10px; /* 스크롤바로 인해 내용이 가려지지 않도록 우측에 패딩 추가 */
+    padding-bottom: 40px;
+    padding-top: 90px;
 }
 
 /* 헤더 컨테이너 스타일 */
 .chatHeaderContainer {
-    position: sticky; /* 스크롤 시 상단에 고정 */
-    top: 0; /* 헤더를 상단에 고정 */
+    position: absolute; /* 상단에 고정 */
+    top: 20px; /* 헤더를 상단에 고정 */
     display: flex;
     justify-content: space-between; /* 헤더와 버튼을 양 끝에 배치 */
     align-items: center; /* 수직 가운데 정렬 */
@@ -70,6 +72,10 @@
     font-weight: 800; /* 텍스트를 중간 굵기로 설정 */
     border: 1px solid #000000; /* 검정색 테두리 설정 */
     cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+    position: absolute; /* 절대 위치를 사용해 모달의 상단 우측에 고정 */
+    top: 40px; /* 상단에서 20px 떨어진 위치에 고정 */
+    right: 50px; /* 우측에서 20px 떨어진 위치에 고정 */
+    z-index: 11; /* 헤더보다 위에 표시되도록 z-index를 높게 설정 */
 }
 
 /* ChatRoomList 기본 스타일 */
@@ -78,7 +84,7 @@
     position: absolute;
     top: 50px; /* 헤더 바로 아래에 위치하도록 설정 */
     right: 0;
-    width: 135px; /* 적당한 너비를 설정 */
+    width: 150px; /* 적당한 너비를 설정 */
     font-size: 12px; /* 텍스트 크기를 16px로 설정 */
     font-weight: 500; /* 텍스트를 중간 굵기로 설정 */
     background-color: #ffffff; /* 배경색을 흰색으로 설정 */
@@ -94,7 +100,7 @@
 /* 채팅방 리스트의 각 항목 스타일 */
 .chatRoomList li {
     background-color: #f0f0f0; /* 각 채팅방 항목의 배경색 */
-    padding: 10px; /* 안쪽 여백을 10px로 설정 */
+    padding: 10px 0; /* 안쪽 여백을 10px로 설정 */
     margin: 5px 0; /* 상하 간격을 5px로, 좌우 간격을 0으로 설정 */
     border-radius: 8px; /* 모서리를 둥글게 설정 */
     cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
@@ -116,7 +122,7 @@
     text-align: center; /* 가운데 정렬 */
     font-size: 10px; /* 텍스트 크기 설정 */
     font-weight: bold; /* 텍스트를 굵게 설정 */
-    transform: translate(-6%, 0%);
+    transform: translate(0%, 0%);
 }
 
 /* 입력 칸과 전송 버튼 컨테이너 */
@@ -166,19 +172,6 @@
     list-style-type: none;  /* 리스트 스타일 제거 */
     display: flex; /* 플렉스박스 레이아웃을 사용 */
     flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
-}
-
-/* 전체 채팅창 스타일을 모달에 적용 */
-.chatContainer {
-    width: 100%; /* 컨테이너의 너비를 100%로 설정 */
-    height: 100%; /* 컨테이너의 높이를 100%로 설정 */
-    background: transparent; /* 배경색을 투명하게 설정 */
-    display: flex; /* 플렉스박스 레이아웃을 사용 */
-    flex-direction: column; /* 플렉스 아이템을 세로로 배치 */
-    justify-content: space-between; /* 상단에 헤더, 하단에 채팅 입력 칸 위치 */
-    overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
-    padding-right: 10px; /* 스크롤바로 인해 내용이 가려지지 않도록 우측에 패딩 추가 */
-    padding-bottom: 40px; /* 마지막 메시지 버블이 입력 칸에 가려지지 않도록 하단에 여유 공간 추가 */
 }
 
 /* 채팅 메시지 버블 스타일 */

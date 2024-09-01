@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ChatList from "./ChatList";
 import Chatting from "./Chatting";
 import ChatRoomList from "./ChatRoomList";
@@ -7,6 +7,8 @@ import styles from "./Chat.module.css";
 const ChatRoomDetail = ({ roomId, chatRooms, onSelectRoom }) => {
     const [currentRoomName, setCurrentRoomName] = useState("채팅방 선택");
     const [showChatRoomList, setShowChatRoomList] = useState(false);
+    const chatRoomListRef = useRef(null); // 채팅방 목록 참조를 위한 ref 생성
+    const toggleButtonRef = useRef(null); // 채팅방 목록 버튼 참조를 위한 ref 생성
 
     useEffect(() => {
         const selectedRoom = chatRooms.find((room) => room.roomId === roomId);
@@ -21,16 +23,42 @@ const ChatRoomDetail = ({ roomId, chatRooms, onSelectRoom }) => {
         setShowChatRoomList(prevState => !prevState);
     };
 
+    const handleClickOutside = (event) => {
+        if (
+            chatRoomListRef.current &&
+            !chatRoomListRef.current.contains(event.target) &&
+            toggleButtonRef.current &&
+            !toggleButtonRef.current.contains(event.target)
+        ) {
+            setShowChatRoomList(false);
+        }
+    };
+
+    useEffect(() => {
+        if (showChatRoomList) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showChatRoomList]);
+
     return (
         <div className={styles.chatContainer}>
             <div className={styles.chatHeaderContainer}>
                 <div className={styles.chatHeader}>{currentRoomName}</div>
-                <button className={styles.chatRoomListButton} onClick={toggleChatRoomList}>
+                <button
+                    ref={toggleButtonRef}
+                    className={styles.chatRoomListButton}
+                    onClick={toggleChatRoomList}
+                >
                     채팅방 목록
                 </button>
             </div>
             {showChatRoomList && (
-                <div className={`${styles.chatRoomList} ${styles.show}`}>
+                <div ref={chatRoomListRef} className={`${styles.chatRoomList} ${styles.show}`}>
                     <ChatRoomList chatRooms={chatRooms} onSelectRoom={onSelectRoom} />
                 </div>
             )}
