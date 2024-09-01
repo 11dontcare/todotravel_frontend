@@ -14,7 +14,7 @@ const ChatRoomList = ({ chatRooms, onSelectRoom }) => {
                         </li>
                     ))
                 ) : (
-                    <li className={styles.noChatRooms}>참여 중인 채팅방이 없습니다</li>
+                    <li className={styles.noChatRooms}>채팅방이 없습니다</li>
                 )}
             </ul>
         </div>

@@ -113,10 +113,10 @@
 /* 참여 중인 채팅방이 없을 때 메시지 스타일 */
 .noChatRooms {
     color: #666666; /* 회색 텍스트 색상 */
-    padding: 10px; /* 적당한 여백 */
     text-align: center; /* 가운데 정렬 */
-    font-size: 16px; /* 텍스트 크기 설정 */
+    font-size: 10px; /* 텍스트 크기 설정 */
     font-weight: bold; /* 텍스트를 굵게 설정 */
+    transform: translate(-6%, 0%);
 }
 
 /* 입력 칸과 전송 버튼 컨테이너 */
@@ -207,15 +207,6 @@
     align-self: flex-start;  /* 좌측에 정렬 */
     margin-right: auto; /* 우측 여백을 자동으로 설정하여 좌측 정렬 강화 */
     margin-left: 0; /* 좌측 여백 제거 */
-}
-
-/* 로그인 후 사용해주세요 메시지 스타일 */
-.loginPrompt {
-    font-size: 18px;
-    color: #FF0000; /* 빨간색으로 설정 */
-    text-align: center;
-    width: 100%;
-    margin-top: 50%; /* 메시지를 모달 중앙에 배치 */
 }
 
 /* 모달 오버레이 스타일 */
