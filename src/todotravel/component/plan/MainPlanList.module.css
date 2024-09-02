@@ -88,6 +88,7 @@
   opacity: 0;
   animation: fadeIn 0.5s ease forwards;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px;
 }
 
 .tripCard:hover {
