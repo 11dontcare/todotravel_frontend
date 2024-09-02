@@ -5,6 +5,7 @@ import { getPlan, modifyPlan } from "../../service/PlanService";
 import { Provinces, Citys } from "./PlanData";
 
 import styles from "./Form.module.css";
+import DescriptionInput from "./DescriptionInput";
 
 const PlanModify = () => {
   const { planId } = useParams();
@@ -248,24 +249,11 @@ const PlanModify = () => {
               />
             </div>
             <div className={styles.row}>
-              <div className={styles.descriptionWrapper}>
-                <label
-                  htmlFor="description"
-                  className={styles.descriptionLabel}
-                >
-                  계획에 대한 설명 (선택)
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  placeholder="여행 계획에 대한 설명을 입력해주세요"
-                  value={planForm.description}
-                  onChange={handlePlanFormChange}
-                  className={styles.inputDescription}
-                  rows={4}
-                  disabled={!isEditable}
-                />
-              </div>
+              <DescriptionInput
+                value={planForm.description}
+                onChange={handlePlanFormChange}
+                isEditable={isEditable}
+              />
             </div>
             <div className={styles.row}>
               <div className={styles.inputPublish}>

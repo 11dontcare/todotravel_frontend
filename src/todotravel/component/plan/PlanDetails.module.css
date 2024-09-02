@@ -135,6 +135,13 @@
   padding-left: 10px;
 }
 
+.planDescription {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 100%;
+}
+
 .moreOptions {
   position: absolute;
   top: 100%; /* 버튼 바로 아래에 위치하도록 설정 */
