@@ -363,10 +363,13 @@ function MyPage() {
   };
 
   // 여행, 좋아요, 북마크 더보기 제어
-  const handleSeeMore = useCallback((type) => {
-    if (!profileData) return;
-    setSearchParams({ view: type });
-  }, [profileData, setSearchParams]);
+  const handleSeeMore = useCallback(
+    (type) => {
+      if (!profileData) return;
+      setSearchParams({ view: type });
+    },
+    [profileData, setSearchParams]
+  );
 
   // 댓글 더보기 제어
   const handleSeeMoreComments = useCallback(() => {
@@ -492,14 +495,18 @@ function MyPage() {
     <div className={styles.tripSection}>
       <div className={styles.sectionTitle}>
         <h2>
-          {profileData.nickname}님의{" "}
-          {currentView === "my-trips"
-            ? "모든 여행"
-            : currentView === "my-recruitment"
-            ? "모집 중인 여행"
-            : currentView === "bookmarked"
-            ? "북마크한 여행"
-            : "좋아요한 여행"}
+          {currentView === "my-recruitment" ? (
+            "모집 중인 여행"
+          ) : (
+            <>
+              {profileData.nickname}님의{" "}
+              {currentView === "my-trips"
+                ? "모든 여행"
+                : currentView === "bookmarked"
+                ? "북마크한 여행"
+                : "좋아요한 여행"}
+            </>
+          )}
         </h2>
         <span onClick={() => setSearchParams({})}>뒤로 가기</span>
       </div>
@@ -765,7 +772,7 @@ function MyPage() {
           {isOwnProfile && (
             <>
               {renderTripSection(
-                `${profileData.nickname}님이 모집 중인 여행`,
+                "모집 중인 여행",
                 profileData.recruitingPlans,
                 "모집 중인 여행이 없습니다.",
                 "my-recruitment"
