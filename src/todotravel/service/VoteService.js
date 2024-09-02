@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
+import { API_BASE_URL } from "../constant/backendAPI";
 import { request } from "./APIService";
 
 export function createVote(voteRequest, planId) {

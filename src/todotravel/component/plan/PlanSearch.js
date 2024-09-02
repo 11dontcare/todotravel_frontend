@@ -8,7 +8,7 @@ import { FaRegHeart } from "react-icons/fa";
 import styles from "./PlanSearch.module.css";
 import gridStyles from "./TripGrid.module.css";
 
-import travel from "../../../image/travel.png";
+import travel from "../../../image/thumbnail.png";
 
 const PlanSearch = () => {
   const navigate = useNavigate();

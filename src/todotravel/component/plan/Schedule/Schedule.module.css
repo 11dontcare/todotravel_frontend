@@ -1,0 +1,119 @@
+.createContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.13);
+}
+.map {
+  width: 600px;
+}
+.createBox {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 300px;
+  padding: 10px;
+  border-left: 1px solid #d5d5d5;
+}
+.createHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.createAddress {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.createAddress > h3:nth-child(1) {
+  font-size: 17px;
+  margin: 0;
+}
+.createAddress > p:nth-child(2) {
+  font-size: 15px;
+  margin: 0;
+}
+
+.dayInput {
+  text-align: center;
+  font-weight: bold;
+  color: #009688;
+  background-color: #ffffff;
+  width: 60px;
+  height: 20px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #009688;
+  outline: none;
+  cursor: pointer;
+  -moz-appearance: textfield;
+}
+.dayInput::placeholder {
+  color: #009688;
+}
+.dayInput::-webkit-outer-spin-button,
+.dayInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.createTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 30px 0;
+}
+.createTime > label {
+  font-weight: bold;
+  margin: 0;
+}
+.createDescription {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 10px 0;
+}
+.createDescription > label {
+  font-weight: bold;
+  margin: 0;
+}
+.descriptionInput {
+  flex: 1;
+  height: 100px;
+}
+.timeInput {
+  width: 110px;
+  border: none;
+}
+.createButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: auto auto 0;
+  gap: 20px;
+}
+.submitButton {
+  font-size: 14px;
+  color: white;
+  background-color: #009688;
+  padding: 4px 10px;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cancelButton {
+  color: #009688;
+  font-size: 14px;
+  background-color: white;
+  padding: 4px 10px;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  cursor: pointer;
+}

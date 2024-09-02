@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
+import { API_BASE_URL } from "../constant/backendAPI";
 import { request, formRequest } from "./APIService";
 
 export function createPlan(formData) {
@@ -7,7 +7,7 @@ export function createPlan(formData) {
     method: "POST",
     body: formData,
   });
-}//여행 플랜 생성 요청
+} //여행 플랜 생성 요청
 
 export function uploadThumbnail(formData, planId) {
   return request({
@@ -153,12 +153,12 @@ export function exitPlan(planId, userId) {
   });
 } //여행 플랜 나가기 요청
 
-export function isUserInPlan(planId, userId){
+export function isUserInPlan(planId, userId) {
   return request({
     url: API_BASE_URL + "/api/plan/" + planId + "/exist/" + userId,
     method: "GET",
   });
-}//여행 플랜에 사용자가 참여중인지 여부 요청
+} //여행 플랜에 사용자가 참여중인지 여부 요청
 
 //북마크, 좋아요
 
@@ -281,14 +281,23 @@ export function getRecentRecruitPlansByStartDate(page, startDate) {
   });
 } // 모집 플랜 날짜, 최신순으로 가져오기
 
-export function getRecentRecruitPlansByFrontLocationAndStartDate(page, frontLocation, startDate) {
+export function getRecentRecruitPlansByFrontLocationAndStartDate(
+  page,
+  frontLocation,
+  startDate
+) {
   return request({
     url: `${API_BASE_URL}/api/recruitment/recent/frontLocation/startDate?page=${page}&frontLocation=${frontLocation}&startDate=${startDate}`,
     method: "GET",
   });
 } // 날짜, 행정구역별 최신순 모집 플랜 가져오기
 
-export function getRecentRecruitPlansByLocationAndStartDate(page, frontLocation, location, startDate) {
+export function getRecentRecruitPlansByLocationAndStartDate(
+  page,
+  frontLocation,
+  location,
+  startDate
+) {
   return request({
     url: `${API_BASE_URL}/api/recruitment/recent/location/startDate?page=${page}&frontLocation=${frontLocation}&location=${location}&startDate=${startDate}`,
     method: "GET",
