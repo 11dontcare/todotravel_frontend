@@ -28,11 +28,13 @@ const RecruitmentList = () => {
   const planListRef = useRef(null);
   const observer = useRef(null);
   const isInitialLoad = useRef(true);
+  const [searchTrigger, setSearchTrigger] = useState(0);
 
   const loadPlans = useCallback(async () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
+    console.log("loadPlans::");
     try {
       if (!isInitialLoad.current) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -57,7 +59,9 @@ const RecruitmentList = () => {
       const responseData = response.data;
       const newPlans = responseData.content;
 
-      setPlanList((prevPlans) => [...prevPlans, ...newPlans]);
+      setPlanList((prevPlans) =>
+        page === 0 ? newPlans : [...prevPlans, ...newPlans]
+      );
       setHasMore(newPlans.length === 12 && responseData.last);
       setPage((prevPage) => prevPage + 1);
       
@@ -79,16 +83,14 @@ const RecruitmentList = () => {
     setPlanList([]);
     setPage(0);
     setHasMore(true);
+    setLoading(false);
     isInitialLoad.current = true;
-    loadPlans();
+    setSearchTrigger((prev) => prev + 1);
   };
 
   useEffect(() => {
-    // 초기 로드 시에만 최신순으로 데이터를 가져옵니다.
-    if (isInitialLoad.current) {
       loadPlans();
-    }
-  }, []);
+  }, [searchTrigger]);
 
   useEffect(() => {
     if (frontLocation) {
@@ -121,6 +123,7 @@ const RecruitmentList = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.filterBox}>
       <div className={styles.filterContainer}>
         <select
           value={frontLocation}
@@ -156,6 +159,10 @@ const RecruitmentList = () => {
         <button onClick={handleSearch} className={styles.searchButton}>
           검색
         </button>
+      </div>
+      <p className={styles.filterNote}>
+          ※ 필터링된 플랜은 아래에서 볼 수 있습니다.
+        </p>
       </div>
       <div className={gridStyles.tripGrid} ref={planListRef}>
         {planList.map((plan, index) => (

@@ -13,10 +13,11 @@ import {
   createComment,
   updateComment,
   deleteComment,
-  isUserInPlan,
+  isUserInPlanAccepted,
   recruitmentPlan,
   cancelRecruitment,
   requestRecruit,
+  isUserInPlan,
 } from "../../service/PlanService";
 
 import styles from "./PlanDetails.module.css";
@@ -37,7 +38,8 @@ const PlanDetails = () => {
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
 
-  const [existsUserInPlan, setExistsUserInPlan] = useState(null);
+  const [existsAcceptedUserInPlan, setExistsAcceptedUserInPlan] = useState(null);
+  const [justExistsUserInPlan, setJustExistsUserInPlan] = useState(null);
   const [isPublic, setIsPublic] = useState(null);
 
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -62,7 +64,7 @@ const PlanDetails = () => {
 
   useEffect(() => {
     fetchPlan();
-  }, []);
+  }, [justExistsUserInPlan]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -92,15 +94,27 @@ const PlanDetails = () => {
 
         if (userId) {
           // userId가 null이 아닐 때만 실행
-          return isUserInPlan(planId, userId);
+          return isUserInPlanAccepted(planId, userId);
         } else {
           return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
         }
       })
       .then((existResponse) => {
         if (existResponse) {
-          setExistsUserInPlan(existResponse.data);
+          setExistsAcceptedUserInPlan(existResponse.data);
           console.log(existResponse);
+        }
+        if (userId) {
+          // userId가 null이 아닐 때만 실행
+          return isUserInPlan(planId, userId);
+        } else {
+          return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
+        }
+      })
+      .then((existUserResponse) => {
+        if (existUserResponse) {
+          setJustExistsUserInPlan(existUserResponse.data);
+          console.log(existUserResponse);
         }
         setLoading(false);
 
@@ -137,13 +151,13 @@ const PlanDetails = () => {
   };
 
   useEffect(() => {
-    if (isPublic !== null && existsUserInPlan !== null) {
-      if (!isPublic && !existsUserInPlan) {
+    if (isPublic !== null && existsAcceptedUserInPlan !== null) {
+      if (!isPublic && !existsAcceptedUserInPlan) {
         alert("접근 권한이 없습니다.");
         navigate("/");
       }
     }
-  }, [isPublic, existsUserInPlan, navigate]);
+  }, [isPublic, existsAcceptedUserInPlan, navigate]);
 
   if (loading) {
     return <p>Loading...</p>; // 데이터 로딩 중일 때 표시
@@ -276,7 +290,7 @@ const PlanDetails = () => {
         .then((response) => {
           console.log(response);
           alert("플랜 참가 요청을 보냈습니다.");
-          // navigate("/plan/" + planId);
+          setJustExistsUserInPlan(true);
         }).catch((e) => {
           console.log(e);
           alert("플랜 참가 요청에 실패했습니다.");
@@ -369,7 +383,6 @@ const PlanDetails = () => {
             <p className={styles.planDates}>
               {plan.startDate} ~ {plan.endDate}
             </p>
-            {/* <p className={styles.planPublic}>Public: {plan.isPublic ? "Yes" : "No"}</p> */}
             <>
               {plan.recruitment ? (
                 <p
@@ -423,7 +436,7 @@ const PlanDetails = () => {
                     <li onClick={() => handleOptionClick("copyPlan")}>
                       불러오기
                     </li>
-                    {existsUserInPlan && (
+                    {existsAcceptedUserInPlan && (
                       <li onClick={() => handleOptionClick("modifyPlan")}>
                         수정하기
                       </li>
@@ -472,7 +485,7 @@ const PlanDetails = () => {
       ) : (
         <p>No schedule available.</p>
       )} */}
-      {(plan.recruitment && !existsUserInPlan && (plan.participantsCount > plan.planUserCount)) && (
+      {(plan.recruitment && !justExistsUserInPlan && (plan.participantsCount > plan.planUserCount)) && (
         <button onClick={handleRecruitClick}>플랜 참가</button>
       )}
       <div className={styles.commentsSection}>
