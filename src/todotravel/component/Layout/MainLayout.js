@@ -8,10 +8,16 @@ import styles from "./Layout.module.css";
 
 import main from "../../../image/main.png";
 import test1 from "../../../image/test3.png";
+import { useNavigate } from "react-router-dom";
 
 const MainLayout = ({ children }) => {
+  const navigate = useNavigate();
   const isPlanList =
     React.isValidElement(children) && children.type === MainPlanList;
+
+  const handleSharedPlanClick = () => {
+    navigate('/plan-list');
+  }
 
   return (
     <div className={styles.mainPage}>
@@ -25,7 +31,7 @@ const MainLayout = ({ children }) => {
             </p>
             <div className={styles.buttonWrapper}>
               <button className={styles.mainButton}>일정 공유하기</button>
-              <button className={styles.mainButton}>공유된 플랜보기</button>
+              <button onClick={handleSharedPlanClick} className={styles.mainButton}>공유된 플랜보기</button>
             </div>
           </div>
         </div>
