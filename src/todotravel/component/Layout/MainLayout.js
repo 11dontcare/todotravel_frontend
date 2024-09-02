@@ -33,8 +33,10 @@ const MainLayout = ({ children }) => {
             <p className={styles.overlayDescription}>
               본인의 여행 일정을 공유하고 <br /> 함께 여행해보세요.
             </p>
-            <div onClick={handlePlanClick} className={styles.buttonWrapper}>
-              <button className={styles.mainButton}>일정 공유하기</button>
+            <div className={styles.buttonWrapper}>
+              <button onClick={handlePlanClick} className={styles.mainButton}>
+                일정 공유하기
+              </button>
               <button
                 onClick={handleSharedPlanClick}
                 className={styles.mainButton}
