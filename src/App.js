@@ -31,6 +31,7 @@ import FloatingButton from "./todotravel/component/chat/FloatingButton";
 
 import PlanSearch from "./todotravel/component/plan/PlanSearch";
 import RecruitmentList from "./todotravel/component/plan/RecruitmentList";
+import PlanLayout from "./todotravel/component/Layout/PlanLayout";
 
 //!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
 
@@ -132,7 +133,7 @@ function App() {
             path="/plan/recruitment"
             element={
               <MainLayout>
-                <RecruitmentList />
+                <RecruitmentList/>
               </MainLayout>
             }
           />

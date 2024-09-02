@@ -428,13 +428,9 @@ const PlanDetails = () => {
                         수정하기
                       </li>
                     )}
-                    {existsUserInPlan && (
-                      <li onClick={() => handleOptionClick("deletePlan")}>
-                        삭제하기
-                      </li>
-                    )}
                     {(Number(userId) === plan.planUserId) && (
                       <>
+                        <li onClick={() => handleOptionClick("deletePlan")}>삭제하기</li>
                         {plan.recruitment ? (
                           <li onClick={() => handleOptionClick('cancelRecruit')}>모집 중지</li>
                         ) : (
