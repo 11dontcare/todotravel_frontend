@@ -11,6 +11,7 @@ const PlanModify = () => {
   const navigate = useNavigate();
   const [isPublic, setIsPublic] = useState(false);
   const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailName, setThumbnailName] = useState("");
   const [currentThumbnailName, setCurrentThumbnailName] = useState("");
   const [availableCitys, setAvailableCitys] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
@@ -21,6 +22,7 @@ const PlanModify = () => {
     endDate: "",
     frontLocation: "",
     location: "",
+    description: "",
     totalBudget: "",
     isPublic: false,
     status: false,
@@ -58,6 +60,7 @@ const PlanModify = () => {
           endDate,
           frontLocation,
           location,
+          description,
           totalBudget,
           isPublic,
           status,
@@ -69,6 +72,7 @@ const PlanModify = () => {
           endDate,
           frontLocation,
           location,
+          description,
           totalBudget,
           isPublic,
           status,
@@ -105,7 +109,14 @@ const PlanModify = () => {
   };
 
   const handleThumbnailChange = (e) => {
-    setThumbnail(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setThumbnail(file);
+      setThumbnailName(file.name);
+    } else {
+      setThumbnail(null);
+      setThumbnailName("");
+    }
   };
 
   const toggleEditMode = (e) => {
@@ -237,8 +248,28 @@ const PlanModify = () => {
               />
             </div>
             <div className={styles.row}>
+              <div className={styles.descriptionWrapper}>
+                <label
+                  htmlFor="description"
+                  className={styles.descriptionLabel}
+                >
+                  계획에 대한 설명 (선택)
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  placeholder="여행 계획에 대한 설명을 입력해주세요"
+                  value={planForm.description}
+                  onChange={handlePlanFormChange}
+                  className={styles.inputDescription}
+                  rows={4}
+                  disabled={!isEditable}
+                />
+              </div>
+            </div>
+            <div className={styles.row}>
               <div className={styles.inputPublish}>
-                <label htmlFor="isPublic">여행 일정 공유</label>
+                <label htmlFor="isPublic">여행 일정 공유하기</label>
                 <input
                   type="checkbox"
                   id="isPublic"
@@ -248,6 +279,7 @@ const PlanModify = () => {
                   disabled={!isEditable}
                 />
               </div>
+              <div className={styles.divider}></div>
               <div className={styles.inputThumbnail}>
                 <label htmlFor="thumbnail">썸네일 이미지 업로드</label>
                 <input
@@ -255,10 +287,16 @@ const PlanModify = () => {
                   id="thumbnail"
                   accept="image/*"
                   onChange={handleThumbnailChange}
+                  className={styles.fileInput}
                   disabled={!isEditable}
                 />
-                {currentThumbnailName && !thumbnail && (
-                  <span>현재 파일: {currentThumbnailName}</span>
+                <label htmlFor="thumbnail" className={styles.fileInputLabel}>
+                  파일 선택
+                </label>
+                {(thumbnailName || currentThumbnailName) && (
+                  <span className={styles.fileName}>
+                    {thumbnailName || currentThumbnailName}
+                  </span>
                 )}
               </div>
             </div>
