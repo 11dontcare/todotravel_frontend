@@ -2,9 +2,9 @@
 .chatModal {
     position: fixed;
     top: 25%;
-    right: 80px;
-    width: 500px;
-    height: 800px;
+    right: 3%;
+    width: 20%;
+    height: 60%;
     background: #F0F0F0;
     border-radius: 20px; /* 모달창의 모서리를 둥글게 설정 */
     z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
@@ -14,7 +14,6 @@
     justify-content: flex-start; /* 플렉스 아이템들을 위쪽에 정렬 */
     align-items: flex-start; /* 플렉스 아이템들을 왼쪽에 정렬 */
     padding: 20px; /* 모달창 내부에 20px의 여백을 추가 */
-    border: 1px solid black; /* 모달창 테두리에 2px 두께의 검정색 선 추가 */
 }
 
 /* 전체 채팅창 스타일을 모달에 적용 */
@@ -48,7 +47,7 @@
 /* 헤더 스타일 */
 .chatHeader {
     width: fit-content; /* 헤더의 너비를 내용에 맞게 설정 */
-    background-color: #009688; /* 헤더의 배경색을 청록색으로 설정 */
+    background-color: #157c24; /* 헤더의 배경색을 청록색으로 설정 */
     color: #FFFFFF; /* 헤더 텍스트 색상을 흰색으로 설정 */
     text-align: center; /* 텍스트를 가운데 정렬 */
     padding: 20px; /* 헤더 내부에 20px의 여백을 추가 */
@@ -105,7 +104,7 @@
     cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
     list-style: none; /* 리스트 스타일 제거 */
     transition: background-color 0.3s ease; /* 배경색 전환에 부드러운 효과 추가 */
-    width: 100%; /* 채팅방 항목의 너비를 100%로 설정하여 좌우 너비를 고정 */
+    width: 120px; /* 채팅방 항목의 너비를 100%로 설정하여 좌우 너비를 고정 */
     word-wrap: break-word; /* 긴 단어나 문장이 넘칠 경우 줄바꿈 처리 */
     white-space: normal; /* 텍스트가 한 줄에 이어지지 않고 여러 줄로 나뉘도록 설정 */
 }
