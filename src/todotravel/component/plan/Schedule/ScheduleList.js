@@ -1,30 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { getPlan } from "../../../service/PlanService";
-
+import moment from "moment";
 import styles from "./Schedule.module.css";
-
 import ScheduleItem from "./ScheduleItem";
 
 const ScheduleList = ({ scheduleList }) => {
-  const [editMode, setEditMode] = useState(null);
+  const [schedules, setSchedules] = useState(scheduleList);
 
   useEffect(() => {
-    console.log(scheduleList);
+    setSchedules(scheduleList);
   }, [scheduleList]);
 
-  const handleEdit = (id) => {
-    setEditMode(id); // 수정 모드로 전환
+  const handleEdit = (updatedItem) => {
+    setSchedules((prevSchedules) =>
+      prevSchedules.map((item) =>
+        item.scheduleId === updatedItem.scheduleId
+          ? { ...item, ...updatedItem }
+          : item
+      )
+    );
   };
 
-  if (!scheduleList || scheduleList.length === 0) {
+  const handleDelete = (deletedScheduleId) => {
+    setSchedules((prevSchedules) =>
+      prevSchedules.filter(
+        (schedule) => schedule.scheduleId !== deletedScheduleId
+      )
+    );
+  };
+
+  if (!schedules || schedules.length === 0) {
     return <div>일정이 없습니다.</div>;
   }
 
-  const groupedScheduleList = scheduleList.reduce((acc, curr) => {
-    const { travelDayCount } = curr;
+  // 일정 정렬
+  const groupedScheduleList = schedules.reduce((acc, curr) => {
+    const { travelDayCount, travelTime } = curr;
     if (!acc[travelDayCount]) acc[travelDayCount] = [];
     acc[travelDayCount].push(curr);
+
+    // 각 일차별로 정렬하기
+    acc[travelDayCount].sort((a, b) =>
+      moment(a.travelTime, "HH:mm:ss").diff(moment(b.travelTime, "HH:mm:ss"))
+    );
+
     return acc;
   }, {});
 
@@ -36,7 +54,7 @@ const ScheduleList = ({ scheduleList }) => {
           <div className={styles.scheduleItem}>
             {groupedScheduleList[day].map((item) => (
               <ScheduleItem
-                key={item.scheduleId} // 유니크한 키 추가
+                key={item.scheduleId}
                 scheduleId={item.scheduleId}
                 locationId={item.locationId}
                 travelDayCount={item.travelDayCount}
@@ -45,7 +63,10 @@ const ScheduleList = ({ scheduleList }) => {
                 travelTime={item.travelTime}
                 vehicle={item.vehicle}
                 price={item.price}
-                onEdit={() => handleEdit(item.id)}
+                onEdit={(updatedData) =>
+                  handleEdit({ scheduleId: item.scheduleId, ...updatedData })
+                }
+                onDelete={handleDelete}
               />
             ))}
           </div>

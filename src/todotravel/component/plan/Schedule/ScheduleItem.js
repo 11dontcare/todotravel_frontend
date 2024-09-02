@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   showLocation,
+  updateDescription,
   updateVehicle,
-  deleteVehicle,
   updatePrice,
-  deletePrice,
   updateStatus,
   deleteSchedule,
 } from "../../../service/ScheduleService";
@@ -13,6 +13,7 @@ import "moment/locale/ko";
 import styles from "./Schedule.module.css";
 import { FiEdit } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
+import { IoCheckbox, IoCheckboxOutline } from "react-icons/io5";
 import ItemMapInfo from "./ItemMapInfo";
 
 const vehicleOptions = [
@@ -28,14 +29,15 @@ const vehicleOptions = [
 const ScheduleItem = ({
   scheduleId,
   locationId,
-  travelDayCount,
   description,
   status,
   travelTime,
   vehicle,
   price,
   onEdit,
+  onDelete,
 }) => {
+  const { planId } = useParams();
   const [place, setPlace] = useState({
     longitude: "",
     latitude: "",
@@ -45,7 +47,9 @@ const ScheduleItem = ({
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingVehicle, setIsEditingVehicle] = useState(false);
   const [isEditingPrice, setIsEditingPrice] = useState(false);
+
   const [isEditingDescription, setIsEditingDescription] = useState(false);
+
   const [editVehicle, setEditVehicle] = useState(vehicle);
   const [editPrice, setEditPrice] = useState(price);
   const [editDescription, setEditDescription] = useState(description);
@@ -65,16 +69,6 @@ const ScheduleItem = ({
       });
   };
 
-  const handleSave = () => {
-    // Save the edited values
-    onEdit({
-      vehicle: editVehicle,
-      price: editPrice,
-      description: editDescription,
-    });
-    setIsEditing(false);
-  };
-
   const handleSaveVehicle = (e) => {
     e.preventDefault();
     onEdit({ vehicle: editVehicle });
@@ -91,7 +85,7 @@ const ScheduleItem = ({
   const handleSavePrice = (e) => {
     e.preventDefault();
     onEdit({ price: editPrice });
-    updatePrice(editVehicle, scheduleId)
+    updatePrice(editPrice, scheduleId)
       .then((response) => {
         console.log(response);
         setIsEditingPrice(false);
@@ -102,9 +96,41 @@ const ScheduleItem = ({
   };
 
   const handleSaveDescription = (e) => {
-    // Save the edited description value
+    e.preventDefault();
     onEdit({ description: editDescription });
-    setIsEditingDescription(false);
+    updateDescription(editDescription, scheduleId)
+      .then((response) => {
+        console.log(response);
+        setIsEditingDescription(false);
+        setIsEditing(false);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const handleToggleStatus = () => {
+    onEdit({ status: !status });
+    updateStatus(scheduleId)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("정말로 이 일정을 삭제하시겠습니까?")) {
+      deleteSchedule(planId, scheduleId)
+        .then((response) => {
+          console.log(response);
+          if (onDelete) onDelete(scheduleId);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
   };
 
   const formattedTravelTime = travelTime
@@ -119,7 +145,12 @@ const ScheduleItem = ({
         mapId={scheduleId}
       />
       <div className={styles.itemHeader}>
-        <h3>{place.name}</h3>
+        <h3>
+          <span onClick={handleToggleStatus} className={styles.checkBox}>
+            {status ? <IoCheckbox /> : <IoCheckboxOutline />}
+          </span>
+          {place.name}
+        </h3>
         <span>{formattedTravelTime}</span>
       </div>
       <div className={styles.itemOption}>
@@ -191,11 +222,13 @@ const ScheduleItem = ({
       </div>
       {isEditing ? (
         <div className={styles.itemEditContainer}>
-          <p>메모 : </p>
-          <textarea
-            value={editDescription}
-            onChange={(e) => setEditDescription(e.target.value)}
-          />
+          <div className={styles.itemEditBox}>
+            <p>메모 : </p>
+            <textarea
+              value={editDescription}
+              onChange={(e) => setEditDescription(e.target.value)}
+            />
+          </div>
           <div className={styles.itemBtn}>
             <button
               onClick={handleSaveDescription}
@@ -228,7 +261,9 @@ const ScheduleItem = ({
               수정
             </button>
 
-            <button className={styles.cancelButton}>삭제</button>
+            <button onClick={handleDelete} className={styles.cancelButton}>
+              삭제
+            </button>
           </div>
         </>
       )}
