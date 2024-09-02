@@ -188,6 +188,7 @@ export function logout() {
     localStorage.removeItem("role");
     localStorage.removeItem(ACCESS_TOKEN);
     authLogout(); // isLoggedIn 상태를 false로 설정
+    window.location.href = "/"; // 메인 페이지로 이동
   });
 }
 

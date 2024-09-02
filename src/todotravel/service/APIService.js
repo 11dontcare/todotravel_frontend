@@ -19,7 +19,7 @@ const refreshAccessToken = async () => {
     console.error("Failed to refresh token: ", error);
     alert("요청을 승인할 수 없습니다. 다시 로그인 후 시도해주세요.");
     clearLocalStorage();
-    window.location.href = "/login";
+    // window.location.href = "/login";
     throw error;
   }
 };
