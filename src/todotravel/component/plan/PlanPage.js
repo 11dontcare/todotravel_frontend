@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePlan, isUserInPlan } from "../../service/PlanService";
+import { deletePlan, isUserInPlanAccepted } from "../../service/PlanService";
 import PlanModify from "./PlanModify";
 import Modal from "./Modal";
 import PlanFriend from "./PlanFriend";
@@ -24,7 +24,7 @@ const PlanPage = () => {
   const [showVoteListModal, setShowVoteListModal] = useState(false);
 
   useEffect(() => {
-    isUserInPlan(planId, userId)
+    isUserInPlanAccepted(planId, userId)
       .then((response) => {
         if (response.data) {
           setExistsPlanUser(true);
@@ -94,19 +94,10 @@ const PlanPage = () => {
 
   return (
     <div>
-      {/* <div>
-        <p>여행 제목</p>
-        <p>여행 시작 일자</p>
-        <p>여행 종료 일자</p>
-        <p>행정 구역</p>
-        <p>지역 선택</p>
-        <p>총 예산안</p>
-        <p>여행 일정 공유</p>
-      </div> */}
       <PlanModify />
-      <div>
+      {/* <div>
         <button onClick={handleDelete}>플랜 삭제하기</button>
-      </div>
+      </div> */}
       <div>
         <button>투표 리스트</button>
         <div>

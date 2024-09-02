@@ -48,12 +48,10 @@
 
 .planStatus {
   font-size: 13px;
-  /* font-weight: bold; */
-  border-radius: 8px;
+  border-radius: 9px;
   color: white;
-  height: 18px;
-  width: 45px;
   justify-self: center;
+  padding: 1px;
 }
 
 .activeStatus {
