@@ -1,111 +1,107 @@
-/* 플로팅 버튼 컨테이너 */
 .floatingButton {
-    position: fixed; /* 버튼이 화면의 고정된 위치에 표시되도록 설정 */
-    bottom: 60px; /* 화면 하단에서 50px 위 */
-    right: 80px; /* 화면 우측으로부터 80px 옆 */
-    width: 75px; /* 버튼의 너비 */
-    height: 60px; /* 버튼의 높이 */
-    background: #FFFFFF; /* 버튼의 배경색을 흰색으로 설정 */
-    border: 0.3px solid #D5D5D5; /* 테두리를 밝은 회색으로 설정 */
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15); /* 살짝의 그림자 효과 추가 */
-    border-radius: 24px; /* 버튼의 모서리를 둥글게 설정 */
-    display: flex; /* 내부 아이콘을 중앙 정렬하기 위해 flexbox 사용 */
-    justify-content: center; /* 아이콘을 수평 중앙 정렬 */
-    align-items: center; /* 아이콘을 수직 중앙 정렬 */
-    cursor: pointer; /* 마우스를 올리면 포인터로 변경 */
-    z-index: 1000000; /* 다른 요소보다 위에 표시되도록 설정 */
-    transition: background 0.5s ease; /* 버튼 배경 전환을 부드럽게 설정 */
-}
-
-/* 채팅창 열기 전 - 말풍선 아이콘 스타일 */
-.floatingButton .chatIcon {
-    width: 36px; /* 아이콘의 너비 */
-    height: 27px; /* 아이콘의 높이 */
-    background: #009688; /* 아이콘 배경색 (말풍선 색) */
-    border-radius: 9px; /* 아이콘을 약간 둥글게 설정 */
-    position: relative; /* 내부 요소의 위치를 조정할 수 있게 함 */
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: #009688;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
-    align-items: center; /* 점들이 수직으로 중앙에 오도록 설정 */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000000;
+    transition: all 0.3s ease;
+    outline: none;
 }
 
-/* 말풍선 꼬리 모양 */
-.floatingButton .chatIcon::after {
+.floatingButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.chatIcon {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chatBubble {
+    width: 20px;
+    height: 16px;
+    background: white;
+    border-radius: 3px;
+    position: relative;
+}
+
+.chatBubble:after {
     content: '';
     position: absolute;
-    bottom: 2px; /* 말풍선 아이콘의 아래쪽에 위치 */
-    left: -20%;
+    bottom: -5px;
+    left: 2px;
     width: 0;
     height: 0;
-    border-left: 16px solid transparent; /* 삼각형의 왼쪽 변 - 투명 */
-    border-right: 8px solid transparent; /* 삼각형의 오른쪽 변 - 투명 */
-    border-bottom: 12px solid #009688; /* 삼각형의 밑변 */
-    transform: rotate(-25deg); /* 삼각형을 90도 회전 */
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
 }
 
-/* 말풍선 내 점들 */
-.floatingButton .chatIcon .dot {
-    background: #FFFFFF; /* 점의 색상을 흰색으로 설정 */
-    width: 3px; /* 점의 너비 */
-    height: 3px; /* 점의 높이 */
-    border-radius: 50%; /* 점을 둥글게 설정 */
-    position: absolute; /* 점의 위치를 개별적으로 조정할 수 있게 함 */
-    top: 50%; /* 수직 중앙 정렬 */
-    transform: translate(-50%, -50%); /* 수평, 수직 중앙 정렬 */
-    z-index: 1000; /* 다른 요소보다 위에 표시되도록 설정 */
+.chatDot {
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
 }
 
-/* 첫 번째 점의 위치 */
-.floatingButton .chatIcon .dot.dot1 {
-    left: 30%; /* 아이콘의 왼쪽 경계에서 30% 위치에 배치 */
+.closeIcon {
+    width: 20px;
+    height: 20px;
+    position: relative;
 }
 
-/* 두 번째 점의 위치 */
-.floatingButton .chatIcon .dot.dot2 {
-    left: 50%; /* 아이콘의 수평 중앙에 배치 */
+.closeIcon::before,
+.closeIcon::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #009688;
+    top: 50%;
+    left: 0;
 }
 
-/* 세 번째 점의 위치 */
-.floatingButton .chatIcon .dot.dot3 {
-    left: 70%; /* 아이콘의 왼쪽 경계에서 70% 위치에 배치 */
+.closeIcon::before {
+    transform: rotate(45deg);
 }
 
-/* 채팅창 열기 후 - X 아이콘 스타일 */
-.floatingButton .closeIcon {
-    width: 40px; /* X 아이콘의 너비 */
-    height: 40px; /* X 아이콘의 높이 */
-    position: relative; /* 내부 선의 위치를 조정할 수 있게 함 */
-    display: none; /* 기본적으로 숨김 */
+.closeIcon::after {
+    transform: rotate(-45deg);
 }
 
-/* X 아이콘의 선 */
-.floatingButton .closeIcon::before,
-.floatingButton .closeIcon::after {
-    content: ''; /* 가상 요소를 사용 */
-    position: absolute; /* 선의 위치를 상대적으로 설정 */
-    width: 30px; /* 선의 길이 */
-    height: 6px; /* 선의 두께 */
-    background: #009688; /* 선의 색상을 말풍선과 같은 색으로 설정 */
-    top: 50%; /* 세로 중앙 */
-    left: 50%; /* 가로 중앙 */
-    transform: translate(-50%, -50%); /* 중앙 정렬 */
-    border-radius: 5px; /* 선의 끝을 둥글게 처리 */
+.floatingButton.active {
+    background: white;
 }
 
-/* X 아이콘의 첫 번째 선을 45도 회전 */
-.floatingButton .closeIcon::before {
-    transform: translate(-50%, -50%) rotate(45deg); /* 45도 회전하여 X의 한 축을 만듦 */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 150, 136, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 150, 136, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 150, 136, 0);
+    }
 }
 
-/* X 아이콘의 두 번째 선을 -45도 회전 */
-.floatingButton .closeIcon::after {
-    transform: translate(-50%, -50%) rotate(-45deg); /* -45도 회전하여 X의 다른 축을 만듦 */
-}
-
-/* 버튼이 활성화될 때 (채팅창이 열렸을 때) 아이콘 변경 */
-.floatingButton.active .chatIcon {
-    display: none; /* 말풍선 아이콘 숨김 */
-}
-
-.floatingButton.active .closeIcon {
-    display: block; /* X 아이콘 표시 */
+.floatingButton:not(.active) {
+    animation: pulse 2s infinite;
 }
