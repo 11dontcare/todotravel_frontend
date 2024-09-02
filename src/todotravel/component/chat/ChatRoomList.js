@@ -1,12 +1,10 @@
 import React from "react";
-import styles from "./Chat.module.css";  // CSS 모듈을 import
+import styles from "./Chat.module.css";
 
 const ChatRoomList = ({ chatRooms, onSelectRoom }) => {
-    console.log("ChatRoomList rendered with rooms:", chatRooms);
-
     return (
-        <div className={styles.chatRoomList}>
-            <ul>
+        <div>
+            <ul className={styles.chatRoomList}>
                 {chatRooms.length > 0 ? (
                     chatRooms.map((room) => (
                         <li key={room.roomId} onClick={() => onSelectRoom(room.roomId)}>
@@ -14,7 +12,7 @@ const ChatRoomList = ({ chatRooms, onSelectRoom }) => {
                         </li>
                     ))
                 ) : (
-                    <li className={styles.noChatRooms}>참여 중인 채팅방이 없습니다</li>
+                    <li className={styles.noChatRooms}>채팅방이 없습니다</li>
                 )}
             </ul>
         </div>

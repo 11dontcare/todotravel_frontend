@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
-import ChatList from "./ChatList";  // 채팅 메시지 목록 컴포넌트
-import Chatting from "./Chatting";  // 채팅 입력 컴포넌트
-import ChatRoomList from "./ChatRoomList";  // 채팅방 목록 컴포넌트
-import styles from "./Chat.module.css";  // CSS 모듈 import
+import React, { useEffect, useState, useRef } from "react";
+import ChatList from "./ChatList";
+import Chatting from "./Chatting";
+import ChatRoomList from "./ChatRoomList";
+import styles from "./Chat.module.css";
 
 const ChatRoomDetail = ({ roomId, chatRooms, onSelectRoom }) => {
     const [currentRoomName, setCurrentRoomName] = useState("채팅방 선택");
+    const [showChatRoomList, setShowChatRoomList] = useState(false);
+    const chatRoomListRef = useRef(null);
+    const toggleButtonRef = useRef(null);
 
     useEffect(() => {
         const selectedRoom = chatRooms.find((room) => room.roomId === roomId);
@@ -17,32 +20,50 @@ const ChatRoomDetail = ({ roomId, chatRooms, onSelectRoom }) => {
     }, [roomId, chatRooms]);
 
     const toggleChatRoomList = () => {
-        const chatRoomList = document.querySelector(`.${styles.chatRoomList}`);
-        if (chatRoomList.style.display === "none" || chatRoomList.style.display === "") {
-            chatRoomList.style.display = "block";
-        } else {
-            chatRoomList.style.display = "none";
+        setShowChatRoomList(prevState => !prevState);
+    };
+
+    const handleClickOutside = (event) => {
+        if (
+            chatRoomListRef.current &&
+            !chatRoomListRef.current.contains(event.target) &&
+            toggleButtonRef.current &&
+            !toggleButtonRef.current.contains(event.target)
+        ) {
+            setShowChatRoomList(false);
         }
     };
 
+    useEffect(() => {
+        if (showChatRoomList) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showChatRoomList]);
+
     return (
-        <div className={styles.splitContainer}>
-            <div className={styles.leftPanel}>
-                <ChatRoomList chatRooms={chatRooms} onSelectRoom={onSelectRoom} />
+        <div className={styles.chatContainer}>
+            <div className={styles.chatHeaderContainer}>
+                <div className={styles.chatHeader}>{currentRoomName}</div>
+                <button
+                    ref={toggleButtonRef}
+                    className={styles.chatRoomListButton}
+                    onClick={toggleChatRoomList}
+                >
+                    채팅방 목록
+                </button>
             </div>
-            <div className={styles.rightPanel}>
-                <div className={styles.chatHeaderContainer}>
-                    <div className={styles.chatHeader}>{currentRoomName}</div>
-                    <button className={styles.chatRoomListButton} onClick={toggleChatRoomList}>
-                        채팅방 목록
-                    </button>
-                </div>
-                <div className={styles.chatRoomList}>
+            {showChatRoomList && (
+                <div ref={chatRoomListRef} className={`${styles.chatRoomList} ${styles.show}`}>
                     <ChatRoomList chatRooms={chatRooms} onSelectRoom={onSelectRoom} />
                 </div>
-                <ChatList roomId={roomId} />
-                <Chatting roomId={roomId} />
-            </div>
+            )}
+            <ChatList roomId={roomId} />
+            <Chatting roomId={roomId} />
         </div>
     );
 };
