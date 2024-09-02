@@ -16,6 +16,15 @@ export const AuthProvider = ({ children }) => {
     console.log("isLoggedIn 상태 업데이트됨:", isLoggedIn); // 상태 업데이트 후 로그
   }, [isLoggedIn]);
 
+  const logout = () => {
+    setIsLoggedIn(false);
+  };
+
+  // 여기서 setLogoutFunction을 호출
+  useEffect(() => {
+    setLogoutFunction(logout);
+  }, []);
+
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       {children}
@@ -24,3 +33,14 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+// logout 함수를 별도로 export
+let logoutFunction = () => {};
+
+export const setLogoutFunction = (fn) => {
+  logoutFunction = fn;
+};
+
+export const logout = () => {
+  logoutFunction();
+};

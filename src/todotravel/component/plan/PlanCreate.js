@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPlan } from "../../service/PlanService";
 import { Provinces, Citys } from "./PlanData";
+import DescriptionInput from "./DescriptionInput.js";
 
 import styles from "./Form.module.css";
 
@@ -189,20 +190,10 @@ const PlanCreate = () => {
             />
           </div>
           <div className={styles.row}>
-            <div className={styles.descriptionWrapper}>
-              <label htmlFor="description" className={styles.descriptionLabel}>
-                계획에 대한 설명 (선택)
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                placeholder="여행 계획에 대한 설명을 입력해주세요"
-                value={planForm.description}
-                onChange={handlePlanFormChange}
-                className={styles.inputDescription}
-                rows={4}
-              />
-            </div>
+            <DescriptionInput
+              value={planForm.description}
+              onChange={handlePlanFormChange}
+            />
           </div>
           <div className={styles.row}>
             <div className={styles.inputPublish}>

@@ -15,7 +15,11 @@ const ProtectedRoute = ({ element: Component }) => {
     return <div>Loading...</div>; // 로딩 중임을 나타내는 컴포넌트
   }
 
-  return isLoggedIn ? Component : <Navigate to='/login' />;
+  if (!isLoggedIn) {
+    // 로컬 스토리지에 메시지 저장
+    localStorage.setItem("loginMessage", "로그인 후 이용해주시길 바랍니다.");
+    return <Navigate to='/login' />;
+  }
 
   return Component;
 };
