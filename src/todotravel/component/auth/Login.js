@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, socialLogin } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
@@ -17,6 +17,16 @@ function Login() {
     password: "",
   });
   const { setIsLoggedIn } = useAuth();
+  // ProtectedRoute로 인해 로그인으로 이동될 때
+  const [loginMessage, setLoginMessage] = useState("");
+
+  useEffect(() => {
+    const message = localStorage.getItem("loginMessage");
+    if (message) {
+      setLoginMessage(message);
+      localStorage.removeItem("loginMessage"); // 메시지를 한 번 표시한 후 다음엔 삭제
+    }
+  }, []);
 
   const handleLoginFormChange = (e) => {
     const changedField = e.target.name;
@@ -62,61 +72,66 @@ function Login() {
   };
 
   return (
-    <div className={styles.page}>
-      <div className={styles.container}>
-        <div className={styles.titleWrap}>
-          <h1>만나서 반가워요!</h1>
-          <h3>서비스 이용을 위해 로그인이 필요해요.</h3>
-        </div>
+    <div>
+      {loginMessage && (
+        <div className={styles.alertMessage}>{loginMessage}</div>
+      )}
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <div className={styles.titleWrap}>
+            <h1>만나서 반가워요!</h1>
+            <h3>서비스 이용을 위해 로그인이 필요해요.</h3>
+          </div>
 
-        <p className={styles.snsLogin}>SNS 로그인</p>
-        <div className={styles.socialButtons}>
-          <img
-            src={naverLogo}
-            alt='naver'
-            onClick={() => handleSocialLogin("naver")}
-            className={styles.socialButton}
-          />
-          <img
-            src={kakaoLogo}
-            alt='kakao'
-            onClick={() => handleSocialLogin("kakao")}
-            className={styles.socialButton}
-          />
-          <img
-            src={googleLogo}
-            alt='google'
-            onClick={() => handleSocialLogin("google")}
-            className={styles.socialButton}
-          />
-        </div>
+          <p className={styles.snsLogin}>SNS 로그인</p>
+          <div className={styles.socialButtons}>
+            <img
+              src={naverLogo}
+              alt="naver"
+              onClick={() => handleSocialLogin("naver")}
+              className={styles.socialButton}
+            />
+            <img
+              src={kakaoLogo}
+              alt="kakao"
+              onClick={() => handleSocialLogin("kakao")}
+              className={styles.socialButton}
+            />
+            <img
+              src={googleLogo}
+              alt="google"
+              onClick={() => handleSocialLogin("google")}
+              className={styles.socialButton}
+            />
+          </div>
 
-        <hr className={styles.hr} />
+          <hr className={styles.hr} />
 
-        <form className={styles.form} onSubmit={handleLoginFormSubmit}>
-          <input
-            placeholder='아이디'
-            type='text'
-            name='username'
-            required
-            value={loginForm.username}
-            onChange={handleLoginFormChange}
-          />
-          <input
-            placeholder='비밀번호'
-            type='password'
-            name='password'
-            required
-            value={loginForm.password}
-            onChange={handleLoginFormChange}
-          />
-          <button className={styles.loginButton}>로그인</button>
-        </form>
+          <form className={styles.form} onSubmit={handleLoginFormSubmit}>
+            <input
+              placeholder="아이디"
+              type="text"
+              name="username"
+              required
+              value={loginForm.username}
+              onChange={handleLoginFormChange}
+            />
+            <input
+              placeholder="비밀번호"
+              type="password"
+              name="password"
+              required
+              value={loginForm.password}
+              onChange={handleLoginFormChange}
+            />
+            <button className={styles.loginButton}>로그인</button>
+          </form>
 
-        <div className={styles.bottomLinks}>
-          <span onClick={handleGoProfileSearch}>아이디/비밀번호 찾기</span>
-          <span>|</span>
-          <span onClick={handleGoSignUp}>회원가입</span>
+          <div className={styles.bottomLinks}>
+            <span onClick={handleGoProfileSearch}>아이디/비밀번호 찾기</span>
+            <span>|</span>
+            <span onClick={handleGoSignUp}>회원가입</span>
+          </div>
         </div>
       </div>
     </div>
