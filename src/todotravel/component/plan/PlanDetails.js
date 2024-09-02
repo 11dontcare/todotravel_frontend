@@ -428,13 +428,9 @@ const PlanDetails = () => {
                         수정하기
                       </li>
                     )}
-                    {existsUserInPlan && (
-                      <li onClick={() => handleOptionClick("deletePlan")}>
-                        삭제하기
-                      </li>
-                    )}
                     {(Number(userId) === plan.planUserId) && (
                       <>
+                        <li onClick={() => handleOptionClick("deletePlan")}>삭제하기</li>
                         {plan.recruitment ? (
                           <li onClick={() => handleOptionClick('cancelRecruit')}>모집 중지</li>
                         ) : (
@@ -456,7 +452,7 @@ const PlanDetails = () => {
       </div>
       <div className={styles.planDetails}>
         <p className={styles.planDescription}>
-          여행 이렇게 가보면 어때요??{plan.description}
+          {plan.description}
         </p>
         {/* <p className={styles.planLocation}>지역: {plan.location}</p> */}
         {/* <p className={styles.planBudget}>총 예산: {plan.totalBudget}</p> */}

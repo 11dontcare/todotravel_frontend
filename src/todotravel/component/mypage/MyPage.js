@@ -19,6 +19,7 @@ import { SlArrowRight } from "react-icons/sl";
 import { DiAptana } from "react-icons/di";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { GoPerson } from "react-icons/go";
 
 import styles from "./MyPage.module.css";
 import gridStyles from "../plan/TripGrid.module.css";
@@ -471,6 +472,11 @@ function MyPage() {
                   <span className={gridStyles.likes}>
                     <FaRegHeart /> {trip.likeNumber}
                   </span>
+                  {!(trip.participantsCount === null) && (
+                    <span className={gridStyles.participants}>
+                      <GoPerson className={gridStyles.participant} /> {trip.planUserCount}/{trip.participantsCount}
+                    </span>
+                  )}
                 </div>
                 <span className={gridStyles.planUserNickname}>
                   {trip.planUserNickname}님의 여행 일정
@@ -542,6 +548,11 @@ function MyPage() {
                   <span className={gridStyles.likes}>
                     <FaRegHeart /> {trip.likeNumber}
                   </span>
+                  {!(trip.participantsCount === null) && (
+                    <span className={gridStyles.participants}>
+                      <GoPerson className={gridStyles.participant} /> {trip.planUserCount}/{trip.participantsCount}
+                    </span>
+                  )}
                 </div>
                 <span className={gridStyles.planUserNickname}>
                   {trip.planUserNickname}님의 여행 일정

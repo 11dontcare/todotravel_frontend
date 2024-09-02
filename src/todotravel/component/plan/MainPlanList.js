@@ -7,6 +7,7 @@ import {
 } from "../../service/PlanService";
 import { FaRegBookmark, FaRegHeart } from "react-icons/fa";
 import { MdOutlineReadMore } from "react-icons/md";
+import { GoPerson } from "react-icons/go";
 import styles from "./MainPlanList.module.css";
 import gridStyles from "./TripGrid.module.css";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -191,6 +192,9 @@ const MainPlanList = () => {
                     </span>
                     <span className={gridStyles.likes}>
                       <FaRegHeart /> {plan.likeNumber}
+                    </span>
+                    <span className={gridStyles.participants}>
+                      <GoPerson className={gridStyles.participant} /> {plan.planUserCount}/{plan.participantsCount}
                     </span>
                   </div>
                   <span className={gridStyles.planUserNickname}>
