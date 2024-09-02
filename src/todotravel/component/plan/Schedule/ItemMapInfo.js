@@ -28,7 +28,7 @@ const ItemMapInfo = ({ latitude, longitude, mapId }) => {
     <div
       id={`map-${mapId}`}
       style={{
-        width: "250px",
+        width: "100%",
         height: "200px",
       }}
     ></div>
