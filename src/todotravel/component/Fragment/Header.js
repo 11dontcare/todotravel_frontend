@@ -3,10 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { checkIfLoggedIn, logout } from "../../service/AuthService";
 import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
+import Modal from "../plan/Modal";
 import styles from "./Fragment.module.css";
 import { FiBell, FiMessageSquare, FiMenu, FiSearch } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
+import ParticipantResponseList from "../plan/ParticipantResponseList";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,6 +20,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [showAlramModal, setShowAlramModal] = useState(false);
 
   // 컴포넌트가 렌더링될 때 로그인 상태를 확인
   useEffect(() => {
@@ -136,6 +139,14 @@ const Header = () => {
     }
   };
 
+  const handleOpenAlramModal = () => {
+    setShowAlramModal(true);
+  };
+
+  const handleCloseAlramModal = () => {
+    setShowAlramModal(false);
+  };
+
   return (
     <div
       className={`${styles.header} ${
@@ -174,7 +185,10 @@ const Header = () => {
         {isLoggedIn ? (
           <>
             <div className={styles.rightIcons}>
-              <FiBell className={styles.bell} />
+              <FiBell onClick={handleOpenAlramModal} className={styles.bell} />
+              <Modal show={showAlramModal} onClose={handleCloseAlramModal}>
+                <ParticipantResponseList show={showAlramModal} onClose={handleCloseAlramModal} />
+              </Modal>
               {isMobileView && (
                 <FiMenu
                   className={`${styles.menuIcon} ${

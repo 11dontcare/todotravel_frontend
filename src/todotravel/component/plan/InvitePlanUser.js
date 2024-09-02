@@ -43,6 +43,7 @@ const InvitePlanUser = ({ onBackClick }) => {
         onBackClick();
     }
   };
+  
   return (
     <div>
       <div className={styles.title}>
@@ -54,7 +55,12 @@ const InvitePlanUser = ({ onBackClick }) => {
           {users.map((user) => (
             <li key={user.userId} className={styles.userItem}>
               <span className={styles.userInfo}>
-                <img src={profileImage} alt="Profile" className={styles.profileImage} />
+                {/* <img src={profileImage} alt="Profile" className={styles.profileImage} /> */}
+                <img
+                  src={user.profileImageUrl || profileImage}
+                  alt="Profile"
+                  className={styles.profileImage}
+                />
                 <span className={styles.userNickname}>{user.nickname}</span>
               </span>
               <button onClick={() => handleInviteClick(user)} className={styles.inviteButton}>초대하기</button>

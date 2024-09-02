@@ -81,6 +81,7 @@
   justify-content: center;
   text-align: center;
   position: relative;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
 }
 
 .overlayTextWrapper {
@@ -102,7 +103,7 @@
 .buttonWrapper {
   display: flex;
   justify-content: center;
-  gap: 12px; /* This sets the gap between the buttons */
+  gap: 12px;
   margin-top: 20px;
 }
 
@@ -120,4 +121,23 @@
 .mainButton:hover {
   background-color: #0e5819;
   transform: scale(1.05);
+}
+
+/* PlanLayout -> PlanPage, PlanModify */
+.planPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 0 15px 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+.planContent {
+  max-width: 1000px;
+  padding: 60px 10px 10px 10px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
 }

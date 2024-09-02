@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getChatList } from "../../service/ChatService";
-import styles from "./Chat.module.css";  // CSS 모듈을 import
+import styles from "./Chat.module.css";
 
-const ChatList = ({ roomId }) => {
+const ChatList = ({ roomId, newMessage }) => {
     const [chatHistory, setChatHistory] = useState([]);
+    const userId = localStorage.getItem("userId");
+    const chatListRef = useRef(null);
 
     useEffect(() => {
         const fetchChatHistory = async () => {
@@ -19,6 +21,13 @@ const ChatList = ({ roomId }) => {
             fetchChatHistory();
         }
     }, [roomId]);
+
+    useEffect(() => {
+        if (chatListRef.current) {
+            chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+        }
+    }, [chatHistory]);
+
 
     const formatDate = (dateString) => {
         try {
@@ -42,15 +51,15 @@ const ChatList = ({ roomId }) => {
     };
 
     return (
-        <div>
+        <div ref={chatListRef} className={styles.chatContainer}>
             <ul>
                 {chatHistory.map((chat, index) => (
                     <li
                         key={index}
-                        className={`${styles.chatBubble} ${chat.isSent ? styles.sentMessage : styles.receivedMessage}`}
+                        className={`${styles.chatBubble} ${chat.userId === Number(userId) ? styles.sentMessage : styles.receivedMessage}`}
                     >
                         <strong>{chat.nickname}:</strong> {chat.content} <br/>
-                        <small>{formatDate(chat.created_at)}</small>
+                        <small>{formatDate(chat.chat_date)}</small>
                     </li>
                 ))}
             </ul>
