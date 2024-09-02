@@ -10,6 +10,7 @@ const PlanCreate = () => {
   const [isPublic, setIsPublic] = useState(false); // 상태를 추가하여 스위치의 상태를 관리합니다.
   const [thumbnail, setThumbnail] = useState(null);
   const [availableCitys, setAvailableCitys] = useState([]);
+  const [thumbnailName, setThumbnailName] = useState("");
 
   const [planForm, setPlanForm] = useState({
     title: "",
@@ -17,6 +18,7 @@ const PlanCreate = () => {
     endDate: "",
     frontLocation: "",
     location: "",
+    description: "",
     totalBudget: "",
     isPublic: false,
     status: false,
@@ -34,8 +36,12 @@ const PlanCreate = () => {
 
   useEffect(() => {
     // 시작 일자가 변경될 때 종료 일자 조정
-    if (planForm.startDate && planForm.endDate && planForm.startDate > planForm.endDate) {
-      setPlanForm(prev => ({ ...prev, endDate: planForm.startDate }));
+    if (
+      planForm.startDate &&
+      planForm.endDate &&
+      planForm.startDate > planForm.endDate
+    ) {
+      setPlanForm((prev) => ({ ...prev, endDate: planForm.startDate }));
     }
   }, [planForm.startDate, planForm.endDate]);
 
@@ -58,7 +64,14 @@ const PlanCreate = () => {
   };
 
   const handleThumbnailChange = (e) => {
-    setThumbnail(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setThumbnail(file);
+      setThumbnailName(file.name);
+    } else {
+      setThumbnail(null);
+      setThumbnailName("");
+    }
   };
 
   const planCreateSubmit = (e) => {
@@ -176,8 +189,24 @@ const PlanCreate = () => {
             />
           </div>
           <div className={styles.row}>
+            <div className={styles.descriptionWrapper}>
+              <label htmlFor="description" className={styles.descriptionLabel}>
+                계획에 대한 설명 (선택)
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                placeholder="여행 계획에 대한 설명을 입력해주세요"
+                value={planForm.description}
+                onChange={handlePlanFormChange}
+                className={styles.inputDescription}
+                rows={4}
+              />
+            </div>
+          </div>
+          <div className={styles.row}>
             <div className={styles.inputPublish}>
-              <label htmlFor="isPublic">여행 일정 공유</label>
+              <label htmlFor="isPublic">여행 일정 공유하기</label>
               <input
                 type="checkbox"
                 id="isPublic"
@@ -186,6 +215,7 @@ const PlanCreate = () => {
                 onChange={handleSwitchChange}
               />
             </div>
+            <div className={styles.divider}></div>
             <div className={styles.inputThumbnail}>
               <label htmlFor="thumbnail">썸네일 이미지 업로드</label>
               <input
@@ -193,7 +223,14 @@ const PlanCreate = () => {
                 id="thumbnail"
                 accept="image/*"
                 onChange={handleThumbnailChange}
+                className={styles.fileInput}
               />
+              <label htmlFor="thumbnail" className={styles.fileInputLabel}>
+                파일 선택
+              </label>
+              {thumbnailName && (
+                <span className={styles.fileName}>{thumbnailName}</span>
+              )}
             </div>
           </div>
         </div>
