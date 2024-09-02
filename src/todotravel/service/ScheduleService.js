@@ -1,7 +1,15 @@
-import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
+import { API_BASE_URL } from "../constant/backendAPI";
 import { request } from "./APIService";
 
-export function createSchedule(scheduleRequest, planId) {
+export function createLocation(locationRequest) {
+  return request({
+    url: API_BASE_URL + "/api/location",
+    method: "POST",
+    body: JSON.stringify(locationRequest),
+  });
+} //위치 저장하기
+
+export function createSchedule(planId, scheduleRequest) {
   return request({
     url: API_BASE_URL + "/api/plan/" + planId + "/course",
     method: "POST",

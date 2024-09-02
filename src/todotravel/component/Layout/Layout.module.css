@@ -122,3 +122,22 @@
   background-color: #0e5819;
   transform: scale(1.05);
 }
+
+/* PlanLayout -> PlanPage, PlanModify */
+.planPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 0 15px 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+.planContent {
+  max-width: 1000px;
+  padding: 60px 10px 10px 10px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+}

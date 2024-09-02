@@ -73,39 +73,39 @@ function Login() {
         <div className={styles.socialButtons}>
           <img
             src={naverLogo}
-            alt="naver"
+            alt='naver'
             onClick={() => handleSocialLogin("naver")}
             className={styles.socialButton}
           />
           <img
             src={kakaoLogo}
-            alt="kakao"
+            alt='kakao'
             onClick={() => handleSocialLogin("kakao")}
             className={styles.socialButton}
           />
           <img
             src={googleLogo}
-            alt="google"
+            alt='google'
             onClick={() => handleSocialLogin("google")}
             className={styles.socialButton}
           />
         </div>
 
-        <hr />
+        <hr className={styles.hr} />
 
         <form className={styles.form} onSubmit={handleLoginFormSubmit}>
           <input
-            placeholder="아이디"
-            type="text"
-            name="username"
+            placeholder='아이디'
+            type='text'
+            name='username'
             required
             value={loginForm.username}
             onChange={handleLoginFormChange}
           />
           <input
-            placeholder="비밀번호"
-            type="password"
-            name="password"
+            placeholder='비밀번호'
+            type='password'
+            name='password'
             required
             value={loginForm.password}
             onChange={handleLoginFormChange}
