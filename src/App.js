@@ -23,6 +23,7 @@ import PlanCreate from "./todotravel/component/plan/PlanCreate";
 import PlanPage from "./todotravel/component/plan/PlanPage";
 import PlanModify from "./todotravel/component/plan/PlanModify";
 
+import MainPlanList from "./todotravel/component/plan/MainPlanList";
 import PlanList from "./todotravel/component/plan/PlanList";
 import PlanDetails from "./todotravel/component/plan/PlanDetails";
 import ChatContainer from "./todotravel/component/chat/ChatContainer";
@@ -98,6 +99,14 @@ function App() {
           />
           <Route
             path='/'
+            element={
+              <MainLayout>
+                <MainPlanList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path='/plan-list'
             element={
               <MainLayout>
                 <PlanList />
