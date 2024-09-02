@@ -109,17 +109,3 @@
 .floatingButton.active .closeIcon {
     display: block; /* X 아이콘 표시 */
 }
-
-/* 모달 오버레이 스타일 */
-.chatOverlay {
-    position: fixed; /* 화면 전체를 덮도록 고정 위치 설정 */
-    top: 0;
-    left: 0;
-    width: 100%; /* 화면의 전체 너비를 차지 */
-    height: 100%; /* 화면의 전체 높이를 차지 */
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 배경 */
-    z-index: 999; /* 모달창 바로 아래에 위치하도록 설정 */
-    display: flex; /* 내부 요소를 중앙에 배치하기 위해 flexbox 사용 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
-}

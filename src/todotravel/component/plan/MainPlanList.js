@@ -65,7 +65,7 @@ const MainPlanList = () => {
   };
 
   const handleReadMoreClick = () => {
-    navigate("/plans");
+    navigate("/plan-list");
   };
 
   return (
@@ -101,7 +101,11 @@ const MainPlanList = () => {
               <div
                 key={plan.planId}
                 className={`${gridStyles.tripCard} ${styles.fadeIn}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{
+                  animationDelay: `${index * 0.1}s`,
+                  width: "220px",
+                  height: "400px",
+                }}
                 onClick={() => handlePlanClick(plan.planId)}
               >
                 <img
@@ -159,7 +163,11 @@ const MainPlanList = () => {
               <div
                 key={plan.planId}
                 className={`${gridStyles.tripCard} ${styles.fadeIn}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{
+                  animationDelay: `${index * 0.1}s`,
+                  width: "220px",
+                  height: "400px",
+                }}
                 onClick={() => handlePlanClick(plan.planId)}
               >
                 <img

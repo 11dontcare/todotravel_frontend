@@ -16,8 +16,12 @@ const MainLayout = ({ children }) => {
     React.isValidElement(children) && children.type === MainPlanList;
 
   const handleSharedPlanClick = () => {
-    navigate('/plan-list');
-  }
+    navigate("/plan-list");
+  };
+
+  const handlePlanClick = () => {
+    navigate("/plan");
+  };
 
   return (
     <div className={styles.mainPage}>
@@ -30,8 +34,15 @@ const MainLayout = ({ children }) => {
               본인의 여행 일정을 공유하고 <br /> 함께 여행해보세요.
             </p>
             <div className={styles.buttonWrapper}>
-              <button className={styles.mainButton}>일정 공유하기</button>
-              <button onClick={handleSharedPlanClick} className={styles.mainButton}>공유된 플랜보기</button>
+              <button onClick={handlePlanClick} className={styles.mainButton}>
+                일정 공유하기
+              </button>
+              <button
+                onClick={handleSharedPlanClick}
+                className={styles.mainButton}
+              >
+                공유된 플랜보기
+              </button>
             </div>
           </div>
         </div>

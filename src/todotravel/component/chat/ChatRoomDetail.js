@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import ChatList from "./ChatList";
-import Chatting from "./Chatting";
 import ChatRoomList from "./ChatRoomList";
 import styles from "./Chat.module.css";
 
@@ -62,8 +60,6 @@ const ChatRoomDetail = ({ roomId, chatRooms, onSelectRoom }) => {
                     <ChatRoomList chatRooms={chatRooms} onSelectRoom={onSelectRoom} />
                 </div>
             )}
-            <ChatList roomId={roomId} />
-            <Chatting roomId={roomId} />
         </div>
     );
 };

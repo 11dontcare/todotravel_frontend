@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import ReactModal from 'react-modal';
 import { getChatRooms } from "../../service/ChatService";
 import ChatRoomDetail from "./ChatRoomDetail";
 import ChatList from "./ChatList";
 import Chatting from "./Chatting";
 import styles from "./Chat.module.css";
 
-const ChatContainer = () => {
+const ChatContainer = ({ isOpen, onRequestClose }) => {
   const [chatRooms, setChatRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [newMessage, setNewMessage] = useState(null);
@@ -29,7 +30,13 @@ const ChatContainer = () => {
   }, []);
 
   return (
-      <div className={styles.chatModal}>
+      <ReactModal
+          isOpen={isOpen}
+          onRequestClose={onRequestClose}
+          className={styles.chatModal}
+          overlayClassName={styles.chatOverlay}
+          ariaHideApp={false}
+      >
         <div className={styles.chatContainer}>
           <ChatRoomDetail
               roomId={selectedRoomId}
@@ -43,7 +50,7 @@ const ChatContainer = () => {
               </>
           )}
         </div>
-      </div>
+      </ReactModal>
   );
 };
 
