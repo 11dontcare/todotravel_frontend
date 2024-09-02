@@ -6,6 +6,7 @@ import {
   GOOGLE_AUTH_URL,
 } from "../constant/backendAPI";
 import { request } from "./APIService";
+import { logout as authLogout } from "../context/AuthContext";
 
 // 회원가입 요청
 export function signUp(signUpRequest) {
@@ -186,6 +187,7 @@ export function logout() {
     localStorage.removeItem("nickname");
     localStorage.removeItem("role");
     localStorage.removeItem(ACCESS_TOKEN);
+    authLogout(); // isLoggedIn 상태를 false로 설정
   });
 }
 

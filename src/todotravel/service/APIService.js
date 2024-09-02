@@ -1,4 +1,5 @@
 import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
+import { logout } from "../context/AuthContext";
 
 const refreshAccessToken = async () => {
   try {
@@ -36,6 +37,7 @@ const clearLocalStorage = () => {
   localStorage.removeItem("userId");
   localStorage.removeItem("nickname");
   localStorage.removeItem("role");
+  logout(); // isLoggedIn 상태를 false로 설정
 };
 
 const createHeaders = (contentType) => {
