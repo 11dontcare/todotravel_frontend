@@ -11,10 +11,8 @@ function FloatingButton() {
         setChatOpen(!isChatOpen);
     };
 
-    const handleOverlayClick = (e) => {
-        if (e.target === e.currentTarget) {
-            setChatOpen(false);
-        }
+    const closeModal = () => {
+        setChatOpen(false);
     };
 
     return (
@@ -30,15 +28,7 @@ function FloatingButton() {
                 {isChatOpen && <div className={styles.closeIcon}></div>}
             </div>
             {isChatOpen && (
-                <div className={styles.chatOverlay} onClick={handleOverlayClick}>
-                    {isLoggedIn ? (
-                        <ChatContainer />
-                    ) : (
-                        <div className={styles.chatModal}>
-                            <p className={styles.loginPrompt}>로그인 후 사용해주세요</p>
-                        </div>
-                    )}
-                </div>
+                <ChatContainer isOpen={isChatOpen} onRequestClose={closeModal} />
             )}
         </>
     );
