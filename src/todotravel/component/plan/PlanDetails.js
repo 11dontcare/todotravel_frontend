@@ -456,7 +456,7 @@ const PlanDetails = () => {
       </div>
       <div className={styles.planDetails}>
         <p className={styles.planDescription}>
-          여행 이렇게 가보면 어때요??{plan.description}
+          {plan.description}
         </p>
         {/* <p className={styles.planLocation}>지역: {plan.location}</p> */}
         {/* <p className={styles.planBudget}>총 예산: {plan.totalBudget}</p> */}
