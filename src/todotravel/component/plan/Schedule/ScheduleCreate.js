@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import MapInfo from "./MapInfo";
 import MapSearch from "./MapSearch";
 
-const ScheduleCreate = () => {
+const ScheduleCreate = ({ onScheduleAdded }) => {
   const { planId } = useParams();
   const [location, setLocation] = useState(null);
   const [scheduleForm, setScheduleForm] = useState({
@@ -39,8 +39,10 @@ const ScheduleCreate = () => {
   const onClickScheduleSubmit = (e) => {
     e.preventDefault();
     createSchedule(planId, scheduleForm)
-      .then(() => {
+      .then((response) => {
         alert("일정이 생성되었습니다.");
+        console.log(response);
+        onScheduleAdded(true);
       })
       .catch((e) => {
         console.error(e);
@@ -48,12 +50,19 @@ const ScheduleCreate = () => {
       });
   };
 
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setLocation(null);
+  };
+
   return (
-    <div className={styles.createContainer}>
+    <>
       {!location ? (
-        <MapSearch onLocationSelect={handleLocationSelect} />
+        <div className={styles.mapContainer}>
+          <MapSearch onLocationSelect={handleLocationSelect} />
+        </div>
       ) : (
-        <>
+        <div className={styles.createContainer}>
           <div className={styles.map}>
             <MapInfo location={selectPlace} />
           </div>
@@ -103,14 +112,18 @@ const ScheduleCreate = () => {
               <button className={styles.submitButton} type='submit'>
                 등록
               </button>
-              <button className={styles.cancelButton} type='button'>
+              <button
+                className={styles.cancelButton}
+                type='button'
+                onClick={handleCancel}
+              >
                 취소
               </button>
             </div>
           </form>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

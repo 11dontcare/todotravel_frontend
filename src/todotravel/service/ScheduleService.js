@@ -9,6 +9,13 @@ export function createLocation(locationRequest) {
   });
 } //위치 저장하기
 
+export function showLocation(locationId) {
+  return request({
+    url: API_BASE_URL + "/api/location/" + locationId,
+    method: "GET",
+  });
+} //위치 검색하기
+
 export function createSchedule(planId, scheduleRequest) {
   return request({
     url: API_BASE_URL + "/api/plan/" + planId + "/course",

@@ -1,26 +1,57 @@
-import React, { useState } from "react";
-import styles from "./Schedule.module.css"; // 스타일링을 위한 CSS 파일을 임포트합니다.
+/*global kakao*/
+import React, { useEffect, useState } from "react";
+import { showLocation } from "../../../service/ScheduleService";
+
+import styles from "./Schedule.module.css";
+import ItemMapInfo from "./ItemMapInfo";
 
 const ScheduleItem = ({
-  travelCount,
-  locationName,
-  address,
-  time,
-  transportation,
-  budget,
-  memo,
+  scheduleId,
+  locationId,
+  travelDayCount,
+  description,
+  status,
+  travelTime,
+  vehicle,
+  price,
   onEdit,
 }) => {
+  const [place, setPlace] = useState({
+    longitude: "",
+    latitude: "",
+    name: "",
+  });
+
+  useEffect(() => {
+    fetchLocation();
+  }, []);
+
+  const fetchLocation = () => {
+    showLocation(locationId)
+      .then((response) => {
+        setPlace(response.data);
+        console.log(response);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   return (
-    <div className='schedule-item'>
+    <div className={styles.item}>
       <div className='schedule-header'>
-        <h4>{locationName}</h4>
-        <span>{time}</span>
+        <ItemMapInfo
+          latitude={place.latitude}
+          longitude={place.longitude}
+          mapId={scheduleId}
+        />
+        <h4>{place.name}</h4>
+        <span>{travelTime}</span>
       </div>
-      <p>{address}</p>
-      <p>이동수단: {transportation}</p>
-      <p>예산: {budget}원</p>
-      <p>메모: {memo}</p>
+      <p>{locationId}</p>
+      <p>이동수단: {vehicle}</p>
+      <p>예산: {price}원</p>
+      <p>메모: {description}</p>
       <button onClick={onEdit}>수정</button>
     </div>
   );
