@@ -139,8 +139,10 @@ const PlanPage = () => {
           <InvitePlanUser onBackClick={handleCloseInviteModal} />
         </Modal>
 
-        <button>투표 리스트</button>
-        <VoteList show={showVoteListModal} onClose={handleCloseVoteListModal} />
+        <button onClick={handleOpenVoteListModal}>투표 리스트</button>
+        <Modal show={showVoteListModal} onClose={handleCloseVoteListModal}>
+          <VoteList onBackClick={handleCloseVoteListModal} />
+        </Modal>
 
         <button onClick={handleDelete}>플랜 삭제하기</button>
       </div>
@@ -150,11 +152,4 @@ const PlanPage = () => {
         <div onClick={handleAddSchedule} className={styles.scheduleCreateBtn}>
           <CiCirclePlus className={styles.plus} />
           <span className={styles.plusLabel}>일정 추가하기</span>
-        </div>
-      )}
-      <ScheduleList scheduleList={scheduleList} />
-    </div>
-  );
-};
-
-export default PlanPage;
+        </di
