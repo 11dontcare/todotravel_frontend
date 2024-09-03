@@ -9,13 +9,13 @@ import profileImage from "../../../image/user_profile_icon.png";
 import { IoArrowBack } from "react-icons/io5";
 
 const InvitePlanUser = ({ onBackClick }) => {
-    const { planId } = useParams();
+  const [load, setLoad] = useState(false);
+  const { planId } = useParams();
+  const [users, setUsers] = useState([]);
 
-    const [users, setUsers] = useState([]);
-
-    useEffect(() => {
+  useEffect(() => {
         fetchUsers();
-      },[]);
+      },[load]);
 
   const fetchUsers = () => {
     showUsers(planId)
@@ -35,13 +35,11 @@ const InvitePlanUser = ({ onBackClick }) => {
         .then((response) => {
             console.log(response);
             alert(`${user.nickname}님을 초대했습니다.`);
+            setLoad(!load);
         }).catch((e) => {
             console.log(e);
             alert("초대에 실패했습니다. 다시 시도해주세요.");
-      });
-    if (onBackClick) {
-        onBackClick();
-    }
+        });
   };
   
   return (
