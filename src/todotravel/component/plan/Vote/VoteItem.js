@@ -16,17 +16,17 @@ import { IoMdCheckmark } from "react-icons/io";
 import { IoCheckbox, IoCheckboxOutline } from "react-icons/io5";
 import ItemMapInfo from "./ItemMapInfo";
 
-const vehicleOptions = [
-  { value: "CAR", label: "자동차" },
-  { value: "AIRPLANE", label: "비행기" },
-  { value: "TRAIN", label: "기차" },
-  { value: "BUS", label: "버스" },
-  { value: "BIKE", label: "자전거" },
-  { value: "WALK", label: "도보" },
-  { value: "TAXI", label: "택시" },
+const categoryOptions = [
+  { value: "BREAKFAST", label: "아침 식사" },
+  { value: "LUNCH", label: "점심 식사" },
+  { value: "DINNER", label: "저녁 식사" },
+  { value: "ACTIVITY", label: "활동" },
+  { value: "TRANSPORTATION", label: "이동 수단" },
+  { value: "ACCOMMODATION", label: "숙소" },
+  { value: "BREAK", label: "휴식" },
 ];
 
-const ScheduleItem = ({
+const VoteItem = ({
   scheduleId,
   locationId,
   description,
@@ -161,7 +161,7 @@ const ScheduleItem = ({
               value={editVehicle}
               onChange={(e) => setEditVehicle(e.target.value)}
             >
-              {vehicleOptions.map((option) => (
+              {categoryOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -178,7 +178,7 @@ const ScheduleItem = ({
           <div className={styles.itemOption}>
             <p>
               이동수단 :{" "}
-              {vehicleOptions.find((v) => v.value === vehicle)?.label}
+              {categoryOptions.find((v) => v.value === vehicle)?.label}
               <span
                 onClick={() => setIsEditingVehicle(true)}
                 className={styles.edit}
@@ -271,4 +271,4 @@ const ScheduleItem = ({
   );
 };
 
-export default ScheduleItem;
+export default VoteItem;

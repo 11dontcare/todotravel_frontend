@@ -1,48 +1,56 @@
 import React, { useState } from "react";
-import { createSchedule } from "../../../service/ScheduleService";
-
-import styles from "./Schedule.module.css";
 import { useParams } from "react-router-dom";
-import MapInfo from "./MapInfo";
-import MapSearch from "./MapSearch";
+import { createVote } from "../../../service/VoteService.js";
 
-const ScheduleCreate = ({ onScheduleAdded }) => {
+import styles from "./Vote.module.css";
+import MapInfo from "../Schedule/MapInfo.js";
+import MapSearch from "../Schedule/MapSearch.js";
+
+const categoryOptions = [
+  { value: "BREAKFAST", label: "아침 식사" },
+  { value: "LUNCH", label: "점심 식사" },
+  { value: "DINNER", label: "저녁 식사" },
+  { value: "ACTIVITY", label: "활동" },
+  { value: "TRANSPORTATION", label: "이동 수단" },
+  { value: "ACCOMMODATION", label: "숙소" },
+  { value: "BREAK", label: "휴식" },
+];
+
+const VoteCreate = ({ onVoteAdded }) => {
   const { planId } = useParams();
   const [location, setLocation] = useState(null);
-  const [scheduleForm, setScheduleForm] = useState({
+  const [voteForm, setVoteForm] = useState({
     locationId: null,
-    travelDayCount: "",
-    description: "",
-    travelTime: "",
+    endDate: "",
+    category: "",
   });
   const [selectPlace, setSelectPlace] = useState(null);
 
   const handleLocationSelect = (locationId, place, locationForm) => {
     setLocation(place);
     setSelectPlace(locationForm);
-    setScheduleForm({
-      ...scheduleForm,
+    setVoteForm({
+      ...voteForm,
       locationId: locationId,
     });
   };
 
-  const handleScheduleFormChange = (e) => {
+  const handleVoteFormChange = (e) => {
     const changedField = e.target.name;
     const newValue = e.target.value;
-
-    setScheduleForm({
-      ...scheduleForm,
+    setVoteForm({
+      ...voteForm,
       [changedField]: newValue,
     });
   };
 
   const onClickScheduleSubmit = (e) => {
     e.preventDefault();
-    createSchedule(planId, scheduleForm)
+    createVote(planId, voteForm)
       .then((response) => {
-        alert("일정이 생성되었습니다.");
+        alert("투표가 생성되었습니다.");
         console.log(response);
-        onScheduleAdded(true);
+        onVoteAdded(true);
       })
       .catch((e) => {
         console.error(e);
@@ -67,46 +75,31 @@ const ScheduleCreate = ({ onScheduleAdded }) => {
             <MapInfo location={selectPlace} />
           </div>
           <form className={styles.createBox} onSubmit={onClickScheduleSubmit}>
-            <div className={styles.createHeader}>
-              <div className={styles.createAddress}>
-                <h3>{location.name}</h3>
-                <p>{location.address}</p>
-              </div>
-              <input
-                className={styles.dayInput}
-                id='travelDayCount'
-                name='travelDayCount'
-                type='number'
-                value={scheduleForm.travelDayCount}
-                onChange={handleScheduleFormChange}
-                required
-                placeholder='day 입력'
-              />
-            </div>
             <div className={styles.createTime}>
-              <label htmlFor='travelTime'>도착 예정 시간 : </label>
+              <label htmlFor='endDate'>투표 마감 시간 : </label>
               <input
                 className={styles.timeInput}
-                id='travelTime'
-                name='travelTime'
+                id='endDate'
+                name='endDate'
                 type='time'
-                value={scheduleForm.travelTime}
-                onChange={handleScheduleFormChange}
+                value={voteForm.endDate}
+                onChange={handleVoteFormChange}
                 required
                 placeholder='시간 입력'
               />
             </div>
             <div className={styles.createDescription}>
-              <label htmlFor='description'>메모(선택) : </label>
-              <textarea
-                className={styles.descriptionInput}
-                id='description'
-                name='description'
-                type='text'
-                value={scheduleForm.description}
-                onChange={handleScheduleFormChange}
-                placeholder='메모를 입력해주세요.'
-              />
+              <p>분류</p>
+              <select
+                value={voteForm.category}
+                onChange={(e) => setVoteForm(e.target.value)}
+              >
+                {categoryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className={styles.createButton}>
               <button className={styles.submitButton} type='submit'>
@@ -127,4 +120,4 @@ const ScheduleCreate = ({ onScheduleAdded }) => {
   );
 };
 
-export default ScheduleCreate;
+export default VoteCreate;

@@ -14,108 +14,115 @@
   scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
   -ms-overflow-style: none; /* IE에서 스크롤바 숨기기 */
 }
+.container {
+  background-color: white;
+  /* padding: 20px; */
+  border-radius: 5px;
+  max-height: 700px;
+  width: 400px;
+}
 
 .title {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 20px 16px 40px;
-    /* margin-top: 20px; */
-    color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    /* margin-left: 130px; */
-  }
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 16px 40px;
+  /* margin-top: 20px; */
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  .backButton {
-    background-color: white;
-    border: none;
-    padding: 0px;
-    cursor: pointer;
-    font-size: 24px;
-    text-align: center;
-    height: 24px;
-  }
+  /* margin-left: 130px; */
+}
 
-  .people {
-    /* margin-left: 60px; */
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-  }
+.backButton {
+  background-color: white;
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+  font-size: 24px;
+  text-align: center;
+  height: 24px;
+}
 
-  .people span {
-    font-size: 16px;
-    font-weight: lighter;
-    margin-left: 3px;
-  }
-  
-  .section {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-  }
-  
-  .sectionTitle {
-    font-size: 13px;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 0px;
-    padding-left: 10px;
-  }
-  
-  .userList {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .userItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #ddd;
-  }
+.people {
+  /* margin-left: 60px; */
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
 
-  .userInfo {
-    display: flex;
-    align-items: center;
-  }
+.people span {
+  font-size: 16px;
+  font-weight: lighter;
+  margin-left: 3px;
+}
 
-  .profileImage {
-    width: 40px;
-  }
-  
-  .userNickname {
-    font-size: 18px;
-    color: #333;
-    margin-left: 10px;
-  }
+.section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
 
-  .buttonSection {
-    display: flex;
-    justify-content: right;
-    margin-right: 10px;
-  }
-  
-  .inviteButton {
-    background-color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    font-size: 24px;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 5px;
-  }
+.sectionTitle {
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 0px;
+  padding-left: 10px;
+}
 
-  .exitButton {
-    background-color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    font-size: 20px;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 5px;
-  }
+.userList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.profileImage {
+  width: 40px;
+}
+
+.userNickname {
+  font-size: 18px;
+  color: #333;
+  margin-left: 10px;
+}
+
+.buttonSection {
+  display: flex;
+  justify-content: right;
+  margin-right: 10px;
+}
+
+.inviteButton {
+  background-color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 24px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.exitButton {
+  background-color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}

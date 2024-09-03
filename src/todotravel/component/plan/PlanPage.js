@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePlan, isUserInPlanAccepted } from "../../service/PlanService";
-import PlanModify from "./PlanModify";
+import { deletePlan, isUserInPlan, getPlan } from "../../service/PlanService";
 import Modal from "./Modal";
+
+import PlanModify from "./PlanModify";
 import PlanFriend from "./PlanFriend";
 import InvitePlanUser from "./InvitePlanUser";
-import VoteList from "./Vote/VoteList";
+import ScheduleList from "./Schedule/ScheduleList";
+import ScheduleCreate from "./Schedule/ScheduleCreate";
+import VotePage from "./Vote/VotePage";
+
+import styles from "./Form.module.css";
+import { CiCirclePlus } from "react-icons/ci";
 
 const PlanPage = () => {
   const navigate = useNavigate();
 
   const { planId } = useParams();
-  console.log(planId);
 
   const userId = localStorage.getItem("userId");
 
   const [existsPlanUser, setExistsPlanUser] = useState(null);
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
+  const [scheduleList, setScheduleList] = useState([]);
+  const [isAddingSchedule, setIsAddingSchedule] = useState(false);
 
   //모달창
   const [showParticipantsModal, setShowParticipantsModal] = useState(false);
@@ -24,7 +31,7 @@ const PlanPage = () => {
   const [showVoteListModal, setShowVoteListModal] = useState(false);
 
   useEffect(() => {
-    isUserInPlanAccepted(planId, userId)
+    isUserInPlan(planId, userId)
       .then((response) => {
         if (response.data) {
           setExistsPlanUser(true);
@@ -45,8 +52,20 @@ const PlanPage = () => {
     if (existsPlanUser === false) {
       alert("접근 권한이 없습니다.");
       navigate("/");
+    } else {
+      fetchScheduleList();
     }
   }, [existsPlanUser, navigate]);
+
+  const fetchScheduleList = () => {
+    getPlan(planId)
+      .then((response) => {
+        setScheduleList(response.data.scheduleList);
+      })
+      .catch((error) => {
+        console.error("일정을 불러오는데 실패했습니다.", error);
+      });
+  };
 
   if (loading) {
     return <div>Loading...</div>; // 로딩 중일 때 표시할 컴포넌트
@@ -92,34 +111,50 @@ const PlanPage = () => {
     setShowVoteListModal(false);
   };
 
+  const handleAddSchedule = () => {
+    setIsAddingSchedule(true);
+  };
+
+  const handleScheduleAdded = (status) => {
+    if (status) {
+      fetchScheduleList();
+      setIsAddingSchedule(false);
+    }
+  };
+
   return (
     <div>
       <PlanModify />
-      {/* <div>
+
+      <div className={styles.btnContainer}>
+        <button onClick={handleOpenPaticipantsModal}>참여 목록 보기</button>
+        <Modal
+          show={showParticipantsModal}
+          onClose={handleClosePaticipantsModal}
+        >
+          <PlanFriend onInviteClick={handleOpenInviteModal} />
+        </Modal>
+
+        <Modal show={showInviteModal} onClose={handleCloseInviteModal}>
+          <InvitePlanUser onBackClick={handleCloseInviteModal} />
+        </Modal>
+
+        <button onClick={handleOpenVoteListModal}>투표 리스트</button>
+        <Modal show={showVoteListModal} onClose={handleCloseVoteListModal}>
+          <VotePage onBackClick={handleCloseVoteListModal} />
+        </Modal>
+
         <button onClick={handleDelete}>플랜 삭제하기</button>
-      </div> */}
-      <div>
-        <button>투표 리스트</button>
-        <div>
-          <button onClick={handleOpenPaticipantsModal}>참여 목록 보기</button>
-
-          <Modal
-            show={showParticipantsModal}
-            onClose={handleClosePaticipantsModal}
-          >
-            <PlanFriend onInviteClick={handleOpenInviteModal} />
-          </Modal>
-
-          <Modal show={showInviteModal} onClose={handleCloseInviteModal}>
-            <InvitePlanUser onBackClick={handleCloseInviteModal} />
-          </Modal>
-
-          <VoteList
-            show={showVoteListModal}
-            onClose={handleCloseVoteListModal}
-          />
-        </div>
       </div>
+      {isAddingSchedule ? (
+        <ScheduleCreate onScheduleAdded={handleScheduleAdded} />
+      ) : (
+        <div onClick={handleAddSchedule} className={styles.scheduleCreateBtn}>
+          <CiCirclePlus className={styles.plus} />
+          <span className={styles.plusLabel}>일정 추가하기</span>
+        </div>
+      )}
+      <ScheduleList scheduleList={scheduleList} />
     </div>
   );
 };

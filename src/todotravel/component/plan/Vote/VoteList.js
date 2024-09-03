@@ -1,36 +1,87 @@
-// VoteListModal.jsx
 import React, { useEffect, useState } from "react";
-import Modal from "../Modal";
-import { showAllVote } from "../../../service/VoteService";
+import { useParams } from "react-router-dom";
+import { updateVote, deleteVote, castVote } from "../../../service/VoteService";
+import styles from "./Vote.module.css";
 
-const VoteListModal = ({ show, onClose }) => {
-  const [votes, setVotes] = useState([]);
+const VoteList = ({ voteList }) => {
+  const { planId } = useParams();
+  const [locationId, setLocationId] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [category, setCategory] = useState("");
+  const [selectedVoteId, setSelectedVoteId] = useState(null);
+  const [voteDetails, setVoteDetails] = useState(null);
 
-  useEffect(() => {
-    if (show) {
-      // 투표 리스트를 서버에서 가져옴
-      showAllVote()
-        .then((data) => {
-          setVotes(data);
-        })
-        .catch((error) => {
-          console.error("투표 리스트를 불러오는데 실패했습니다.", error);
-        });
+  const handleUpdateVote = async () => {
+    const voteRequest = {
+      locationId: parseInt(locationId),
+      endDate: new Date(endDate).toISOString(),
+      category: category,
+    };
+
+    if (!selectedVoteId) return;
+
+    try {
+      await updateVote(voteRequest, planId, selectedVoteId);
+      // fetchVoteList();
+    } catch (error) {
+      console.error("Error updating vote:", error);
     }
-  }, [show]);
+  };
+
+  const handleDeleteVote = (voteId) => {
+    if (!planId) return;
+    deleteVote(planId, voteId)
+      .then((response) => {
+        window.alert(response.message);
+        // fetchVoteList();
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("불러오기에 실패했습니다. 다시 시도해주세요.");
+      });
+  };
+
+  const handleCastVote = async (voteId) => {
+    try {
+      await castVote(voteId);
+      // fetchVoteList();
+    } catch (error) {
+      console.error("Error casting vote:", error);
+    }
+  };
 
   return (
-    <Modal show={show} onClose={onClose}>
-      <div>
-        <h2>투표 리스트</h2>
+    <div className={styles.container}>
+      {voteList.length > 0 ? (
         <ul>
-          {votes.map((vote) => (
-            <li key={vote.id}>{vote.title}</li>
+          {voteList.map((vote) => (
+            <li key={vote.voteId} id={vote.voteId}>
+              {vote.voteId}
+              <button onClick={() => setSelectedVoteId(vote.voteId)}>
+                선택
+              </button>
+              <button onClick={() => handleDeleteVote(vote.voteId)}>
+                삭제
+              </button>
+              <button onClick={() => handleCastVote(vote.voteId)}>
+                투표하기
+              </button>
+            </li>
           ))}
         </ul>
-      </div>
-    </Modal>
+      ) : (
+        <p>투표가 없습니다.</p>
+      )}
+      {voteDetails && (
+        <div>
+          <h3>투표 상세보기</h3>
+          <p>ID: {voteDetails.id}</p>
+          <p>제목: {voteDetails.title}</p>
+          {/* 필요한 경우 추가 정보를 표시 */}
+        </div>
+      )}
+    </div>
   );
 };
 
-export default VoteListModal;
+export default VoteList;

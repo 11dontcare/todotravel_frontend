@@ -1,37 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import styles from './Form.module.css';
+import React, { useState, useEffect } from "react";
+import styles from "./Form.module.css";
 
-const DescriptionInput = ({ value, onChange, isEditable = true }) => {
+const DescriptionInput = ({ value, onChange, isEditable }) => {
   const [charCount, setCharCount] = useState(0);
 
   useEffect(() => {
-    setCharCount(value.length);
+    if (value) {
+      setCharCount(value.length);
+    }
   }, [value]);
 
   const handleChange = (e) => {
-    const input = e.target.value;
-    if (input.length <= 250) {
+    const newValue = e.target.value;
+    if (newValue.length <= 250) {
       onChange(e);
-      setCharCount(input.length);
+      setCharCount(newValue.length);
     }
   };
 
   return (
     <div className={styles.descriptionWrapper}>
-      <label htmlFor="description" className={styles.descriptionLabel}>
-        계획에 대한 설명 (선택, {charCount}/250자)
+      <label className={styles.descriptionLabel} htmlFor='description'>
+        설명:
       </label>
       <textarea
-        id="description"
-        name="description"
-        placeholder="여행 계획에 대한 설명을 입력해주세요"
-        value={value}
-        onChange={handleChange}
+        id='description'
+        name='description'
         className={styles.inputDescription}
-        rows={4}
-        maxLength={250}
+        value={value || ""}
+        onChange={handleChange}
         disabled={!isEditable}
+        placeholder='250자 이하로 입력해 주세요.'
       />
+      <div>{charCount}/250</div>
     </div>
   );
 };

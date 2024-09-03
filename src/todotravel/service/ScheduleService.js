@@ -9,6 +9,13 @@ export function createLocation(locationRequest) {
   });
 } //위치 저장하기
 
+export function showLocation(locationId) {
+  return request({
+    url: API_BASE_URL + "/api/location/" + locationId,
+    method: "GET",
+  });
+} //위치 검색하기
+
 export function createSchedule(planId, scheduleRequest) {
   return request({
     url: API_BASE_URL + "/api/plan/" + planId + "/course",
@@ -19,7 +26,7 @@ export function createSchedule(planId, scheduleRequest) {
 
 export function deleteSchedule(planId, scheduleId) {
   return request({
-    url: API_BASE_URL + "/api/plan/" + planId + "/course" + scheduleId,
+    url: API_BASE_URL + "/api/plan/" + planId + "/course/" + scheduleId,
     method: "DELETE",
   });
 } //여행 플랜 -> 일정 삭제
@@ -30,6 +37,17 @@ export function getSchedule(planId, scheduleId) {
     method: "GET",
   });
 } //여행 플랜 -> 일정 가져오기
+
+export function updateDescription(descriptionRequest, scheduleId) {
+  return request({
+    url: `${API_BASE_URL}/api/plan/${scheduleId}/description`,
+    method: "PUT",
+    body: descriptionRequest,
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  });
+} //여행 플랜 -> 일정 메모 등록
 
 export function updateStatus(scheduleId) {
   return request({
@@ -46,13 +64,6 @@ export function updateVehicle(vehicleRequest, scheduleId) {
   });
 } //여행 플랜 -> 일정 이동수단 등록
 
-export function deleteVehicle(scheduleId) {
-  return request({
-    url: API_BASE_URL + "/api/plan/" + scheduleId + "/vehicle",
-    method: "DELETE",
-  });
-} //여행 플랜 -> 일정 이동수단 삭제
-
 export function updatePrice(priceRequest, scheduleId) {
   return request({
     url: API_BASE_URL + "/api/plan/" + scheduleId + "/price",
@@ -60,13 +71,6 @@ export function updatePrice(priceRequest, scheduleId) {
     body: JSON.stringify(priceRequest),
   });
 } //여행 플랜 -> 일정 예산 등록
-
-export function deletePrice(scheduleId) {
-  return request({
-    url: API_BASE_URL + "/api/plan/" + scheduleId + "/price",
-    method: "DELETE",
-  });
-} //여행 플랜 -> 일정 예산 삭제
 
 class ScheduleService {}
 export default new ScheduleService();

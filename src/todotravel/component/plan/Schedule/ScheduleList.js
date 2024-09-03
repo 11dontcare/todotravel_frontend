@@ -1,57 +1,72 @@
 import React, { useState, useEffect } from "react";
-import { getPlan } from "../../../service/PlanService";
+import moment from "moment";
+import styles from "./Schedule.module.css";
 import ScheduleItem from "./ScheduleItem";
-import { useParams } from "react-router-dom";
 
-const ScheduleList = () => {
-  const [editMode, setEditMode] = useState(null);
-  const { planId } = useParams();
-  const [scheduleList, setScheduleList] = useState([]); // schedule
+const ScheduleList = ({ scheduleList }) => {
+  const [schedules, setSchedules] = useState(scheduleList);
 
   useEffect(() => {
-    // 투표 리스트를 서버에서 가져옴
-    getPlan(planId)
-      .then((response) => {
-        setScheduleList(response.data.scheduleList);
-        console.log(response.data.scheduleList);
-      })
-      .catch((error) => {
-        console.error("일정을 불러오는데 실패했습니다.", error);
-      });
-  }, [planId]); // 'planId'만 의존성 배열에 추가
+    setSchedules(scheduleList);
+  }, [scheduleList]);
 
-  const handleEdit = (id) => {
-    setEditMode(id); // 수정 모드로 전환
+  const handleEdit = (updatedItem) => {
+    setSchedules((prevSchedules) =>
+      prevSchedules.map((item) =>
+        item.scheduleId === updatedItem.scheduleId
+          ? { ...item, ...updatedItem }
+          : item
+      )
+    );
   };
 
-  if (!scheduleList || scheduleList.length === 0) {
+  const handleDelete = (deletedScheduleId) => {
+    setSchedules((prevSchedules) =>
+      prevSchedules.filter(
+        (schedule) => schedule.scheduleId !== deletedScheduleId
+      )
+    );
+  };
+
+  if (!schedules || schedules.length === 0) {
     return <div>일정이 없습니다.</div>;
   }
 
-  const groupedSchedules = scheduleList.reduce((acc, curr) => {
-    const { travelCount } = curr;
-    if (!acc[travelCount]) acc[travelCount] = [];
-    acc[travelCount].push(curr);
+  // 일정 정렬
+  const groupedScheduleList = schedules.reduce((acc, curr) => {
+    const { travelDayCount, travelTime } = curr;
+    if (!acc[travelDayCount]) acc[travelDayCount] = [];
+    acc[travelDayCount].push(curr);
+
+    // 각 일차별로 정렬하기
+    acc[travelDayCount].sort((a, b) =>
+      moment(a.travelTime, "HH:mm:ss").diff(moment(b.travelTime, "HH:mm:ss"))
+    );
+
     return acc;
   }, {});
 
   return (
-    <div className='schedule-list'>
-      {Object.keys(groupedSchedules).map((day) => (
-        <div key={day} className='day-group'>
-          <h3>{day}일차</h3>
-          <div className='schedule-items'>
-            {groupedSchedules[day].map((item) => (
+    <div className={styles.scheduleList}>
+      {Object.keys(groupedScheduleList).map((day) => (
+        <div key={day} className={styles.scheduleGroup}>
+          <h2>{day}일차</h2>
+          <div className={styles.scheduleItem}>
+            {groupedScheduleList[day].map((item) => (
               <ScheduleItem
-                key={item.id}
-                travelCount={item.travelCount}
-                locationName={item.locationName}
-                address={item.address}
-                time={item.time}
-                transportation={item.transportation}
-                budget={item.budget}
-                memo={item.memo}
-                onEdit={() => handleEdit(item.id)}
+                key={item.scheduleId}
+                scheduleId={item.scheduleId}
+                locationId={item.locationId}
+                travelDayCount={item.travelDayCount}
+                description={item.description}
+                status={item.status}
+                travelTime={item.travelTime}
+                vehicle={item.vehicle}
+                price={item.price}
+                onEdit={(updatedData) =>
+                  handleEdit({ scheduleId: item.scheduleId, ...updatedData })
+                }
+                onDelete={handleDelete}
               />
             ))}
           </div>
