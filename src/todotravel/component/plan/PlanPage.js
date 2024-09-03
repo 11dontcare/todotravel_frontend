@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePlan, isUserInPlan } from "../../service/PlanService";
-import { getPlan } from "../../service/PlanService";
-import PlanModify from "./PlanModify";
+import { deletePlan, isUserInPlan, getPlan } from "../../service/PlanService";
 import Modal from "./Modal";
+
+import PlanModify from "./PlanModify";
 import PlanFriend from "./PlanFriend";
 import InvitePlanUser from "./InvitePlanUser";
-import VoteList from "./Vote/VoteList";
 import ScheduleList from "./Schedule/ScheduleList";
 import ScheduleCreate from "./Schedule/ScheduleCreate";
+import VotePage from "./Vote/VotePage";
 
 import styles from "./Form.module.css";
 import { CiCirclePlus } from "react-icons/ci";
@@ -141,7 +141,7 @@ const PlanPage = () => {
 
         <button onClick={handleOpenVoteListModal}>투표 리스트</button>
         <Modal show={showVoteListModal} onClose={handleCloseVoteListModal}>
-          <VoteList onBackClick={handleCloseVoteListModal} />
+          <VotePage onBackClick={handleCloseVoteListModal} />
         </Modal>
 
         <button onClick={handleDelete}>플랜 삭제하기</button>
@@ -152,4 +152,11 @@ const PlanPage = () => {
         <div onClick={handleAddSchedule} className={styles.scheduleCreateBtn}>
           <CiCirclePlus className={styles.plus} />
           <span className={styles.plusLabel}>일정 추가하기</span>
-        </di
+        </div>
+      )}
+      <ScheduleList scheduleList={scheduleList} />
+    </div>
+  );
+};
+
+export default PlanPage;
