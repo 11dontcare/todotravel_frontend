@@ -24,12 +24,14 @@ const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
 
   const fetchChatHistory = async () => {
     try {
-      const response = await getChatList(roomId);
-      setMessages(response);
+        const response = await getChatList(roomId);
+        const messages = response.data; 
+        setMessages(Array.isArray(messages) ? messages : []);
     } catch (error) {
-      console.error("채팅 기록을 찾을 수 없음", error);
+        console.error("채팅 기록을 찾을 수 없음", error);
+        setMessages([]); 
     }
-  };
+};
 
   const connectWebSocket = () => {
     const socket = new WebSocket("ws://localhost:8080/ws");

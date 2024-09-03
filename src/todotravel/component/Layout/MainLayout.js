@@ -1,13 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import Header from "../Fragment/Header";
 import Footer from "../Fragment/Footer";
-// import PlanList from "../plan/PlanList";
 import MainPlanList from "../plan/MainPlanList";
-
 import styles from "./Layout.module.css";
-
-import main from "../../../image/main.png";
-import test1 from "../../../image/test3.png";
 import { useNavigate } from "react-router-dom";
 
 const MainLayout = ({ children }) => {
@@ -15,12 +10,10 @@ const MainLayout = ({ children }) => {
   const isPlanList =
     React.isValidElement(children) && children.type === MainPlanList;
 
-  const handleSharedPlanClick = () => {
-    navigate("/plan-list");
-  };
+  const mainContentRef = useRef(null);
 
-  const handlePlanClick = () => {
-    navigate("/plan");
+  const handleScrollDown = () => {
+    mainContentRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -34,20 +27,44 @@ const MainLayout = ({ children }) => {
               본인의 여행 일정을 공유하고 <br /> 함께 여행해보세요.
             </p>
             <div className={styles.buttonWrapper}>
-              <button onClick={handlePlanClick} className={styles.mainButton}>
+              <button
+                onClick={() => navigate("/plan")}
+                className={styles.mainButton}
+              >
                 일정 공유하기
               </button>
               <button
-                onClick={handleSharedPlanClick}
+                onClick={() => navigate("/plan-list")}
                 className={styles.mainButton}
               >
                 공유된 플랜보기
               </button>
             </div>
+            <div className={styles.arrowWrapper} onClick={handleScrollDown}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 100 100"
+                width="50"
+                height="50"
+                className={styles.arrow}
+                preserveAspectRatio="xMidYMid meet"
+              >
+                <path
+                  className={styles.arrowPath1}
+                  d="M30 40 L50 60 L70 40"
+                  stroke="#FFF"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              </svg>
+            </div>
           </div>
         </div>
       )}
-      <div className={styles.mainContent}>{children}</div>
+      <div className={styles.mainContent} ref={mainContentRef}>
+        {children}
+      </div>
       <Footer />
     </div>
   );
