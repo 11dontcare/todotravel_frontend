@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
 import { showAllVote } from "../../../service/VoteService";
 
 import styles from "./Vote.module.css";
@@ -47,18 +46,18 @@ const VotePage = ({ onClose }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <IoArrowBack onClick={onClose} className={styles.back} />
-        {isAddingVote ? (
-          <VoteCreate onVoteAdded={handleVoteAdded} />
-        ) : (
+      <IoArrowBack onClick={onClose} className={styles.back} />
+      {isAddingVote ? (
+        <VoteCreate onVoteAdded={handleVoteAdded} />
+      ) : (
+        <>
           <button onClick={handleAddVote} className={styles.voteCreateBtn}>
             투표 추가하기
           </button>
-        )}
-      </div>
-      <h2>함께 논의하기</h2>
-      <VoteList voteList={voteList} />
+          <h2>함께 논의하기</h2>
+          <VoteList voteList={voteList} />
+        </>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-/* VotePage */
+/* VotePage */ /* VotePage */ /* VotePage */
 .container {
   display: flex;
   flex-direction: column;
@@ -24,29 +24,26 @@
   font-size: 26px;
   margin: 0 0 20px;
 }
-/* VoteList */
+/* VoteList */ /* VoteList */ /* VoteList */
 .voteList {
   display: flex;
   flex-direction: column;
   height: 600px;
   overflow-y: auto;
-
   /* 스크롤바 숨기기 - 웹킷 브라우저용 (크롬, 사파리 등) */
   ::-webkit-scrollbar {
     display: none;
   }
-
   /* 스크롤바 숨기기 - 파이어폭스용 */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE와 Edge */
 }
-
 /* 스크롤바 숨기기 - IE와 Edge용 */
 .voteList {
   -ms-overflow-style: none; /* IE와 Edge */
 }
 .listHeader {
-  margin: 10px 0;
+  margin: 0 0 10px;
 }
 .categorySelect {
   padding: 5px 6px;
