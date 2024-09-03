@@ -38,6 +38,17 @@
   color: white;
 }
 
+.transparentHeader .loginButton {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+.transparentHeader .loginButton:hover {
+  background-color: white; 
+  color: black; 
+}
+
 .header > h1 {
   margin: 0;
   margin-right: 60px;
@@ -55,7 +66,7 @@
 }
 
 .header > p:hover {
-  background-color: rgba(255, 255, 255, 0.3); /* 호버 시 투명한 흰색 배경 */
+  background-color: rgba(202, 202, 202, 0.3); /* 호버 시 투명한 흰색 배경 */
   border-radius: 50px; /* 호버 시 원형에 가깝게 변경 */
   transform: scale(1.05); /* 살짝 확대 효과 */
 }
@@ -143,9 +154,9 @@
 }
 
 .loginButton {
-  background-color: rgba(255, 255, 255, 0);
-  color: white;
-  border: 1px solid white;
+  background-color: #fff;
+  color: black;
+  border: 1px solid black;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   height: 2.5rem;
@@ -157,8 +168,8 @@
 }
 
 .loginButton:hover {
-  background-color: white; 
-  color: black; 
+  background-color: black; 
+  color: white; 
 }
 
 .menuIcon {
