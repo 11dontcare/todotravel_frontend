@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePlan, isUserInPlan, getPlan } from "../../service/PlanService";
+import { deletePlan, isUserInPlanAccepted, getPlan } from "../../service/PlanService";
 import Modal from "./Modal";
 
 import PlanModify from "./PlanModify";
@@ -31,7 +31,7 @@ const PlanPage = () => {
   const [showVoteListModal, setShowVoteListModal] = useState(false);
 
   useEffect(() => {
-    isUserInPlan(planId, userId)
+    isUserInPlanAccepted(planId, userId)
       .then((response) => {
         if (response.data) {
           setExistsPlanUser(true);
