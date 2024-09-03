@@ -43,11 +43,29 @@
   margin-right: 60px;
   cursor: pointer;
 }
+
+/* 기본 버튼 스타일 */
 .header > p {
   font-size: 14px;
   margin: 0 20px;
   cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 20px; /* 기본적인 둥근 모서리 */
+  transition: background-color 0.3s ease, transform 0.3s ease, border-radius 0.3s ease;
 }
+
+.header > p:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* 호버 시 투명한 흰색 배경 */
+  border-radius: 50px; /* 호버 시 원형에 가깝게 변경 */
+  transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
+.transparentHeader > p:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* 투명한 헤더에서의 호버 시 효과 */
+  border-radius: 50px; /* 호버 시 원형에 가깝게 변경 */
+  transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
 .searchForm {
   display: flex;
   align-items: center;
@@ -125,18 +143,22 @@
 }
 
 .loginButton {
-  padding: 8px 16px;
-  background-color: #009688;
+  background-color: rgba(255, 255, 255, 0);
   color: white;
-  border: none;
-  border-radius: 4px;
+  border: 1px solid white;
   cursor: pointer;
-  font-size: 14px;
-  margin-right: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  height: 2.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .loginButton:hover {
-  background-color: #00796b;
+  background-color: white; 
+  color: black; 
 }
 
 .menuIcon {
