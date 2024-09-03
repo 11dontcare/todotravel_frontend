@@ -122,39 +122,51 @@ const PlanList = () => {
     <div className={styles.container}>
       <div className={styles.filterBox}>
         <div className={styles.filterContainer}>
-          <select
-            value={frontLocation}
-            onChange={(e) => setFrontLocation(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">행정 구역 선택</option>
-            {Provinces.map((province) => (
-              <option key={province} value={province}>
-                {province}
-              </option>
-            ))}
-          </select>
-          <select
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className={styles.select}
-            disabled={!frontLocation}
-          >
-            <option value="">지역 선택</option>
-            {availableCitys.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-          <select
-            value={sortType}
-            onChange={(e) => setSortType(e.target.value)}
-            className={styles.select}
-          >
-            <option value="recent">최신순</option>
-            <option value="popular">인기순</option>
-          </select>
+          <div className={styles.filterItem}>
+            <label htmlFor="frontLocation" className={styles.filterLabel}>행정 구역</label>
+            <select
+              id="frontLocation"
+              value={frontLocation}
+              onChange={(e) => setFrontLocation(e.target.value)}
+              className={styles.select}
+            >
+              <option value="">행정 구역 선택</option>
+              {Provinces.map((province) => (
+                <option key={province} value={province}>
+                  {province}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.filterItem}>
+            <label htmlFor="location" className={styles.filterLabel}>도시</label>
+            <select
+              id="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className={styles.select}
+              disabled={!frontLocation}
+            >
+              <option value="">지역 선택</option>
+              {availableCitys.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.filterItem}>
+            <label htmlFor="sortType" className={styles.filterLabel}>정렬 기준</label>
+            <select
+              id="sortType"
+              value={sortType}
+              onChange={(e) => setSortType(e.target.value)}
+              className={styles.select}
+            >
+              <option value="recent">최신순</option>
+              <option value="popular">인기순</option>
+            </select>
+          </div>
           <button onClick={handleSearch} className={styles.searchButton}>
             검색
           </button>

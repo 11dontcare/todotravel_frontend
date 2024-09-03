@@ -143,9 +143,38 @@ h2 {
   overflow-y: auto;
 }
 
+body :global(.modal-header .btn-close) {
+  position: absolute;
+  right: 1rem;
+  top: 0.82rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  opacity: 0.5;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+}
+
+body :global(.modal-header .btn-close:hover) {
+  opacity: 0.75;
+}
+
+body :global(.modal-header .btn-close::before) {
+  content: '\00d7';
+}
+
 .withdrawalTitle {
   color: #d9534f;
   font-weight: bold;
+}
+
+.withdrawalModal :global(.modal-body) {
+  padding-bottom: 0;
 }
 
 .withdrawalWarning {
@@ -180,9 +209,15 @@ h2 {
   margin-top: 20px;
 }
 
+.withdrawalModal :global(.modal-footer) {
+  max-height: 140px;
+  padding-bottom: 14px;
+}
+
 .stayButton {
   background-color: #5cb85c;
   border-color: #4cae4c;
+  cursor: pointer;
 }
 
 .stayButton:hover {
@@ -194,6 +229,7 @@ h2 {
   background-color: #d9534f;
   border-color: #d43f3a;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .withdrawButton:hover {

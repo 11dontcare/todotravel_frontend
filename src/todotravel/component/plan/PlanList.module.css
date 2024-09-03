@@ -23,6 +23,20 @@
   margin-bottom: 15px;
 }
 
+.filterItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.filterLabel {
+  font-size: 14px;
+  color: #333;
+  margin-left: 5px;
+  margin-bottom: 6px;
+}
+
 .select {
   flex: 1;
   padding: 10px;
@@ -33,14 +47,19 @@
 }
 
 .searchButton {
-  padding: 10px 20px;
+  margin-top: 24px;
+  padding: 12px 20px;
   background-color: #00855b;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  height: 100%;
   transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .searchButton:hover {
