@@ -167,6 +167,13 @@ export function isUserInPlan(planId, userId) {
   });
 } //여행 플랜에 사용자가 참여중(모든(accepted,pending,rejected) 상태)인지 여부 요청
 
+export function isInvitablePlanByUser(planId, userId) {
+  return request({
+    url: API_BASE_URL + "/api/plan/" + planId + "/invitable/" + userId,
+    method: "GET",
+  });
+}//플랜이 초대 가능한 상태인지 여부 요청
+
 //북마크, 좋아요
 
 export function checkIsBookmarked(planId, userId) {

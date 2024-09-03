@@ -485,9 +485,11 @@ const PlanDetails = () => {
       ) : (
         <p>No schedule available.</p>
       )} */}
-      {(plan.recruitment && !justExistsUserInPlan && (plan.participantsCount > plan.planUserCount)) && (
-        <button onClick={handleRecruitClick}>플랜 참가</button>
-      )}
+      <div className={styles.recruitButtonSection}>
+        {(plan.recruitment && !justExistsUserInPlan && (plan.participantsCount > plan.planUserCount)) && (
+          <button className={styles.recruitButton} onClick={handleRecruitClick}>플랜 참가</button>
+        )}
+      </div>
       <div className={styles.commentsSection}>
         <h3>댓글 {comments.length}</h3>
         <form onSubmit={handleCommentSubmit} className={styles.commentForm}>
