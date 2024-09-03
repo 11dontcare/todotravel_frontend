@@ -41,7 +41,7 @@ const Header = () => {
     };
 
     const handleResize = () => {
-      setIsMobileView(window.innerWidth <= 1140);
+      setIsMobileView(window.innerWidth <= 1270);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -237,7 +237,7 @@ const Header = () => {
                     로그아웃
                   </p>
                 </div>
-                <hr />
+                <hr className={styles.hr}/>
                 <div className={styles.box2}>
                   <FaRegStar className={styles.star} />
                   <p
@@ -265,7 +265,7 @@ const Header = () => {
                     댓글 관리
                   </p>
                 </div>
-                {isMobileView && <hr />}
+                {isMobileView && <hr className={styles.hr}/>}
               </>
             ) : null}
             {isMobileView && (

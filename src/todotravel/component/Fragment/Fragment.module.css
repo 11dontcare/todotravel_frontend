@@ -182,6 +182,9 @@
   margin-top: 10px;
   margin-left: 30px;
 }
+.dropdownMenu .hr {
+  margin: 20px 0;
+}
 .box1 {
   display: flex;
   flex-direction: row;
@@ -248,7 +251,7 @@
   color: black;
 }
 
-@media (max-width: 1140px) {
+@media (max-width: 1270px) {
   .header {
     padding: 14px 20px 14px 41px;
     justify-content: space-between;
@@ -312,11 +315,13 @@
   }
 
   .dropdownMenu > p {
+    margin-left: 10px;
     cursor: pointer;
   }
 
   .dropdownMenu .searchForm {
-    margin: 10px 0;
+    margin-top: 18px;
+    margin-bottom: 6px;
   }
 
   /* 투명 헤더일 때 모바일 뷰에서의 검색 폼 스타일 */
