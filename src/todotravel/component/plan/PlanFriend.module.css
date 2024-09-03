@@ -91,26 +91,17 @@
     color: #333;
     margin-left: 10px;
   }
-  
-  .exitButton {
-    background-color: #ff4d4f;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .exitButton:hover {
-    background-color: #ff7875;
+
+  .buttonSection {
+    display: flex;
+    justify-content: right;
+    margin-right: 10px;
   }
   
   .inviteButton {
     background-color: white;
     border: none;
     padding: 5px;
-    margin-left: 325px;
     cursor: pointer;
     font-size: 24px;
     text-align: center;
@@ -118,7 +109,7 @@
     margin-bottom: 5px;
   }
 
-  .button {
+  .exitButton {
     background-color: white;
     border: none;
     padding: 5px;
@@ -127,8 +118,4 @@
     text-align: center;
     margin-top: 20px;
     margin-bottom: 5px;
-  }
-  
-  .inviteButton:hover {
-    /* background-color: #40a9ff; */
   }
