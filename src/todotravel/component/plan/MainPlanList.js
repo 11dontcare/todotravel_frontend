@@ -165,7 +165,7 @@ const MainPlanList = () => {
                 className={`${gridStyles.tripCard} ${styles.fadeIn}`}
                 style={{
                   animationDelay: `${index * 0.1}s`,
-                  width: "220px",
+                  width: "270px",
                   height: "400px",
                 }}
                 onClick={() => handlePlanClick(plan.planId)}
@@ -194,7 +194,8 @@ const MainPlanList = () => {
                       <FaRegHeart /> {plan.likeNumber}
                     </span>
                     <span className={gridStyles.participants}>
-                      <GoPerson className={gridStyles.participant} /> {plan.planUserCount}/{plan.participantsCount}
+                      <GoPerson className={gridStyles.participant} />{" "}
+                      {plan.planUserCount}/{plan.participantsCount}
                     </span>
                   </div>
                   <span className={gridStyles.planUserNickname}>

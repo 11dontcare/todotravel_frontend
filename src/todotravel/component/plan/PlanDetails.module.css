@@ -171,6 +171,24 @@
   background-color: #f0f0f0;
 }
 
+.recruitButtonSection{
+    display: flex;
+    justify-content: right;
+    margin-right: 10px;
+    width: 800px;
+    margin-bottom: 0px;
+  }
+
+.recruitButton {
+  padding: 3px 5px;
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 /* Comment */
 
 .commentsSection {
@@ -178,7 +196,7 @@
   width: 800px;
   padding-left: 50px;
   padding-right: 50px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .commentsSection h3 {

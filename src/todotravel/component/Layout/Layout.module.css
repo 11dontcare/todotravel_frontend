@@ -109,17 +109,18 @@
 
 .mainButton {
   padding: 13px 20px;
-  background-color: #157c24;
+  background-color: rgba(255, 255, 255, 0); /* 투명한 배경 */
   color: white;
-  border: none;
-  border-radius: 5px;
+  border: 1px solid white; /* 흰색 테두리 */
+  border-radius: 15px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
 .mainButton:hover {
-  background-color: #0e5819;
+  background-color: white; /* 호버 시 흰색 배경 */
+  color: black;
   transform: scale(1.05);
 }
 

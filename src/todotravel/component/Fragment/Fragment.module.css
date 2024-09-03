@@ -38,16 +38,45 @@
   color: white;
 }
 
+.transparentHeader .loginButton {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+.transparentHeader .loginButton:hover {
+  background-color: white; 
+  color: black; 
+}
+
 .header > h1 {
   margin: 0;
   margin-right: 60px;
   cursor: pointer;
 }
+
+/* 기본 버튼 스타일 */
 .header > p {
   font-size: 14px;
   margin: 0 20px;
   cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 20px; /* 기본적인 둥근 모서리 */
+  transition: background-color 0.3s ease, transform 0.3s ease, border-radius 0.3s ease;
 }
+
+.header > p:hover {
+  background-color: rgba(202, 202, 202, 0.3); /* 호버 시 투명한 흰색 배경 */
+  border-radius: 50px; /* 호버 시 원형에 가깝게 변경 */
+  transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
+.transparentHeader > p:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* 투명한 헤더에서의 호버 시 효과 */
+  border-radius: 50px; /* 호버 시 원형에 가깝게 변경 */
+  transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
 .searchForm {
   display: flex;
   align-items: center;
@@ -125,18 +154,22 @@
 }
 
 .loginButton {
-  padding: 8px 16px;
-  background-color: #009688;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  background-color: #fff;
+  color: black;
+  border: 1px solid black;
   cursor: pointer;
-  font-size: 14px;
-  margin-right: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  height: 2.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .loginButton:hover {
-  background-color: #00796b;
+  background-color: black; 
+  color: white; 
 }
 
 .menuIcon {
@@ -159,6 +192,9 @@
   width: 180px; /* 메뉴 너비 설정 */
   margin-top: 10px;
   margin-left: 30px;
+}
+.dropdownMenu .hr {
+  margin: 20px 0;
 }
 .box1 {
   display: flex;
@@ -226,7 +262,7 @@
   color: black;
 }
 
-@media (max-width: 1140px) {
+@media (max-width: 1270px) {
   .header {
     padding: 14px 20px 14px 41px;
     justify-content: space-between;
@@ -290,11 +326,13 @@
   }
 
   .dropdownMenu > p {
+    margin-left: 10px;
     cursor: pointer;
   }
 
   .dropdownMenu .searchForm {
-    margin: 10px 0;
+    margin-top: 18px;
+    margin-bottom: 6px;
   }
 
   /* 투명 헤더일 때 모바일 뷰에서의 검색 폼 스타일 */
