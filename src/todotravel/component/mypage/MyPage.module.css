@@ -319,6 +319,8 @@
 }
 
 .emptyMessage {
+  width: 95%;
+  margin-left: 14px;
   text-align: center;
   color: #666;
   font-style: italic;

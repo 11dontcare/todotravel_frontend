@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { exitPlan, showPlanUsers } from "../../service/PlanService";
+import { exitPlan, isInvitablePlanByUser, showPlanUsers } from "../../service/PlanService";
 
 import styles from './PlanFriend.module.css';
 
@@ -15,6 +15,7 @@ const PlanFriend = ({onInviteClick, onClose}) => {
   const navigate = useNavigate();
 
   const [planUsers, setplanUsers] = useState([]);
+  const [invitable, setInvitable] = useState(false);
 
   const { planId } = useParams();
 
@@ -32,6 +33,14 @@ const PlanFriend = ({onInviteClick, onClose}) => {
         setplanUsers(response.data);
         console.log(response);
         planUsers.sort((a,b) => a.userId - b.userId);
+
+        return isInvitablePlanByUser(planId, userId);
+      })
+      .then((invitableResponse) => {
+        if (invitableResponse) {
+          setInvitable(invitableResponse.data);
+          console.log(invitableResponse);
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -130,8 +139,12 @@ const PlanFriend = ({onInviteClick, onClose}) => {
       </ul>
       </div>
       </div>
-      <button className={styles.inviteButton} onClick={onInviteClick}><GoPersonAdd /></button>
-      <button className={styles.button} onClick={handleExitPlan}><RxExit /></button>
+      <div className={styles.buttonSection}>
+        {invitable && (
+          <button className={styles.inviteButton} onClick={onInviteClick}><GoPersonAdd /></button>
+        )}
+        <button className={styles.exitButton} onClick={handleExitPlan}><RxExit /></button>
+      </div>
     </div>
   );
 };

@@ -41,7 +41,7 @@ const Header = () => {
     };
 
     const handleResize = () => {
-      setIsMobileView(window.innerWidth <= 1140);
+      setIsMobileView(window.innerWidth <= 1270);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -110,6 +110,7 @@ const Header = () => {
   const menuItems = [
     { label: "여행 일정 만들기", path: "/plan" },
     { label: "여행 일정 함께하기", path: "/plan/recruitment" },
+    { label: "공유된 플랜보기", path: "/plan-list" },
   ];
 
   // 플랜 검색 입력 변화 감지
@@ -187,7 +188,10 @@ const Header = () => {
             <div className={styles.rightIcons}>
               <FiBell onClick={handleOpenAlramModal} className={styles.bell} />
               <Modal show={showAlramModal} onClose={handleCloseAlramModal}>
-                <ParticipantResponseList show={showAlramModal} onClose={handleCloseAlramModal} />
+                <ParticipantResponseList
+                  show={showAlramModal}
+                  onClose={handleCloseAlramModal}
+                />
               </Modal>
               {isMobileView && (
                 <FiMenu
@@ -233,7 +237,7 @@ const Header = () => {
                     로그아웃
                   </p>
                 </div>
-                <hr />
+                <hr className={styles.hr}/>
                 <div className={styles.box2}>
                   <FaRegStar className={styles.star} />
                   <p
@@ -261,9 +265,7 @@ const Header = () => {
                     댓글 관리
                   </p>
                 </div>
-                {isMobileView && (
-                  <hr/>
-                )}
+                {isMobileView && <hr className={styles.hr}/>}
               </>
             ) : null}
             {isMobileView && (
@@ -278,7 +280,10 @@ const Header = () => {
                     {item.label}
                   </p>
                 ))}
-                <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className={styles.searchForm}
+                >
                   <input
                     type="text"
                     placeholder="계획 검색하기"
