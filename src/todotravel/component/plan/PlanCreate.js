@@ -91,9 +91,10 @@ const PlanCreate = () => {
     }
 
     createPlan(formData)
-      .then(() => {
+      .then((response) => {
+        console.log(response);
         alert("플랜이 생성되었습니다.");
-        navigate("/");
+        navigate("/plan/" + response.data);
       })
       .catch((e) => {
         console.error("Plan creation failed:", e);
