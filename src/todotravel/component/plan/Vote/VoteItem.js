@@ -63,8 +63,7 @@ const VoteItem = ({
     };
 
     updateVote(updatedVoteForm, planId, voteId)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         setIsEditing(false);
         onEdit(updatedVoteForm);
       })
@@ -76,8 +75,7 @@ const VoteItem = ({
   const handleDelete = () => {
     if (window.confirm("정말로 이 일정을 삭제하시겠습니까?")) {
       deleteVote(planId, voteId)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           if (onDelete) onDelete(voteId);
         })
         .catch((e) => {
@@ -88,7 +86,7 @@ const VoteItem = ({
 
   const handleVote = () => {
     castVote(voteId)
-      .then((response) => {
+      .then(() => {
         alert("투표가 완료되었습니다.");
       })
       .catch((e) => {

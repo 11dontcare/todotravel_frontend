@@ -110,8 +110,6 @@ function MyPage() {
         setError(null);
         setIsFollowing(response.data.following);
 
-        console.log(response);
-
         const loggedInUserId = localStorage.getItem("userId");
         const isOwn = loggedInUserId === response.data.userId.toString();
         setIsOwnProfile(isOwn);
@@ -352,7 +350,6 @@ function MyPage() {
         default:
           throw new Error("Invalid view type");
       }
-      console.log(response.data);
       setAllFullTripList(response.data);
       setDisplayedFullTripList(response.data.slice(0, plansPerPage));
       setHasMoreFullList(response.data.length > plansPerPage);
@@ -474,7 +471,8 @@ function MyPage() {
                   </span>
                   {!(trip.participantsCount === null) && (
                     <span className={gridStyles.participants}>
-                      <GoPerson className={gridStyles.participant} /> {trip.planUserCount}/{trip.participantsCount}
+                      <GoPerson className={gridStyles.participant} />{" "}
+                      {trip.planUserCount}/{trip.participantsCount}
                     </span>
                   )}
                 </div>
@@ -550,7 +548,8 @@ function MyPage() {
                   </span>
                   {!(trip.participantsCount === null) && (
                     <span className={gridStyles.participants}>
-                      <GoPerson className={gridStyles.participant} /> {trip.planUserCount}/{trip.participantsCount}
+                      <GoPerson className={gridStyles.participant} />{" "}
+                      {trip.planUserCount}/{trip.participantsCount}
                     </span>
                   )}
                 </div>
@@ -593,7 +592,7 @@ function MyPage() {
             >
               <img
                 src={comment.planThumbnailUrl || defaultThumbnail}
-                alt="Trip thumbnail"
+                alt='Trip thumbnail'
                 className={styles.commentImage}
               />
               <div className={styles.commentContent}>
@@ -632,7 +631,7 @@ function MyPage() {
             >
               <img
                 src={comment.planThumbnailUrl || defaultThumbnail}
-                alt="Trip thumbnail"
+                alt='Trip thumbnail'
                 className={styles.commentImage}
               />
               <div className={styles.commentContent}>
@@ -664,7 +663,7 @@ function MyPage() {
         >
           <img
             src={profileData.profileImageUrl || profileImage}
-            alt="Profile"
+            alt='Profile'
             className={styles.profileImage}
           />
           {isOwnProfile && (
@@ -674,11 +673,11 @@ function MyPage() {
           )}
         </div>
         <input
-          type="file"
+          type='file'
           ref={fileInputRef}
           onChange={handleFileChange}
           style={{ display: "none" }}
-          accept="image/jpeg,image/jpg,image/png,image/gif"
+          accept='image/jpeg,image/jpg,image/png,image/gif'
         />
         <div className={styles.profileContent}>
           <div className={styles.profileSection}>

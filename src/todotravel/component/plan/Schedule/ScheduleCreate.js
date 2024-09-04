@@ -41,7 +41,6 @@ const ScheduleCreate = ({ onScheduleAdded }) => {
     createSchedule(planId, scheduleForm)
       .then((response) => {
         alert("일정이 생성되었습니다.");
-        console.log(response);
         onScheduleAdded(true);
       })
       .catch((e) => {

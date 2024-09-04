@@ -25,8 +25,6 @@ const PlanSearch = () => {
     searchPlan(keyword)
       .then((response) => {
         setplanList(response.data);
-        console.log(response);
-        console.log(planList);
       })
       .catch((e) => {
         console.log(e);
@@ -49,7 +47,7 @@ const PlanSearch = () => {
               className={gridStyles.tripCard}
               onClick={() => handlePlanClick(plan.planId)}
             >
-              <img src={travel} alt="travel" className={gridStyles.tripImage} />
+              <img src={travel} alt='travel' className={gridStyles.tripImage} />
               <p className={gridStyles.location}>{plan.location}</p>
               <h2 className={gridStyles.planTitle}>{plan.title}</h2>
               <p className={gridStyles.description}>{plan.description}</p>

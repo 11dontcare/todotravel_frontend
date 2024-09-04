@@ -34,14 +34,12 @@ const RecruitmentList = () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
-    console.log("loadPlans::");
     try {
       if (!isInitialLoad.current) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
       }
 
       let response;
-      console.log(startDate);
       if (!frontLocation) {
         response = await (startDate === null
           ? getRecentRecruitPlans(page)
@@ -73,11 +71,6 @@ const RecruitmentList = () => {
       );
       setHasMore(newPlans.length === 12 && responseData.last);
       setPage((prevPage) => prevPage + 1);
-
-      console.log("Response data:", responseData);
-      console.log("New plans:", newPlans);
-      console.log("Has more:", !responseData.last);
-
       isInitialLoad.current = false;
     } catch (error) {
       console.error("Error fetching plans:", error);
@@ -134,53 +127,59 @@ const RecruitmentList = () => {
     <div className={styles.container}>
       <div className={styles.filterBox}>
         <div className={styles.filterContainer}>
-        <div className={styles.filterItem}>
-          <label htmlFor="frontLocation" className={styles.filterLabel}>행정 구역</label>
-          <select
-            id="frontLocation"
-            value={frontLocation}
-            onChange={(e) => setFrontLocation(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">행정 구역 선택</option>
-            {Provinces.map((province) => (
-              <option key={province} value={province}>
-                {province}
-              </option>
-            ))}
-          </select>
+          <div className={styles.filterItem}>
+            <label htmlFor='frontLocation' className={styles.filterLabel}>
+              행정 구역
+            </label>
+            <select
+              id='frontLocation'
+              value={frontLocation}
+              onChange={(e) => setFrontLocation(e.target.value)}
+              className={styles.select}
+            >
+              <option value=''>행정 구역 선택</option>
+              {Provinces.map((province) => (
+                <option key={province} value={province}>
+                  {province}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.filterItem}>
+            <label htmlFor='location' className={styles.filterLabel}>
+              도시
+            </label>
+            <select
+              id='location'
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className={styles.select}
+              disabled={!frontLocation}
+            >
+              <option value=''>지역 선택</option>
+              {availableCitys.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.filterItem}>
+            <label htmlFor='startDate' className={styles.filterLabel}>
+              여행 시작 날짜
+            </label>
+            <input
+              id='startDate'
+              type='date'
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className={styles.select}
+            />
+          </div>
+          <button onClick={handleSearch} className={styles.searchButton}>
+            검색
+          </button>
         </div>
-        <div className={styles.filterItem}>
-          <label htmlFor="location" className={styles.filterLabel}>도시</label>
-          <select
-            id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className={styles.select}
-            disabled={!frontLocation}
-          >
-            <option value="">지역 선택</option>
-            {availableCitys.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className={styles.filterItem}>
-          <label htmlFor="startDate" className={styles.filterLabel}>여행 시작 날짜</label>
-          <input
-            id="startDate"
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className={styles.select}
-          />
-        </div>
-        <button onClick={handleSearch} className={styles.searchButton}>
-          검색
-        </button>
-      </div>
         <p className={styles.filterNote}>
           ※ 필터링된 플랜은 아래에서 볼 수 있습니다.
         </p>
@@ -195,7 +194,7 @@ const RecruitmentList = () => {
           >
             <img
               src={plan.planThumbnailUrl || defaultThumbnail}
-              alt="travel"
+              alt='travel'
               className={gridStyles.tripImage}
             />
             <p className={gridStyles.location}>{plan.location}</p>

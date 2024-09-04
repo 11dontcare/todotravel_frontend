@@ -50,9 +50,8 @@ const VoteCreate = ({ onVoteAdded }) => {
       category: voteForm.category,
     };
     createVote(currentVoteForm, planId)
-      .then((response) => {
+      .then(() => {
         alert("투표가 생성되었습니다.");
-        console.log(response);
         onVoteAdded(true);
       })
       .catch((e) => {

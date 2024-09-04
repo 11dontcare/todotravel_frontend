@@ -92,7 +92,6 @@ const PlanCreate = () => {
 
     createPlan(formData)
       .then((response) => {
-        console.log(response);
         alert("플랜이 생성되었습니다.");
         navigate("/plan/" + response.data);
       })
@@ -108,10 +107,10 @@ const PlanCreate = () => {
         <div className={styles.inputContainer}>
           <div className={styles.row}>
             <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="제목을 입력해주세요"
+              type='text'
+              id='title'
+              name='title'
+              placeholder='제목을 입력해주세요'
               required
               value={planForm.title}
               onChange={handlePlanFormChange}
@@ -119,44 +118,44 @@ const PlanCreate = () => {
             />
             <div className={styles.dateInputWrapper}>
               <input
-                type="date"
-                id="startDate"
-                name="startDate"
+                type='date'
+                id='startDate'
+                name='startDate'
                 required
                 value={planForm.startDate}
                 onChange={handlePlanFormChange}
                 className={styles.inputDate}
               />
-              <label htmlFor="startDate" className={styles.dateLabel}>
+              <label htmlFor='startDate' className={styles.dateLabel}>
                 여행 시작 일자
               </label>
             </div>
             <div className={styles.dateInputWrapper}>
               <input
-                type="date"
-                id="endDate"
-                name="endDate"
+                type='date'
+                id='endDate'
+                name='endDate'
                 required
                 value={planForm.endDate}
                 onChange={handlePlanFormChange}
                 className={styles.inputDate}
                 min={planForm.startDate} // 시작 일자 이후로만 선택 가능
               />
-              <label htmlFor="endDate" className={styles.dateLabel}>
+              <label htmlFor='endDate' className={styles.dateLabel}>
                 여행 종료 일자
               </label>
             </div>
           </div>
           <div className={styles.row}>
             <select
-              id="frontLocation"
-              name="frontLocation"
+              id='frontLocation'
+              name='frontLocation'
               required
               value={planForm.frontLocation}
               onChange={handlePlanFormChange}
               className={styles.inputSelect}
             >
-              <option value="">행정 구역 선택</option>
+              <option value=''>행정 구역 선택</option>
               {Provinces.map((province) => (
                 <option key={province} value={province}>
                   {province}
@@ -164,15 +163,15 @@ const PlanCreate = () => {
               ))}
             </select>
             <select
-              id="location"
-              name="location"
+              id='location'
+              name='location'
               required
               value={planForm.location}
               onChange={handlePlanFormChange}
               className={styles.inputSelect}
               disabled={!planForm.frontLocation}
             >
-              <option value="">지역 선택</option>
+              <option value=''>지역 선택</option>
               {availableCitys.map((city) => (
                 <option key={city} value={city}>
                   {city}
@@ -180,10 +179,10 @@ const PlanCreate = () => {
               ))}
             </select>
             <input
-              type="number"
-              id="totalBudget"
-              name="totalBudget"
-              placeholder="총 예산안 입력"
+              type='number'
+              id='totalBudget'
+              name='totalBudget'
+              placeholder='총 예산안 입력'
               required
               value={planForm.totalBudget}
               onChange={handlePlanFormChange}
@@ -198,26 +197,26 @@ const PlanCreate = () => {
           </div>
           <div className={styles.row}>
             <div className={styles.inputPublish}>
-              <label htmlFor="isPublic">여행 일정 공유하기</label>
+              <label htmlFor='isPublic'>여행 일정 공유하기</label>
               <input
-                type="checkbox"
-                id="isPublic"
-                name="isPublic"
+                type='checkbox'
+                id='isPublic'
+                name='isPublic'
                 checked={isPublic}
                 onChange={handleSwitchChange}
               />
             </div>
             <div className={styles.divider}></div>
             <div className={styles.inputThumbnail}>
-              <label htmlFor="thumbnail">썸네일 이미지 업로드</label>
+              <label htmlFor='thumbnail'>썸네일 이미지 업로드</label>
               <input
-                type="file"
-                id="thumbnail"
-                accept="image/*"
+                type='file'
+                id='thumbnail'
+                accept='image/*'
                 onChange={handleThumbnailChange}
                 className={styles.fileInput}
               />
-              <label htmlFor="thumbnail" className={styles.fileInputLabel}>
+              <label htmlFor='thumbnail' className={styles.fileInputLabel}>
                 파일 선택
               </label>
               {thumbnailName && (
@@ -226,7 +225,7 @@ const PlanCreate = () => {
             </div>
           </div>
         </div>
-        <button type="submit" className={styles.submitButton}>
+        <button type='submit' className={styles.submitButton}>
           계획 시작하기
         </button>
       </form>

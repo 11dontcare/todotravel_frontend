@@ -24,7 +24,6 @@ const VotePage = ({ onClose }) => {
     showAllVote(planId)
       .then((response) => {
         setVoteList(response.data.content);
-        console.log(response);
       })
       .catch((e) => {
         console.log(e);

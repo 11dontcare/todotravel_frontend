@@ -22,7 +22,6 @@ const PlanFriend = ({ onInviteClick, onClose }) => {
   const [invitable, setInvitable] = useState(false);
 
   const { planId } = useParams();
-  const nickname = localStorage.getItem("nickname");
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -33,7 +32,6 @@ const PlanFriend = ({ onInviteClick, onClose }) => {
     showPlanUsers(planId)
       .then((response) => {
         setplanUsers(response.data);
-        console.log(response);
         planUsers.sort((a, b) => a.userId - b.userId);
 
         return isInvitablePlanByUser(planId, userId);
@@ -41,7 +39,6 @@ const PlanFriend = ({ onInviteClick, onClose }) => {
       .then((invitableResponse) => {
         if (invitableResponse) {
           setInvitable(invitableResponse.data);
-          console.log(invitableResponse);
         }
       })
       .catch((e) => {
@@ -50,22 +47,9 @@ const PlanFriend = ({ onInviteClick, onClose }) => {
       });
   };
 
-  // const handleExitPlan = (user) => {
-  //   exitPlan(planId, user.userId)
-  //     .then((response) => {
-  //       console.log(response);
-  //       alert("플랜에서 나갔습니다.");
-  //       navigate("/");
-  //     }).catch((e) => {
-  //       console.log(e);
-  //       alert("플랜 나가기에 실패했습니다. 다시 시도해주세요.");
-  //     });
-  // };
-
   const handleExitPlan = () => {
     exitPlan(planId, userId)
       .then((response) => {
-        console.log(response);
         alert("플랜에서 나갔습니다.");
         navigate("/");
       })

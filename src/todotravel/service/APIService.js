@@ -88,7 +88,6 @@ const makeRequest = async (url, options, contentType) => {
 
   try {
     let response = await fetch(url, options);
-    console.log(response);
 
     const newToken = await handleRequestError(response);
     if (newToken) {
