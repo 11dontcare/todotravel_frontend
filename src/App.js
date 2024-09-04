@@ -31,9 +31,6 @@ import FloatingButton from "./todotravel/component/chat/FloatingButton";
 
 import PlanSearch from "./todotravel/component/plan/PlanSearch";
 import RecruitmentList from "./todotravel/component/plan/RecruitmentList";
-import PlanLayout from "./todotravel/component/Layout/PlanLayout";
-
-//!!!!!!!!!!!!!!!! url은 노출되는 만큼 간결하고 직관적으로 지정하기!!!!!!!!!!!!!!!!
 
 function App() {
   return (
@@ -42,7 +39,7 @@ function App() {
         <Routes>
           {/* 로그인 여부 판별 X - Auth 및 메인 페이지 */}
           <Route
-            path="/login"
+            path='/login'
             element={
               <AuthLayout>
                 <Login />
@@ -50,7 +47,7 @@ function App() {
             }
           />
           <Route
-            path="/signup"
+            path='/signup'
             element={
               <AuthLayout>
                 <SignUp />
@@ -58,7 +55,7 @@ function App() {
             }
           />
           <Route
-            path="/find-account"
+            path='/find-account'
             element={
               <AuthLayout>
                 <ProfileSearch />
@@ -66,7 +63,7 @@ function App() {
             }
           />
           <Route
-            path="/find-id"
+            path='/find-id'
             element={
               <AuthLayout>
                 <UsernameResult />
@@ -74,7 +71,7 @@ function App() {
             }
           />
           <Route
-            path="/reset-password"
+            path='/reset-password'
             element={
               <AuthLayout>
                 <ResetPassword />
@@ -82,7 +79,7 @@ function App() {
             }
           />
           <Route
-            path="/oauth2/redirect"
+            path='/oauth2/redirect'
             element={
               <AuthLayout>
                 <OAuth2RedirectHandler />
@@ -90,7 +87,7 @@ function App() {
             }
           />
           <Route
-            path="/additional-info"
+            path='/additional-info'
             element={
               <AuthLayout>
                 <AdditionalInfo />
@@ -98,7 +95,7 @@ function App() {
             }
           />
           <Route
-            path="/plan-list"
+            path='/plan-list'
             element={
               <MainLayout>
                 <PlanList />
@@ -106,7 +103,7 @@ function App() {
             }
           />
           <Route
-            path="/"
+            path='/'
             element={
               <MainLayout>
                 <MainPlanList />
@@ -114,7 +111,7 @@ function App() {
             }
           />
           <Route
-            path="/plan/:planId/details"
+            path='/plan/:planId/details'
             element={
               <MainLayout>
                 <PlanDetails />
@@ -122,7 +119,7 @@ function App() {
             }
           />
           <Route
-            path="/plan/search/:keyword"
+            path='/plan/search/:keyword'
             element={
               <MainLayout>
                 <PlanSearch />
@@ -130,16 +127,16 @@ function App() {
             }
           />
           <Route
-            path="/plan/recruitment"
+            path='/plan/recruitment'
             element={
               <MainLayout>
-                <RecruitmentList/>
+                <RecruitmentList />
               </MainLayout>
             }
           />
           {/* 로그인 여부 판별 O - 기타 사용자 인증이 필요한 페이지 */}
           <Route
-            path="/mypage/:nickname"
+            path='/mypage/:nickname'
             element={
               <MainLayout>
                 <ProtectedRoute element={<MyPage />} />
@@ -147,7 +144,7 @@ function App() {
             }
           />
           <Route
-            path="/mypage/:nickname/profile"
+            path='/mypage/:nickname/profile'
             element={
               <MainLayout>
                 <ProtectedRoute element={<UserProfile />} />
@@ -155,7 +152,7 @@ function App() {
             }
           />
           <Route
-            path="/plan"
+            path='/plan'
             element={
               <MainLayout>
                 <ProtectedRoute element={<PlanCreate />} />
@@ -163,7 +160,7 @@ function App() {
             }
           />
           <Route
-            path="/plan/:planId"
+            path='/plan/:planId'
             element={
               <MainLayout>
                 <ProtectedRoute element={<PlanPage />} />
@@ -171,7 +168,7 @@ function App() {
             }
           />
           <Route
-            path="/plan/:planId/modify"
+            path='/plan/:planId/modify'
             element={
               <MainLayout>
                 <ProtectedRoute element={<PlanModify />} />
@@ -179,7 +176,7 @@ function App() {
             }
           />
           <Route
-            path="/chat"
+            path='/chat'
             element={
               <MainLayout>
                 <ProtectedRoute element={<ChatContainer />} />
