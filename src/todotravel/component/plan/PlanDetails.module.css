@@ -46,7 +46,7 @@
   color: #555;
 }
 
-.planStatus {
+.planStatusTag {
   font-size: 13px;
   border-radius: 9px;
   color: white;
@@ -54,12 +54,16 @@
   padding: 1px;
 }
 
-.activeStatus {
+.activeTag {
   background-color: rgb(2, 158, 90);
 }
 
-.inactiveStatus {
+.afterTag {
   background-color: rgb(2, 95, 55);
+}
+
+.beforeTag {
+  background-color: rgb(185, 185, 185);
 }
 
 .planCreator {

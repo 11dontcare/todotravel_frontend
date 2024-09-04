@@ -31,14 +31,17 @@ import { BiComment } from "react-icons/bi";
 
 import RecruitModal from "./RecruitModal";
 
+
 const PlanDetails = () => {
   const navigate = useNavigate();
 
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
+  
+  const date = new Date();
+  const today = `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
 
-  const [existsAcceptedUserInPlan, setExistsAcceptedUserInPlan] =
-    useState(null);
+  const [existsAcceptedUserInPlan, setExistsAcceptedUserInPlan] = useState(null);
   const [justExistsUserInPlan, setJustExistsUserInPlan] = useState(null);
   const [isPublic, setIsPublic] = useState(null);
 
@@ -85,12 +88,12 @@ const PlanDetails = () => {
   const fetchPlan = () => {
     getPlan(planId)
       .then((response) => {
+        console.log(response);
         setPlan(response.data);
         setIsPublic(response.data.isPublic);
         setComments(response.data.commentList || []); // 댓글 상태 초기화
         setBookmarkNumber(response.data.bookmarkNumber);
         setLikeNumber(response.data.likeNumber);
-
         if (userId) {
           // userId가 null이 아닐 때만 실행
           return isUserInPlanAccepted(planId, userId);
@@ -101,6 +104,7 @@ const PlanDetails = () => {
       .then((existResponse) => {
         if (existResponse) {
           setExistsAcceptedUserInPlan(existResponse.data);
+          console.log(existResponse);
         }
         if (userId) {
           // userId가 null이 아닐 때만 실행
@@ -112,6 +116,7 @@ const PlanDetails = () => {
       .then((existUserResponse) => {
         if (existUserResponse) {
           setJustExistsUserInPlan(existUserResponse.data);
+          console.log(existUserResponse);
         }
         setLoading(false);
 
@@ -222,9 +227,12 @@ const PlanDetails = () => {
   };
 
   const handleOptionClick = (option) => {
+    console.log(`${option} clicked!`);
+    // 원하는 로직 추가
     if (option === "copyPlan") {
       loadPlan(planId)
         .then((response) => {
+          console.log(response);
           alert("플랜 불러오기 성공");
           navigate("/plan/" + response.data);
         })
@@ -234,8 +242,9 @@ const PlanDetails = () => {
         });
     } else if (option === "modifyPlan") {
       navigate("/plan/" + planId);
-    } else if (option === "deletePlan") {
-      if (window.confirm("플랜을 삭제하시겠습니까?")) {
+    }
+    else if (option === 'deletePlan'){
+      if(window.confirm("플랜을 삭제하시겠습니까?")){
         deletePlan(planId)
           .then(() => {
             alert("플랜이 삭제되었습니다.");
@@ -246,45 +255,49 @@ const PlanDetails = () => {
             alert("플랜 삭제에 실패했습니다. 다시 시도해주세요.");
           });
       }
-    } else if (option === "recruitPlan") {
+    }
+    else if (option === 'recruitPlan'){
+      //participantsCount 입력 받음
       setRecruitModalOpen(true);
-    } else if (option === "cancelRecruit") {
+    }
+    else if (option === 'cancelRecruit'){
       cancelRecruitment(planId)
-        .then((response) => {
-          alert("플랜 모집이 취소되었습니다.");
-          navigate("/plan/" + planId);
-        })
-        .catch((e) => {
-          console.log(e);
-          alert("플랜 모집 취소를 실패했습니다. 다시 시도해주세요.");
-        });
+          .then((response) => {
+            console.log(response);
+            alert("플랜 모집이 취소되었습니다.");
+            navigate("/plan/" + planId);
+          })
+          .catch((e) => {
+            console.log(e);
+            alert("플랜 모집 취소를 실패했습니다. 다시 시도해주세요.");
+          })
     }
     setIsMoreOpen(false); // 옵션 클릭 후 메뉴 닫기
   };
 
   const handleRecruit = (participantsCount) => {
     recruitmentPlan(planId, participantsCount)
-      .then((response) => {
-        alert("플랜이 모집글로 변경되었습니다.");
-        navigate("/plan/" + planId);
-      })
-      .catch((e) => {
-        console.log(e);
-        alert("플랜 모집글 변경에 실패했습니다.");
-      });
+        .then((response) => {
+          console.log(response);
+          alert("플랜이 모집글로 변경되었습니다.");
+          navigate("/plan/" + planId);
+        }).catch((e) => {
+          console.log(e);
+          alert("플랜 모집글 변경에 실패했습니다.")
+        })
   };
 
   const handleRecruitClick = () => {
     requestRecruit(planId, userId)
-      .then((response) => {
-        alert("플랜 참가 요청을 보냈습니다.");
-        setJustExistsUserInPlan(true);
-      })
-      .catch((e) => {
-        console.log(e);
-        alert("플랜 참가 요청에 실패했습니다.");
-      });
-  };
+        .then((response) => {
+          console.log(response);
+          alert("플랜 참가 요청을 보냈습니다.");
+          setJustExistsUserInPlan(true);
+        }).catch((e) => {
+          console.log(e);
+          alert("플랜 참가 요청에 실패했습니다.");
+        })
+  }
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -375,24 +388,25 @@ const PlanDetails = () => {
             <>
               {plan.recruitment ? (
                 <p
-                  className={`${styles.planStatus} ${
-                    plan.participantsCount > plan.planUserCount
-                      ? styles.activeStatus
-                      : styles.inactiveStatus
-                  }`}
+                className={`${styles.planStatusTag} ${(plan.participantsCount > plan.planUserCount) ? styles.activeTag : styles.afterTag}`}
                 >
-                  {plan.participantsCount > plan.planUserCount
-                    ? "모집중"
-                    : "모집마감"}
+                  {(plan.participantsCount > plan.planUserCount) ? "모집중" : "모집마감"}
                 </p>
               ) : (
-                <p
-                  className={`${styles.planStatus} ${
-                    plan.status ? styles.activeStatus : styles.inactiveStatus
-                  }`}
-                >
-                  {plan.status ? "여행 후" : "여행 전"}
-                </p>
+                <span>
+                  {plan.endDate < today ? (
+                    <p
+                      className={`${styles.planStatusTag} ${styles.afterTag}`}>
+                        여행 후
+                    </p>
+                  ) : (
+                    <p
+                      className={`${styles.planStatusTag} ${(plan.startDate <= today) ? styles.activeTag : styles.beforeTag}`}
+                    >
+                      {(plan.startDate <= today) ? "여행 중" : "여행 전" }
+                    </p>
+                  )}
+                </span>
               )}
             </>
           </div>
@@ -438,21 +452,13 @@ const PlanDetails = () => {
                         수정하기
                       </li>
                     )}
-                    {Number(userId) === plan.planUserId && (
+                    {(Number(userId) === plan.planUserId) && (
                       <>
-                        <li onClick={() => handleOptionClick("deletePlan")}>
-                          삭제하기
-                        </li>
+                        <li onClick={() => handleOptionClick("deletePlan")}>삭제하기</li>
                         {plan.recruitment ? (
-                          <li
-                            onClick={() => handleOptionClick("cancelRecruit")}
-                          >
-                            모집 중지
-                          </li>
+                          <li onClick={() => handleOptionClick('cancelRecruit')}>모집 중지</li>
                         ) : (
-                          <li onClick={() => handleOptionClick("recruitPlan")}>
-                            모집하기
-                          </li>
+                          <li onClick={() => handleOptionClick('recruitPlan')}>모집하기</li>
                         )}
                       </>
                     )}
@@ -460,16 +466,18 @@ const PlanDetails = () => {
                 </div>
               )}
             </div>
-            <RecruitModal
-              isOpen={isRecruitModalOpen}
-              onClose={() => setRecruitModalOpen(false)}
-              onRecruit={handleRecruit}
-            />
+              <RecruitModal
+                isOpen={isRecruitModalOpen}
+                onClose={() => setRecruitModalOpen(false)}
+                onRecruit={handleRecruit}
+              />
           </div>
         </div>
       </div>
       <div className={styles.planDetails}>
-        <p className={styles.planDescription}>{plan.description}</p>
+        <p className={styles.planDescription}>
+          {plan.description}
+        </p>
         {/* <p className={styles.planLocation}>지역: {plan.location}</p> */}
         {/* <p className={styles.planBudget}>총 예산: {plan.totalBudget}</p> */}
       </div>
@@ -489,16 +497,9 @@ const PlanDetails = () => {
         <p>No schedule available.</p>
       )} */}
       <div className={styles.recruitButtonSection}>
-        {plan.recruitment &&
-          !justExistsUserInPlan &&
-          plan.participantsCount > plan.planUserCount && (
-            <button
-              className={styles.recruitButton}
-              onClick={handleRecruitClick}
-            >
-              플랜 참가
-            </button>
-          )}
+        {(plan.recruitment && !justExistsUserInPlan && (plan.participantsCount > plan.planUserCount)) && (
+          <button className={styles.recruitButton} onClick={handleRecruitClick}>플랜 참가</button>
+        )}
       </div>
       <div className={styles.commentsSection}>
         <h3>댓글 {comments.length}</h3>
@@ -507,20 +508,20 @@ const PlanDetails = () => {
             className={styles.commentInput}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            placeholder='댓글을 입력해주세요...'
+            placeholder="댓글을 입력해주세요..."
           ></textarea>
           <div className={styles.checkboxContainer}>
             <input
-              type='checkbox'
-              id='beforeTravel'
+              type="checkbox"
+              id="beforeTravel"
               checked={beforeTravel}
               onChange={() => setBeforeTravel(!beforeTravel)}
             />
-            <label htmlFor='beforeTravel'>
+            <label htmlFor="beforeTravel">
               이 루트로 여행을 다녀오신 적이 있나요?
             </label>
           </div>
-          <button type='submit' className={styles.commentButton}>
+          <button type="submit" className={styles.commentButton}>
             등록
           </button>
         </form>
@@ -538,7 +539,9 @@ const PlanDetails = () => {
                           : styles.beforeTravelTag
                       }
                     >
-                      {comment.beforeTravel ? "여행 경험자" : "여행 미경험자"}
+                      {comment.beforeTravel
+                        ? "여행 경험자"
+                        : "여행 미경험자"}
                     </span>
                   </div>
                   {comment.userId ===
