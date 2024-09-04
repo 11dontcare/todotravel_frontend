@@ -5,13 +5,27 @@ files:
   - source: /
     destination: /home/ec2-user/app
     overwrite: yes
+
 permissions:
   - object: /home/ec2-user/app
     owner: ec2-user
     group: ec2-user
     mode: 755
+
 hooks:
+  # Clean up any old files (optional)
+  BeforeInstall:
+    - location: before_install.sh
+      timeout: 300
+      runas: ec2-user
+
   AfterInstall:
-    - location: deploy.sh
-      timeout: 60
-      runas: root
+    - location: after_install.sh
+      timeout: 300
+      runas: ec2-user
+
+  # Start the application or services after deployment
+  ApplicationStart:
+    - location: application_start.sh
+      timeout: 300
+      runas: ec2-user
