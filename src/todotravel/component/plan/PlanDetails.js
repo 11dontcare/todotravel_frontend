@@ -30,11 +30,11 @@ import { FiMoreVertical } from "react-icons/fi";
 import { BiComment } from "react-icons/bi";
 
 import RecruitModal from "./RecruitModal";
-
 import PlanDetailScheduleList from "./Schedule/PlanDetailScheduleList";
 
 const PlanDetails = () => {
   const navigate = useNavigate();
+
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
 
@@ -67,7 +67,6 @@ const PlanDetails = () => {
   const moreOptionsRef = useRef(null);
 
   const [isRecruitModalOpen, setRecruitModalOpen] = useState(false);
-
   const [scheduleList, setScheduleList] = useState([]);
 
   useEffect(() => {
@@ -100,7 +99,6 @@ const PlanDetails = () => {
         setBookmarkNumber(response.data.bookmarkNumber);
         setLikeNumber(response.data.likeNumber);
         setScheduleList(response.data.scheduleList);
-
         if (userId) {
           // userId가 null이 아닐 때만 실행
           return isUserInPlanAccepted(planId, userId);
@@ -262,10 +260,12 @@ const PlanDetails = () => {
           });
       }
     } else if (option === "recruitPlan") {
+      //participantsCount 입력 받음
       setRecruitModalOpen(true);
     } else if (option === "cancelRecruit") {
       cancelRecruitment(planId)
         .then((response) => {
+          console.log(response);
           alert("플랜 모집이 취소되었습니다.");
           navigate("/plan/" + planId);
         })
@@ -280,6 +280,7 @@ const PlanDetails = () => {
   const handleRecruit = (participantsCount) => {
     recruitmentPlan(planId, participantsCount)
       .then((response) => {
+        console.log(response);
         alert("플랜이 모집글로 변경되었습니다.");
         navigate("/plan/" + planId);
       })
@@ -292,6 +293,7 @@ const PlanDetails = () => {
   const handleRecruitClick = () => {
     requestRecruit(planId, userId)
       .then((response) => {
+        console.log(response);
         alert("플랜 참가 요청을 보냈습니다.");
         setJustExistsUserInPlan(true);
       })
@@ -390,10 +392,10 @@ const PlanDetails = () => {
             <>
               {plan.recruitment ? (
                 <p
-                  className={`${styles.planStatus} ${
+                  className={`${styles.planStatusTag} ${
                     plan.participantsCount > plan.planUserCount
-                      ? styles.activeStatus
-                      : styles.inactiveStatus
+                      ? styles.activeTag
+                      : styles.afterTag
                   }`}
                 >
                   {plan.participantsCount > plan.planUserCount
@@ -401,13 +403,23 @@ const PlanDetails = () => {
                     : "모집마감"}
                 </p>
               ) : (
-                <p
-                  className={`${styles.planStatus} ${
-                    plan.status ? styles.activeStatus : styles.inactiveStatus
-                  }`}
-                >
-                  {plan.status ? "여행 후" : "여행 전"}
-                </p>
+                <span>
+                  {plan.endDate < today ? (
+                    <p className={`${styles.planStatusTag} ${styles.afterTag}`}>
+                      여행 후
+                    </p>
+                  ) : (
+                    <p
+                      className={`${styles.planStatusTag} ${
+                        plan.startDate <= today
+                          ? styles.activeTag
+                          : styles.beforeTag
+                      }`}
+                    >
+                      {plan.startDate <= today ? "여행 중" : "여행 전"}
+                    </p>
+                  )}
+                </span>
               )}
             </>
           </div>
@@ -435,6 +447,7 @@ const PlanDetails = () => {
               <BiComment style={{ fontSize: "18px" }} />
               <p className={styles.count}> {comments.length}</p>
             </div>
+            ]
             <div
               className={styles.button}
               onClick={toggleMoreOptions}
@@ -483,7 +496,7 @@ const PlanDetails = () => {
         </div>
       </div>
       <div className={styles.planDetails}>
-        <p className={styles.planDescription}>{plan.description}</p>
+        <p className={styles.planDescription}>{plan.description}</p>=
       </div>
 
       <PlanDetailScheduleList scheduleList={scheduleList} />
