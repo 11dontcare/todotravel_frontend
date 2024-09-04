@@ -41,7 +41,7 @@ export function showVote(voteId) {
 export function castVote(voteId) {
   return request({
     url: API_BASE_URL + "/api/vote/" + voteId + "/vote",
-    method: "POSt",
+    method: "POST",
   });
 } //투표 생성하기
 

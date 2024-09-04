@@ -68,6 +68,10 @@ const MainPlanList = () => {
     navigate("/plan-list");
   };
 
+  const handleReadRecruitMoreClick = () => {
+    navigate("/plan/recruitment");
+  };
+
   return (
     <div>
       <div className={styles.text}>
@@ -204,6 +208,9 @@ const MainPlanList = () => {
                 </div>
               </div>
             ))}
+            <div className={styles.readMoreCard} onClick={handleReadRecruitMoreClick}>
+              <MdOutlineReadMore size={48} />
+            </div>
           </>
         ) : (
           <p className={gridStyles.emptyMessage}>모집중인 플랜이 없습니다.</p>
