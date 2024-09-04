@@ -72,6 +72,18 @@
   margin: 0px;
 }
 
+.creatorLink {
+  color: #009688;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.creatorLink:hover {
+  color: #00796b;
+  text-decoration: underline;
+}
+
 .planActions {
   display: flex;
   margin-top: 80px;
