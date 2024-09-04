@@ -30,12 +30,18 @@ import { FiMoreVertical } from "react-icons/fi";
 import { BiComment } from "react-icons/bi";
 
 import RecruitModal from "./RecruitModal";
+
 import PlanDetailScheduleList from "./Schedule/PlanDetailScheduleList";
 
 const PlanDetails = () => {
   const navigate = useNavigate();
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
+
+  const date = new Date();
+  const today = `${date.getFullYear()}-0${
+    date.getMonth() + 1
+  }-0${date.getDate()}`;
 
   const [existsAcceptedUserInPlan, setExistsAcceptedUserInPlan] =
     useState(null);
@@ -87,6 +93,7 @@ const PlanDetails = () => {
   const fetchPlan = () => {
     getPlan(planId)
       .then((response) => {
+        console.log(response);
         setPlan(response.data);
         setIsPublic(response.data.isPublic);
         setComments(response.data.commentList || []); // 댓글 상태 초기화
@@ -104,6 +111,7 @@ const PlanDetails = () => {
       .then((existResponse) => {
         if (existResponse) {
           setExistsAcceptedUserInPlan(existResponse.data);
+          console.log(existResponse);
         }
         if (userId) {
           // userId가 null이 아닐 때만 실행
@@ -115,6 +123,7 @@ const PlanDetails = () => {
       .then((existUserResponse) => {
         if (existUserResponse) {
           setJustExistsUserInPlan(existUserResponse.data);
+          console.log(existUserResponse);
         }
         setLoading(false);
 
@@ -225,9 +234,12 @@ const PlanDetails = () => {
   };
 
   const handleOptionClick = (option) => {
+    console.log(`${option} clicked!`);
+    // 원하는 로직 추가
     if (option === "copyPlan") {
       loadPlan(planId)
         .then((response) => {
+          console.log(response);
           alert("플랜 불러오기 성공");
           navigate("/plan/" + response.data);
         })
