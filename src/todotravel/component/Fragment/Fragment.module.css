@@ -39,7 +39,7 @@
 }
 
 .transparentHeader .loginButton {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0);
   color: white;
   border: 1px solid white;
 }
