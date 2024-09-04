@@ -37,6 +37,9 @@ const PlanDetails = () => {
 
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
+  
+  const date = new Date();
+  const today = `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
 
   const [existsAcceptedUserInPlan, setExistsAcceptedUserInPlan] = useState(null);
   const [justExistsUserInPlan, setJustExistsUserInPlan] = useState(null);
@@ -91,7 +94,6 @@ const PlanDetails = () => {
         setComments(response.data.commentList || []); // 댓글 상태 초기화
         setBookmarkNumber(response.data.bookmarkNumber);
         setLikeNumber(response.data.likeNumber);
-
         if (userId) {
           // userId가 null이 아닐 때만 실행
           return isUserInPlanAccepted(planId, userId);
@@ -386,16 +388,25 @@ const PlanDetails = () => {
             <>
               {plan.recruitment ? (
                 <p
-                className={`${styles.planStatus} ${(plan.participantsCount > plan.planUserCount) ? styles.activeStatus : styles.inactiveStatus}`}
+                className={`${styles.planStatusTag} ${(plan.participantsCount > plan.planUserCount) ? styles.activeTag : styles.afterTag}`}
                 >
                   {(plan.participantsCount > plan.planUserCount) ? "모집중" : "모집마감"}
                 </p>
               ) : (
-                <p
-                  className={`${styles.planStatus} ${plan.status ? styles.activeStatus : styles.inactiveStatus}`}
-                >
-                  {plan.status ? "여행 후" : "여행 전"}
-                </p>
+                <span>
+                  {plan.endDate < today ? (
+                    <p
+                      className={`${styles.planStatusTag} ${styles.afterTag}`}>
+                        여행 후
+                    </p>
+                  ) : (
+                    <p
+                      className={`${styles.planStatusTag} ${(plan.startDate <= today) ? styles.activeTag : styles.beforeTag}`}
+                    >
+                      {(plan.startDate <= today) ? "여행 중" : "여행 전" }
+                    </p>
+                  )}
+                </span>
               )}
             </>
           </div>
