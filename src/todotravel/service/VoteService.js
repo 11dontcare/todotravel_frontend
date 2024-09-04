@@ -17,7 +17,7 @@ export function updateVote(voteRequest, planId, voteId) {
   });
 } //투표 수정하기
 
-export function deleteVote(voteRequest, planId, voteId) {
+export function deleteVote(planId, voteId) {
   return request({
     url: API_BASE_URL + "/api/vote/" + planId + "/" + voteId,
     method: "DELETE",
@@ -41,7 +41,7 @@ export function showVote(voteId) {
 export function castVote(voteId) {
   return request({
     url: API_BASE_URL + "/api/vote/" + voteId + "/vote",
-    method: "POST",
+    method: "POSt",
   });
 } //투표 생성하기
 

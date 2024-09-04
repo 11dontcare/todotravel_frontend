@@ -8,7 +8,6 @@ const refreshAccessToken = async () => {
       credentials: "include",
     });
     const data = await response.json();
-    console.log(data);
     if (data.success) {
       localStorage.setItem(ACCESS_TOKEN, data.data.accessToken);
       return data.data.accessToken;

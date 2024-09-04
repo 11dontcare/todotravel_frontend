@@ -36,8 +36,8 @@ const VoteItem = ({
 
   const [isEditing, setIsEditing] = useState(false);
   const [editVoteForm, setEditVoteForm] = useState({
-    category: "",
-    endDate: "",
+    category: category || "",
+    endDate: endDate || "",
   });
 
   useEffect(() => {
@@ -56,11 +56,17 @@ const VoteItem = ({
 
   const handleSave = (e) => {
     e.preventDefault();
-    updateVote(planId, voteId, editVoteForm)
+
+    const updatedVoteForm = {
+      category: editVoteForm.category || category,
+      endDate: editVoteForm.endDate || endDate,
+    };
+
+    updateVote(updatedVoteForm, planId, voteId)
       .then((response) => {
         console.log(response);
         setIsEditing(false);
-        if (onEdit) onEdit(editVoteForm);
+        onEdit(updatedVoteForm);
       })
       .catch((e) => {
         console.error(e);
@@ -84,12 +90,19 @@ const VoteItem = ({
     castVote(voteId)
       .then((response) => {
         alert("투표가 완료되었습니다.");
-        // 여기에서 투표 결과를 업데이트할 수 있습니다.
       })
       .catch((e) => {
         console.error(e);
         alert("투표에 실패했습니다. 다시 시도해 주세요.");
       });
+  };
+
+  const handleEditClick = () => {
+    setEditVoteForm({
+      category: category,
+      endDate: moment(endDate).format("YYYY-MM-DDTHH:mm"),
+    });
+    setIsEditing(true);
   };
 
   const categoryLabel =
@@ -107,10 +120,10 @@ const VoteItem = ({
       {isEditing ? (
         <div className={styles.itemEditContainer}>
           <div className={styles.itemEditBox}>
-            <p>카테고리:</p>
             <select
               name='category'
               value={editVoteForm.category}
+              className={styles.itemCategory}
               onChange={(e) =>
                 setEditVoteForm({ ...editVoteForm, category: e.target.value })
               }
@@ -122,7 +135,7 @@ const VoteItem = ({
               ))}
             </select>
 
-            <p>투표 마감 일자:</p>
+            <p className={styles.itemVoteTime}>투표 마감 : </p>
             <input
               type='datetime-local'
               name='endDate'
@@ -146,19 +159,18 @@ const VoteItem = ({
         </div>
       ) : (
         <>
-          <p className={styles.itemDescription}>카테고리: {categoryLabel}</p>
-          <p className={styles.itemDescription}>
-            투표 마감 일자: {moment(endDate).format("YYYY-MM-DD HH:mm")}
+          <p className={styles.itemCategory}>{categoryLabel}</p>
+          <p className={styles.itemVoteTime}>
+            투표 마감 : <span>{moment(endDate).format("MM/DD A HH:mm")}</span>
           </p>
-          <p className={styles.itemDescription}>투표수: {voteCount}</p>
+          <p className={styles.itemVoteTime}>
+            투표수 : <span>{voteCount}</span>
+          </p>
           <div className={styles.itemBtn}>
-            <button
-              onClick={() => setIsEditing(true)}
-              className={styles.submitButton}
-            >
+            <button onClick={handleEditClick} className={styles.submitButton}>
               수정
             </button>
-            <button onClick={handleVote} className={styles.voteButton}>
+            <button onClick={handleVote} className={styles.submitButton}>
               투표하기
             </button>
             <button onClick={handleDelete} className={styles.cancelButton}>

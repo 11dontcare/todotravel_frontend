@@ -65,7 +65,7 @@ const VoteList = ({ voteList }) => {
                 voteCount={item.voteCount}
                 vehicle={item.vehicle}
                 onEdit={(updatedData) =>
-                  handleEdit({ scheduleId: item.scheduleId, ...updatedData })
+                  handleEdit({ voteId: item.voteId, ...updatedData })
                 }
                 onDelete={handleDelete}
               />
