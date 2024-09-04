@@ -62,7 +62,6 @@ const ScheduleItem = ({
     showLocation(locationId)
       .then((response) => {
         setPlace(response.data);
-        console.log(response);
       })
       .catch((e) => {
         console.error(e);
@@ -73,8 +72,7 @@ const ScheduleItem = ({
     e.preventDefault();
     onEdit({ vehicle: editVehicle });
     updateVehicle(editVehicle, scheduleId)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         setIsEditingVehicle(false);
       })
       .catch((e) => {
@@ -86,8 +84,7 @@ const ScheduleItem = ({
     e.preventDefault();
     onEdit({ price: editPrice });
     updatePrice(editPrice, scheduleId)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         setIsEditingPrice(false);
       })
       .catch((e) => {
@@ -99,8 +96,7 @@ const ScheduleItem = ({
     e.preventDefault();
     onEdit({ description: editDescription });
     updateDescription(editDescription, scheduleId)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         setIsEditingDescription(false);
         setIsEditing(false);
       })
@@ -112,9 +108,7 @@ const ScheduleItem = ({
   const handleToggleStatus = () => {
     onEdit({ status: !status });
     updateStatus(scheduleId)
-      .then((response) => {
-        console.log(response);
-      })
+      .then(() => {})
       .catch((e) => {
         console.error(e);
       });
@@ -123,8 +117,7 @@ const ScheduleItem = ({
   const handleDelete = () => {
     if (window.confirm("정말로 이 일정을 삭제하시겠습니까?")) {
       deleteSchedule(planId, scheduleId)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           if (onDelete) onDelete(scheduleId);
         })
         .catch((e) => {

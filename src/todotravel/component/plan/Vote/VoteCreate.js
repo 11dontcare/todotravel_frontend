@@ -29,32 +29,35 @@ const VoteCreate = ({ onVoteAdded }) => {
   const handleLocationSelect = (locationId, place, locationForm) => {
     setLocation(place);
     setSelectPlace(locationForm);
-    setVoteForm({
-      ...voteForm,
+    setVoteForm((prevForm) => ({
+      ...prevForm,
       locationId: locationId,
-    });
+    }));
   };
 
   const handleVoteFormChange = (e) => {
-    const changedField = e.target.name;
-    const newValue = e.target.value;
-    setVoteForm({
-      ...voteForm,
-      [changedField]: newValue,
-    });
+    const { name, value } = e.target;
+    setVoteForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
   };
 
   const onClickScheduleSubmit = (e) => {
     e.preventDefault();
-    createVote(planId, voteForm)
-      .then((response) => {
+    const currentVoteForm = {
+      ...voteForm,
+      category: voteForm.category,
+    };
+    createVote(currentVoteForm, planId)
+      .then(() => {
         alert("투표가 생성되었습니다.");
-        console.log(response);
         onVoteAdded(true);
       })
       .catch((e) => {
         console.error(e);
         alert("일정 생성에 실패했습니다. 다시 시도해주세요.");
+        console.log(currentVoteForm);
       });
   };
 
@@ -74,14 +77,19 @@ const VoteCreate = ({ onVoteAdded }) => {
           <div className={styles.map}>
             <MapInfo location={selectPlace} />
           </div>
+
           <form className={styles.createBox} onSubmit={onClickScheduleSubmit}>
+            <div className={styles.createAddress}>
+              <h3>{location.name}</h3>
+              <p>{location.address}</p>
+            </div>
             <div className={styles.createTime}>
               <label htmlFor='endDate'>투표 마감 시간 : </label>
               <input
                 className={styles.timeInput}
                 id='endDate'
                 name='endDate'
-                type='time'
+                type='datetime-local'
                 value={voteForm.endDate}
                 onChange={handleVoteFormChange}
                 required
@@ -89,11 +97,13 @@ const VoteCreate = ({ onVoteAdded }) => {
               />
             </div>
             <div className={styles.createDescription}>
-              <p>분류</p>
+              <label htmlFor='category'>카테고리 : </label>
               <select
+                name='category'
                 value={voteForm.category}
-                onChange={(e) => setVoteForm(e.target.value)}
+                onChange={handleVoteFormChange}
               >
+                <option value=''>카테고리 선택</option>
                 {categoryOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}

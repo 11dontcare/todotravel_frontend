@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  showLocation,
-  updateDescription,
-  updateVehicle,
-  updatePrice,
-  updateStatus,
-  deleteSchedule,
-} from "../../../service/ScheduleService";
+import { updateVote, deleteVote, castVote } from "../../../service/VoteService";
+import { showLocation } from "../../../service/ScheduleService";
 import moment from "moment";
 import "moment/locale/ko";
-import styles from "./Schedule.module.css";
-import { FiEdit } from "react-icons/fi";
-import { IoMdCheckmark } from "react-icons/io";
-import { IoCheckbox, IoCheckboxOutline } from "react-icons/io5";
-import ItemMapInfo from "./ItemMapInfo";
+import styles from "./Vote.module.css";
+import ItemMapInfo from "../Schedule/ItemMapInfo";
 
 const categoryOptions = [
   { value: "BREAKFAST", label: "아침 식사" },
@@ -27,13 +18,12 @@ const categoryOptions = [
 ];
 
 const VoteItem = ({
-  scheduleId,
+  voteId,
   locationId,
-  description,
-  status,
-  travelTime,
-  vehicle,
-  price,
+  category,
+  startDate,
+  endDate,
+  voteCount,
   onEdit,
   onDelete,
 }) => {
@@ -45,14 +35,10 @@ const VoteItem = ({
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isEditingVehicle, setIsEditingVehicle] = useState(false);
-  const [isEditingPrice, setIsEditingPrice] = useState(false);
-
-  const [isEditingDescription, setIsEditingDescription] = useState(false);
-
-  const [editVehicle, setEditVehicle] = useState(vehicle);
-  const [editPrice, setEditPrice] = useState(price);
-  const [editDescription, setEditDescription] = useState(description);
+  const [editVoteForm, setEditVoteForm] = useState({
+    category: category || "",
+    endDate: endDate || "",
+  });
 
   useEffect(() => {
     fetchLocation();
@@ -62,58 +48,24 @@ const VoteItem = ({
     showLocation(locationId)
       .then((response) => {
         setPlace(response.data);
-        console.log(response);
       })
       .catch((e) => {
         console.error(e);
       });
   };
 
-  const handleSaveVehicle = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
-    onEdit({ vehicle: editVehicle });
-    updateVehicle(editVehicle, scheduleId)
-      .then((response) => {
-        console.log(response);
-        setIsEditingVehicle(false);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
 
-  const handleSavePrice = (e) => {
-    e.preventDefault();
-    onEdit({ price: editPrice });
-    updatePrice(editPrice, scheduleId)
-      .then((response) => {
-        console.log(response);
-        setIsEditingPrice(false);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
+    const updatedVoteForm = {
+      category: editVoteForm.category || category,
+      endDate: editVoteForm.endDate || endDate,
+    };
 
-  const handleSaveDescription = (e) => {
-    e.preventDefault();
-    onEdit({ description: editDescription });
-    updateDescription(editDescription, scheduleId)
-      .then((response) => {
-        console.log(response);
-        setIsEditingDescription(false);
+    updateVote(updatedVoteForm, planId, voteId)
+      .then(() => {
         setIsEditing(false);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-
-  const handleToggleStatus = () => {
-    onEdit({ status: !status });
-    updateStatus(scheduleId)
-      .then((response) => {
-        console.log(response);
+        onEdit(updatedVoteForm);
       })
       .catch((e) => {
         console.error(e);
@@ -122,10 +74,9 @@ const VoteItem = ({
 
   const handleDelete = () => {
     if (window.confirm("정말로 이 일정을 삭제하시겠습니까?")) {
-      deleteSchedule(planId, scheduleId)
-        .then((response) => {
-          console.log(response);
-          if (onDelete) onDelete(scheduleId);
+      deleteVote(planId, voteId)
+        .then(() => {
+          if (onDelete) onDelete(voteId);
         })
         .catch((e) => {
           console.error(e);
@@ -133,33 +84,47 @@ const VoteItem = ({
     }
   };
 
-  const formattedTravelTime = travelTime
-    ? moment(travelTime, "HH:mm:ss").format("A h시 mm분")
-    : "정보 없음";
+  const handleVote = () => {
+    castVote(voteId)
+      .then(() => {
+        alert("투표가 완료되었습니다.");
+      })
+      .catch((e) => {
+        console.error(e);
+        alert("투표에 실패했습니다. 다시 시도해 주세요.");
+      });
+  };
+
+  const handleEditClick = () => {
+    setEditVoteForm({
+      category: category,
+      endDate: moment(endDate).format("YYYY-MM-DDTHH:mm"),
+    });
+    setIsEditing(true);
+  };
+
+  const categoryLabel =
+    categoryOptions.find((option) => option.value === category)?.label ||
+    category;
 
   return (
     <div className={styles.item}>
       <ItemMapInfo
         latitude={place.latitude}
         longitude={place.longitude}
-        mapId={scheduleId}
+        mapId={voteId}
       />
-      <div className={styles.itemHeader}>
-        <h3>
-          <span onClick={handleToggleStatus} className={styles.checkBox}>
-            {status ? <IoCheckbox /> : <IoCheckboxOutline />}
-          </span>
-          {place.name}
-        </h3>
-        <span>{formattedTravelTime}</span>
-      </div>
-      <div className={styles.itemOption}>
-        {isEditingVehicle ? (
-          <div className={styles.editContainer}>
-            <p>이동수단 :</p>
+
+      {isEditing ? (
+        <div className={styles.itemEditContainer}>
+          <div className={styles.itemEditBox}>
             <select
-              value={editVehicle}
-              onChange={(e) => setEditVehicle(e.target.value)}
+              name='category'
+              value={editVoteForm.category}
+              className={styles.itemCategory}
+              onChange={(e) =>
+                setEditVoteForm({ ...editVoteForm, category: e.target.value })
+              }
             >
               {categoryOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -167,73 +132,19 @@ const VoteItem = ({
                 </option>
               ))}
             </select>
-            <button
-              onClick={handleSaveVehicle}
-              className={styles.editSubmitButton}
-            >
-              <IoMdCheckmark className={styles.check} />
-            </button>
-          </div>
-        ) : (
-          <div className={styles.itemOption}>
-            <p>
-              이동수단 :{" "}
-              {categoryOptions.find((v) => v.value === vehicle)?.label}
-              <span
-                onClick={() => setIsEditingVehicle(true)}
-                className={styles.edit}
-              >
-                <FiEdit />
-              </span>
-            </p>
-          </div>
-        )}
-        {isEditingPrice ? (
-          <div className={styles.editContainer}>
-            <p>예산 : </p>
+
+            <p className={styles.itemVoteTime}>투표 마감 : </p>
             <input
-              type='number'
-              value={editPrice}
-              onChange={(e) => setEditPrice(e.target.value)}
-              min='0'
-              className={styles.itemPriceInput}
-            />
-            <span> 원</span>
-            <button
-              onClick={handleSavePrice}
-              className={styles.editSubmitButton}
-            >
-              <IoMdCheckmark className={styles.check} />
-            </button>
-          </div>
-        ) : (
-          <div className={styles.itemOption}>
-            <p>
-              예산 : {price ? price : 0}원
-              <span
-                onClick={() => setIsEditingPrice(true)}
-                className={styles.edit}
-              >
-                <FiEdit />
-              </span>
-            </p>
-          </div>
-        )}
-      </div>
-      {isEditing ? (
-        <div className={styles.itemEditContainer}>
-          <div className={styles.itemEditBox}>
-            <p>메모 : </p>
-            <textarea
-              value={editDescription}
-              onChange={(e) => setEditDescription(e.target.value)}
+              type='datetime-local'
+              name='endDate'
+              value={editVoteForm.endDate}
+              onChange={(e) =>
+                setEditVoteForm({ ...editVoteForm, endDate: e.target.value })
+              }
             />
           </div>
           <div className={styles.itemBtn}>
-            <button
-              onClick={handleSaveDescription}
-              className={styles.submitButton}
-            >
+            <button onClick={handleSave} className={styles.submitButton}>
               저장
             </button>
             <button
@@ -246,21 +157,20 @@ const VoteItem = ({
         </div>
       ) : (
         <>
-          <p className={styles.itemDescription}>
-            메모 : {description}
-            <span
-              onClick={() => setIsEditingDescription(true)}
-              className={styles.edit}
-            ></span>
+          <p className={styles.itemCategory}>{categoryLabel}</p>
+          <p className={styles.itemVoteTime}>
+            투표 마감 : <span>{moment(endDate).format("MM/DD A HH:mm")}</span>
+          </p>
+          <p className={styles.itemVoteTime}>
+            투표수 : <span>{voteCount}</span>
           </p>
           <div className={styles.itemBtn}>
-            <button
-              onClick={() => setIsEditing(true)}
-              className={styles.submitButton}
-            >
+            <button onClick={handleEditClick} className={styles.submitButton}>
               수정
             </button>
-
+            <button onClick={handleVote} className={styles.submitButton}>
+              투표하기
+            </button>
             <button onClick={handleDelete} className={styles.cancelButton}>
               삭제
             </button>

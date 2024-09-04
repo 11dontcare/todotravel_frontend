@@ -31,7 +31,7 @@ const MapInfo = ({ location }) => {
     <div
       id='map'
       style={{
-        width: "600px",
+        width: "100%",
         height: "320px",
       }}
     ></div>

@@ -107,7 +107,6 @@ const MapSearch = ({ onLocationSelect }) => {
   };
 
   const handlePlaceSelect = (place) => {
-    console.log(place);
     const position = new kakao.maps.LatLng(place.y, place.x);
     map.panTo(position);
     setPlace({

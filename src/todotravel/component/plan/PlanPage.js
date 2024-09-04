@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePlan, isUserInPlanAccepted, getPlan } from "../../service/PlanService";
+import {
+  deletePlan,
+  isUserInPlanAccepted,
+  getPlan,
+} from "../../service/PlanService";
 import Modal from "./Modal";
 
 import PlanModify from "./PlanModify";

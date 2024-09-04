@@ -33,7 +33,6 @@ const PlanList = () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
-    console.log("loadPlans::");
     try {
       if (!isInitialLoad.current) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -61,10 +60,6 @@ const PlanList = () => {
       );
       setHasMore(newPlans.length === 12 && responseData.last);
       setPage((prevPage) => prevPage + 1);
-
-      console.log("Response data:", responseData);
-      console.log("New plans:", newPlans);
-      console.log("Has more:", !responseData.last);
 
       isInitialLoad.current = false;
     } catch (error) {
@@ -123,14 +118,16 @@ const PlanList = () => {
       <div className={styles.filterBox}>
         <div className={styles.filterContainer}>
           <div className={styles.filterItem}>
-            <label htmlFor="frontLocation" className={styles.filterLabel}>행정 구역</label>
+            <label htmlFor='frontLocation' className={styles.filterLabel}>
+              행정 구역
+            </label>
             <select
-              id="frontLocation"
+              id='frontLocation'
               value={frontLocation}
               onChange={(e) => setFrontLocation(e.target.value)}
               className={styles.select}
             >
-              <option value="">행정 구역 선택</option>
+              <option value=''>행정 구역 선택</option>
               {Provinces.map((province) => (
                 <option key={province} value={province}>
                   {province}
@@ -139,15 +136,17 @@ const PlanList = () => {
             </select>
           </div>
           <div className={styles.filterItem}>
-            <label htmlFor="location" className={styles.filterLabel}>도시</label>
+            <label htmlFor='location' className={styles.filterLabel}>
+              도시
+            </label>
             <select
-              id="location"
+              id='location'
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className={styles.select}
               disabled={!frontLocation}
             >
-              <option value="">지역 선택</option>
+              <option value=''>지역 선택</option>
               {availableCitys.map((city) => (
                 <option key={city} value={city}>
                   {city}
@@ -156,15 +155,17 @@ const PlanList = () => {
             </select>
           </div>
           <div className={styles.filterItem}>
-            <label htmlFor="sortType" className={styles.filterLabel}>정렬 기준</label>
+            <label htmlFor='sortType' className={styles.filterLabel}>
+              정렬 기준
+            </label>
             <select
-              id="sortType"
+              id='sortType'
               value={sortType}
               onChange={(e) => setSortType(e.target.value)}
               className={styles.select}
             >
-              <option value="recent">최신순</option>
-              <option value="popular">인기순</option>
+              <option value='recent'>최신순</option>
+              <option value='popular'>인기순</option>
             </select>
           </div>
           <button onClick={handleSearch} className={styles.searchButton}>
@@ -185,7 +186,7 @@ const PlanList = () => {
           >
             <img
               src={plan.planThumbnailUrl || defaultThumbnail}
-              alt="travel"
+              alt='travel'
               className={gridStyles.tripImage}
             />
             <p className={gridStyles.location}>{plan.location}</p>
