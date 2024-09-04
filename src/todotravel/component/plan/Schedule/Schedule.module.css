@@ -1,0 +1,275 @@
+/* ScheduleCreate */
+.createContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 1000px;
+  padding: 10px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.13);
+}
+.mapContainer {
+  gap: 10px;
+  width: 1200px;
+  padding: 10px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.13);
+}
+.map {
+  width: 600px;
+}
+.createBox {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 300px;
+  padding: 10px;
+  border-left: 1px solid #d5d5d5;
+}
+.createHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.createAddress {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.createAddress > h3:nth-child(1) {
+  font-size: 17px;
+  margin: 0;
+}
+.createAddress > p:nth-child(2) {
+  font-size: 15px;
+  margin: 0;
+}
+
+.dayInput {
+  text-align: center;
+  font-weight: bold;
+  color: #009688;
+  background-color: #ffffff;
+  width: 60px;
+  height: 20px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #009688;
+  outline: none;
+  cursor: pointer;
+  -moz-appearance: textfield;
+}
+.dayInput::placeholder {
+  color: #009688;
+}
+.dayInput::-webkit-outer-spin-button,
+.dayInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.createTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 30px 0;
+}
+.createTime > label {
+  font-weight: bold;
+  margin: 0;
+}
+.createDescription {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 10px 0;
+}
+.createDescription > label {
+  font-weight: bold;
+  margin: 0;
+}
+.descriptionInput {
+  flex: 1;
+  height: 100px;
+}
+.timeInput {
+  width: 110px;
+  border: none;
+}
+.createButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: auto auto 0;
+  gap: 20px;
+}
+.submitButton {
+  font-size: 14px;
+  color: white;
+  background-color: #009688;
+  padding: 4px 10px;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cancelButton {
+  color: #009688;
+  font-size: 14px;
+  background-color: white;
+  padding: 4px 10px;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* ScheduleList */
+.scheduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scheduleGroup {
+  margin-bottom: 20px;
+}
+
+.scheduleGroup > h2 {
+  margin: 0 0 10px;
+}
+
+.scheduleItem {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 */
+  gap: 20px 14px;
+}
+/* PlanDetailScheduleList */
+.planScheduleItem {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 4개씩 */
+  gap: 20px 14px;
+}
+
+/* ScheduleItem */
+.item {
+  display: flex;
+  flex-direction: column;
+  height: 365px;
+  padding: 16px;
+  border: 1px solid #d5d5d5;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.13);
+}
+.itemHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.checkBox {
+  color: #009688;
+  font-size: 24px;
+  margin: 0 5px 0 0;
+  cursor: pointer;
+}
+.itemHeader > h3 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 17px;
+  margin: 0;
+}
+.itemHeader > span {
+  text-align: center;
+  width: 95px;
+  font-size: 12px;
+  color: #009688;
+  padding: 4px 2px;
+  border: 1px solid #009688;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+.itemOption {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+.itemOption > p {
+  display: flex;
+  align-items: center;
+  color: #959595;
+  margin: 0;
+  gap: 5px;
+}
+.edit {
+  cursor: pointer;
+}
+.edit:hover {
+  color: #525252;
+}
+.editContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px 0 5px;
+  gap: 5px;
+}
+.editContainer > p {
+  display: flex;
+  align-items: center;
+  color: #000000;
+  margin: 0;
+  gap: 5px;
+}
+.itemPriceInput {
+  width: 55px;
+  padding: 0;
+}
+.editSubmitButton {
+  font-size: 11px;
+  color: white;
+  background-color: #009688;
+  padding: 2px 3px;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.itemDescription {
+  height: 40px;
+  margin: 0;
+}
+.itemBtn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin: auto auto 0;
+}
+.itemEditContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.itemEditBox > p {
+  margin: 0;
+}
+.itemEditBox > textarea {
+  flex: 1;
+  height: 36px;
+  margin: 0;
+}
+.itemEditBox {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  width: 100%;
+}

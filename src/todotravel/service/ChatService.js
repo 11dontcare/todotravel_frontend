@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, API_BASE_URL } from "../constant/backendAPI";
+import { API_BASE_URL } from "../constant/backendAPI";
 import { request } from "./APIService";
 
 export function createChatRoom(chatRoomRequest) {
@@ -7,7 +7,23 @@ export function createChatRoom(chatRoomRequest) {
     method: "POST",
     body: JSON.stringify(chatRoomRequest),
   });
-} //채팅방 생성 요청
+}
+
+export function getChatRooms() {
+  return request({
+    url: `${API_BASE_URL}/api/chat/rooms/list/${localStorage.getItem(
+      "userId"
+    )}`,
+    method: "GET",
+  });
+}
+
+export function getChatList(roomId) {
+  return request({
+    url: API_BASE_URL + "/api/chat/rooms/find/comment-list/" + roomId,
+    method: "GET",
+  });
+}
 
 class ChatService {}
 export default new ChatService();

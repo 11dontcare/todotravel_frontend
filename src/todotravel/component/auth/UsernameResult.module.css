@@ -1,0 +1,100 @@
+.container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.28);
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  padding: 30px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.description {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.resultTable {
+  border: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.row {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 100px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.value {
+  flex-grow: 1;
+  padding: 15px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonGroupSocial {
+  display: flex;
+  justify-content: center;
+}
+
+.loginButton,
+.findPasswordButton {
+  width: 48%;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.loginButtonSocial {
+  width: 48%;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.loginButton,
+.loginButtonSocial {
+  background-color: #00855b;
+  color: #ffffff;
+}
+
+.loginButton:hover,
+.loginButtonSocial:hover {
+  background-color: rgb(3, 79, 55);
+}
+
+.findPasswordButton {
+  background-color: #00855b;
+  color: #ffffff;
+}
+
+.findPasswordButton:hover {
+  background-color: rgb(3, 79, 55);
+}

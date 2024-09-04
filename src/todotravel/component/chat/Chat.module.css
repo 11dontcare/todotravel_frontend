@@ -1,0 +1,153 @@
+.chatModal {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 450px;
+  height: 650px;
+  background: #f7f7f8;
+  border-radius: 20px;
+  z-index: 999999;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  box-shadow: 0 20px 24px rgba(0, 0, 0, 0.4);
+}
+
+.chatRoomList {
+  padding: 20px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.chatRoomList h2 {
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 20px;
+}
+
+.chatRoomList ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.chatRoomList li {
+  padding: 15px 15px 25px 15px;
+  background-color: #fff;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chatRoomList li:hover {
+  background-color: #e0e0e0;
+}
+
+.roomName {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.roomDate {
+  font-size: 12px;
+  color: #666;
+}
+
+.userCount {
+  font-size: 12px;
+  color: #009688;
+  float: right;
+}
+
+.chatRoomDetail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chatHeader {
+  padding: 15px;
+  background-color: #009688;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.chatHeader h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.chatList {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatBubble {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.sentMessage {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+}
+
+.receivedMessage {
+  align-self: flex-start;
+  background-color: #ffffff;
+}
+
+.chatBubble strong {
+  color: #009688;
+}
+
+.chatBubble small {
+  display: block;
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 5px;
+}
+
+.inputContainer {
+  display: flex;
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+.inputContainer input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 10px;
+}
+
+.inputContainer button {
+  padding: 10px 20px;
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}

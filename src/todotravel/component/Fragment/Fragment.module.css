@@ -1,0 +1,422 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 14px 41px 14px 41px;
+  border-bottom: 1px solid #e7e7e7;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+  z-index: 1000;
+}
+.transparentHeader {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+.transparentHeader > h1,
+.transparentHeader > p,
+.transparentHeader .option > p,
+.transparentHeader .bell,
+.transparentHeader .down {
+  color: white;
+}
+
+.transparentHeader .searchForm input {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.transparentHeader .searchForm input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.transparentHeader .searchButton svg {
+  color: white;
+}
+
+.transparentHeader .loginButton {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+.transparentHeader .loginButton:hover {
+  background-color: white; 
+  color: black; 
+}
+
+.header > h1 {
+  margin: 0;
+  margin-right: 60px;
+  cursor: pointer;
+}
+
+/* 기본 버튼 스타일 */
+.header > p {
+  font-size: 14px;
+  margin: 0 20px;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 20px; /* 기본적인 둥근 모서리 */
+  transition: background-color 0.3s ease, transform 0.3s ease, border-radius 0.3s ease;
+}
+
+.header > p:hover {
+  background-color: rgba(202, 202, 202, 0.3); /* 호버 시 투명한 흰색 배경 */
+  border-radius: 50px; /* 호버 시 원형에 가깝게 변경 */
+  transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
+.transparentHeader > p:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* 투명한 헤더에서의 호버 시 효과 */
+  border-radius: 50px; /* 호버 시 원형에 가깝게 변경 */
+  transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  max-width: 250px;
+  margin: 0 auto 0 14px;
+  position: relative;
+}
+
+.searchForm input {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px 30px 8px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 20px;
+}
+
+.searchButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.searchButton svg {
+  width: 18px;
+  height: 18px;
+  color: #757575;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 120px;
+  position: relative;
+}
+.rightIcons {
+  display: flex;
+  align-items: center;
+}
+.bell {
+  font-size: 24px;
+  margin-top: 2px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.message {
+  font-size: 24px;
+  cursor: pointer;
+}
+.option > p {
+  margin: 0;
+  margin-left: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70px;
+}
+.down {
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+/* 로그인하지 않았을 때 */
+.authContainer {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.loginButton {
+  background-color: #fff;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  height: 2.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.loginButton:hover {
+  background-color: black; 
+  color: white; 
+}
+
+.menuIcon {
+  font-size: 24px;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* dropdown */
+.dropdownMenu {
+  position: absolute;
+  top: 100%; /* 헤더 높이에 따라 조정 */
+  right: 0;
+  background-color: #fff; /* 메뉴 배경색 */
+  border: 1px solid #ddd; /* 메뉴 테두리 색상 */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  width: 180px; /* 메뉴 너비 설정 */
+  margin-top: 10px;
+  margin-left: 30px;
+}
+.dropdownMenu .hr {
+  margin: 20px 0;
+}
+.box1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+}
+.box1 > h3 {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.logout {
+  font-size: 14px;
+  color: #9c9c9c;
+  margin: 0;
+  cursor: pointer;
+}
+.dropdownMenu > hr {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d9d9d9;
+}
+.box2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+.star {
+  font-size: 20px;
+  margin: 0;
+  margin-top: 4px;
+}
+.box2 > p {
+  margin: 4px 0 0;
+  cursor: pointer;
+}
+.boxContent {
+  font-size: 14px;
+  color: #757575;
+  margin: 0 0 10px 36px;
+}
+.boxContent > p {
+  margin: 0;
+  cursor: pointer;
+  margin-top: 14px;
+}
+
+/* 화면 줄어들었을 때 */
+.menuIcon {
+  font-size: 24px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.whiteIcon {
+  color: white;
+}
+
+.blackIcon {
+  color: black;
+}
+
+@media (max-width: 1270px) {
+  .header {
+    padding: 14px 20px 14px 41px;
+    justify-content: space-between;
+  }
+
+  .header > h1 {
+    margin-right: 20px;
+  }
+
+  .header > p {
+    display: none;
+    cursor: pointer;
+  }
+
+  .option {
+    width: auto;
+    margin-left: auto;
+  }
+
+  .rightIcons {
+    margin-left: auto;
+  }
+
+  .searchForm {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    margin: 10px 0;
+    position: relative;
+  }
+  
+  .searchForm input {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 30px 8px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+  }
+  
+  .searchButton {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .searchButton svg {
+    width: 18px;
+    height: 18px;
+    color: #757575;
+  }
+
+  .dropdownMenu {
+    width: 200px;
+    right: -20px;
+    margin-right: 30px;
+  }
+
+  .dropdownMenu > p {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .dropdownMenu .searchForm {
+    margin-top: 18px;
+    margin-bottom: 6px;
+  }
+
+  /* 투명 헤더일 때 모바일 뷰에서의 검색 폼 스타일 */
+  .transparentHeader .dropdownMenu .searchForm input {
+    color: #000000;
+  }
+
+  .transparentHeader .dropdownMenu .searchForm input::placeholder {
+    color: #757575;
+  }
+
+  .transparentHeader .dropdownMenu .searchButton svg {
+    color: #757575;
+  }
+
+  .loginButton {
+    margin-left: 10px;
+  }
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 40px;
+}
+
+.footer p {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.footer a {
+  color: #9ea4ab;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #c7d1dc;
+}
+
+.footerContent {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.footerLogo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.footerLinks a {
+  margin: 0 15px;
+}
+
+.footerSocial {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.footerSocial a {
+  margin: 0 10px;
+  font-size: 20px;
+}
+
+.footerCopyright {
+  border-top: 1px solid #34495e;
+  padding-top: 20px;
+  width: 100%;
+  text-align: center;
+}

@@ -1,0 +1,135 @@
+.page {
+  width: 400px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.28);
+  margin: 40px auto;
+  padding: 47px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleWrap {
+  margin-bottom: 30px;
+}
+
+.titleWrap h1 {
+  font-size: 33px;
+  color: #333d4b;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.titleWrap h3 {
+  font-size: 15px;
+  color: #939ca7;
+  font-weight: normal;
+  margin-top: 0;
+}
+
+.snsLogin {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  margin-top: 0;
+  text-align: center;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+.socialButton {
+  width: 104px;
+  height: 55px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.socialButton:hover {
+  transform: scale(1.035);
+}
+
+.hr {
+  width: 100%;
+  border: none;
+  border-top: 2px solid #f4f6f7;
+  margin: 30px 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input {
+  padding: 6px 17px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e5e8eb;
+  background: #f9fafb;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #333d4b;
+}
+
+.form input::placeholder {
+  color: #939ca7;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #00855b;
+  box-shadow: 0 0 0 1px #00855b20;
+}
+
+.loginButton {
+  background-color: #00855b;
+  color: white;
+  padding-top: 17px;
+  padding-bottom: 17px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.bottomLinks {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.bottomLinks span {
+  color: #666;
+  cursor: pointer;
+}
+
+.terms {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.4;
+}
+
+.alertMessage {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  text-align: center;
+}

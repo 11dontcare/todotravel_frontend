@@ -1,0 +1,130 @@
+.text {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 1.2;
+  padding: 20px 20px 30px 55px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sortButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.sortButtons button {
+  padding: 10px 20px;
+  background-color: white; /* 기본 배경은 흰색 */
+  color: black; /* 기본 텍스트 색상은 검정 */
+  border: 1px solid black; /* 테두리 색상은 검정 */
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sortButtons button:hover {
+  background-color: #f0f0f0; /* 호버 시 약간 어두운 흰색 */
+}
+
+.sortButtons button:active {
+  background-color: black; /* 누를 때 배경색을 검정으로 */
+  color: white; /* 누를 때 텍스트 색상은 흰색으로 */
+  transform: scale(0.95); /* 눌렸을 때 살짝 축소 */
+  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.sortButtons button.active {
+  background-color: black; /* 활성화된 버튼은 검정색 배경 */
+  color: white; /* 활성화된 버튼의 텍스트 색상은 흰색 */
+  border: 1px solid white; /* 테두리 색상은 흰색 */
+  transform: scale(1.1); /* 활성화된 버튼은 살짝 확대 */
+}
+
+
+.planListContainer {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 20px;
+  gap: 20px;
+  box-sizing: border-box;
+  cursor: grab;
+  transition: transform 0.3s ease;
+  margin-bottom: 60px;
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.1);
+  background-color: #9999991c;
+  border-radius: 20px;
+}
+
+.planListContainer:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+}
+
+.planListContainer::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.tripCard {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px;
+}
+
+.tripCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.loadingMessage {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #999;
+}
+
+.readMoreCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.readMoreCard:hover {
+  transform: translateY(-5px);
+  background-color: #e0e0e0;
+}
+
+.readMoreCard p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+}
+

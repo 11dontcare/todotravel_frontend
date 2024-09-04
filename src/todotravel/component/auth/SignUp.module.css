@@ -1,0 +1,229 @@
+.signupContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0 40px 0;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.28);
+  background: #ffffff;
+  font-family: "Inter", sans-serif;
+  width: 760px;
+  height: 700px;
+  margin: 55px auto 90px auto;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.subtitle {
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 120%;
+  letter-spacing: -0.02em;
+  color: #009688;
+  margin-bottom: 0;
+}
+
+.subtitle_description {
+  font-size: 15px;
+  color: #009688;
+  padding-bottom: 20px;
+  margin-top: 5px;
+}
+
+.scrollContainer {
+  width: 100%;
+  height: calc(100% - 100px);
+  overflow-y: scroll;
+  padding: 0 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 150, 136, 0.6) transparent;
+  box-sizing: border-box;
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.scrollContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 150, 136, 0.6);
+  border-radius: 3px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 150, 136, 0.8);
+}
+
+.scrollContainer::-webkit-scrollbar-button {
+  display: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  color: #757575;
+  position: absolute;
+  top: -20px;
+  left: 0;
+}
+
+.input {
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
+  font-size: 16px;
+  line-height: 100%;
+  color: #000000;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+.input::placeholder {
+  color: #b3b3b3;
+}
+
+.input:focus {
+  border-bottom: 2px solid #009688;
+}
+
+.error {
+  font-size: 12px;
+  line-height: 140%;
+  color: #ff0000;
+  margin-top: 10px;
+  position: absolute;
+  bottom: -20px;
+}
+
+.emailVerificationContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.verificationButton {
+  padding: 10px 12px 10px 12px;
+  background-color: #00855b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.verificationButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.timer {
+  margin-left: 10px;
+  color: #009688;
+  font-weight: bold;
+}
+
+.verificationButton.loading {
+  background-color: #cccccc;
+  cursor: wait;
+}
+
+/* 선택적: 로딩 스피너 애니메이션 */
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.verificationButton.loading:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #009688;
+  animation: spinner 0.8s linear infinite;
+}
+
+.success {
+  color: green;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.genderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 26px;
+  position: relative;
+  width: 100%;
+}
+
+.genderOptions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.genderOption {
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.genderLabel {
+  margin-left: 8px;
+}
+
+.submitButton {
+  padding: 12px;
+  background: #00855b;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  color: #f5f5f5;
+  font-size: 16px;
+  line-height: 100%;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.submitButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
