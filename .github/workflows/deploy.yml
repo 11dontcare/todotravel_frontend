@@ -6,7 +6,7 @@ on: # Event 감지
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code. # 저장소 Check out
         uses: actions/checkout@v2
