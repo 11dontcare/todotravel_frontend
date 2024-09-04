@@ -6,19 +6,18 @@ on: # Event 감지
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code. # 저장소 Check out
         uses: actions/checkout@v2
 
       - name: Cache node modules # node modules 캐싱
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
 
       - name: Install Dependencies # npm 모듈 설치
         run: npm install --frozen-lockfile
