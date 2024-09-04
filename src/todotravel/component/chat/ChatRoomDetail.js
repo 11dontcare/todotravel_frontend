@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { getChatList } from "../../service/ChatService";
 import { Stomp } from "@stomp/stompjs";
 import styles from "./Chat.module.css";
+import { WS_BASE_URL } from "../../constant/backendAPI";
 
 const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
   const [messages, setMessages] = useState([]);
@@ -24,17 +25,19 @@ const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
 
   const fetchChatHistory = async () => {
     try {
-        const response = await getChatList(roomId);
-        const messages = response.data; 
-        setMessages(Array.isArray(messages) ? messages : []);
+      const response = await getChatList(roomId);
+      const messages = response.data;
+      setMessages(Array.isArray(messages) ? messages : []);
     } catch (error) {
-        console.error("채팅 기록을 찾을 수 없음", error);
-        setMessages([]); 
+      console.error("채팅 기록을 찾을 수 없음", error);
+      setMessages([]);
     }
-};
+  };
 
   const connectWebSocket = () => {
-    const socket = new WebSocket("ws://localhost:8080/ws");
+    const socket = new WebSocket(
+      `ws://${WS_BASE_URL}/ws` || "ws://localhost:8080/ws"
+    );
     stompClient.current = Stomp.over(socket);
     stompClient.current.connect({}, () => {
       stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
@@ -55,17 +58,23 @@ const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
     const nickname = localStorage.getItem("nickname");
     const messageContent = inputValue.trim();
 
-    if (stompClient.current && messageContent && userId && nickname && !isSending) {
+    if (
+      stompClient.current &&
+      messageContent &&
+      userId &&
+      nickname &&
+      !isSending
+    ) {
       setIsSending(true);
       setInputValue(""); // 입력값을 즉시 초기화
-      
+
       const body = {
         roomId: roomId,
         userId: userId,
         nickname: nickname,
         content: messageContent,
       };
-      
+
       // 메시지 전송을 비동기적으로 처리
       setTimeout(() => {
         stompClient.current.send(`/pub/message`, {}, JSON.stringify(body));
@@ -80,7 +89,10 @@ const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
 
   const handleKeyDown = useCallback(
     (event) => {
-      if ((event.key === "Enter" || event.key === "NumpadEnter") && !event.shiftKey) {
+      if (
+        (event.key === "Enter" || event.key === "NumpadEnter") &&
+        !event.shiftKey
+      ) {
         event.preventDefault();
         sendMessage();
       }
@@ -107,7 +119,8 @@ const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   };
 

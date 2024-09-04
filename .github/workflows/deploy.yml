@@ -1,0 +1,58 @@
+name: Deploy # Workflow 이름
+on: # Event 감지
+  push:
+    branches:
+      - main # 브렌치 지정
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout source code. # 저장소 Check out
+        uses: actions/checkout@v2
+
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - name: Install Dependencies # npm 모듈 설치
+        run: npm install --frozen-lockfile
+
+      - name: Build
+        run: npm run build
+        env:
+          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
+          REACT_APP_WS_BASE_URL: ${{ secrets.REACT_APP_WS_BASE_URL }}
+          REACT_APP_OAUTH2_REDIRECT_URI: ${{ secrets.REACT_APP_OAUTH2_REDIRECT_URI }}
+          CI: ""
+
+      - name: zip create #React 빌드 파일 압축
+        run: zip -qq -r ./dist.zip .
+        shell: bash
+
+      - name: Configure AWS credentials #AWS 서비스 인증 절차
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3 # S3 에 압축된 빌드 파일 업로드
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --region ap-northeast-2 ./dist.zip s3://${{ secrets.CODEDEPLOY_S3_BUCKET }}/dist.zip
+
+      # 추가된 부분
+      - name: Deploy # Deploy to EC2
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ secrets.CODEDEPLOY_APPLICATION_NAME }} \
+            --deployment-group-name ${{ secrets.CODEDEPLOY_GROUP_NAME }} \
+            --s3-location bucket=${{ secrets.CODEDEPLOY_S3_BUCKET }},key=dist.zip,bundleType=zip
