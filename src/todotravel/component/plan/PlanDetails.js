@@ -30,10 +30,10 @@ import { FiMoreVertical } from "react-icons/fi";
 import { BiComment } from "react-icons/bi";
 
 import RecruitModal from "./RecruitModal";
+import PlanDetailScheduleList from "./Schedule/PlanDetailScheduleList";
 
 const PlanDetails = () => {
   const navigate = useNavigate();
-
   const { planId } = useParams();
   const userId = localStorage.getItem("userId");
 
@@ -61,6 +61,8 @@ const PlanDetails = () => {
   const moreOptionsRef = useRef(null);
 
   const [isRecruitModalOpen, setRecruitModalOpen] = useState(false);
+
+  const [scheduleList, setScheduleList] = useState([]);
 
   useEffect(() => {
     fetchPlan();
@@ -90,6 +92,7 @@ const PlanDetails = () => {
         setComments(response.data.commentList || []); // 댓글 상태 초기화
         setBookmarkNumber(response.data.bookmarkNumber);
         setLikeNumber(response.data.likeNumber);
+        setScheduleList(response.data.scheduleList);
 
         if (userId) {
           // userId가 null이 아닐 때만 실행
@@ -420,7 +423,6 @@ const PlanDetails = () => {
               <BiComment style={{ fontSize: "18px" }} />
               <p className={styles.count}> {comments.length}</p>
             </div>
-            {/* 더보기 창 */}
             <div
               className={styles.button}
               onClick={toggleMoreOptions}
@@ -470,24 +472,9 @@ const PlanDetails = () => {
       </div>
       <div className={styles.planDetails}>
         <p className={styles.planDescription}>{plan.description}</p>
-        {/* <p className={styles.planLocation}>지역: {plan.location}</p> */}
-        {/* <p className={styles.planBudget}>총 예산: {plan.totalBudget}</p> */}
       </div>
 
-      {/* <h2>Schedule</h2>
-      {plan.scheduleList && plan.scheduleList.length > 0 ? (
-        <ul>
-          {plan.scheduleList.map((schedule, index) => (
-            <li key={schedule.scheduleId}>
-              <h3>Day {schedule.travelDayCount}</h3>
-              <p>Description: {schedule.description}</p>
-              <p>Status: {schedule.status ? "Completed" : "Pending"}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No schedule available.</p>
-      )} */}
+      <PlanDetailScheduleList scheduleList={scheduleList} />
       <div className={styles.recruitButtonSection}>
         {plan.recruitment &&
           !justExistsUserInPlan &&

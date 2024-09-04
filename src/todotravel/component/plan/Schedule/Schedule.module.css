@@ -149,6 +149,12 @@
   grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 */
   gap: 20px 14px;
 }
+/* PlanDetailScheduleList */
+.planScheduleItem {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 4개씩 */
+  gap: 20px 14px;
+}
 
 /* ScheduleItem */
 .item {
