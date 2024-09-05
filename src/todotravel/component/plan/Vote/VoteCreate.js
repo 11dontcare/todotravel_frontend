@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createVote } from "../../../service/VoteService.js";
-
 import styles from "./Vote.module.css";
 import MapInfo from "../Schedule/MapInfo.js";
 import MapSearch from "../Schedule/MapSearch.js";
@@ -41,6 +40,11 @@ const VoteCreate = ({ onVoteAdded }) => {
       ...prevForm,
       [name]: value,
     }));
+  };
+
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
   };
 
   const onClickScheduleSubmit = (e) => {
@@ -94,6 +98,7 @@ const VoteCreate = ({ onVoteAdded }) => {
                 onChange={handleVoteFormChange}
                 required
                 placeholder='시간 입력'
+                min={getCurrentDateTime()}
               />
             </div>
             <div className={styles.createDescription}>

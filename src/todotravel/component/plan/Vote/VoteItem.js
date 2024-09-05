@@ -54,6 +54,11 @@ const VoteItem = ({
       });
   };
 
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+  };
+
   const handleSave = (e) => {
     e.preventDefault();
 
@@ -141,6 +146,7 @@ const VoteItem = ({
               onChange={(e) =>
                 setEditVoteForm({ ...editVoteForm, endDate: e.target.value })
               }
+              min={getCurrentDateTime()}
             />
           </div>
           <div className={styles.itemBtn}>

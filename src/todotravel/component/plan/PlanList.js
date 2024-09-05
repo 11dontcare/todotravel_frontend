@@ -64,7 +64,6 @@ const PlanList = () => {
       isInitialLoad.current = false;
     } catch (error) {
       console.error("Error fetching plans:", error);
-      alert("플랜을 불러오는 데 실패했습니다.");
       setHasMore(false);
     } finally {
       setLoading(false);

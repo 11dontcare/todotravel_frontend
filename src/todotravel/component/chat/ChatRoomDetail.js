@@ -36,7 +36,7 @@ const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
 
   const connectWebSocket = () => {
     const socket = new WebSocket(
-      `ws://${WS_BASE_URL}/ws` || "ws://localhost:8080/ws"
+      `wss://${WS_BASE_URL}/ws` || "ws://localhost:8080/ws"
     );
     stompClient.current = Stomp.over(socket);
     stompClient.current.connect({}, () => {

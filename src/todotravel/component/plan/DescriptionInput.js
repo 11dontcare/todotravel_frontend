@@ -20,19 +20,19 @@ const DescriptionInput = ({ value, onChange, isEditable = true }) => {
 
   return (
     <div className={styles.descriptionWrapper}>
-      <label className={styles.descriptionLabel} htmlFor="description">
+      <label className={styles.descriptionLabel} htmlFor='description'>
         설명:
       </label>
       <textarea
-        id="description"
-        name="description"
+        id='description'
+        name='description'
         className={styles.inputDescription}
         value={value || ""}
         onChange={handleChange}
         disabled={!isEditable}
-        placeholder="250자 이하로 입력해 주세요."
+        placeholder='250자 이하로 입력해 주세요.'
       />
-      <div>{charCount}/250</div>
+      <span className={styles.charCount}>{charCount}/250</span>
     </div>
   );
 };

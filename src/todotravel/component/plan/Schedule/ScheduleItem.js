@@ -24,6 +24,7 @@ const vehicleOptions = [
   { value: "BIKE", label: "자전거" },
   { value: "WALK", label: "도보" },
   { value: "TAXI", label: "택시" },
+  { value: "SUBWAY", label: "지하철" },
 ];
 
 const ScheduleItem = ({

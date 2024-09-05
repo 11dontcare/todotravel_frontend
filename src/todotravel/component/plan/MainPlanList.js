@@ -35,7 +35,6 @@ const MainPlanList = () => {
       })
       .catch((e) => {
         console.log(e);
-        alert("플랜 목록을 불러올 수 없습니다.");
       });
   };
 
@@ -46,7 +45,6 @@ const MainPlanList = () => {
       })
       .catch((e) => {
         console.log(e);
-        alert("모집중인 플랜 목록을 불러올 수 없습니다.");
       });
   };
 
@@ -118,7 +116,7 @@ const MainPlanList = () => {
                       ? plan.planThumbnailUrl
                       : defaultThumbnail
                   }
-                  alt="travel"
+                  alt='travel'
                   className={gridStyles.tripImage}
                 />
                 <p className={gridStyles.location}>{plan.location}</p>
@@ -180,7 +178,7 @@ const MainPlanList = () => {
                       ? plan.planThumbnailUrl
                       : defaultThumbnail
                   }
-                  alt="travel"
+                  alt='travel'
                   className={gridStyles.tripImage}
                 />
                 <p className={gridStyles.location}>{plan.location}</p>
@@ -208,7 +206,10 @@ const MainPlanList = () => {
                 </div>
               </div>
             ))}
-            <div className={styles.readMoreCard} onClick={handleReadRecruitMoreClick}>
+            <div
+              className={styles.readMoreCard}
+              onClick={handleReadRecruitMoreClick}
+            >
               <MdOutlineReadMore size={48} />
             </div>
           </>
