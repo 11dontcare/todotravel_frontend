@@ -8,6 +8,7 @@ import { FiBell, FiMenu, FiSearch } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
 import ParticipantResponseList from "../plan/ParticipantResponseList";
+import Notification from "../Notification/Notification";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -186,7 +187,7 @@ const Header = () => {
             <div className={styles.rightIcons}>
               <FiBell onClick={handleOpenAlramModal} className={styles.bell} />
               <Modal show={showAlramModal} onClose={handleCloseAlramModal}>
-                <ParticipantResponseList
+                <Notification
                   show={showAlramModal}
                   onClose={handleCloseAlramModal}
                 />
