@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './Modal.module.css'; // CSS 모듈 가져오기
+import styles from "./Modal.module.css"; // CSS 모듈 가져오기
 
 const Modal = ({ show, onClose, children }) => {
   if (!show) {
@@ -9,9 +9,6 @@ const Modal = ({ show, onClose, children }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        {/* <button className={styles.closeButton} onClick={onClose}>
-          ×
-        </button> */}
         {React.cloneElement(children, { onClose })}
       </div>
     </div>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkIfLoggedIn, logout } from "../../service/AuthService";
-import { ACCESS_TOKEN } from "../../constant/backendAPI";
 
 import Modal from "../plan/Modal";
 import styles from "./Fragment.module.css";
-import { FiBell, FiMessageSquare, FiMenu, FiSearch } from "react-icons/fi";
+import { FiBell, FiMenu, FiSearch } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
 import ParticipantResponseList from "../plan/ParticipantResponseList";
@@ -13,7 +12,7 @@ import ParticipantResponseList from "../plan/ParticipantResponseList";
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [nickname, setNickname] = useState("투두");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // 메뉴 열림/닫힘 상태
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isTransparent, setIsTransparent] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const menuRef = useRef(null);
@@ -54,7 +53,6 @@ const Header = () => {
     };
   }, [location]);
 
-  // 토글 메뉴가 열린 상태에서 다른 곳을 클릭하면 닫히도록
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -70,23 +68,23 @@ const Header = () => {
 
   const handleNavigation = (path) => {
     navigate(path);
-    setIsMenuOpen(false); // 메뉴 항목 클릭 시 메뉴 닫기
+    setIsMenuOpen(false);
   };
 
   const handleAuthClick = async () => {
     if (isLoggedIn) {
       try {
-        await logout(); // 서버에 로그아웃 요청
-        setIsLoggedIn(false); // 상태 업데이트
+        await logout();
+        setIsLoggedIn(false);
         window.alert("로그아웃 되었습니다.");
-        navigate("/login"); // 로그인 페이지로 리다이렉트
+        navigate("/login");
       } catch (error) {
         console.error("로그아웃 오류:", error);
       }
     } else {
-      navigate("/login"); // 로그인 페이지로 이동
+      navigate("/login");
     }
-    setIsMenuOpen(false); // 로그아웃 버튼 클릭 시 메뉴 닫기
+    setIsMenuOpen(false);
   };
 
   //메뉴 열림/닫힘 토글
@@ -165,14 +163,14 @@ const Header = () => {
           ))}
           <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
             <input
-              type="text"
-              placeholder="계획 검색하기"
+              type='text'
+              placeholder='계획 검색하기'
               value={searchKeyword}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
             />
             <button
-              type="submit"
+              type='submit'
               className={styles.searchButton}
               onClick={handleSearchClick}
             >
@@ -237,7 +235,7 @@ const Header = () => {
                     로그아웃
                   </p>
                 </div>
-                <hr className={styles.hr}/>
+                <hr className={styles.hr} />
                 <div className={styles.box2}>
                   <FaRegStar className={styles.star} />
                   <p
@@ -265,7 +263,7 @@ const Header = () => {
                     댓글 관리
                   </p>
                 </div>
-                {isMobileView && <hr className={styles.hr}/>}
+                {isMobileView && <hr className={styles.hr} />}
               </>
             ) : null}
             {isMobileView && (
@@ -285,14 +283,14 @@ const Header = () => {
                   className={styles.searchForm}
                 >
                   <input
-                    type="text"
-                    placeholder="계획 검색하기"
+                    type='text'
+                    placeholder='계획 검색하기'
                     value={searchKeyword}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                   />
                   <button
-                    type="submit"
+                    type='submit'
                     className={styles.searchButton}
                     onClick={handleSearchClick}
                   >

@@ -55,13 +55,13 @@ const PlanDetails = () => {
   const [likeNumber, setLikeNumber] = useState(0);
 
   const [plan, setPlan] = useState(null);
-  const [comments, setComments] = useState([]); // 댓글 상태
-  const [newComment, setNewComment] = useState(""); // 새로운 댓글 입력 상태
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentContent, setEditedCommentContent] = useState("");
   const [beforeTravel, setBeforeTravel] = useState(false);
 
-  const [loading, setLoading] = useState(true); // 로딩 상태
+  const [loading, setLoading] = useState(true);
 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const moreOptionsRef = useRef(null);
@@ -92,57 +92,48 @@ const PlanDetails = () => {
   const fetchPlan = () => {
     getPlan(planId)
       .then((response) => {
-        console.log(response);
         setPlan(response.data);
         setIsPublic(response.data.isPublic);
-        setComments(response.data.commentList || []); // 댓글 상태 초기화
+        setComments(response.data.commentList || []);
         setBookmarkNumber(response.data.bookmarkNumber);
         setLikeNumber(response.data.likeNumber);
         setScheduleList(response.data.scheduleList);
         if (userId) {
-          // userId가 null이 아닐 때만 실행
           return isUserInPlanAccepted(planId, userId);
         } else {
-          return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
+          return Promise.resolve(null);
         }
       })
       .then((existResponse) => {
         if (existResponse) {
           setExistsAcceptedUserInPlan(existResponse.data);
-          console.log(existResponse);
         }
         if (userId) {
-          // userId가 null이 아닐 때만 실행
           return isUserInPlan(planId, userId);
         } else {
-          return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
+          return Promise.resolve(null);
         }
       })
       .then((existUserResponse) => {
         if (existUserResponse) {
           setJustExistsUserInPlan(existUserResponse.data);
-          console.log(existUserResponse);
         }
         setLoading(false);
 
-        // 플랜 정보 가져온 후 북마크 상태도 확인
         if (userId) {
-          // userId가 null이 아닐 때만 실행
           return checkIsBookmarked(planId, userId);
         } else {
-          return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
+          return Promise.resolve(null);
         }
       })
       .then((bookmarkResponse) => {
         if (bookmarkResponse) {
           setIsBookmarked(bookmarkResponse.data);
         }
-
         if (userId) {
-          // userId가 null이 아닐 때만 실행
           return checkIsLiked(planId, userId);
         } else {
-          return Promise.resolve(null); // userId가 null이면 다음 then 블록으로 바로 넘어가도록 함
+          return Promise.resolve(null);
         }
       })
       .then((likeResponse) => {
@@ -167,32 +158,28 @@ const PlanDetails = () => {
   }, [isPublic, existsAcceptedUserInPlan, navigate]);
 
   if (loading) {
-    return <p>Loading...</p>; // 데이터 로딩 중일 때 표시
+    return <p>Loading...</p>;
   }
 
   if (!plan) {
-    return <p>플랜을 찾을 수 없습니다.</p>; // 데이터가 없을 때 표시
+    return <p>플랜을 찾을 수 없습니다.</p>;
   }
 
   const handleBookmarkClick = () => {
     if (isBookmarked) {
-      // 북마크가 이미 되어있다면 북마크를 취소합니다.
       cancelBookmark(planId, userId)
         .then(() => {
           setIsBookmarked(false);
           setBookmarkNumber(bookmarkNumber - 1);
-          // alert("북마크가 취소되었습니다.");
         })
         .catch((error) => {
           console.error("북마크 취소에 실패했습니다.", error);
         });
     } else {
-      // 북마크가 안 되어있다면 북마크를 추가합니다.
       bookmarkPlan(planId, userId)
         .then(() => {
           setIsBookmarked(true);
           setBookmarkNumber(bookmarkNumber + 1);
-          // alert("북마크가 추가되었습니다.");
         })
         .catch((error) => {
           console.error("북마크 추가에 실패했습니다.", error);
@@ -202,23 +189,19 @@ const PlanDetails = () => {
 
   const handleLikeClick = () => {
     if (isLiked) {
-      // 좋아요가 이미 되어있다면 취소합니다.
       cancelLike(planId, userId)
         .then(() => {
           setIsLiked(false);
           setLikeNumber(likeNumber - 1);
-          // alert("좋아요가 취소되었습니다.");
         })
         .catch((error) => {
           console.error("좋아요 취소에 실패했습니다.", error);
         });
     } else {
-      // 좋아요가 안 되어있다면 추가합니다.
       likePlan(planId, userId)
         .then(() => {
           setIsLiked(true);
           setLikeNumber(likeNumber + 1);
-          // alert("좋아요가 추가되었습니다.");
         })
         .catch((error) => {
           console.error("좋아요 추가에 실패했습니다.", error);
@@ -226,18 +209,15 @@ const PlanDetails = () => {
     }
   };
 
-  // 버튼 클릭 시 상태 변경
   const toggleMoreOptions = () => {
     setIsMoreOpen(!isMoreOpen);
   };
 
   const handleOptionClick = (option) => {
     console.log(`${option} clicked!`);
-    // 원하는 로직 추가
     if (option === "copyPlan") {
       loadPlan(planId)
         .then((response) => {
-          console.log(response);
           alert("플랜 불러오기 성공");
           navigate("/plan/" + response.data);
         })
@@ -260,12 +240,10 @@ const PlanDetails = () => {
           });
       }
     } else if (option === "recruitPlan") {
-      //participantsCount 입력 받음
       setRecruitModalOpen(true);
     } else if (option === "cancelRecruit") {
       cancelRecruitment(planId)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           alert("플랜 모집이 취소되었습니다.");
           navigate("/plan/" + planId);
         })
@@ -274,13 +252,12 @@ const PlanDetails = () => {
           alert("플랜 모집 취소를 실패했습니다. 다시 시도해주세요.");
         });
     }
-    setIsMoreOpen(false); // 옵션 클릭 후 메뉴 닫기
+    setIsMoreOpen(false);
   };
 
   const handleRecruit = (participantsCount) => {
     recruitmentPlan(planId, participantsCount)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         alert("플랜이 모집글로 변경되었습니다.");
         navigate("/plan/" + planId);
       })
@@ -292,8 +269,7 @@ const PlanDetails = () => {
 
   const handleRecruitClick = () => {
     requestRecruit(planId, userId)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         alert("플랜 참가 요청을 보냈습니다.");
         setJustExistsUserInPlan(true);
       })
@@ -314,16 +290,12 @@ const PlanDetails = () => {
       beforeTravel: beforeTravel,
     };
 
-    // 서버에 새로운 댓글 추가 요청
     createComment(planId, userId, newCommentObject)
       .then((response) => {
-        const addedComment = response.data; // 서버에서 반환된 추가된 댓글
-
+        const addedComment = response.data;
         alert("댓글이 등록되었습니다.");
-
-        // 기존 댓글 리스트에 새로운 댓글 추가
         setComments([...comments, addedComment]);
-        setNewComment(""); // 입력 필드 초기화
+        setNewComment("");
         setBeforeTravel(false);
       })
       .catch((e) => {
@@ -424,7 +396,10 @@ const PlanDetails = () => {
             </>
           </div>
           <p className={styles.planCreator}>
-            <Link to={`/mypage/${plan.planUserNickname}`} className={styles.creatorLink}>
+            <Link
+              to={`/mypage/${plan.planUserNickname}`}
+              className={styles.creatorLink}
+            >
               {plan.planUserNickname}
             </Link>
             님의 여행
