@@ -9,8 +9,6 @@ import {
 
 import styles from "./ParticipantResponseList.module.css";
 
-import { IoArrowBack } from "react-icons/io5";
-
 const ParticipantResponseList = ({ onClose }) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const userId = localStorage.getItem("userId");
@@ -79,11 +77,8 @@ const ParticipantResponseList = ({ onClose }) => {
   };
 
   return (
-    <div>
+    <>
       <div className={styles.scrollContainer}>
-        <button onClick={onClose} className={styles.backButton}>
-          <IoArrowBack />
-        </button>
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>참가 요청</h2>
           <ul className={styles.pendingUserList}>
@@ -149,7 +144,7 @@ const ParticipantResponseList = ({ onClose }) => {
           </ul>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

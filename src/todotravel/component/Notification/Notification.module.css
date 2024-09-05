@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  margin: -35px auto 10px;
+}
+.backButton {
+  background-color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  text-align: center;
+  height: 24px;
+}
+.hr {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+}
+.alarmList {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 10px;
+  box-sizing: border-box;
+}
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  gap: 10px;
+}
+.buttonContainer > button {
+  font-size: 12px;
+  background-color: transparent;
+  border: none;
+  margin-top: 5px;
+  cursor: pointer;
+}
+.alarmItem {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+}
+.alarmContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.alarmText {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0;
+}
+.alarmDate {
+  font-size: 12px;
+  color: #959595;
+}
+.deleteButton {
+  background-color: transparent;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+}
+.noAlarm {
+  font-size: 15px;
+  padding: 20px;
+  margin: auto;
+}
