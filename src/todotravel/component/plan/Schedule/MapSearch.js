@@ -41,7 +41,7 @@ const MapSearch = ({ onLocationSelect }) => {
     if (keyword.trim() === "") return;
     if (map && kakao.maps.services && kakao.maps.services.Places) {
       const ps = new kakao.maps.services.Places();
-      const searchOption = { size: 10 };
+      const searchOption = { size: 20 };
       ps.keywordSearch(keyword, placesSearchCB, searchOption);
     } else {
       console.error("Kakao Maps API is not loaded properly");
