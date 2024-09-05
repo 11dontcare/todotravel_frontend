@@ -150,6 +150,14 @@
   gap: 20px 14px;
 }
 /* PlanDetailScheduleList */
+.planScheduleList {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  gap: 10px;
+}
 .planScheduleItem {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 한 줄에 4개씩 */

@@ -10,24 +10,6 @@ const PlanDetailScheduleList = ({ scheduleList }) => {
     setSchedules(scheduleList);
   }, [scheduleList]);
 
-  const handleEdit = (updatedItem) => {
-    setSchedules((prevSchedules) =>
-      prevSchedules.map((item) =>
-        item.scheduleId === updatedItem.scheduleId
-          ? { ...item, ...updatedItem }
-          : item
-      )
-    );
-  };
-
-  const handleDelete = (deletedScheduleId) => {
-    setSchedules((prevSchedules) =>
-      prevSchedules.filter(
-        (schedule) => schedule.scheduleId !== deletedScheduleId
-      )
-    );
-  };
-
   if (!schedules || schedules.length === 0) {
     return <div>일정이 없습니다.</div>;
   }
@@ -47,7 +29,7 @@ const PlanDetailScheduleList = ({ scheduleList }) => {
   }, {});
 
   return (
-    <div className={styles.scheduleList}>
+    <div className={styles.planScheduleList}>
       {Object.keys(groupedScheduleList).map((day) => (
         <div key={day} className={styles.scheduleGroup}>
           <h2>{day}일차</h2>
