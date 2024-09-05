@@ -9,12 +9,11 @@ const NotificationItem = ({
   alarmId,
   alarmContent,
   createdDate,
-  status,
   userId,
   onDelete,
 }) => {
   const handleDeleteClick = (e) => {
-    e.stopPropagation(); // X 버튼 클릭 시 아이템 클릭 이벤트 방지
+    e.stopPropagation();
     deleteAlarams(userId)
       .then(() => {
         onDelete(alarmId);
@@ -29,7 +28,7 @@ const NotificationItem = ({
       <div className={styles.alarmContent}>
         <p className={styles.alarmText}>{alarmContent}</p>
         <span className={styles.alarmDate}>
-          {moment(createdDate).fromNow()} {/* '5분 전' 같은 형식으로 표시 */}
+          {moment(createdDate).fromNow()}
         </span>
       </div>
       <button className={styles.deleteButton} onClick={handleDeleteClick}>

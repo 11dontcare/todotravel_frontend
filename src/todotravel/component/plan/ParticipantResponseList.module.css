@@ -15,16 +15,6 @@
   -ms-overflow-style: none; /* IE에서 스크롤바 숨기기 */
 }
 
-.backButton {
-  background-color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 24px;
-  text-align: center;
-  height: 24px;
-}
-
 .section {
   margin-bottom: 20px;
   padding-bottom: 20px;
