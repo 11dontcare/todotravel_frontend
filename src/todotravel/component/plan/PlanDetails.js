@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   bookmarkPlan,
   cancelBookmark,
@@ -423,7 +423,12 @@ const PlanDetails = () => {
               )}
             </>
           </div>
-          <p className={styles.planCreator}>{plan.planUserNickname}님의 여행</p>
+          <p className={styles.planCreator}>
+            <Link to={`/mypage/${plan.planUserNickname}`} className={styles.creatorLink}>
+              {plan.planUserNickname}
+            </Link>
+            님의 여행
+          </p>
         </div>
         <div className={styles.planActions}>
           <div className={styles.bookmarkLikeContainer}>
@@ -447,7 +452,6 @@ const PlanDetails = () => {
               <BiComment style={{ fontSize: "18px" }} />
               <p className={styles.count}> {comments.length}</p>
             </div>
-            ]
             <div
               className={styles.button}
               onClick={toggleMoreOptions}
@@ -496,7 +500,7 @@ const PlanDetails = () => {
         </div>
       </div>
       <div className={styles.planDetails}>
-        <p className={styles.planDescription}>{plan.description}</p>=
+        <p className={styles.planDescription}>{plan.description}</p>
       </div>
 
       <PlanDetailScheduleList scheduleList={scheduleList} />
