@@ -10,6 +10,7 @@ import {
 
 import styles from "./ParticipantResponseList.module.css";
 
+
 const ParticipantResponseList = ({ onClose }) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const userId = localStorage.getItem("userId");
@@ -79,7 +80,9 @@ const ParticipantResponseList = ({ onClose }) => {
 
   return (
     <>
-      <div className={styles.container}></div>
+      <div className={styles.container}>
+
+      </div>
       <div className={styles.scrollContainer}>
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>참가 요청</h2>
@@ -90,14 +93,10 @@ const ParticipantResponseList = ({ onClose }) => {
                 className={styles.pendingUserItem}
               >
                 <div className={styles.content}>
-                  <span className={styles.planTitle}>
-                    [{planUser.planTitle}]
-                  </span>
+                  <span className={styles.planTitle}>[{planUser.planTitle}]</span>
                   <br />
-                  <span className={styles.nickname}>
-                    {planUser.pendingUserNickname}
-                  </span>
-                  님이 참가 요청을 보냈습니다.
+                  <span className={styles.nickname}>{planUser.pendingUserNickname}</span>님이 참가 요청을
+                  보냈습니다.
                 </div>
                 <div className={styles.buttonSection}>
                   <button
@@ -126,13 +125,9 @@ const ParticipantResponseList = ({ onClose }) => {
                 className={styles.pendingUserItem}
               >
                 <div className={styles.content}>
-                  <span className={styles.planTitle}>
-                    [{planUser.planTitle}]
-                  </span>
+                  <span className={styles.planTitle}>[{planUser.planTitle}]</span>
                   <br />
-                  <span className={styles.nickname}>
-                    {planUser.pendingUserNickname}
-                  </span>
+                  <span className={styles.nickname}>{planUser.pendingUserNickname}</span>
                   님이 초대 요청을 보냈습니다.
                 </div>
                 <div className={styles.buttonSection}>

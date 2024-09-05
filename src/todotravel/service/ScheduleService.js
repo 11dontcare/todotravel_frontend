@@ -43,9 +43,6 @@ export function updateDescription(descriptionRequest, scheduleId) {
     url: `${API_BASE_URL}/api/plan/${scheduleId}/description`,
     method: "PUT",
     body: descriptionRequest,
-    headers: {
-      "Content-Type": "text/plain",
-    },
   });
 } //여행 플랜 -> 일정 메모 등록
 
