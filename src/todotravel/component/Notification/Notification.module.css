@@ -22,6 +22,7 @@
 .alarmList {
   display: flex;
   flex-direction: column;
+  width: 400px;
   padding: 0 10px 10px;
   box-sizing: border-box;
 }
