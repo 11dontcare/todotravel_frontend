@@ -181,6 +181,26 @@
 .btnContainer > button:nth-child(3) {
   margin-left: auto;
 }
+
+.planButton {
+  font-size: 14px;
+  color: white;
+  background-color: #009688;
+  padding: 4px 10px;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.deleteButton {
+  color: #009688;
+  font-size: 14px;
+  background-color: white;
+  padding: 4px 10px;
+  border: 1px solid #009688;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .scheduleCreateBtn {
   display: flex;
   flex-direction: row;

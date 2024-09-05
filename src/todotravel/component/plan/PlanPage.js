@@ -131,7 +131,12 @@ const PlanPage = () => {
       <PlanModify />
 
       <div className={styles.btnContainer}>
-        <button onClick={handleOpenPaticipantsModal}>참여 목록 보기</button>
+        <button
+          className={styles.planButton}
+          onClick={handleOpenPaticipantsModal}
+        >
+          참여 목록 보기
+        </button>
         <Modal
           show={showParticipantsModal}
           onClose={handleClosePaticipantsModal}
@@ -143,12 +148,16 @@ const PlanPage = () => {
           <InvitePlanUser onBackClick={handleCloseInviteModal} />
         </Modal>
 
-        <button onClick={handleOpenVoteListModal}>투표 리스트</button>
+        <button className={styles.planButton} onClick={handleOpenVoteListModal}>
+          투표 리스트
+        </button>
         <Modal show={showVoteListModal} onClose={handleCloseVoteListModal}>
           <VotePage onBackClick={handleCloseVoteListModal} />
         </Modal>
 
-        <button onClick={handleDelete}>플랜 삭제하기</button>
+        <button className={styles.deleteButton} onClick={handleDelete}>
+          플랜 삭제하기
+        </button>
       </div>
       {isAddingSchedule ? (
         <ScheduleCreate onScheduleAdded={handleScheduleAdded} />
