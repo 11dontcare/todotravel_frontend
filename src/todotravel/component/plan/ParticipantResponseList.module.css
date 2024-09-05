@@ -3,6 +3,7 @@
     overflow-y: auto;
     /* padding-right: 10px;
     padding-left: 10px; */
+    width: 400px;
   }
   
   /* 스크롤바 숨기기 */
@@ -53,9 +54,30 @@
     font-size: 14px;
   }
 
-  .content span {
-    font-size: 15px;
+  .nickname {
+    font-size: 14px;
     font-weight: bold;
+    margin-left: 5px;
+  }
+
+  .content {
+    font-size: 13.5px;
+  }
+
+  .planTitle {
+    font-size: 16px;
+    font-weight: bold;
+    flex-grow: 1;
+    min-height: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 275px;
+    display: inline-block;
+  }
+
+  .buttonSection {
+    display: flex;
   }
 
   .acceptButton {
