@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   acceptInvite,
   acceptRecruit,
@@ -9,14 +10,10 @@ import {
 
 import styles from "./ParticipantResponseList.module.css";
 
-import { IoArrowBack } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-
 const ParticipantResponseList = ({ onClose }) => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const userId = localStorage.getItem("userId");
   const [reload, setReload] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     showParticipantsByUser(userId)
@@ -81,12 +78,8 @@ const ParticipantResponseList = ({ onClose }) => {
   };
 
   return (
-    <div>
-      <div className={styles.container}>
-        <button onClick={onClose} className={styles.backButton}>
-          <IoArrowBack />
-        </button>
-      </div>
+    <>
+      <div className={styles.container}></div>
       <div className={styles.scrollContainer}>
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>참가 요청</h2>
@@ -97,10 +90,14 @@ const ParticipantResponseList = ({ onClose }) => {
                 className={styles.pendingUserItem}
               >
                 <div className={styles.content}>
-                  <span className={styles.planTitle}>[{planUser.planTitle}]</span>
+                  <span className={styles.planTitle}>
+                    [{planUser.planTitle}]
+                  </span>
                   <br />
-                  <span className={styles.nickname}>{planUser.pendingUserNickname}</span>님이 참가 요청을
-                  보냈습니다.
+                  <span className={styles.nickname}>
+                    {planUser.pendingUserNickname}
+                  </span>
+                  님이 참가 요청을 보냈습니다.
                 </div>
                 <div className={styles.buttonSection}>
                   <button
@@ -129,9 +126,13 @@ const ParticipantResponseList = ({ onClose }) => {
                 className={styles.pendingUserItem}
               >
                 <div className={styles.content}>
-                  <span className={styles.planTitle}>[{planUser.planTitle}]</span>
+                  <span className={styles.planTitle}>
+                    [{planUser.planTitle}]
+                  </span>
                   <br />
-                  <span className={styles.nickname}>{planUser.pendingUserNickname}</span>
+                  <span className={styles.nickname}>
+                    {planUser.pendingUserNickname}
+                  </span>
                   님이 초대 요청을 보냈습니다.
                 </div>
                 <div className={styles.buttonSection}>
@@ -153,7 +154,7 @@ const ParticipantResponseList = ({ onClose }) => {
           </ul>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
