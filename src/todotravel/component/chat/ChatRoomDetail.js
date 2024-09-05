@@ -35,16 +35,29 @@ const ChatRoomDetail = ({ roomId, roomName, onBackClick }) => {
   };
 
   const connectWebSocket = () => {
-    const socket = new WebSocket(
-      `wss://${WS_BASE_URL}/ws` || "ws://localhost:8080/ws"
+    // stompClient.current = Stomp.over(
+    //   () => new WebSocket(`ws://localhost:8080/ws`)
+    // ); // 로컬 환경
+
+    stompClient.current = Stomp.over(
+      () => new WebSocket(`wss://${WS_BASE_URL}/ws`)
+    ); // 배포 환경
+
+    // 로그 비활성화
+    stompClient.current.debug = () => {}; // 빈 함수로 설정하여 로그 출력 방지
+
+    stompClient.current.connect(
+      {},
+      () => {
+        stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
+          const newMessage = JSON.parse(message.body);
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        });
+      },
+      (error) => {
+        console.error("WebSocket 연결 실패:", error);
+      }
     );
-    stompClient.current = Stomp.over(socket);
-    stompClient.current.connect({}, () => {
-      stompClient.current.subscribe(`/sub/chatroom/${roomId}`, (message) => {
-        const newMessage = JSON.parse(message.body);
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-      });
-    });
   };
 
   const disconnectWebSocket = () => {
