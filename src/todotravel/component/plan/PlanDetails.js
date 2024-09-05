@@ -92,7 +92,6 @@ const PlanDetails = () => {
   const fetchPlan = () => {
     getPlan(planId)
       .then((response) => {
-        console.log(response);
         setPlan(response.data);
         setIsPublic(response.data.isPublic);
         setComments(response.data.commentList || []);
@@ -108,7 +107,6 @@ const PlanDetails = () => {
       .then((existResponse) => {
         if (existResponse) {
           setExistsAcceptedUserInPlan(existResponse.data);
-          console.log(existResponse);
         }
         if (userId) {
           return isUserInPlan(planId, userId);
@@ -119,7 +117,6 @@ const PlanDetails = () => {
       .then((existUserResponse) => {
         if (existUserResponse) {
           setJustExistsUserInPlan(existUserResponse.data);
-          console.log(existUserResponse);
         }
         setLoading(false);
 
@@ -133,7 +130,6 @@ const PlanDetails = () => {
         if (bookmarkResponse) {
           setIsBookmarked(bookmarkResponse.data);
         }
-
         if (userId) {
           return checkIsLiked(planId, userId);
         } else {
@@ -222,7 +218,6 @@ const PlanDetails = () => {
     if (option === "copyPlan") {
       loadPlan(planId)
         .then((response) => {
-          console.log(response);
           alert("플랜 불러오기 성공");
           navigate("/plan/" + response.data);
         })
@@ -248,8 +243,7 @@ const PlanDetails = () => {
       setRecruitModalOpen(true);
     } else if (option === "cancelRecruit") {
       cancelRecruitment(planId)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           alert("플랜 모집이 취소되었습니다.");
           navigate("/plan/" + planId);
         })
@@ -263,8 +257,7 @@ const PlanDetails = () => {
 
   const handleRecruit = (participantsCount) => {
     recruitmentPlan(planId, participantsCount)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         alert("플랜이 모집글로 변경되었습니다.");
         navigate("/plan/" + planId);
       })
@@ -276,8 +269,7 @@ const PlanDetails = () => {
 
   const handleRecruitClick = () => {
     requestRecruit(planId, userId)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         alert("플랜 참가 요청을 보냈습니다.");
         setJustExistsUserInPlan(true);
       })
@@ -301,9 +293,7 @@ const PlanDetails = () => {
     createComment(planId, userId, newCommentObject)
       .then((response) => {
         const addedComment = response.data;
-
         alert("댓글이 등록되었습니다.");
-
         setComments([...comments, addedComment]);
         setNewComment("");
         setBeforeTravel(false);

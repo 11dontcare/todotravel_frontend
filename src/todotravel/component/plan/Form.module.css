@@ -82,7 +82,7 @@
 
 .inputDescription {
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 20px;
   font-size: 16px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -90,7 +90,11 @@
   min-height: 100px;
   transition: border-color 0.3s;
 }
-
+.charCount {
+  font-size: 14px;
+  color: #7a7a7a;
+  margin: -25px 0 0 auto;
+}
 .inputDescription:focus {
   border-color: #009688;
   outline: none;
