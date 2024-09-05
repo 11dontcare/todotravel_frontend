@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   acceptInvite,
   acceptRecruit,
@@ -78,6 +79,7 @@ const ParticipantResponseList = ({ onClose }) => {
 
   return (
     <>
+      <div className={styles.container}></div>
       <div className={styles.scrollContainer}>
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>참가 요청</h2>
@@ -88,10 +90,14 @@ const ParticipantResponseList = ({ onClose }) => {
                 className={styles.pendingUserItem}
               >
                 <div className={styles.content}>
-                  <span>[{planUser.planTitle}]</span> 플랜에
+                  <span className={styles.planTitle}>
+                    [{planUser.planTitle}]
+                  </span>
                   <br />
-                  <span>{planUser.pendingUserNickname}</span>님이 참가 요청을
-                  보냈습니다.
+                  <span className={styles.nickname}>
+                    {planUser.pendingUserNickname}
+                  </span>
+                  님이 참가 요청을 보냈습니다.
                 </div>
                 <div className={styles.buttonSection}>
                   <button
@@ -120,10 +126,14 @@ const ParticipantResponseList = ({ onClose }) => {
                 className={styles.pendingUserItem}
               >
                 <div className={styles.content}>
-                  <span>[{planUser.planTitle}]</span> 플랜에
+                  <span className={styles.planTitle}>
+                    [{planUser.planTitle}]
+                  </span>
                   <br />
-                  <span>{planUser.planUserNickname}</span>님이 초대를
-                  보냈습니다.
+                  <span className={styles.nickname}>
+                    {planUser.pendingUserNickname}
+                  </span>
+                  님이 초대 요청을 보냈습니다.
                 </div>
                 <div className={styles.buttonSection}>
                   <button
